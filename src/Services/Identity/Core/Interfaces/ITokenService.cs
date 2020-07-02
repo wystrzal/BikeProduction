@@ -1,0 +1,14 @@
+﻿using Identity.Core.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Identity.Core.Interfaces
+{
+    public interface ITokenService
+    {
+        Task<string> GenerateToken(User user, UserManager<User> userManager);
+    }
+}

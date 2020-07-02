@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Identity.Core.Interfaces;
+using Identity.Infrastructure.Services;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,8 @@ namespace Identity.API.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<ITokenService, TokenService>();
         }
     }
 }
