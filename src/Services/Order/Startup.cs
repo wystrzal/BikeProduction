@@ -4,8 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
-using Identity.API.Extensions;
-using Identity.Infrastructure.Data;
+using Identity.API.Order;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -17,8 +16,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Order.API.Extensions;
+using Order.Infrastructure.Data;
 
-namespace Identity
+namespace Order
 {
     public class Startup
     {
@@ -32,15 +33,15 @@ namespace Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration["ConnectionStrings"]));
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(Configuration["ConnectionStrings"]);
+            });
 
-            services.AddControllers();
-
-            services.AddApplicationServices();
-
-            services.AddCustomIdentity();
+            services.AddCustomAuth(Configuration);
 
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddApplicationServices();
 
             services.AddSwaggerDocumentation();
         }
@@ -75,6 +76,7 @@ namespace Identity
 
             app.UseCors(options => options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
