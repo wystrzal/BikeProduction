@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Order.API.Extensions
+namespace Catalog.API.Extensions
 {
     public static class SwaggerServiceExtensions
     {
@@ -14,7 +14,7 @@ namespace Order.API.Extensions
         {
             services.AddSwaggerGen(c => 
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "BikeProductionOrder API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "BikeProductionCatalog API", Version = "v1"});
 
                 var securitySchema = new OpenApiSecurityScheme
                 {
@@ -42,7 +42,7 @@ namespace Order.API.Extensions
         {
             app.UseSwagger();
             app.UseSwaggerUI(c => {c
-                .SwaggerEndpoint("/swagger/v1/swagger.json", "BikeProductionOrder API v1");});
+                .SwaggerEndpoint("/swagger/v1/swagger.json", "BikeProductionCatalog API v1");});
 
             return app;
         }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Order.API.Extensions
+namespace Catalog.API.Extensions
 {
     public static class ApplicationServicesExtensions
     {
