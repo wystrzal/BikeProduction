@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "src\Services\Id
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order", "src\Services\Order\Order.csproj", "{AB5D7E61-42B9-483C-9A35-D67DA3B5C13B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "src\Services\Catalog\Catalog.csproj", "{CE5A2817-88B1-4E09-A397-CDEC5C801396}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog", "src\Services\Catalog\Catalog.csproj", "{CE5A2817-88B1-4E09-A397-CDEC5C801396}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

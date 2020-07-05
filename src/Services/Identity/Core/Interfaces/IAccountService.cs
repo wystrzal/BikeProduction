@@ -1,11 +1,11 @@
-﻿using Identity.API.Mapping;
+﻿using Identity.Application.Commands;
 using System.Threading.Tasks;
 
 namespace Identity.Core.Interfaces
 {
     public interface IAccountService
     {
-        Task<string> TryLogin(LoginDto loginDto);
-        Task<bool> AddUser(RegisterDto registerDto);
+        Task<string> TryLogin(TryLoginCommand command);
+        Task AddUser(AddUserCommand command);
     }
 }

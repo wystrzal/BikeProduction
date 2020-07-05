@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Identity.API.Extensions;
 using Identity.Infrastructure.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,7 @@ namespace Identity
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration["ConnectionStrings"]));
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
 
@@ -41,6 +42,8 @@ namespace Identity
             services.AddCustomIdentity();
 
             services.AddAutoMapper(typeof(Startup).Assembly);
+
+            services.AddMediatR(typeof(Startup).Assembly);
 
             services.AddSwaggerDocumentation();
         }

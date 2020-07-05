@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Identity.API.Mapping;
+using Identity.Application.Commands;
 using Identity.Core.Interfaces;
 using Identity.Core.Models;
 using Microsoft.AspNetCore.Identity;
@@ -26,37 +26,35 @@ namespace Identity.Infrastructure.Services
             this.tokenService = tokenService;
         }
 
-        public async Task<string> TryLogin(LoginDto loginDto)
+        public async Task<string> TryLogin(TryLoginCommand command)
         {
-            var dbUser = await userManager.FindByNameAsync(loginDto.Username);
+            var dbUser = await userManager.FindByNameAsync(command.Username);
 
             if (dbUser == null)
             {
-                return null;
+                throw new Exception("Not found.");
             }
 
-            var result = await signInManager.CheckPasswordSignInAsync(dbUser, loginDto.Password, false);
+            var result = await signInManager.CheckPasswordSignInAsync(dbUser, command.Password, false);
 
             if (result.Succeeded)
             {
                 return await tokenService.GenerateToken(dbUser, userManager);
             }
 
-            return null;
+            throw new Exception("Failed to login");
         }
 
-        public async Task<bool> AddUser(RegisterDto registerDto)
+        public async Task AddUser(AddUserCommand command)
         {
-            var userToCreate = mapper.Map<User>(registerDto);
+            var userToCreate = mapper.Map<User>(command);
 
-            var result = await userManager.CreateAsync(userToCreate, registerDto.Password);
+            var result = await userManager.CreateAsync(userToCreate, command.Password);
 
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
-                return true;
+                throw new Exception("User with this login already exist.");
             }
-
-            return false;
         }
     }
 }
