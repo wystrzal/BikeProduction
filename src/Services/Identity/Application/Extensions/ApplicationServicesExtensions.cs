@@ -12,7 +12,6 @@ namespace Identity.API.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<ITokenService, TokenService>();
         }
     }

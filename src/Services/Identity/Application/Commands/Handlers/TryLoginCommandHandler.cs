@@ -12,15 +12,34 @@ namespace Identity.Application.Commands.Handlers
 {
     public class TryLoginCommandHandler : IRequestHandler<TryLoginCommand, string>
     {
-        private readonly IAccountService accountService;
+        private readonly UserManager<User> userManager;
+        private readonly SignInManager<User> signInManager;
+        private readonly ITokenService tokenService;
 
-        public TryLoginCommandHandler(IAccountService accountService)
+        public TryLoginCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService)
         {
-            this.accountService = accountService;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.tokenService = tokenService;
         }
+
         public async Task<string> Handle(TryLoginCommand request, CancellationToken cancellationToken)
         {
-            return await accountService.TryLogin(request);
+            var dbUser = await userManager.FindByNameAsync(request.Username);
+
+            if (dbUser == null)
+            {
+                throw new Exception("Not found.");
+            }
+
+            var result = await signInManager.CheckPasswordSignInAsync(dbUser, request.Password, false);
+
+            if (result.Succeeded)
+            {
+                return await tokenService.GenerateToken(dbUser, userManager);
+            }
+
+            throw new Exception("Failed to login");
         }
     }
 }

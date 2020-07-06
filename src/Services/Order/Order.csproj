@@ -7,8 +7,6 @@
   <ItemGroup>
     <Folder Include="Application\Controllers\" />
     <Folder Include="Application\Mapping\" />
-    <Folder Include="Core\Interfaces\" />
-    <Folder Include="Core\Models\" />
     <Folder Include="Infrastructure\Services\" />
   </ItemGroup>
 
