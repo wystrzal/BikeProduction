@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Catalog.Infrastructure.Data;
+using Production.Infrastructure.Data;
 using Microsoft.AspNetCore;
 
-namespace Catalog
+namespace Production
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            var host = BuildWebHost(args);
+            var host =  BuildWebHost(args);
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;

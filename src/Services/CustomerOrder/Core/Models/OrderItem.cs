@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,8 @@ namespace CustomerOrder.Core.Models
 
         [Required]
         public int Quantity { get; set; }
+
+        [JsonIgnore]
         public Order Order { get; set; }
     }
 }

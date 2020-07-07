@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomerOrder.Infrastructure.Data.Repositories
 {
-    public class OrderRepository : BaseRepository<Core.Models.Order>, IBaseRepository<Order>, IOrderRepository
+    public class OrderRepository : BaseRepository<Order>, IOrderRepository
     {
         private readonly DataContext dataContext;
 

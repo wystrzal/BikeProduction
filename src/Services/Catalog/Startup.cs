@@ -2,6 +2,7 @@ using System.Net;
 using AutoMapper;
 using Catalog.API.Extensions;
 using Catalog.Infrastructure.Data;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -25,11 +26,16 @@ namespace Catalog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));  
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddControllers();
 
             services.AddCustomAuth(Configuration);
 
             services.AddAutoMapper(typeof(Startup).Assembly);
+
+            services.AddMediatR(typeof(Startup).Assembly);
+
             services.AddApplicationServices();
 
             services.AddSwaggerDocumentation();

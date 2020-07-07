@@ -1,11 +1,11 @@
-﻿using CustomerOrder.Core.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Production.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CustomerOrder.Infrastructure.Data
+namespace Production.Infrastructure.Data
 {
     public class DataContext : DbContext
     {
@@ -13,7 +13,6 @@ namespace CustomerOrder.Infrastructure.Data
         {
         }
 
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ProductionQueue> ProductionQueues { get; set; }
     }
 }

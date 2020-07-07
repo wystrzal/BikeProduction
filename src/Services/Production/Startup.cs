@@ -1,8 +1,5 @@
 using System.Net;
 using AutoMapper;
-using CustomerOrder.API.Extensions;
-using CustomerOrder.Application.Extensions;
-using CustomerOrder.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -13,8 +10,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Production.API.Extensions;
+using Production.Application.Extensions;
+using Production.Infrastructure.Data;
 
-namespace CustomerOrder
+namespace Production
 {
     public class Startup
     {
@@ -31,7 +31,9 @@ namespace CustomerOrder
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers().AddNewtonsoftJson(options =>
-              options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
+            services.AddControllers();
 
             services.AddCustomAuth(Configuration);
 

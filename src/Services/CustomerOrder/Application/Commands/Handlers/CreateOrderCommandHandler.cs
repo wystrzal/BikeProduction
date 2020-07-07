@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Common.Messaging;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
+using MassTransit;
 using MediatR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +18,13 @@ namespace CustomerOrder.Application.Commands.Handlers
     {
         private readonly IMapper mapper;
         private readonly IOrderRepository orderRepository;
+        private readonly IBus bus;
 
-        public CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRepository)
+        public CreateOrderCommandHandler(IMapper mapper, IOrderRepository orderRepository, IBus bus)
         {
             this.mapper = mapper;
             this.orderRepository = orderRepository;
+            this.bus = bus;
         }
         public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
@@ -31,6 +36,8 @@ namespace CustomerOrder.Application.Commands.Handlers
             {
                 throw new OrderNotAddedException();
             }
+
+            await bus.Publish(new OrderCreatedEvent(orderForAdd.OrderItems as List<OrderItem>));
 
             return Unit.Value;
         }
