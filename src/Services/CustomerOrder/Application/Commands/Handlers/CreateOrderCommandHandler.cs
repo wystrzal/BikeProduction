@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
+using CustomerOrder.Core.Exceptions;
+using CustomerOrder.Core.Interfaces;
+using CustomerOrder.Core.Models;
 using MediatR;
-using Order.Core.Interfaces;
-using Order.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Order.Application.Commands.Handlers
+namespace CustomerOrder.Application.Commands.Handlers
 {
     public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand>
     {
@@ -22,13 +23,13 @@ namespace Order.Application.Commands.Handlers
         }
         public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderForAdd = mapper.Map<Orders>(request);
+            var orderForAdd = mapper.Map<Order>(request);
 
             orderRepository.Add(orderForAdd);
 
             if (!await orderRepository.SaveAllAsync())
             {
-                throw new Exception("Could not add order");
+                throw new OrderNotAddedException();
             }
 
             return Unit.Value;

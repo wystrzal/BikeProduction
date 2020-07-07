@@ -8,9 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Order.Infrastructure.Data;
+using CustomerOrder.Infrastructure.Data;
 
-namespace Order
+namespace CustomerOrder
 {
     public class Program
     {

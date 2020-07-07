@@ -1,13 +1,13 @@
-﻿using Order.Core.Interfaces;
-using Order.Core.Models;
+﻿using CustomerOrder.Core.Interfaces;
+using CustomerOrder.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Order.Infrastructure.Data.Repositories
+namespace CustomerOrder.Infrastructure.Data.Repositories
 {
-    public class OrderRepository : BaseRepository<Orders>, IBaseRepository<Orders>, IOrderRepository
+    public class OrderRepository : BaseRepository<Core.Models.Order>, IBaseRepository<Order>, IOrderRepository
     {
         private readonly DataContext dataContext;
 

@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Order.Core.Interfaces;
+﻿using CustomerOrder.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Order.Infrastructure.Data.Repositories
+namespace CustomerOrder.Infrastructure.Data.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {

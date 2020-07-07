@@ -1,4 +1,5 @@
-﻿using Identity.Core.Interfaces;
+﻿using Identity.Core.Exceptions;
+using Identity.Core.Interfaces;
 using Identity.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +30,7 @@ namespace Identity.Application.Commands.Handlers
 
             if (dbUser == null)
             {
-                throw new Exception("Not found.");
+                throw new UserNotFoundException();
             }
 
             var result = await signInManager.CheckPasswordSignInAsync(dbUser, request.Password, false);
@@ -39,7 +40,7 @@ namespace Identity.Application.Commands.Handlers
                 return await tokenService.GenerateToken(dbUser, userManager);
             }
 
-            throw new Exception("Failed to login");
+            throw new LoginFailedException();
         }
     }
 }

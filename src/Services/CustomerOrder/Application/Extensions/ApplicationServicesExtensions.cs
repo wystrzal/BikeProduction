@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Order.Core.Interfaces;
-using Order.Infrastructure.Data.Repositories;
+﻿using CustomerOrder.Core.Interfaces;
+using CustomerOrder.Infrastructure.Data.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Order.API.Extensions
+namespace CustomerOrder.API.Extensions
 {
     public static class ApplicationServicesExtensions
     {

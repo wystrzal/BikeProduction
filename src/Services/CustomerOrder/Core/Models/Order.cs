@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Order.Core.Models
+namespace CustomerOrder.Core.Models
 {
-    public class Orders
+    public class Order
     {
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
@@ -29,7 +29,7 @@ namespace Order.Core.Models
         public decimal TotalPrice { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
 
-        public Orders()
+        public Order()
         {
             OrderDate = DateTime.Now;
         }

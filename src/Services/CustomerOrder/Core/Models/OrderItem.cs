@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Order.Core.Models
+namespace CustomerOrder.Core.Models
 {
     public class OrderItem
     {
@@ -20,6 +20,6 @@ namespace Order.Core.Models
 
         [Required]
         public int Quantity { get; set; }
-        public Orders Order { get; set; }
+        public Order Order { get; set; }
     }
 }

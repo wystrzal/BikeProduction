@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CustomerOrder.Core.Models;
 using MediatR;
-using Order.Core.Models;
 
-namespace Order.Application.Commands
+namespace CustomerOrder.Application.Commands
 {
     public class CreateOrderCommand : IRequest
     {
-        public Orders Orders { get; set; }
+        public Order Orders { get; set; }
     }
 }

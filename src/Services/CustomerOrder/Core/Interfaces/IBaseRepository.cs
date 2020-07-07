@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Order.Core.Interfaces
+namespace CustomerOrder.Core.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {

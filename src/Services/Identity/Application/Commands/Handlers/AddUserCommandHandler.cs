@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Identity.Core.Exceptions;
 using Identity.Core.Interfaces;
 using Identity.Core.Models;
 using MediatR;
@@ -25,11 +26,18 @@ namespace Identity.Application.Commands.Handlers
         {
             var userToCreate = mapper.Map<User>(request);
 
+            var user = await userManager.FindByNameAsync(userToCreate.UserName);
+
+            if (user != null)
+            {
+                throw new UserAlreadyExistException(user.UserName);
+            }
+
             var result = await userManager.CreateAsync(userToCreate, request.Password);
 
             if (!result.Succeeded)
             {
-                throw new Exception("User with this login already exist.");
+                throw new UserNotAddedException();
             }
 
             return Unit.Value;
