@@ -28,7 +28,8 @@ namespace Production.Application.Messaging.Consumers
                 {
                     Reference = item.Reference,
                     Quantity = item.Quantity,
-                    ProductionStatus = ProductionStatus.Waiting
+                    ProductionStatus = ProductionStatus.Waiting,
+                    OrderId = context.Message.OrderId
                 });
             };
 

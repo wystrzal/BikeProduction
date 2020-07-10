@@ -12,6 +12,7 @@ namespace Production.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(nullable: false),
                     Reference = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     ProductionStatus = table.Column<int>(nullable: false)

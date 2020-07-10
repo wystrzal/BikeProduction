@@ -9,7 +9,7 @@ using Production.Infrastructure.Data;
 namespace Production.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200709004557_InitDb")]
+    [Migration("20200710232835_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,9 @@ namespace Production.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductionStatus")
                         .HasColumnType("int");
