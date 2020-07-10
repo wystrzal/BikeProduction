@@ -33,5 +33,19 @@ namespace Production.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("being-created/{id}")]
+        public async Task<IActionResult> ProductsBeingCreated(int id)
+        {
+            try
+            {
+                await mediator.Send(new ProductsBeingCreatedCommand { ProductionQueueId = id });
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

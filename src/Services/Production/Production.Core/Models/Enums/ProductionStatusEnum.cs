@@ -12,7 +12,7 @@ namespace Production.Core.Models.Enums
             Waiting = 1,
             NoParts = 2,
             Confirmed = 3,
-            Created = 4,
+            BeingCreated = 4,
             Finished = 5
         }
     }
