@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CustomerOrder.Application.Messaging;
+using Common.Application.Messaging;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
@@ -31,7 +31,7 @@ namespace CustomerOrder.Application.Commands.Handlers
 
             orderRepository.Add(orderForAdd);
 
-            if (await orderRepository.SaveAllAsync())
+            if (!await orderRepository.SaveAllAsync())
             {
                 throw new OrderNotAddedException();
             }

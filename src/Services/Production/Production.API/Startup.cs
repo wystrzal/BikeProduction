@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Production.Application.Commands;
+using Production.Application.Commands.Handlers;
 using Production.Application.Extensions;
 using Production.Infrastructure.Data;
 
@@ -38,7 +40,7 @@ namespace Production.API
 
             services.AddAutoMapper(typeof(Startup).Assembly);
 
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddMediatR(typeof(ConfirmProductionCommand).Assembly);
 
             services.AddApplicationServices();
 

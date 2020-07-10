@@ -1,7 +1,9 @@
 using System.Net;
 using AutoMapper;
 using CustomerOrder.API.Extensions;
+using CustomerOrder.Application.Commands;
 using CustomerOrder.Application.Extensions;
+using CustomerOrder.Application.Mapping;
 using CustomerOrder.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -35,9 +37,9 @@ namespace CustomerOrder
 
             services.AddCustomAuth(Configuration);
 
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddAutoMapper(typeof(OrderProfile).Assembly);
 
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddMediatR(typeof(CreateOrderCommand).Assembly);
 
             services.AddApplicationServices();
 

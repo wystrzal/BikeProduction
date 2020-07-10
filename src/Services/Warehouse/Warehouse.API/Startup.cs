@@ -1,5 +1,6 @@
 using System.Net;
 using AutoMapper;
+using Common.Application.Messaging;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -34,7 +35,7 @@ namespace Warehouse.API
 
             services.AddAutoMapper(typeof(Startup).Assembly);
 
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddMediatR(typeof(ConfirmProductionEvent).Assembly);
 
             services.AddApplicationServices();
 

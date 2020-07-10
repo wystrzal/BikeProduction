@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Common.Application.Messaging;
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Production.Application.Messaging;
 using Production.Application.Messaging.Consumers;
@@ -16,7 +17,7 @@ namespace Production.Application.Extensions
         {
             services.AddMassTransit(options =>
             {
-                options.AddConsumer<OrderCreatedEventConsumer>();
+                options.AddConsumer<OrderCreatedConsumer>();
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -31,7 +32,7 @@ namespace Production.Application.Extensions
                     cfg.ReceiveEndpoint("order_created", ep =>
                     {
                         ep.Bind<OrderCreatedEvent>();
-                        ep.ConfigureConsumer<OrderCreatedEventConsumer>(provider);
+                        ep.ConfigureConsumer<OrderCreatedConsumer>(provider);
                     });
                 }));
             });

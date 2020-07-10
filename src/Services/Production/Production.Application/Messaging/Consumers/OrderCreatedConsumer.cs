@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using Common.Application.Messaging;
+using MassTransit;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
@@ -10,11 +11,11 @@ using static Production.Core.Models.Enums.ProductionStatusEnum;
 
 namespace Production.Application.Messaging.Consumers
 {
-    public class OrderCreatedEventConsumer : IConsumer<OrderCreatedEvent>
+    public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
     {
         private readonly IProductionQueueRepo productionQueueRepo;
 
-        public OrderCreatedEventConsumer(IProductionQueueRepo productionQueueRepo)
+        public OrderCreatedConsumer(IProductionQueueRepo productionQueueRepo)
         {
             this.productionQueueRepo = productionQueueRepo;
         }
