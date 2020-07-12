@@ -29,9 +29,9 @@ namespace Production.Application.Commands.Handlers
             if (productionQueue.ProductionStatus == ProductionStatus.Waiting 
                 || productionQueue.ProductionStatus == ProductionStatus.NoParts)
             {
-                var serviceAddress = new Uri("rabbitmq://localhost/confirm_production");
-                var client = bus.CreateRequestClient<ConfirmProductionEvent>(serviceAddress);
-                var response = await client.GetResponse<ConfirmProductionResult>(
+                var serviceAddress = new Uri("rabbitmq://localhost/production_confirmed");
+                var client = bus.CreateRequestClient<ProductionConfirmedEvent>(serviceAddress);
+                var response = await client.GetResponse<ProductionConfirmedResult>(
                     new { productionQueue.Reference, productionQueue.Quantity });
 
                 if (response.Message.StartProduction)

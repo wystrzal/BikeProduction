@@ -11,7 +11,7 @@ using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Messaging.Consumers
 {
-    public class ConfirmProductionConsumer : IConsumer<ConfirmProductionEvent>
+    public class ConfirmProductionConsumer : IConsumer<ProductionConfirmedEvent>
     {
         private readonly IProductPartRepo productPartRepo;
 
@@ -20,7 +20,7 @@ namespace Warehouse.Application.Messaging.Consumers
             this.productPartRepo = productPartRepo;
         }
 
-        public async Task Consume(ConsumeContext<ConfirmProductionEvent> context)
+        public async Task Consume(ConsumeContext<ProductionConfirmedEvent> context)
         {
             var parts = await productPartRepo.GetPartsForCheckAvailability(context.Message.Reference);
             int productionQuantity = context.Message.Quantity;
@@ -51,7 +51,7 @@ namespace Warehouse.Application.Messaging.Consumers
 
             await productPartRepo.SaveAllAsync();
             
-            await context.RespondAsync<ConfirmProductionResult>(new { StartProduction = startProduction });
+            await context.RespondAsync<ProductionConfirmedResult>(new { StartProduction = startProduction });
         }
     }
 }

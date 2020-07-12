@@ -59,13 +59,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.Infrastructure", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Delivery", "Delivery", "{C5CE3412-F9E7-4168-BA1E-DEE36C507B4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delivery.API", "src\Services\Delivery\Delivery.API\Delivery.API.csproj", "{B4B3660C-7CD9-4E70-87B7-80BE40BD9CE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.API", "src\Services\Delivery\Delivery.API\Delivery.API.csproj", "{B4B3660C-7CD9-4E70-87B7-80BE40BD9CE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delivery.Application", "src\Services\Delivery\Delivery.Application\Delivery.Application.csproj", "{5675D021-57C6-4548-8E43-D8EC9114DE05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.Application", "src\Services\Delivery\Delivery.Application\Delivery.Application.csproj", "{5675D021-57C6-4548-8E43-D8EC9114DE05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delivery.Core", "src\Services\Delivery\Delivery.Core\Delivery.Core.csproj", "{27B1E0C4-604D-4FFB-9367-8BAF31DDE78C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.Core", "src\Services\Delivery\Delivery.Core\Delivery.Core.csproj", "{27B1E0C4-604D-4FFB-9367-8BAF31DDE78C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Delivery.Infrastructure", "src\Services\Delivery\Delivery.Infrastructure\Delivery.Infrastructure.csproj", "{FCF095B7-D235-4084-ACF1-62A8D2646B49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.Infrastructure", "src\Services\Delivery\Delivery.Infrastructure\Delivery.Infrastructure.csproj", "{FCF095B7-D235-4084-ACF1-62A8D2646B49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HTTP", "HTTP", "{C137CDF9-088C-4E0C-B954-FECD59E5D068}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeHttpClient", "src\Services\Shared\HTTP\HttpClient\BikeHttpClient.csproj", "{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -169,6 +175,10 @@ Global
 		{FCF095B7-D235-4084-ACF1-62A8D2646B49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCF095B7-D235-4084-ACF1-62A8D2646B49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCF095B7-D235-4084-ACF1-62A8D2646B49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,6 +215,9 @@ Global
 		{5675D021-57C6-4548-8E43-D8EC9114DE05} = {C5CE3412-F9E7-4168-BA1E-DEE36C507B4E}
 		{27B1E0C4-604D-4FFB-9367-8BAF31DDE78C} = {C5CE3412-F9E7-4168-BA1E-DEE36C507B4E}
 		{FCF095B7-D235-4084-ACF1-62A8D2646B49} = {C5CE3412-F9E7-4168-BA1E-DEE36C507B4E}
+		{A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660} = {9D76CF62-67FA-448D-A420-A9B049D8EA80}
+		{C137CDF9-088C-4E0C-B954-FECD59E5D068} = {A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660}
+		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29} = {C137CDF9-088C-4E0C-B954-FECD59E5D068}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1302E2C5-6D1D-40F1-AD1F-52ECA36DBC2E}

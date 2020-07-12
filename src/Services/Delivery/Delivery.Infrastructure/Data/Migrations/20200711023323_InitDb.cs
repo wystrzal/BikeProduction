@@ -12,7 +12,8 @@ namespace Delivery.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Quantity = table.Column<int>(nullable: false),
+                    LoadedQuantity = table.Column<int>(nullable: false),
+                    AmountOfSpace = table.Column<int>(nullable: false),
                     LoadingPlaceStatus = table.Column<int>(nullable: false),
                     LoadingPlaceNumber = table.Column<int>(nullable: false)
                 },
@@ -28,10 +29,10 @@ namespace Delivery.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductsQuantity = table.Column<int>(nullable: false),
+                    OrderId = table.Column<int>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    LoadingPlaceId = table.Column<int>(nullable: true)
+                    LoadingPlaceId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +42,7 @@ namespace Delivery.Infrastructure.Migrations
                         column: x => x.LoadingPlaceId,
                         principalTable: "LoadingPlaces",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

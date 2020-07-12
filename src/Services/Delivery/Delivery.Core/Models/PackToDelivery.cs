@@ -9,11 +9,10 @@ namespace Delivery.Core.Models
     {
         public int Id { get; set; }
         public int ProductsQuantity { get; set; }
+        public int OrderId { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal TotalPrice { get; set; }
+        public int LoadingPlaceId { get; set; }
         public LoadingPlace LoadingPlace { get; set; }
     }
 }

@@ -10,15 +10,15 @@ using static Production.Core.Models.Enums.ProductionStatusEnum;
 
 namespace Production.Application.Commands.Handlers
 {
-    class ProductsBeingCreatedCommandHandler : IRequestHandler<ProductsBeingCreatedCommand>
+    class StartCreatingProductsCommandHandler : IRequestHandler<StartCreatingProductsCommand>
     {
         private readonly IProductionQueueRepo productionQueueRepo;
 
-        public ProductsBeingCreatedCommandHandler(IProductionQueueRepo productionQueueRepo)
+        public StartCreatingProductsCommandHandler(IProductionQueueRepo productionQueueRepo)
         {
             this.productionQueueRepo = productionQueueRepo;
         }
-        public async Task<Unit> Handle(ProductsBeingCreatedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(StartCreatingProductsCommand request, CancellationToken cancellationToken)
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 

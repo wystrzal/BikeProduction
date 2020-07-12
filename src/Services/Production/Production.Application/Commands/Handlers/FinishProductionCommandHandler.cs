@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Common.Application.Messaging;
+using MassTransit;
+using MediatR;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using System;
@@ -10,16 +12,18 @@ using static Production.Core.Models.Enums.ProductionStatusEnum;
 
 namespace Production.Application.Commands.Handlers
 {
-    public class ProductionFinishedCommandHandler : IRequestHandler<ProductionFinishedCommand>
+    public class FinishProductionCommandHandler : IRequestHandler<FinishProductionCommand>
     {
         private readonly IProductionQueueRepo productionQueueRepo;
+        private readonly IBus bus;
 
-        public ProductionFinishedCommandHandler(IProductionQueueRepo productionQueueRepo)
+        public FinishProductionCommandHandler(IProductionQueueRepo productionQueueRepo, IBus bus)
         {
             this.productionQueueRepo = productionQueueRepo;
+            this.bus = bus;
         }
 
-        public async Task<Unit> Handle(ProductionFinishedCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(FinishProductionCommand request, CancellationToken cancellationToken)
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
@@ -27,6 +31,8 @@ namespace Production.Application.Commands.Handlers
             {
                 productionQueue.ProductionStatus = ProductionStatus.Finished;
                 await productionQueueRepo.SaveAllAsync();
+
+                await bus.Send(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
             } 
             else
             {

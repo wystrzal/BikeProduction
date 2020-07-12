@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Production.Application.Commands
 {
-    public class ProductionFinishedCommand : IRequest
+    public class FinishProductionCommand : IRequest
     {
         public int ProductionQueueId { get; set; }
     }

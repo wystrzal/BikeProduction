@@ -35,7 +35,7 @@ namespace Warehouse.API
 
             services.AddAutoMapper(typeof(Startup).Assembly);
 
-            services.AddMediatR(typeof(ConfirmProductionEvent).Assembly);
+            services.AddMediatR(typeof(ProductionConfirmedEvent).Assembly);
 
             services.AddApplicationServices();
 

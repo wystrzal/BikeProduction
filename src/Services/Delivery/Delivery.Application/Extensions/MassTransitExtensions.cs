@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using RabbitMQ.Client;
+using Common.Application.Messaging;
+using Delivery.Application.Messaging.Consumers;
 
 namespace Delivery.Application.Extensions
 {
@@ -14,6 +16,8 @@ namespace Delivery.Application.Extensions
         {
             services.AddMassTransit(options =>
             {
+                options.AddConsumer<ProductionFinishedConsumer>();
+
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.Host("localhost", "/", h =>
@@ -24,6 +28,11 @@ namespace Delivery.Application.Extensions
 
                     cfg.ExchangeType = ExchangeType.Fanout;
 
+                    cfg.ReceiveEndpoint("production_finished", ep =>
+                    {
+                        ep.Bind<ProductionFinishedEvent>();
+                        ep.ConfigureConsumer<ProductionFinishedConsumer>(provider);
+                    });
                 }));
             });
 

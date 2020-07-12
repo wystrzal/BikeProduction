@@ -34,12 +34,12 @@ namespace Production.API.Controllers
             }
         }
 
-        [HttpPost("being-created/{id}")]
-        public async Task<IActionResult> ProductsBeingCreated(int id)
+        [HttpPost("start/{id}")]
+        public async Task<IActionResult> StartCreatingProducts(int id)
         {
             try
             {
-                await mediator.Send(new ProductsBeingCreatedCommand { ProductionQueueId = id });
+                await mediator.Send(new StartCreatingProductsCommand { ProductionQueueId = id });
                 return Ok();
             }
             catch (Exception ex)

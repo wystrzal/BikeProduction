@@ -17,4 +17,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.5.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\HTTP\HttpClient\BikeHttpClient.csproj" />
+    <ProjectReference Include="..\..\Shared\HTTP\HttpClient\BikeHttpClient.csproj" />
+    <ProjectReference Include="..\Delivery.Core\Delivery.Core.csproj" />
+    <ProjectReference Include="..\Delivery.Infrastructure\Delivery.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -26,9 +26,9 @@ namespace Warehouse.Application.Extensions
 
                     cfg.ExchangeType = ExchangeType.Fanout;
 
-                    cfg.ReceiveEndpoint("confirm_production", ep =>
+                    cfg.ReceiveEndpoint("production_confirmed", ep =>
                     {
-                        ep.Bind<ConfirmProductionEvent>();
+                        ep.Bind<ProductionConfirmedEvent>();
                         ep.ConfigureConsumer<ConfirmProductionConsumer>(provider);
                     });
 
