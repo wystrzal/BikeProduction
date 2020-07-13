@@ -13,6 +13,7 @@ namespace CustomerOrder.Application.Mapping
         public OrderProfile()
         {
             CreateMap<CreateOrderCommand, Order>();
+            CreateMap<Order, GetOrderDto>();
         }
     }
 }

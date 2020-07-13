@@ -32,7 +32,7 @@ namespace Delivery.Infrastructure.Migrations
                     OrderId = table.Column<int>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    LoadingPlaceId = table.Column<int>(nullable: false)
+                    LoadingPlaceId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,7 +42,7 @@ namespace Delivery.Infrastructure.Migrations
                         column: x => x.LoadingPlaceId,
                         principalTable: "LoadingPlaces",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

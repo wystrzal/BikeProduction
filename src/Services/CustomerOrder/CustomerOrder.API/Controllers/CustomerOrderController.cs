@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CustomerOrder.Application.Commands;
+using CustomerOrder.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,19 @@ namespace CustomerOrder.API.Controllers
             {
                 await mediator.Send(command);
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrder(int id)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new GetOrderQuery(id)));
             }
             catch (Exception ex)
             {

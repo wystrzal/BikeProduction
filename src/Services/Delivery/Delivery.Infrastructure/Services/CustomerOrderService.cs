@@ -24,16 +24,16 @@ namespace Delivery.Infrastructure.Services
             baseUrl = "http://localhost:5100/api/customerOrder/";
         }
 
-        public async Task<IEnumerable<Order>> GetOrder(int id)
+        public async Task<Order> GetOrder(int id)
         {
             var getOrderUrl = baseUrl + id;
 
-            var accessToken = httpContext.HttpContext.User.Claims.Where(x => x.Type == "AcessToken")
-                .Select(x => x.Value).FirstOrDefault();
+            //var accessToken = httpContext.HttpContext.User.Claims.Where(x => x.Type == "AcessToken")
+            //    .Select(x => x.Value).FirstOrDefault();
 
-            var dataString = await httpClient.GetStringAsync(getOrderUrl, accessToken);
+            var dataString = await httpClient.GetStringAsync(getOrderUrl);
 
-            var response = JsonConvert.DeserializeObject<IEnumerable<Order>>(dataString);
+            var response = JsonConvert.DeserializeObject<Order>(dataString);
 
             return response;
         }

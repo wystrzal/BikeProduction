@@ -32,7 +32,7 @@ namespace Production.Application.Commands.Handlers
                 productionQueue.ProductionStatus = ProductionStatus.Finished;
                 await productionQueueRepo.SaveAllAsync();
 
-                await bus.Send(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
+                await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
             } 
             else
             {

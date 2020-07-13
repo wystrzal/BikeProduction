@@ -1,5 +1,6 @@
 ﻿using Common.Application.Messaging;
 using Delivery.Core.Interfaces;
+using Delivery.Core.Models;
 using MassTransit;
 using System;
 using System.Collections.Generic;
@@ -21,9 +22,29 @@ namespace Delivery.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionFinishedEvent> context)
         {
-            var order = await customerOrderService.GetOrder(context.Message.OrderId);
+            int orderId = context.Message.OrderId;
 
-            
+            var packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == orderId);
+
+            if (packToDelivery == null)
+            {
+                var order = await customerOrderService.GetOrder(orderId);
+                var newPackToDelivery = new PackToDelivery
+                {
+                    OrderId = orderId,
+                    Address = order.Address,
+                    PhoneNumber = order.PhoneNumber,
+                    ProductsQuantity = context.Message.ProductsQuantity,
+                };
+
+                packToDeliveryRepo.Add(newPackToDelivery);
+            }
+            else
+            {
+                packToDelivery.ProductsQuantity += context.Message.ProductsQuantity;
+            }
+
+            await packToDeliveryRepo.SaveAllAsync();         
         }
     }
 }

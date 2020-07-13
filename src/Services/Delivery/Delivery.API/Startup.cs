@@ -30,6 +30,8 @@ namespace Delivery.API
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddControllers();
+
             services.AddCustomAuth(Configuration);
 
             services.AddAutoMapper(typeof(Startup).Assembly);

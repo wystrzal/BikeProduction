@@ -25,7 +25,7 @@ namespace Production.API.Controllers
         {
             try
             {
-                await mediator.Send(new ConfirmProductionCommand { ProductionQueueId = id });
+                await mediator.Send(new ConfirmProductionCommand(id));
                 return Ok();
             }
             catch (Exception ex)
@@ -39,7 +39,21 @@ namespace Production.API.Controllers
         {
             try
             {
-                await mediator.Send(new StartCreatingProductsCommand { ProductionQueueId = id });
+                await mediator.Send(new StartCreatingProductsCommand(id));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("finish/{id}")]
+        public async Task<IActionResult> FinishProduction(int id)
+        {
+            try
+            {
+                await mediator.Send(new FinishProductionCommand(id));
                 return Ok();
             }
             catch (Exception ex)

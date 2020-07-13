@@ -12,7 +12,6 @@ namespace Delivery.Core.Models
         public int OrderId { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
-        public int LoadingPlaceId { get; set; }
         public LoadingPlace LoadingPlace { get; set; }
     }
 }

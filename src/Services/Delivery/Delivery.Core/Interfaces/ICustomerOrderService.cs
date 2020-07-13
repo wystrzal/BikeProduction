@@ -8,6 +8,6 @@ namespace Delivery.Core.Interfaces
 {
     public interface ICustomerOrderService
     {
-        Task<IEnumerable<Order>> GetOrder(int id);
+        Task<Order> GetOrder(int id);
     }
 }
