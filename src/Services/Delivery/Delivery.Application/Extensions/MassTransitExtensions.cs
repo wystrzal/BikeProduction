@@ -7,6 +7,7 @@ using MassTransit;
 using RabbitMQ.Client;
 using Common.Application.Messaging;
 using Delivery.Application.Messaging.Consumers;
+using Common.Application.Commands;
 
 namespace Delivery.Application.Extensions
 {
@@ -17,6 +18,7 @@ namespace Delivery.Application.Extensions
             services.AddMassTransit(options =>
             {
                 options.AddConsumer<ProductionFinishedConsumer>();
+                options.AddConsumer<PackReadyToSendConsumer>();
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -32,6 +34,12 @@ namespace Delivery.Application.Extensions
                     {
                         ep.Bind<ProductionFinishedEvent>();
                         ep.ConfigureConsumer<ProductionFinishedConsumer>(provider);
+                    });
+
+                    cfg.ReceiveEndpoint("pack_ready", ep =>
+                    {
+                        ep.Bind<PackReadyToSendEvent>();
+                        ep.ConfigureConsumer<PackReadyToSendConsumer>(provider);
                     });
                 }));
             });

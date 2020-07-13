@@ -1,6 +1,8 @@
-﻿using Common.Application.Messaging;
+﻿using Common.Application.Commands;
+using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
+using Microsoft.EntityFrameworkCore.Internal;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using System;
@@ -37,6 +39,14 @@ namespace Production.Application.Commands.Handlers
             else
             {
                 throw new ProductsNotBeingCreatedException();
+            }
+
+            var checkProductionStatus = await productionQueueRepo
+                .GetByConditionToList(x => x.OrderId == productionQueue.OrderId && x.ProductionStatus != ProductionStatus.Finished);
+
+            if (checkProductionStatus.Count == 0)
+            {
+                await bus.Publish(new PackReadyToSendEvent(productionQueue.OrderId));
             }
 
             return Unit.Value;

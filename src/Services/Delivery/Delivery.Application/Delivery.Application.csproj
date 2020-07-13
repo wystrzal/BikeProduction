@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Delivery.Infrastructure\Delivery.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mapping\" />
+  </ItemGroup>
+
 </Project>

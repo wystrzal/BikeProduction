@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using static Delivery.Core.Models.Enums.PackStatusEnum;
 
 namespace Delivery.Application.Messaging.Consumers
 {
@@ -35,6 +36,7 @@ namespace Delivery.Application.Messaging.Consumers
                     Address = order.Address,
                     PhoneNumber = order.PhoneNumber,
                     ProductsQuantity = context.Message.ProductsQuantity,
+                    PackStatus = PackStatus.Waiting
                 };
 
                 packToDeliveryRepo.Add(newPackToDelivery);

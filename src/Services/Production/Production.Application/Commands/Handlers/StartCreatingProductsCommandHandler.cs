@@ -26,7 +26,8 @@ namespace Production.Application.Commands.Handlers
             {
                 productionQueue.ProductionStatus = ProductionStatus.BeingCreated;
                 await productionQueueRepo.SaveAllAsync();
-            } else
+            } 
+            else
             {
                 throw new ProductionQueueNotConfirmedException();
             }

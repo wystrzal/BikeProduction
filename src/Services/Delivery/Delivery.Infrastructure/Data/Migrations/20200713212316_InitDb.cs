@@ -29,6 +29,7 @@ namespace Delivery.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductsQuantity = table.Column<int>(nullable: false),
+                    PackStatus = table.Column<int>(nullable: false),
                     OrderId = table.Column<int>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),

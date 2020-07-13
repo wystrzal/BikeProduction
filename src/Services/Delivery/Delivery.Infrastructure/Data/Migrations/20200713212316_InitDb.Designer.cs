@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Delivery.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200713151401_InitDb")]
+    [Migration("20200713212316_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -59,6 +59,9 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PackStatus")
                         .HasColumnType("int");
 
                     b.Property<string>("PhoneNumber")
