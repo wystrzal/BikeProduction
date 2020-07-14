@@ -47,5 +47,19 @@ namespace CustomerOrder.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            try
+            {
+                await mediator.Send(new CancelOrderCommand(id));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

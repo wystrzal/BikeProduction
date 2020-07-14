@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using MassTransit;
 using RabbitMQ.Client;
+using CustomerOrder.Application.Messaging.Consumers;
+using Common.Application.Messaging;
 
 namespace CustomerOrder.Application.Extensions
 {
@@ -14,6 +16,8 @@ namespace CustomerOrder.Application.Extensions
         {
             services.AddMassTransit(options =>
             {
+                options.AddConsumer<ChangeOrderStatusConsumer>();
+
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
                     cfg.Host("localhost", "/", h =>
@@ -23,6 +27,12 @@ namespace CustomerOrder.Application.Extensions
                     });
 
                     cfg.ExchangeType = ExchangeType.Fanout;
+
+                    cfg.ReceiveEndpoint("change_order_status", ep =>
+                    {
+                        ep.Bind<ChangeOrderStatusEvent>();
+                        ep.ConfigureConsumer<ChangeOrderStatusConsumer>(provider);
+                    });
 
                 }));
             });

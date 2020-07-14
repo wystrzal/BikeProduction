@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static Production.Application.Messaging.MessagingModels.OrderStatusEnum;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
 
 namespace Production.Application.Commands.Handlers
@@ -37,13 +38,14 @@ namespace Production.Application.Commands.Handlers
                 if (response.Message.StartProduction)
                 {
                     productionQueue.ProductionStatus = ProductionStatus.Confirmed;
+                    await bus.Publish(new ChangeOrderStatusEvent(productionQueue.OrderId, OrderStatus.Confirmed));
                 }
                 else
                 {
                     productionQueue.ProductionStatus = ProductionStatus.NoParts;
                 }
 
-                await productionQueueRepo.SaveAllAsync();
+                await productionQueueRepo.SaveAllAsync();        
             }
 
             return Unit.Value;

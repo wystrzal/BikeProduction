@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
 
 namespace CustomerOrder.Application.Commands.Handlers
 {
@@ -28,6 +29,8 @@ namespace CustomerOrder.Application.Commands.Handlers
         public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
             var orderForAdd = mapper.Map<Order>(request);
+
+            orderForAdd.OrderStatus = OrderStatus.WaitingForConfirm;
 
             orderRepository.Add(orderForAdd);
 
