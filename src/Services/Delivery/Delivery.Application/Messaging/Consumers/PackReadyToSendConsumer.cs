@@ -24,12 +24,9 @@ namespace Delivery.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<PackReadyToSendEvent> context)
         {
-            var packs = await packToDeliveryRepo.GetByConditionToList(x => x.OrderId == context.Message.OrderId);
+            var pack = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
 
-            foreach (var pack in packs)
-            {
-                pack.PackStatus = PackStatus.ReadyToSend;
-            }
+            pack.PackStatus = PackStatus.ReadyToSend;
 
             await packToDeliveryRepo.SaveAllAsync();
 
