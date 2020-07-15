@@ -14,6 +14,7 @@ namespace CustomerOrder.Application.Mapping
         {
             CreateMap<CreateOrderCommand, Order>();
             CreateMap<Order, GetOrderDto>();
+            CreateMap<Order, GetOrdersDto>();
         }
     }
 }

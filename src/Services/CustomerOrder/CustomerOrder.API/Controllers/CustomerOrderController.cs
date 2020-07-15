@@ -48,6 +48,12 @@ namespace CustomerOrder.API.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetOrders([FromQuery] string userId)
+        {
+            return Ok(await mediator.Send(new GetOrdersQuery(userId)));
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> CancelOrder(int id)
         {

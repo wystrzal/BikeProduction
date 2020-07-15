@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Delivery.Infrastructure.Data.Repositories
 {
-    public class PackToDeliveryRepo : BaseRepository<PackToDelivery>, IBaseRepository<PackToDelivery>, IPackToDeliveryRepo
+    public class PackToDeliveryRepo : BaseRepository<PackToDelivery>, IPackToDeliveryRepo
     {
         public PackToDeliveryRepo(DataContext dataContext) : base(dataContext)
         {

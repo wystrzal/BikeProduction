@@ -9,7 +9,7 @@ using Warehouse.Core.Models;
 
 namespace Warehouse.Infrastructure.Data.Repositories
 {
-    public class ProductPartRepo : BaseRepository<ProductsParts>, IBaseRepository<ProductsParts>, IProductPartRepo
+    public class ProductPartRepo : BaseRepository<ProductsParts>, IProductPartRepo
     {
         private readonly DataContext dataContext;
 

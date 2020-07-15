@@ -14,7 +14,11 @@ namespace CustomerOrder.Core.Models
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
 
+        [Required]
         public OrderStatus OrderStatus { get; set; }
+
+        [Required]
+        public string UserId { get; set; }
 
         [Required]
         public string CustomerFirstName { get; set; }

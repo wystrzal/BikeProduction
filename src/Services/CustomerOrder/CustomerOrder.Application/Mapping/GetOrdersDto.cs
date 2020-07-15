@@ -1,15 +1,16 @@
-﻿using System;
+﻿using CustomerOrder.Core.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CustomerOrder.Core.Models;
-using MediatR;
+using System.Text;
+using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
 
-namespace CustomerOrder.Application.Commands
+namespace CustomerOrder.Application.Mapping
 {
-    public class CreateOrderCommand : IRequest
+    public class GetOrdersDto
     {
         public string UserId { get; set; }
+        public DateTime OrderDate { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         public string CustomerFirstName { get; set; }
         public string CustomerLastName { get; set; }
         public string PhoneNumber { get; set; }

@@ -14,6 +14,8 @@ namespace CustomerOrder.Infrastructure.Migrations
                     OrderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderDate = table.Column<DateTime>(nullable: false),
+                    OrderStatus = table.Column<int>(nullable: false),
+                    UserId = table.Column<string>(nullable: false),
                     CustomerFirstName = table.Column<string>(nullable: false),
                     CustomerLastName = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: false),
