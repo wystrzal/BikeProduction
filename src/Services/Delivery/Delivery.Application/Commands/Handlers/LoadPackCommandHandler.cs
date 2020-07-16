@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Delivery.Application.Messaging.MessagingModels.OrderStatusEnum;
+using static Delivery.Core.Models.Enums.LoadingPlaceStatusEnum;
 using static Delivery.Core.Models.Enums.PackStatusEnum;
 
 namespace Delivery.Application.Commands.Handlers
@@ -46,7 +47,9 @@ namespace Delivery.Application.Commands.Handlers
             {
                 pack.LoadingPlace = loadingPlace;
                 pack.PackStatus = PackStatus.ReadyToSend;
+
                 loadingPlace.LoadedQuantity += pack.ProductsQuantity;
+                loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Loading;
 
                 await loadingPlaceRepo.SaveAllAsync();
 

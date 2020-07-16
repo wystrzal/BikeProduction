@@ -34,5 +34,34 @@ namespace Delivery.API.Controllers
             }
         }
 
+        [HttpPost("start/{loadingPlaceId}")]
+        public async Task<IActionResult> StartDelivery(int loadingPlaceId)
+        {
+            try
+            {
+                await mediator.Send(new StartDeliveryCommand(loadingPlaceId));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("complete/{loadingPlaceId}")]
+        public async Task<IActionResult> CompleteDelivery(int loadingPlaceId)
+        {
+            try
+            {
+                await mediator.Send(new CompleteDeliveryCommand(loadingPlaceId));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
     }
 }

@@ -10,7 +10,7 @@ namespace Delivery.Core.Models.Enums
         {
             WaitingForLoading = 1,
             Loading = 2,
-            WaitingForSend = 3
+            Sended = 3
         }
     }
 }
