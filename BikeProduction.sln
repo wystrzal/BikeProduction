@@ -73,6 +73,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HTTP", "HTTP", "{C137CDF9-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeHttpClient", "src\Services\Shared\HTTP\HttpClient\BikeHttpClient.csproj", "{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BaseRepository", "BaseRepository", "{BCCBFADF-75B9-487E-BCE6-218C6C479552}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeBaseRepository", "src\Services\Shared\BaseRepository\BikeBaseRepository\BikeBaseRepository.csproj", "{AFC7DA92-CD47-4515-8679-31C609CC5FF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -179,6 +183,10 @@ Global
 		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC7DA92-CD47-4515-8679-31C609CC5FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC7DA92-CD47-4515-8679-31C609CC5FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC7DA92-CD47-4515-8679-31C609CC5FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC7DA92-CD47-4515-8679-31C609CC5FF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -218,6 +226,8 @@ Global
 		{A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660} = {9D76CF62-67FA-448D-A420-A9B049D8EA80}
 		{C137CDF9-088C-4E0C-B954-FECD59E5D068} = {A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660}
 		{E36CB36A-B75F-43E1-9AD2-AA86B9E40B29} = {C137CDF9-088C-4E0C-B954-FECD59E5D068}
+		{BCCBFADF-75B9-487E-BCE6-218C6C479552} = {A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660}
+		{AFC7DA92-CD47-4515-8679-31C609CC5FF1} = {BCCBFADF-75B9-487E-BCE6-218C6C479552}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1302E2C5-6D1D-40F1-AD1F-52ECA36DBC2E}

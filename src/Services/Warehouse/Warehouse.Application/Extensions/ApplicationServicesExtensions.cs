@@ -10,6 +10,7 @@ namespace Warehouse.Application.Extensions
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddTransient<IProductPartRepo, ProductPartRepo>();
+            services.AddTransient<IPartRepository, PartRepository>();
         }
     }
 }

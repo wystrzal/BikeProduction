@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BikeBaseRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using Warehouse.Core.Models;
 
 namespace Warehouse.Infrastructure.Data.Repositories
 {
-    public class ProductPartRepo : BaseRepository<ProductsParts>, IProductPartRepo
+    public class ProductPartRepo : BaseRepository<ProductsParts, DataContext>, IProductPartRepo
     {
         private readonly DataContext dataContext;
 

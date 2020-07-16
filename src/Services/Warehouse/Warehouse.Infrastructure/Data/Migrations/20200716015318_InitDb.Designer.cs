@@ -9,7 +9,7 @@ using Warehouse.Infrastructure.Data;
 namespace Warehouse.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200710003439_InitDb")]
+    [Migration("20200716015318_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,13 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StoragePlaceId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("StoragePlaceId")
+                        .IsUnique();
 
                     b.ToTable("Parts");
                 });
@@ -75,6 +81,30 @@ namespace Warehouse.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductsParts");
+                });
+
+            modelBuilder.Entity("Warehouse.Core.Models.StoragePlace", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StoragePlaces");
+                });
+
+            modelBuilder.Entity("Warehouse.Core.Models.Part", b =>
+                {
+                    b.HasOne("Warehouse.Core.Models.StoragePlace", "StoragePlace")
+                        .WithOne("Part")
+                        .HasForeignKey("Warehouse.Core.Models.Part", "StoragePlaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Warehouse.Core.Models.ProductsParts", b =>

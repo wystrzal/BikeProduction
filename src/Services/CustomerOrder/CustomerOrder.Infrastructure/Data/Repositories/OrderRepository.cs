@@ -1,4 +1,5 @@
-﻿using CustomerOrder.Core.Interfaces;
+﻿using BikeBaseRepository;
+using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CustomerOrder.Infrastructure.Data.Repositories
 {
-    public class OrderRepository : BaseRepository<Order>, IOrderRepository
+    public class OrderRepository : BaseRepository<Order, DataContext>, IOrderRepository
     {
         private readonly DataContext dataContext;
 

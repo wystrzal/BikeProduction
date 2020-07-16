@@ -11,6 +11,21 @@ namespace Warehouse.Infrastructure.Data
     {
         public static async Task AddSeed(DataContext dataContext)
         {
+            if (!dataContext.StoragePlaces.Any())
+            {
+                var storagePlaces = new List<StoragePlace>
+                {
+                    new StoragePlace { Name = "A-0-0" },
+                    new StoragePlace { Name = "A-0-1" },
+                    new StoragePlace { Name = "A-0-2" },
+                    new StoragePlace { Name = "B-0-1" },
+                    new StoragePlace { Name = "B-0-2" },
+                    new StoragePlace { Name = "B-0-3" },
+                };
+
+                await dataContext.StoragePlaces.AddRangeAsync(storagePlaces);
+            }
+
             if (!dataContext.Products.Any())
             {
                 var products = new List<Product>()
@@ -20,23 +35,21 @@ namespace Warehouse.Infrastructure.Data
                 };
 
                 await dataContext.Products.AddRangeAsync(products);
-                await dataContext.SaveChangesAsync();
             }
 
             if (!dataContext.Parts.Any())
             {
                 var parts = new List<Part>()
                 {
-                    new Part {Reference = "15", PartName = "Frame", Quantity = 5},
-                    new Part {Reference = "16", PartName = "Circle", Quantity = 5},
-                    new Part {Reference = "17", PartName = "Saddle", Quantity = 5},
-                    new Part {Reference = "18", PartName = "Wheel", Quantity = 5},
-                    new Part {Reference = "19", PartName = "Chain", Quantity = 5},
-                    new Part {Reference = "20", PartName = "Pedal", Quantity = 5},
+                    new Part {Reference = "15", PartName = "Frame", Quantity = 5, StoragePlaceId = 1 },
+                    new Part {Reference = "16", PartName = "Circle", Quantity = 5, StoragePlaceId = 2 },
+                    new Part {Reference = "17", PartName = "Saddle", Quantity = 5, StoragePlaceId = 3 },
+                    new Part {Reference = "18", PartName = "Wheel", Quantity = 5, StoragePlaceId = 4 },
+                    new Part {Reference = "19", PartName = "Chain", Quantity = 5, StoragePlaceId = 5 },
+                    new Part {Reference = "20", PartName = "Pedal", Quantity = 5, StoragePlaceId = 6 },
                 };
 
                 await dataContext.Parts.AddRangeAsync(parts);
-                await dataContext.SaveChangesAsync();
             }
 
             if (!dataContext.ProductsParts.Any())
@@ -58,8 +71,9 @@ namespace Warehouse.Infrastructure.Data
                 };
 
                 await dataContext.ProductsParts.AddRangeAsync(productsParts);
-                await dataContext.SaveChangesAsync();
             }
+
+            await dataContext.SaveChangesAsync();
         }
     }
 }

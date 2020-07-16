@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using Warehouse.Core.Models;
 
 namespace Warehouse.Core.Interfaces
 {
-    public interface IProductPartRepo : IBaseRepository<ProductsParts>
+    public interface IPartRepository : IBaseRepository<Part>
     {
-        Task<List<Part>> GetPartsForCheckAvailability(string reference);
     }
 }

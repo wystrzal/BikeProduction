@@ -7,21 +7,6 @@ namespace Warehouse.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Parts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PartName = table.Column<string>(nullable: true),
-                    Reference = table.Column<string>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Parts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
@@ -34,6 +19,41 @@ namespace Warehouse.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StoragePlaces",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoragePlaces", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Parts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PartName = table.Column<string>(nullable: true),
+                    Reference = table.Column<string>(nullable: true),
+                    Quantity = table.Column<int>(nullable: false),
+                    StoragePlaceId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Parts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Parts_StoragePlaces_StoragePlaceId",
+                        column: x => x.StoragePlaceId,
+                        principalTable: "StoragePlaces",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,6 +81,12 @@ namespace Warehouse.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Parts_StoragePlaceId",
+                table: "Parts",
+                column: "StoragePlaceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductsParts_ProductId",
                 table: "ProductsParts",
                 column: "ProductId");
@@ -76,6 +102,9 @@ namespace Warehouse.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "StoragePlaces");
         }
     }
 }
