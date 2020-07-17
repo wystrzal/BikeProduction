@@ -1,6 +1,6 @@
 ﻿using BikeHttpClient;
 using Delivery.Core.Interfaces;
-using Delivery.Infrastructure.Data.Repositories;
+using Delivery.Infrastructure.Repositories;
 using Delivery.Infrastructure.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

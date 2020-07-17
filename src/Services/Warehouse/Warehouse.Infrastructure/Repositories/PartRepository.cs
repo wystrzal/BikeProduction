@@ -7,8 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
 using Warehouse.Core.Models;
+using Warehouse.Infrastructure.Data;
 
-namespace Warehouse.Infrastructure.Data.Repositories
+namespace Warehouse.Infrastructure.Repositories
 {
     public class PartRepository : BaseRepository<Part, DataContext>, IPartRepository
     {

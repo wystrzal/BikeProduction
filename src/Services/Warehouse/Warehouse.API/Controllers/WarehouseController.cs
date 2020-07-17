@@ -60,5 +60,32 @@ namespace Warehouse.API.Controllers
         {
             return Ok(await mediator.Send(new GetPartsQuery()));
         }
+
+        [HttpPost("storage-place")]
+        public async Task<IActionResult> AddStoragePlace(AddPartCommand command)
+        {
+            await mediator.Send(command);
+            return Ok();
+        }
+
+        [HttpDelete("storage-place/{id}")]
+        public async Task<IActionResult> DeleteStoragePlace(int id)
+        {
+            try
+            {
+                await mediator.Send(new DeleteStoragePlaceCommand(id));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("storage-places")]
+        public async Task<IActionResult> GetStoragePlaces()
+        {
+            return Ok(await mediator.Send(new GetStoragePlacesQuery()));
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CustomerOrder.Core.Interfaces;
-using CustomerOrder.Infrastructure.Data.Repositories;
+using CustomerOrder.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CustomerOrder.API.Extensions

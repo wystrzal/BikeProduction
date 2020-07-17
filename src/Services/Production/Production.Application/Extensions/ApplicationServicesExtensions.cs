@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Production.Core.Interfaces;
-using Production.Infrastructure.Data.Repositories;
+using Production.Infrastructure.Repositories;
 
 namespace Production.Application.Extensions
 {

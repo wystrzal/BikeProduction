@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using BikeBaseRepository;
+using Delivery.Infrastructure.Data;
 
-namespace Delivery.Infrastructure.Data.Repositories
+namespace Delivery.Infrastructure.Repositories
 {
     public class LoadingPlaceRepo : BaseRepository<LoadingPlace, DataContext> ,ILoadingPlaceRepo
     {
