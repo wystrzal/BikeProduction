@@ -12,6 +12,8 @@ namespace Catalog.Application.Mapping.Profiles
         public ProductProfile()
         {
             CreateMap<AddProductCommand, Product>();
+
+            CreateMap<Product, GetProductsDto>();
         }
     }
 }
