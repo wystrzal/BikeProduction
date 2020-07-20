@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Production.Application.Commands;
+using Production.Application.Queries;
 
 namespace Production.API.Controllers
 {
@@ -60,6 +61,12 @@ namespace Production.API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProductionQueues()
+        {
+            return Ok(await mediator.Send(new GetProductionQueuesQuery()));
         }
     }
 }
