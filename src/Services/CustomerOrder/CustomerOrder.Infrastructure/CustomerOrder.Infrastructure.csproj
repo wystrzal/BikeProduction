@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Shared\BaseRepository\BikeBaseRepository\BikeBaseRepository.csproj" />
+    <ProjectReference Include="..\..\..\Shared\BaseRepository\BikeBaseRepository\BikeBaseRepository.csproj" />
     <ProjectReference Include="..\CustomerOrder.Core\CustomerOrder.Core.csproj" />
   </ItemGroup>
 

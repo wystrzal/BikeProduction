@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Catalog.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,5 +28,7 @@ namespace Catalog.Infrastructure.Data
                 optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BikeProductionCatalogDb;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
+
+        public DbSet<Product> Products { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Catalog.API
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var host = BuildWebHost(args);
             using (var scope = host.Services.CreateScope())
@@ -25,6 +25,7 @@ namespace Catalog.API
                 {
                     var context = services.GetRequiredService<DataContext>();
                     context.Database.Migrate();
+                    await DataSeed.AddSeed(context);
                 }
                 catch (Exception ex)
                 {
