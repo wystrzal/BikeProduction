@@ -4,8 +4,5 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Ocelot" Version="13.8.0" />
-  </ItemGroup>
 
 </Project>
