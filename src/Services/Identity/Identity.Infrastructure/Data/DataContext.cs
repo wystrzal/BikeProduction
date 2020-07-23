@@ -26,7 +26,7 @@ namespace Identity.Infrastructure.Data
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BikeProductionIdentityDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssqlserver;Database=IdentityDb;User Id=sa;Password=P@ssword");
             }
         }
 

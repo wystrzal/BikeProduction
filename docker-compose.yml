@@ -1,0 +1,144 @@
+version: '3.4'
+
+networks:
+  frontend:
+  backend:
+
+services:  
+  identity:
+    image: ${DOCKER_REGISTRY-}identity
+    build:
+      context: .
+      dockerfile: src/Services/Identity/Identity.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5000:80"
+    networks:
+      - backend
+      - frontend 
+    depends_on:
+      - mssqlserver
+
+  catalog:
+    image: ${DOCKER_REGISTRY-}catalog
+    build:
+      context: .
+      dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5101:80"
+    networks:
+      - backend
+      - frontend 
+    depends_on:
+      - rabbitmq
+      - mssqlserver
+      - identity
+
+  production:
+    image: ${DOCKER_REGISTRY-}production
+    build:
+      context: .
+      dockerfile: src/Services/Production/Production.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5102:80"
+    networks:
+      - backend
+      - frontend 
+    depends_on:
+      - rabbitmq
+      - mssqlserver
+      - identity
+
+  warehouse:
+    image: ${DOCKER_REGISTRY-}warehouse
+    build:
+      context: .
+      dockerfile: src/Services/Warehouse/Warehouse.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5103:80"
+    networks:
+      - backend
+      - frontend 
+    depends_on:
+      - rabbitmq
+      - mssqlserver
+      - identity
+
+  customerorder:
+    image: ${DOCKER_REGISTRY-}customerorder
+    build:
+      context: .
+      dockerfile: src/Services/CustomerOrder/CustomerOrder.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5100:80"
+    networks:
+      - backend
+      - frontend 
+    depends_on:
+      - rabbitmq
+      - mssqlserver
+      - identity
+
+  delivery:
+    image: ${DOCKER_REGISTRY-}delivery
+    build:
+      context: .
+      dockerfile: src/Services/Delivery/Delivery.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5104:80"
+    networks:
+      - backend
+      - frontend 
+    depends_on:
+      - rabbitmq
+      - mssqlserver
+      - identity
+
+  shopmvc:
+    image: ${DOCKER_REGISTRY-}shopmvc
+    build:
+      context: .
+      dockerfile: src/Webs/ShopMVC/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5500:80"
+    networks:
+      - frontend 
+    depends_on:
+      - identity
+      - catalog
+
+  mssqlserver:
+    image: "microsoft/mssql-server-linux:2017-latest"
+    container_name: mssqlserver
+    ports:
+      - "1410:1433" 
+    networks:
+      - backend
+    environment:
+      - SA_PASSWORD=P@ssword
+      - ACCEPT_EULA="Y"
+
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+       - "15672:15672"
+       - "5672:5672"
+       - "5671:5671" 
+    networks:
+       - backend 

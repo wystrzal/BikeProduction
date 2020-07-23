@@ -24,7 +24,7 @@ namespace CustomerOrder.Infrastructure.Data
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BikeProductionCustomerOrderDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssqlserver;Database=CustomerOrderDb;User Id=sa;Password=P@ssword");
             }
         }
 

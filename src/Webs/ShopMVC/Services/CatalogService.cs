@@ -16,7 +16,7 @@ namespace ShopMVC.Services
 
         public CatalogService(ICustomHttpClient customHttpClient)
         {
-            baseUrl = "http://localhost:5101/api/catalog/";
+            baseUrl = "http://host.docker.internal:5101/api/catalog/";
             this.customHttpClient = customHttpClient;
         }
 

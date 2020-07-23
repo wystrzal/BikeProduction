@@ -25,7 +25,7 @@ namespace Catalog.Infrastructure.Data
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BikeProductionCatalogDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssqlserver;Database=CatalogDb;User Id=sa;Password=P@ssword");
             }
         }
 

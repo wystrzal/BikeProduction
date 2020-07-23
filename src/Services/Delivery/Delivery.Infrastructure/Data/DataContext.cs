@@ -24,7 +24,7 @@ namespace Delivery.Infrastructure.Data
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BikeProductionDeliveryDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssqlserver;Database=DeliveryDb;User Id=sa;Password=P@ssword");
             }
         }
 

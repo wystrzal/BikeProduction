@@ -23,7 +23,7 @@ namespace Warehouse.Infrastructure.Data
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BikeProductionWarehouseDb;Trusted_Connection=True;MultipleActiveResultSets=true");
+                optionsBuilder.UseSqlServer("Server=mssqlserver;Database=WarehouseDb;User Id=sa;Password=P@ssword");
             }
         }
 
