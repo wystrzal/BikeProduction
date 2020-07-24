@@ -20,12 +20,11 @@ namespace ShopMVC.Services
             this.customHttpClient = customHttpClient;
         }
 
-        public async Task<IEnumerable<Product>> GetProducts()
+        public async Task<IEnumerable<CatalogProduct>> GetProducts()
         {
             var products = await customHttpClient.GetStringAsync(baseUrl);
 
-            return JsonConvert.DeserializeObject<IEnumerable<Product>>(products);
+            return JsonConvert.DeserializeObject<IEnumerable<CatalogProduct>>(products);
         }
-
     }
 }

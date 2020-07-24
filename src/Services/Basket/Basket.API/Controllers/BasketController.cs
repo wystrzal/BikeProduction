@@ -26,13 +26,13 @@ namespace Basket.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateBasket(UserBasket basket)
+        public async Task<IActionResult> UpdateBasket(UserBasket userBasket)
         {
-            await basketService.UpdateBasket(basket);
+            await basketService.UpdateBasket(userBasket);
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("{userId}")]
         public async Task<IActionResult> GetBasket(string userId)
         {
             return Ok(await basketService.GetBasket(userId));

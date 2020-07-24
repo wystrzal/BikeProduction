@@ -32,9 +32,25 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Basket" asp-action="Index">Basket</a>
-                        </li>
+                        @if (User.Claims.Any(x => x.Type == System.Security.Claims.ClaimTypes.NameIdentifier))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Basket" asp-action="Index">Basket</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Basket" asp-action="Index">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Basket" asp-action="Index">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Basket" asp-action="Index">Register</a>
+                            </li>
+                        }
+
                     </ul>       
                 </div>
             </div>

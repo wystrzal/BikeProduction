@@ -8,6 +8,6 @@ namespace ShopMVC.Interfaces
 {
     public interface ICatalogService
     {
-        Task<IEnumerable<Product>> GetProducts();
+        Task<IEnumerable<CatalogProduct>> GetProducts();
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ShopMVC.Models
 {
-    public class Product
+    public class CatalogProduct
     {
         public int Id { get; set; }
 

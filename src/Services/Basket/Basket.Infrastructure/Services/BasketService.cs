@@ -81,5 +81,10 @@ namespace Basket.Infrastructure.Services
 
             return JsonConvert.DeserializeObject<List<Product>>(product);
         }
+
+        public async Task RemoveBasket(string userId)
+        {
+            await distributedCache.RemoveAsync(userId);
+        }
     }
 }

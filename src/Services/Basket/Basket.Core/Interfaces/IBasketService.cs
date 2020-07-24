@@ -9,7 +9,7 @@ namespace Basket.Core.Interfaces
     public interface IBasketService
     {
         Task UpdateBasket(UserBasket userBasket);
-
+        Task RemoveBasket(string userId);
         Task<List<Product>> GetBasket(string userId);
     }
 }
