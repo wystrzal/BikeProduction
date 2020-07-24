@@ -105,6 +105,21 @@ services:
       - mssqlserver
       - identity
 
+  basket:
+    image: ${DOCKER_REGISTRY-}basket
+    build:
+      context: .
+      dockerfile: src/Services/Basket/Basket.API/Dockerfile
+    environment: 
+      - ASPNETCORE_ENVIRONMENT=Development 
+    ports:
+      - "5105:80"
+    networks:
+      - backend
+      - frontend 
+    depends_on:
+      - redis
+
   shopmvc:
     image: ${DOCKER_REGISTRY-}shopmvc
     build:
@@ -131,6 +146,13 @@ services:
       - SA_PASSWORD=P@ssword
       - ACCEPT_EULA="Y"
 
+  redis:
+    image: redis
+    container_name: cache
+    networks:
+      - backend
+    expose:
+      - 6379
 
   rabbitmq:
     image: rabbitmq:3-management

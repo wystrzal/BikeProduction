@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Basket.Core.Interfaces;
+using Basket.Infrastructure.Services;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Basket.Application.Extensions
 {
@@ -6,6 +10,8 @@ namespace Basket.Application.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
+            services.AddSingleton<IDistributedCache, RedisCache>();
+            services.AddTransient<IBasketService, BasketService>();
         }
     }
 }
