@@ -12,7 +12,7 @@ namespace Identity.Application.Mapping
     {
         public AccountMapperProfile()
         {
-            CreateMap<AddUserCommand, User>();
+            CreateMap<RegisterCommand, User>();
         }
     }
 }

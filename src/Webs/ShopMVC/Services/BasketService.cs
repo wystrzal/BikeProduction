@@ -1,5 +1,6 @@
 ﻿using BikeHttpClient;
 using Newtonsoft.Json;
+using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShopMVC.Services
 {
-    public class BasketService
+    public class BasketService : IBasketService
     {
         private readonly string baseUrl;
         private readonly ICustomHttpClient customHttpClient;

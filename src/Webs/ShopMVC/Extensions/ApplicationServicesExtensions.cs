@@ -10,6 +10,8 @@ namespace ShopMVC.Extensions
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddTransient<ICatalogService, CatalogService>();
+            services.AddTransient<IBasketService, BasketService>();
+            services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ICustomHttpClient, CustomHttpClient>();
         }
     }

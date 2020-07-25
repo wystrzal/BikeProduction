@@ -14,11 +14,11 @@ namespace Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class IdentityController : ControllerBase
     {
         private readonly IMediator mediator;
 
-        public AccountController(IMediator mediator)
+        public IdentityController(IMediator mediator)
         {
             this.mediator = mediator;
         }
@@ -38,7 +38,7 @@ namespace Identity.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> CreateUser(AddUserCommand command)
+        public async Task<IActionResult> RegisterUser(RegisterCommand command)
         {
             try
             {

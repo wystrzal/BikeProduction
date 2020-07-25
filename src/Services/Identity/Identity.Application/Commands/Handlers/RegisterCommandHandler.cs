@@ -12,17 +12,17 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Commands.Handlers
 {
-    public class AddUserCommandHandler : IRequestHandler<AddUserCommand>
+    public class RegisterCommandHandler : IRequestHandler<RegisterCommand>
     {
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
 
-        public AddUserCommandHandler(IMapper mapper, UserManager<User> userManager)
+        public RegisterCommandHandler(IMapper mapper, UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.userManager = userManager;
         }
-        public async Task<Unit> Handle(AddUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             var userToCreate = mapper.Map<User>(request);
 

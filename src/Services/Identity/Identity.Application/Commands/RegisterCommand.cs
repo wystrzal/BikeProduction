@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Commands
 {
-    public class AddUserCommand : IRequest
+    public class RegisterCommand : IRequest
     {
         public string UserName { get; set; }
         public string Password { get; set; }
