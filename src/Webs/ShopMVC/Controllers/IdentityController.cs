@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ShopMVC.Extensions;
 using ShopMVC.Interfaces;
 using ShopMVC.Models.Dtos;
 
@@ -21,11 +23,6 @@ namespace ShopMVC.Controllers
             this.identityService = identityService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -35,8 +32,7 @@ namespace ShopMVC.Controllers
 
                 if (tryLogin.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var token =
-                        JsonConvert.DeserializeObject<string>(await tryLogin.Content.ReadAsStringAsync());
+                    var token = await tryLogin.Content.ReadAsStringAsync();
 
                     AuthenticationProperties options = new AuthenticationProperties();
 
@@ -61,8 +57,26 @@ namespace ShopMVC.Controllers
 
                 ModelState.AddModelError("", "Unauthorized.");
             }
+      
+            TempData["ModalState"] = "show";
 
-            return View();
+            if (TempData["ModelErrors"] == null)
+            {
+                TempData.Add("ModelErrors", new List<string>());
+            }
+
+            foreach (var obj in ModelState.Values)
+            {
+                foreach (var error in obj.Errors)
+                {
+                    if (!string.IsNullOrEmpty(error.ErrorMessage))
+                    {
+                        ((List<string>)TempData["ModelErrors"]).Add(error.ErrorMessage);
+                    }
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Logout()
@@ -71,6 +85,39 @@ namespace ShopMVC.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(RegisterDto registerDto)
+        {
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrEmpty(registerDto.UserName))
+                {
+                    ModelState.AddModelError("", "The Password field is required.");
+                }
+
+                if (!registerDto.Password.ContainsUpper())
+                {
+                    ModelState.AddModelError("", "The Password field must have uppercase letters.");
+                }
+
+                if (!registerDto.Password.ContainsDigit())
+                {
+                    ModelState.AddModelError("", "The Password field must have digits.");
+                }
+
+                var response = await identityService.Register(registerDto);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
+            }
+
+            return View();
         }
     }
 }

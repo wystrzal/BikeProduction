@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AutoMapper;
+using Identity.Application.Commands;
 using Identity.Application.Extensions;
+using Identity.Application.Mapping;
 using Identity.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -41,9 +43,9 @@ namespace Identity.API
 
             services.AddCustomIdentity();
 
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddAutoMapper(typeof(AccountMapperProfile).Assembly);
 
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddMediatR(typeof(TryLoginCommand).Assembly);
 
             services.AddSwaggerDocumentation();
         }
