@@ -88,7 +88,7 @@ namespace ShopMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(RegisterDto registerDto)
+        public async Task<IActionResult> Register(RegisterDto registerDto)
         {
             if (ModelState.IsValid)
             {
@@ -111,13 +111,31 @@ namespace ShopMVC.Controllers
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
             }
 
-            return View();
+            TempData["ModalState"] = "show";
+
+            if (TempData["ModelErrors"] == null)
+            {
+                TempData.Add("ModelErrors", new List<string>());
+            }
+
+            foreach (var obj in ModelState.Values)
+            {
+                foreach (var error in obj.Errors)
+                {
+                    if (!string.IsNullOrEmpty(error.ErrorMessage))
+                    {
+                        ((List<string>)TempData["ModelErrors"]).Add(error.ErrorMessage);
+                    }
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
