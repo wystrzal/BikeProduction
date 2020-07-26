@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Catalog.Application.Commands;
 using Catalog.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,7 @@ namespace Catalog.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {

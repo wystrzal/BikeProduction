@@ -27,11 +27,6 @@ namespace Basket.Application.Extensions
                     ValidateAudience = false
                 };
             });
-
-            services.AddAuthorization(options =>
-            {
-
-            });
         }
     }
 }

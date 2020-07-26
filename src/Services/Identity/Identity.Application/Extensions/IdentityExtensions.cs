@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Identity.Application.Extensions
@@ -22,6 +23,11 @@ namespace Identity.Application.Extensions
 
             services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<DataContext>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
+            });
         }
     }
 }

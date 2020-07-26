@@ -27,11 +27,6 @@ namespace CustomerOrder.API.Extensions
                     ValidateAudience = false
                 };
             });
-
-            services.AddAuthorization(options =>
-            {
- 
-            });
         }
     }
 }

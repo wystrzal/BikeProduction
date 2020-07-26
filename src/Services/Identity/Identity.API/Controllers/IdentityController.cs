@@ -37,6 +37,7 @@ namespace Identity.API.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(RegisterCommand command)
         {
