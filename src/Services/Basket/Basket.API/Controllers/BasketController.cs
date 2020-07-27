@@ -16,12 +16,10 @@ namespace Basket.API.Controllers
     [ApiController]
     public class BasketController : ControllerBase
     {
-        private readonly IDistributedCache distributedCache;
         private readonly IBasketService basketService;
 
-        public BasketController(IDistributedCache distributedCache, IBasketService basketService)
+        public BasketController(IBasketService basketService)
         {
-            this.distributedCache = distributedCache;
             this.basketService = basketService;
         }
 

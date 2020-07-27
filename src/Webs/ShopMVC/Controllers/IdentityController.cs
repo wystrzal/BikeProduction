@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ShopMVC.Extensions;
+using ShopMVC.Filters;
 using ShopMVC.Interfaces;
 using ShopMVC.Models.Dtos;
 
@@ -23,6 +24,7 @@ namespace ShopMVC.Controllers
             this.identityService = identityService;
         }
 
+        [IdentityTempDataActionFilter(ErrorsName = "LoginErrors")]
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -32,49 +34,13 @@ namespace ShopMVC.Controllers
 
                 if (tryLogin.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var token = await tryLogin.Content.ReadAsStringAsync();
-
-                    AuthenticationProperties options = new AuthenticationProperties();
-
-                    options.AllowRefresh = true;
-                    options.IsPersistent = true;
-                    options.ExpiresUtc = DateTime.Now.AddDays(1);
-
-                    var claims = new List<Claim>
-                    {
-                       new Claim("AcessToken", token)
-                    };
-
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(identity),
-                        options);
-
                     return RedirectToAction("Index", "Home");
                 }
 
                 ModelState.AddModelError("", "Unauthorized.");
             }
-      
-            TempData["ModalState"] = "show";
 
-            if (TempData["ModelErrors"] == null)
-            {
-                TempData.Add("ModelErrors", new List<string>());
-            }
-
-            foreach (var obj in ModelState.Values)
-            {
-                foreach (var error in obj.Errors)
-                {
-                    if (!string.IsNullOrEmpty(error.ErrorMessage))
-                    {
-                        ((List<string>)TempData["ModelErrors"]).Add(error.ErrorMessage);
-                    }
-                }
-            }
+            TempData["ModalState"] = "showLogin";
 
             return RedirectToAction("Index", "Home");
         }
@@ -87,6 +53,7 @@ namespace ShopMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [IdentityTempDataActionFilter(ErrorsName = "RegisterErrors")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {
@@ -117,23 +84,7 @@ namespace ShopMVC.Controllers
                 ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
             }
 
-            TempData["ModalState"] = "show";
-
-            if (TempData["ModelErrors"] == null)
-            {
-                TempData.Add("ModelErrors", new List<string>());
-            }
-
-            foreach (var obj in ModelState.Values)
-            {
-                foreach (var error in obj.Errors)
-                {
-                    if (!string.IsNullOrEmpty(error.ErrorMessage))
-                    {
-                        ((List<string>)TempData["ModelErrors"]).Add(error.ErrorMessage);
-                    }
-                }
-            }
+            TempData["ModalState"] = "showRegister";
 
             return RedirectToAction("Index", "Home");
         }

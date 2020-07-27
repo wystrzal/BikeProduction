@@ -1,4 +1,7 @@
 ﻿using BikeHttpClient;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Win32;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
@@ -7,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShopMVC.Services
@@ -15,18 +19,45 @@ namespace ShopMVC.Services
     {
         private readonly string baseUrl;
         private readonly ICustomHttpClient customHttpClient;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public IdentityService(ICustomHttpClient customHttpClient)
+        public IdentityService(ICustomHttpClient customHttpClient, IHttpContextAccessor httpContextAccessor)
         {
             baseUrl = "http://host.docker.internal:5000/api/identity/";
             this.customHttpClient = customHttpClient;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<HttpResponseMessage> Login(LoginDto loginDto)
         {
             string loginUrl = baseUrl + "login";
 
-            return await customHttpClient.PostAsync(loginUrl, loginDto);
+            var response = await customHttpClient.PostAsync(loginUrl, loginDto);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var token = await response.Content.ReadAsStringAsync();
+
+                AuthenticationProperties options = new AuthenticationProperties();
+
+                options.AllowRefresh = true;
+                options.IsPersistent = true;
+                options.ExpiresUtc = DateTime.Now.AddDays(1);
+
+                var claims = new List<Claim>
+                    {
+                       new Claim("AccessToken", token)
+                    };
+
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await httpContextAccessor.HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(identity),
+                    options);
+            }
+
+            return response;
         }
 
         public async Task<HttpResponseMessage> Register(RegisterDto registerDto)

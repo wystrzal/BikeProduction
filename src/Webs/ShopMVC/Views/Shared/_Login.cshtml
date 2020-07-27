@@ -19,7 +19,7 @@
                     </div>
 
                     @{
-                        var errors = (string[])TempData["ModelErrors"];
+                        var errors = (string[])TempData["LoginErrors"];
 
                         if (errors != null && errors.Count() > 0)
                         {
@@ -43,12 +43,9 @@
 
 <script>
     @{
-        if (TempData["ModalState"] == null)
-        {
-            TempData["ModalState"] = "hide";
-        }
+        string status = (string)TempData["ModalState"] == "showLogin" ? "show" : "hide";
      }
 
-     $('#loginModal').modal('@TempData["ModalState"]');
+     $('#loginModal').modal('@status');
 </script>
 

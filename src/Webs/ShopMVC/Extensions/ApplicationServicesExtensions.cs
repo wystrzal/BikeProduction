@@ -1,5 +1,7 @@
 ﻿using BikeHttpClient;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using ShopMVC.Filters;
 using ShopMVC.Interfaces;
 using ShopMVC.Services;
 
@@ -13,6 +15,8 @@ namespace ShopMVC.Extensions
             services.AddTransient<IBasketService, BasketService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<ICustomHttpClient, CustomHttpClient>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<ModelErrorsResultFilter>();
         }
     }
 }

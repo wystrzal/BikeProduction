@@ -19,7 +19,7 @@
                     </div>
 
                     @{
-                        var errors = (string[])TempData["ModelErrors"];
+                        var errors = (string[])TempData["RegisterErrors"];
 
                         if (errors != null && errors.Count() > 0)
                         {
@@ -43,12 +43,9 @@
 
 <script>
     @{
-        if (TempData["ModalState"] == null)
-        {
-            TempData["ModalState"] = "hide";
-        }
+        string status = (string)TempData["ModalState"] == "showRegister" ? "show" : "hide";
      }
 
-     $('#registerModal').modal('@TempData["ModalState"]');
+     $('#registerModal').modal('@status');
 </script>
 
