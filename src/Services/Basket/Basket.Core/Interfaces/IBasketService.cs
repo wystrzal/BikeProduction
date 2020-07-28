@@ -10,6 +10,6 @@ namespace Basket.Core.Interfaces
     {
         Task UpdateBasket(UserBasket userBasket);
         Task RemoveBasket(string userId);
-        Task<List<Product>> GetBasket(string userId);
+        Task<List<BasketProduct>> GetBasket(string userId);
     }
 }

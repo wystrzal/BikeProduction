@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Basket.Core.Models
+namespace ShopMVC.Models.Dtos
 {
-    public class UserBasket
+    public class UserBasketDto
     {
         public List<BasketProduct> Products { get; set; } = new List<BasketProduct>();
         public string UserId { get; set; }

@@ -1,14 +1,17 @@
-﻿@model ShopMVC.Models.BasketProduct
+﻿@model IEnumerable<ShopMVC.Models.BasketProduct>
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-4">Product Name</div>
-        <div class="col-3">Price</div>
-        <div class="col-3">+ - Quantity</div>
-        <div class="col-2">Delete</div>
-    </div>
+    @foreach (var product in Model)
+    {
+        <div class="row">
+            <div class="col-4">@product.ProductName</div>
+            <div class="col-3">@product.Price</div>
+            <div class="col-3"> + @product.Quantity - </div>
+            <div class="col-2">Delete</div>
+        </div>
+    }
 </div>

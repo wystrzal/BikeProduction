@@ -22,7 +22,7 @@ namespace Identity.Infrastructure.Services
             this.configuration = configuration;
         }
 
-        public async Task<string> GenerateToken(User user, UserManager<User> userManager)
+        public async Task<TokenModel> GenerateToken(User user, UserManager<User> userManager)
         {
             var currentUser = await userManager.FindByIdAsync(user.Id);
             var userClaim = await userManager.GetClaimsAsync(currentUser);
@@ -62,7 +62,7 @@ namespace Identity.Infrastructure.Services
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return tokenHandler.WriteToken(token);
+            return new TokenModel(tokenHandler.WriteToken(token), user.Id);
         }
     }
 }

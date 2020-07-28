@@ -31,7 +31,7 @@ namespace Basket.Infrastructure.Services
                 }
             }
 
-            List<Product> products = await GetBasket(userBasket.UserId);
+            List<BasketProduct> products = await GetBasket(userBasket.UserId);
 
             if (products == null)
             {
@@ -70,7 +70,7 @@ namespace Basket.Infrastructure.Services
             } 
         }
 
-        public async Task<List<Product>> GetBasket(string userId)
+        public async Task<List<BasketProduct>> GetBasket(string userId)
         {
             var product = await distributedCache.GetStringAsync(userId);
 
@@ -79,7 +79,7 @@ namespace Basket.Infrastructure.Services
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<List<Product>>(product);
+            return JsonConvert.DeserializeObject<List<BasketProduct>>(product);
         }
 
         public async Task RemoveBasket(string userId)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
@@ -36,7 +37,8 @@ namespace ShopMVC.Services
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var token = await response.Content.ReadAsStringAsync();
+                var tokenModel = JsonConvert
+                    .DeserializeObject<TokenModel>(await response.Content.ReadAsStringAsync());
 
                 AuthenticationProperties options = new AuthenticationProperties();
 
@@ -46,7 +48,8 @@ namespace ShopMVC.Services
 
                 var claims = new List<Claim>
                     {
-                       new Claim("AccessToken", token)
+                       new Claim("AccessToken", tokenModel.Token),
+                       new Claim(ClaimTypes.NameIdentifier, tokenModel.NameIdentifier)
                     };
 
                 var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

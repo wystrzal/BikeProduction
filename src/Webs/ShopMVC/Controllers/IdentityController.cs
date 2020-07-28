@@ -24,7 +24,7 @@ namespace ShopMVC.Controllers
             this.identityService = identityService;
         }
 
-        [IdentityTempDataActionFilter(ErrorsName = "LoginErrors")]
+        [ModelErrorsResultFilter(ErrorsName = "LoginErrors")]
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
@@ -53,7 +53,7 @@ namespace ShopMVC.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [IdentityTempDataActionFilter(ErrorsName = "RegisterErrors")]
+        [ModelErrorsResultFilter(ErrorsName = "RegisterErrors")]
         [HttpPost]
         public async Task<IActionResult> Register(RegisterDto registerDto)
         {

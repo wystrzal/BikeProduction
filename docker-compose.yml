@@ -134,6 +134,7 @@ services:
     depends_on:
       - identity
       - catalog
+      - basket
 
   mssqlserver:
     image: "microsoft/mssql-server-linux:2017-latest"

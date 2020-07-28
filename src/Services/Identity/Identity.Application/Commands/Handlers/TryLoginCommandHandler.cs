@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Commands.Handlers
 {
-    public class TryLoginCommandHandler : IRequestHandler<TryLoginCommand, string>
+    public class TryLoginCommandHandler : IRequestHandler<TryLoginCommand, TokenModel>
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
@@ -24,7 +24,7 @@ namespace Identity.Application.Commands.Handlers
             this.tokenService = tokenService;
         }
 
-        public async Task<string> Handle(TryLoginCommand request, CancellationToken cancellationToken)
+        public async Task<TokenModel> Handle(TryLoginCommand request, CancellationToken cancellationToken)
         {
             var dbUser = await userManager.FindByNameAsync(request.Username);
 

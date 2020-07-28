@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShopMVC.Filters
 {
-    public class IdentityTempDataActionFilter : ResultFilterAttribute
+    public class ModelErrorsResultFilter : ResultFilterAttribute
     {
         public string ErrorsName { get; set; }
         public override void OnResultExecuting(ResultExecutingContext context)

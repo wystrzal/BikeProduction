@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Identity.Core.Models;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Identity.Application.Commands
 {
-    public class TryLoginCommand : IRequest<string>
+    public class TryLoginCommand : IRequest<TokenModel>
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -9,6 +9,6 @@ namespace Identity.Core.Interfaces
 {
     public interface ITokenService
     {
-        Task<string> GenerateToken(User user, UserManager<User> userManager);
+        Task<TokenModel> GenerateToken(User user, UserManager<User> userManager);
     }
 }

@@ -32,8 +32,6 @@ namespace BikeHttpClient
             return await response.Content.ReadAsStringAsync();
         }
 
-
-
         private async Task<HttpResponseMessage> DoPostPutAsync<T>(HttpMethod method, string uri, T item, string authorizationToken = null, string authorizationMethod = "Bearer")
         {
             if (method != HttpMethod.Post && method != HttpMethod.Put)
