@@ -21,53 +21,24 @@ namespace Basket.Infrastructure.Services
 
         public async Task UpdateBasket(UserBasket userBasket)
         {
-            if (userBasket.Products.Any(x => x.Quantity > 1))
+            if (userBasket.Products.Count == 1 && userBasket.Products.Any(x => x.Quantity == 1))
             {
-                var changeProductsPrice = userBasket.Products.Where(x => x.Quantity > 1).ToList();
+                var basket = await GetBasket(userBasket.UserId);
 
-                foreach (var product in changeProductsPrice)
+                if (!basket.Any(x => x.Id == userBasket.Products.First().Id))
                 {
-                    product.Price *= product.Quantity;
+                    userBasket.Products.AddRange(basket);
                 }
             }
 
-            List<BasketProduct> products = await GetBasket(userBasket.UserId);
+            await distributedCache.RemoveAsync(userBasket.UserId);
 
-            if (products == null)
+            string serializeObject = JsonConvert.SerializeObject(userBasket.Products);
+
+            await distributedCache.SetStringAsync(userBasket.UserId, serializeObject, new DistributedCacheEntryOptions()
             {
-                string serializeObject = JsonConvert.SerializeObject(userBasket.Products);
-
-                await distributedCache.SetStringAsync(userBasket.UserId, serializeObject, new DistributedCacheEntryOptions()
-                {
-                    AbsoluteExpiration = DateTimeOffset.Now.AddDays(1)
-                });
-            }
-            else
-            {
-                foreach (var product in products)
-                {
-                    var productToUpdate = userBasket.Products.Where(x => x.Id == product.Id).FirstOrDefault();
-
-                    if (productToUpdate != null) 
-                    {
-                        productToUpdate.Quantity += product.Quantity;
-                        productToUpdate.Price += product.Price;
-                    } 
-                    else
-                    {
-                        userBasket.Products.Add(product);
-                    }
-                }
-
-                await distributedCache.RemoveAsync(userBasket.UserId);
-
-                string serializeObject = JsonConvert.SerializeObject(userBasket.Products);
-
-                await distributedCache.SetStringAsync(userBasket.UserId, serializeObject, new DistributedCacheEntryOptions()
-                {
-                    AbsoluteExpiration = DateTimeOffset.Now.AddDays(1)
-                });
-            } 
+                AbsoluteExpiration = DateTimeOffset.Now.AddDays(1)
+            });
         }
 
         public async Task<List<BasketProduct>> GetBasket(string userId)

@@ -7,11 +7,67 @@
 <div class="container mt-5">
     @foreach (var product in Model)
     {
-        <div class="row">
+        <div id="basketProduct-@product.Id" class="row" style="align-items: center;">
             <div class="col-4">@product.ProductName</div>
             <div class="col-3">@product.Price</div>
-            <div class="col-3"> + @product.Quantity - </div>
-            <div class="col-2">Delete</div>
+            <div class="col-3">
+                <a id="@product.Id-plus" class="basket__quantity"> + </a>
+                <div class="d-inline" id="@product.Id-quantity">@product.Quantity</div>
+                <a id="@product.Id-minus" class="basket__quantity"> - </a>
+            </div>
+            <div class="col-2">
+                <button id="@product.Id-delete" class="btn btn-danger">Delete</button>
+            </div>
         </div>
+
+        <script>
+            $("#@product.Id-plus").click(() => {
+
+                const changeProductQuantity = {
+                    ChangeProductQuantityAction: 1,
+                    ProductId: @product.Id,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Basket/UpdateBasket",
+                    data: JSON.stringify(changeProductQuantity),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    failure: function (response) {
+                            console.log(response);
+                        },
+                    complete: function (response) {                        
+                        $("#@product.Id-quantity").html(response.responseText);
+                        }
+                    });
+            });
+
+            $("#@product.Id-minus").click(() => {
+
+                const changeProductQuantity = {
+                    ChangeProductQuantityAction: 2,
+                    ProductId: @product.Id,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Basket/UpdateBasket",
+                    data: JSON.stringify(changeProductQuantity),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    failure: function (response) {
+                        console.log(response);
+                    },
+                    complete: function (response) {
+                        if (response.responseText <= 0) {
+                            $("#basketProduct-@product.Id").remove();
+                        } else {
+                            $("#@product.Id-quantity").html(response.responseText);
+                        }
+                    }
+                });
+            });
+        </script>
     }
 </div>
