@@ -10,7 +10,7 @@ namespace ShopMVC.Interfaces
 {
     public interface IBasketService
     {
-        Task<IEnumerable<BasketProduct>> GetBasket();
+        Task<UserBasketDto> GetBasket();
         Task UpdateBasket(List<BasketProduct> basketProducts);
     }
 }

@@ -17,7 +17,7 @@ namespace Basket.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateBasket(UserBasket userBasket)
+        public async Task<IActionResult> UpdateBasket(UserBasketDto userBasket)
         {
             await basketService.UpdateBasket(userBasket);
             return Ok();

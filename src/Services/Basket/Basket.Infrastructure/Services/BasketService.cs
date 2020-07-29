@@ -19,21 +19,26 @@ namespace Basket.Infrastructure.Services
             this.distributedCache = distributedCache;
         }
 
-        public async Task UpdateBasket(UserBasket userBasket)
+        public async Task UpdateBasket(UserBasketDto userBasket)
         {
             if (userBasket.Products.Count == 1 && userBasket.Products.Any(x => x.Quantity == 1))
             {
                 var basket = await GetBasket(userBasket.UserId);
 
-                if (!basket.Any(x => x.Id == userBasket.Products.First().Id))
+                if (basket != null && !basket.Products.Any(x => x.Id == userBasket.Products.First().Id))
                 {
-                    userBasket.Products.AddRange(basket);
+                    userBasket.Products.AddRange(basket.Products);
                 }
+            }
+
+            foreach (var product in userBasket.Products)
+            {
+                userBasket.TotalPrice += (product.Price * product.Quantity);
             }
 
             await distributedCache.RemoveAsync(userBasket.UserId);
 
-            string serializeObject = JsonConvert.SerializeObject(userBasket.Products);
+            string serializeObject = JsonConvert.SerializeObject(userBasket);
 
             await distributedCache.SetStringAsync(userBasket.UserId, serializeObject, new DistributedCacheEntryOptions()
             {
@@ -41,16 +46,16 @@ namespace Basket.Infrastructure.Services
             });
         }
 
-        public async Task<List<BasketProduct>> GetBasket(string userId)
+        public async Task<UserBasketDto> GetBasket(string userId)
         {
-            var product = await distributedCache.GetStringAsync(userId);
+            var basket = await distributedCache.GetStringAsync(userId);
 
-            if (product == null)
+            if (basket == null)
             {
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<List<BasketProduct>>(product);
+            return JsonConvert.DeserializeObject<UserBasketDto>(basket);
         }
 
         public async Task RemoveBasket(string userId)

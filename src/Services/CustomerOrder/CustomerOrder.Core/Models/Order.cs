@@ -13,8 +13,6 @@ namespace CustomerOrder.Core.Models
     {
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }
-
-        [Required]
         public OrderStatus OrderStatus { get; set; }
 
         [Required]

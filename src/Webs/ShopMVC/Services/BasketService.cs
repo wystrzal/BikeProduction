@@ -27,7 +27,7 @@ namespace ShopMVC.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IEnumerable<BasketProduct>> GetBasket()
+        public async Task<UserBasketDto> GetBasket()
         {
             var userId = httpContextAccessor.HttpContext.GetNameIdentifier();
 
@@ -37,7 +37,7 @@ namespace ShopMVC.Services
 
             var basketProducts = await customHttpClient.GetStringAsync(getBasketUrl, token);
 
-            return JsonConvert.DeserializeObject<IEnumerable<BasketProduct>>(basketProducts);
+            return JsonConvert.DeserializeObject<UserBasketDto>(basketProducts);
         }
 
         public async Task UpdateBasket(List<BasketProduct> basketProducts)
