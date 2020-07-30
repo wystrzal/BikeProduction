@@ -26,13 +26,8 @@ namespace ShopMVC.Controllers
             var basket = await basketService.GetBasket();
 
             basket.Products ??= new List<BasketProduct>();
-
-            var vm = new BasketViewModel()
-            {
-                UserBasketDto = basket,
-            };
         
-            return View(vm);
+            return View(basket);
         }
 
         [HttpPost]

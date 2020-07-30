@@ -135,6 +135,7 @@ services:
       - identity
       - catalog
       - basket
+      - customerorder
 
   mssqlserver:
     image: "microsoft/mssql-server-linux:2017-latest"

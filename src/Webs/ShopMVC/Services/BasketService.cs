@@ -5,6 +5,7 @@ using ShopMVC.Extensions;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
+using ShopMVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace ShopMVC.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<UserBasketDto> GetBasket()
+        public async Task<UserBasketViewModel> GetBasket()
         {
             var userId = httpContextAccessor.HttpContext.GetNameIdentifier();
 
@@ -37,12 +38,12 @@ namespace ShopMVC.Services
 
             var basketProducts = await customHttpClient.GetStringAsync(getBasketUrl, token);
 
-            return JsonConvert.DeserializeObject<UserBasketDto>(basketProducts);
+            return JsonConvert.DeserializeObject<UserBasketViewModel>(basketProducts);
         }
 
         public async Task UpdateBasket(List<BasketProduct> basketProducts)
         {
-            var userBasketDto = new UserBasketDto()
+            var userBasketDto = new UserBasketViewModel()
             {
                 Products = basketProducts,
                 UserId = httpContextAccessor.HttpContext.GetNameIdentifier()

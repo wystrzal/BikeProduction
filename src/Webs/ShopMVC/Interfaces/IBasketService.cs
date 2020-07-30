@@ -1,5 +1,6 @@
 ﻿using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
+using ShopMVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace ShopMVC.Interfaces
 {
     public interface IBasketService
     {
-        Task<UserBasketDto> GetBasket();
+        Task<UserBasketViewModel> GetBasket();
         Task UpdateBasket(List<BasketProduct> basketProducts);
     }
 }

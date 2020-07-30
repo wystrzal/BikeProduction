@@ -17,7 +17,7 @@ namespace CustomerOrder.Core.Models
 
         [Column(TypeName = "decimal(18,2)")]
         [Required]
-        public int ProductPrice { get; set; }
+        public int Price { get; set; }
 
         [Required]
         public string Reference { get; set; }
@@ -28,3 +28,4 @@ namespace CustomerOrder.Core.Models
         public Order Order { get; set; }
     }
 }
+

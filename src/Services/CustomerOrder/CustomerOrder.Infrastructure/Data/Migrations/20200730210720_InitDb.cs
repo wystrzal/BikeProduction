@@ -19,7 +19,10 @@ namespace CustomerOrder.Infrastructure.Migrations
                     CustomerFirstName = table.Column<string>(nullable: false),
                     CustomerLastName = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: false),
-                    Address = table.Column<string>(nullable: false),
+                    City = table.Column<string>(nullable: false),
+                    PostCode = table.Column<string>(nullable: false),
+                    Street = table.Column<string>(nullable: false),
+                    HouseNumber = table.Column<string>(nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
@@ -34,7 +37,7 @@ namespace CustomerOrder.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductName = table.Column<string>(nullable: false),
-                    ProductPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Reference = table.Column<string>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     OrderId = table.Column<int>(nullable: true)
