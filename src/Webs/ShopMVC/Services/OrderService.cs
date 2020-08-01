@@ -25,6 +25,8 @@ namespace ShopMVC.Services
 
         public async Task CreateOrder(Order order)
         {
+            order.UserId = httpContextAccessor.HttpContext.GetNameIdentifier();
+
             var token = httpContextAccessor.HttpContext.GetToken();
 
             await customHttpClient.PostAsync(baseUrl, order, token);

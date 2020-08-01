@@ -14,10 +14,7 @@ namespace ShopMVC.Filters
         {
             Controller controller = context.Controller as Controller;
 
-            if (controller.TempData[ErrorsName] == null)
-            {
-                controller.TempData.Add(ErrorsName, new List<string>());
-            }          
+            controller.TempData.Add(ErrorsName, new List<string>());
 
             foreach (var obj in context.ModelState.Values)
             {

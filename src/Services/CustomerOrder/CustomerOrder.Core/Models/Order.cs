@@ -42,7 +42,8 @@ namespace CustomerOrder.Core.Models
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalPrice { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; }
 
         public Order()
         {

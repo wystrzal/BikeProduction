@@ -25,6 +25,8 @@ namespace ShopMVC.Controllers
         {
             var basket = await basketService.GetBasket();
 
+            basket ??= new UserBasketViewModel();
+
             basket.Products ??= new List<BasketProduct>();
         
             return View(basket);
@@ -39,13 +41,13 @@ namespace ShopMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateBasket([FromBody]UpdateBasketDto changeProductQuantity)
+        public async Task<IActionResult> UpdateBasket([FromBody]UpdateBasketDto updateBasketDto)
         {
             var basketProducts = await basketService.GetBasket();
 
-            var product = basketProducts.Products.Where(x => x.Id == changeProductQuantity.ProductId).FirstOrDefault();
+            var product = basketProducts.Products.Where(x => x.Id == updateBasketDto.ProductId).FirstOrDefault();
 
-            if (changeProductQuantity.UpdateBasketAction == UpdateBasketAction.Plus)
+            if (updateBasketDto.UpdateBasketAction == UpdateBasketAction.Plus)
             {
                 product.Quantity++;
                 basketProducts.TotalPrice += product.Price;

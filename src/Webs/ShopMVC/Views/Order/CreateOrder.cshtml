@@ -1,0 +1,85 @@
+﻿@model ShopMVC.Models.ViewModels.UserBasketViewModel
+
+<div class="col-12 text-left">
+    <button class="btn btn-success">Ready</button>
+</div>
+
+<div class="col-12 mt-2 border">
+    <div class="row my-4">
+        <div class="col-12 mb-3 text-center">
+            <h6>Personal Data</h6>
+        </div>
+        <div class="col-6 mb-1">
+            <input id="firstName" class="form-control" placeholder="First Name" />
+        </div>
+        <div class="col-6 mb-1">
+            <input id="lastName" class="form-control" placeholder="Last Name" />
+        </div>
+        <div class="offset-3 col-6 mb-1">
+            <input id="phoneNumber" class="form-control" placeholder="Phone Number" />
+        </div>
+
+        <div class="col-12 mt-4 mb-3 text-center">
+            <h6>Address</h6>
+        </div>
+        <div class="col-6 mb-1">
+            <input id="city" class="form-control" placeholder="City" />
+        </div>
+        <div class="col-6 mb-1">
+            <input id="postCode" class="form-control" placeholder="Post Code" />
+        </div>
+        <div class="col-6 mb-1">
+            <input id="street" class="form-control" placeholder="Street" />
+        </div>
+        <div class="col-6 mb-1">
+            <input id="houseNumber" class="form-control" placeholder="House Number" />
+        </div>
+
+        <div class="col-12 mb-2 text-center">
+            <div class="col-12 text-left">
+                <button id="createOrder" class="btn btn-success">Buy</button>
+            </div>
+        </div>
+
+        <div id="alertDiv"></div>
+
+        <script>
+            $(document).ready(() => {
+                $("#createOrder").click(() => {
+                    const model = {
+                        CustomerFirstName: $("#firstName").val(),
+                        CustomerLastName: $("#lastName").val(),
+                        PhoneNumber: $("#phoneNumber").val(),
+                        City: $("#city").val(),
+                        PostCode: $("#postCode").val(),
+                        Street: $("#street").val(),
+                        HouseNumber: $("#houseNumber").val(),
+                        TotalPrice: @Model.TotalPrice,
+                        OrderItems: @Json.Serialize(Model.Products),
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Order/CreateOrder",
+                        data: JSON.stringify(model),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        failure: function (response) {
+                            console.log(response);
+                        },
+                        complete: function (response) {
+                            if (response.responseJSON !== undefined) {
+                                $("#alertDiv").html("");
+                                $("#alertDiv").addClass("alert alert-danger");
+
+                                $.each(response.responseJSON.errors, (index, value) => {
+                                    $("#alertDiv").append('<span class="mb-2 d-block">' + value + '</span>');
+                                })
+                            }                    
+                        }
+                    });
+                })
+            })
+        </script>
+    </div>
+</div>

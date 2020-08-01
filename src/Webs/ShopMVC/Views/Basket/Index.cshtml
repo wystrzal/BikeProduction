@@ -4,26 +4,26 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container mt-5">
-    @foreach (var product in Model.Products)
-    {
-        <div id="basketProduct-@product.Id" class="row" style="align-items: center;">
-            <div class="col-4">@product.ProductName</div>
-            <div class="col-3">@product.Price</div>
-            <div class="col-3">
-                <a id="@product.Id-plus" class="basket__quantity"> + </a>
-                <div class="d-inline" id="@product.Id-quantity">@product.Quantity</div>
-                <a id="@product.Id-minus" class="basket__quantity"> - </a>
+    <div class="container mt-5">
+        @foreach (var product in Model.Products)
+        {
+            <div id="basketProduct-@product.Id" class="row" style="align-items: center;">
+                <div class="col-4">@product.ProductName</div>
+                <div class="col-3">@product.Price</div>
+                <div class="col-3">
+                    <a id="@product.Id-plus" class="basket__quantity"> + </a>
+                    <div class="d-inline" id="@product.Id-quantity">@product.Quantity</div>
+                    <a id="@product.Id-minus" class="basket__quantity"> - </a>
+                </div>
+                <div class="col-2">
+                    <button id="@product.Id-delete" class="btn btn-danger">Delete</button>
+                </div>
             </div>
-            <div class="col-2">
-                <button id="@product.Id-delete" class="btn btn-danger">Delete</button>
-            </div>
-        </div>
 
-        <script>
+            <script>
             $("#@product.Id-plus").click(() => {
 
-                const changeProductQuantity = {
+                const updateBasket = {
                     UpdateBasketAction: 1,
                     ProductId: @product.Id,
                 };
@@ -31,7 +31,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/Basket/UpdateBasket",
-                    data: JSON.stringify(changeProductQuantity),
+                    data: JSON.stringify(updateBasket),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     failure: function (response) {
@@ -46,7 +46,7 @@
 
             $("#@product.Id-minus").click(() => {
 
-                const changeProductQuantity = {
+                const updateBasket = {
                     UpdateBasketAction: 2,
                     ProductId: @product.Id,
                 };
@@ -54,7 +54,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/Basket/UpdateBasket",
-                    data: JSON.stringify(changeProductQuantity),
+                    data: JSON.stringify(updateBasket),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     failure: function (response) {
@@ -71,12 +71,25 @@
                     }
                 });
             });
-        </script>
-    }
+            </script>
+        }
 
-    <div class="col-12 my-3 text-right">
-        <h3 id="basketTotalPrice">@Model.TotalPrice$</h3>
+        <div class="col-12 my-3 text-right">
+            <h3 id="basketTotalPrice">@Model.TotalPrice$</h3>
+        </div>
+
+        @using (@Html.BeginForm("CreateOrder", "Order", FormMethod.Get))
+        {
+            @Html.TextBoxFor(x => x.TotalPrice, new { style = "display: none;", @Value = Model.TotalPrice })
+
+            for (int i = 0; i < Model.Products.Count; i++)
+            {
+                @Html.TextBoxFor(x => x.Products[i].Price, new { style = "display: none;", @Value = Model.Products[i].Price })
+                @Html.TextBoxFor(x => x.Products[i].ProductName, new { style = "display: none;", @Value = Model.Products[i].ProductName })
+                @Html.TextBoxFor(x => x.Products[i].Quantity, new { style = "display: none;", @Value = Model.Products[i].Quantity })
+                @Html.TextBoxFor(x => x.Products[i].Reference, new { style = "display: none;", @Value = Model.Products[i].Reference })
+            }
+
+            <input type="submit" value="Buy" class="btn btn-success">
+        }
     </div>
-
-    <partial name="_BasketOrder" model="Model"/>
-</div>

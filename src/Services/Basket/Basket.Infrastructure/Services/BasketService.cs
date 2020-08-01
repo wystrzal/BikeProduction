@@ -25,10 +25,15 @@ namespace Basket.Infrastructure.Services
             {
                 var basket = await GetBasket(userBasket.UserId);
 
-                if (basket != null && !basket.Products.Any(x => x.Id == userBasket.Products.First().Id))
+                foreach (var basketProduct in basket.Products)
                 {
-                    userBasket.Products.AddRange(basket.Products);
+                    if (basketProduct.Id == userBasket.Products.First().Id)
+                    {
+                        basket.Products.Remove(basketProduct);
+                    }
                 }
+
+                userBasket.Products.AddRange(basket.Products);
             }
 
             foreach (var product in userBasket.Products)
