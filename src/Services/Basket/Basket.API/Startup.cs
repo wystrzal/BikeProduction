@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Basket.Application.Extensions;
+using CustomerOrder.Application.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -42,7 +43,7 @@ namespace Basket.API
 
             services.AddCustomAuth(Configuration);
 
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddCustomMassTransit();
 
             services.AddApplicationServices();
 

@@ -39,7 +39,7 @@ namespace CustomerOrder.Application.Commands.Handlers
                 throw new OrderNotAddedException();
             }
 
-            await bus.Publish(new OrderCreatedEvent(orderForAdd.OrderItems as List<OrderItem>, orderForAdd.OrderId));
+            await bus.Publish(new OrderCreatedEvent(orderForAdd.OrderItems as List<OrderItem>, orderForAdd.OrderId, request.UserId));
 
             return Unit.Value;
         }

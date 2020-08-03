@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <div id="alertDiv"></div>
+        <div id="alertDiv" class="col-12"></div>
 
         <script>
             $(document).ready(() => {
@@ -68,14 +68,16 @@
                             console.log(response);
                         },
                         complete: function (response) {
-                            if (response.responseJSON !== undefined) {
+                            if (response.responseJSON.status === "error") {
                                 $("#alertDiv").html("");
                                 $("#alertDiv").addClass("alert alert-danger");
 
                                 $.each(response.responseJSON.errors, (index, value) => {
                                     $("#alertDiv").append('<span class="mb-2 d-block">' + value + '</span>');
-                                })
-                            }                    
+                                });
+                            } else {
+                                window.location = response.responseJSON.url;
+                            }                                        
                         }
                     });
                 })

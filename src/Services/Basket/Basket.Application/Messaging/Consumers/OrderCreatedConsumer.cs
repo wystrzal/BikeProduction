@@ -23,10 +23,7 @@ namespace Basket.Application.Messaging.Consumers
         }
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
-            var userId = httpContextAccessor.HttpContext.User.Claims
-                .Where(x => x.Type == ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
-
-            await basketService.RemoveBasket(userId);
+            await basketService.RemoveBasket(context.Message.UserId);
         }
     }
 }

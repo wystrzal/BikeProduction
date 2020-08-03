@@ -20,7 +20,7 @@ namespace CustomerOrder.Application.Extensions
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
-                    cfg.Host("localhost", "/", h =>
+                    cfg.Host("rabbitmq://host.docker.internal",  h =>
                     {
                         h.Username("guest");
                         h.Password("guest");

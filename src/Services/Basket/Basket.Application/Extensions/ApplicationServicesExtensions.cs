@@ -1,5 +1,6 @@
 ﻿using Basket.Core.Interfaces;
 using Basket.Infrastructure.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,7 @@ namespace Basket.Application.Extensions
         {
             services.AddSingleton<IDistributedCache, RedisCache>();
             services.AddTransient<IBasketService, BasketService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }
 }

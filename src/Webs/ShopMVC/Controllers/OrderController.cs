@@ -53,7 +53,8 @@ namespace ShopMVC.Controllers
             }
 
             await orderService.CreateOrder(order);
-            return RedirectToAction("Index", "Home");
+
+            return Json(new { status = "success", url = Url.Action("Index", "Home") });
         }
     }
 }
