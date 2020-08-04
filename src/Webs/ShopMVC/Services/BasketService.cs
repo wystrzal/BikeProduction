@@ -41,6 +41,19 @@ namespace ShopMVC.Services
             return JsonConvert.DeserializeObject<UserBasketViewModel>(basketProducts);
         }
 
+        public async Task<int> GetBasketQuantity()
+        {
+            var userId = httpContextAccessor.HttpContext.GetNameIdentifier();
+
+            var getBasketQuantityUrl = $"{baseUrl}{userId}/quantity";
+
+            var token = httpContextAccessor.HttpContext.GetToken();
+
+            var basketQuantity = await customHttpClient.GetStringAsync(getBasketQuantityUrl, token);
+
+            return JsonConvert.DeserializeObject<int>(basketQuantity);
+        }
+
         public async Task ClearBasket()
         {
             var userId = httpContextAccessor.HttpContext.GetNameIdentifier();

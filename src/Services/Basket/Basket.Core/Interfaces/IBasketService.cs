@@ -12,5 +12,6 @@ namespace Basket.Core.Interfaces
         Task RemoveBasket(string userId);
         Task<UserBasketDto> GetBasket(string userId);
         Task RemoveProduct(string userId, int productId);
+        Task<int> GetBasketQuantity(string userId);
     }
 }

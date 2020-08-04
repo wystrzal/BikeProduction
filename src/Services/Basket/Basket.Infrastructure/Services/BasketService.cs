@@ -59,12 +59,14 @@ namespace Basket.Infrastructure.Services
         {
             var basket = await distributedCache.GetStringAsync(userId);
 
-            if (basket == null)
-            {
-                return null;
-            }
+            return basket == null ? null : JsonConvert.DeserializeObject<UserBasketDto>(basket);
+        }
 
-            return JsonConvert.DeserializeObject<UserBasketDto>(basket);
+        public async Task<int> GetBasketQuantity(string userId)
+        {
+            var basket = await GetBasket(userId);
+
+            return basket == null ? 0 : basket.Products.Count;
         }
 
         public async Task RemoveBasket(string userId)

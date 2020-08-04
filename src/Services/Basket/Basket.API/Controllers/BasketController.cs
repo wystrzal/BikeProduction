@@ -29,6 +29,12 @@ namespace Basket.API.Controllers
             return Ok(await basketService.GetBasket(userId));
         }
 
+        [HttpGet("{userId}/quantity")]
+        public async Task<IActionResult> GetBasketQuantity(string userId)
+        {
+            return Ok(await basketService.GetBasketQuantity(userId));
+        }
+
         [HttpDelete("{userId}")]
         public async Task<IActionResult> ClearBasket(string userId)
         {

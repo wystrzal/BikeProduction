@@ -21,9 +21,8 @@
             <ul class="navbar-nav ml-auto">
                 @if (User.Claims.Any())
                 {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Basket" asp-action="Index">Basket (125)</a>
-                    </li>
+                    @await Component.InvokeAsync("BasketNavigation")
+
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Identity" asp-action="Logout">Logout</a>
                     </li>
