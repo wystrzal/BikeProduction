@@ -20,7 +20,7 @@ namespace ShopMVC.Controllers
             this.orderService = orderService;
         }
 
-        [HttpGet]
+
         public IActionResult CreateOrder(UserBasketViewModel vm)
         {
             return View(vm);

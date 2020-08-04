@@ -14,49 +14,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Bike Shop</a>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Bikes</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="navbar-nav ml-auto">
-                        @if (User.Claims.Any())
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Basket" asp-action="Index">Basket</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Identity" asp-action="Logout">Logout</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" id="login" style="cursor: pointer;" data-toggle="modal" data-target="#loginModal"> Login </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" id="register" style="cursor: pointer;" data-toggle="modal" data-target="#registerModal"> Register </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <partial name="_Navigation" />
     </header>
 
     <div class="container">

@@ -15,10 +15,15 @@
                 <div class="col-4">@product.ProductName</div>
                 <div class="col-3">@product.Price</div>
                 <div class="col-3">
-                    @Html.ActionLink("+", "UpdateBasket", "Basket", new { UpdateBasketAction = 1, ProductId = product.Id }, new { @class = "text-dark" })
+                    @Html.ActionLink("+", "UpdateBasket", "Basket",
+                        new { UpdateBasketAction = 1, ProductId = product.Id }, new { @class = "text-dark" })
+
                     <div class="d-inline" id="@product.Id-quantity">@product.Quantity</div>
-                    @Html.ActionLink("-", "UpdateBasket", "Basket", new { UpdateBasketAction = 2, ProductId = product.Id }, new { @class = "text-dark" })
+
+                    @Html.ActionLink("-", "UpdateBasket", "Basket",
+                        new { UpdateBasketAction = 2, ProductId = product.Id }, new { @class = "text-dark" })
                 </div>
+
                 <div class="col-2">
                     @Html.ActionLink("Delete", "RemoveProduct", "Basket", new { productId = product.Id}, new { @class = "btn btn-danger" } )
                 </div>
