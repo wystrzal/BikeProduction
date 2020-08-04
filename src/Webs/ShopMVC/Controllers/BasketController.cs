@@ -37,7 +37,9 @@ namespace ShopMVC.Controllers
         {
             await basketService.UpdateBasket(basketProducts);
 
-            return Ok();
+            var basketQuantity = await basketService.GetBasketQuantity();
+
+            return Json(new { basketQuantity });
         }
 
         public async Task<IActionResult> ClearBasket()

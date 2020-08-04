@@ -62,7 +62,8 @@
                                         failure: function (response) {
                                             console.log(response);
                                         },
-                                        complete: function () {
+                                        complete: function (response) {
+                                            $("#basketQuantity").html('(' + response.responseJSON.basketQuantity + ')');
                                         }
                                     });
                                 });

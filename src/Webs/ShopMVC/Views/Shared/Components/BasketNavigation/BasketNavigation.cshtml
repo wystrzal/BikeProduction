@@ -1,5 +1,8 @@
 ﻿@model int
 
 <li class="nav-item">
-    <a class="nav-link text-dark" asp-controller="Basket" asp-action="Index">Basket (@Model)</a>
+    <a class="nav-link text-dark" asp-controller="Basket" asp-action="Index">
+        Basket
+        <span id="basketQuantity">(@Model)</span>
+    </a>
 </li>
