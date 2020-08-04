@@ -54,8 +54,7 @@ namespace ShopMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateBasket([FromBody]UpdateBasketDto updateBasketDto)
+        public async Task<IActionResult> UpdateBasket(UpdateBasketDto updateBasketDto)
         {
             var basketProducts = await basketService.GetBasket();
 
@@ -79,7 +78,7 @@ namespace ShopMVC.Controllers
 
             await basketService.UpdateBasket(basketProducts.Products);
 
-            return Json(new { product.Quantity, basketProducts.TotalPrice});
+            return RedirectToAction("Index");
         }
     }
 }

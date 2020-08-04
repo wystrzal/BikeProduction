@@ -15,67 +15,14 @@
                 <div class="col-4">@product.ProductName</div>
                 <div class="col-3">@product.Price</div>
                 <div class="col-3">
-                    <a id="@product.Id-plus" class="basket__quantity"> + </a>
+                    @Html.ActionLink("+", "UpdateBasket", "Basket", new { UpdateBasketAction = 1, ProductId = product.Id }, new { @class = "text-dark" })
                     <div class="d-inline" id="@product.Id-quantity">@product.Quantity</div>
-                    <a id="@product.Id-minus" class="basket__quantity"> - </a>
+                    @Html.ActionLink("-", "UpdateBasket", "Basket", new { UpdateBasketAction = 2, ProductId = product.Id }, new { @class = "text-dark" })
                 </div>
                 <div class="col-2">
                     @Html.ActionLink("Delete", "RemoveProduct", "Basket", new { productId = product.Id}, new { @class = "btn btn-danger" } )
                 </div>
             </div>
-
-            <script>
-            $("#@product.Id-plus").click(() => {
-
-                const updateBasket = {
-                    UpdateBasketAction: 1,
-                    ProductId: @product.Id,
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Basket/UpdateBasket",
-                    data: JSON.stringify(updateBasket),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    failure: function (response) {
-                            console.log(response);
-                        },
-                    complete: function (response) {
-                        $("#@product.Id-quantity").html(response.responseJSON.quantity);
-                        $("#basketTotalPrice").html(response.responseJSON.totalPrice + '$');
-                        }
-                    });
-            });
-
-            $("#@product.Id-minus").click(() => {
-
-                const updateBasket = {
-                    UpdateBasketAction: 2,
-                    ProductId: @product.Id,
-                };
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Basket/UpdateBasket",
-                    data: JSON.stringify(updateBasket),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    failure: function (response) {
-                        console.log(response);
-                    },
-                    complete: function (response) {
-                        if (response.responseJSON.quantity <= 0) {
-                            $("#basketProduct-@product.Id").remove();
-                        } else {
-                            $("#@product.Id-quantity").html(response.responseJSON.quantity);
-                        }
-
-                        $("#basketTotalPrice").html(response.responseJSON.totalPrice + '$');
-                    }
-                });
-            });
-            </script>
         }
 
         <div class="col-12 my-3 text-right">
