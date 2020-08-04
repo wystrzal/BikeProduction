@@ -1,4 +1,4 @@
-﻿using Basket.Core.Models;
+﻿using Basket.Core.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +11,6 @@ namespace Basket.Core.Interfaces
         Task UpdateBasket(UserBasketDto userBasket);
         Task RemoveBasket(string userId);
         Task<UserBasketDto> GetBasket(string userId);
+        Task RemoveProduct(string userId, int productId);
     }
 }

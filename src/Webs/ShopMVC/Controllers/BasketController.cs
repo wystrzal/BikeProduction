@@ -40,6 +40,20 @@ namespace ShopMVC.Controllers
             return Ok();
         }
 
+        public async Task<IActionResult> ClearBasket()
+        {
+            await basketService.ClearBasket();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> RemoveProduct(int productId)
+        {
+            await basketService.RemoveProduct(productId);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> UpdateBasket([FromBody]UpdateBasketDto updateBasketDto)
         {

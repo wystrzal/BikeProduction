@@ -32,13 +32,35 @@ namespace ShopMVC.Services
         {
             var userId = httpContextAccessor.HttpContext.GetNameIdentifier();
 
-            var getBasketUrl = baseUrl + userId;
+            var getBasketUrl = $"{baseUrl}{userId}";
 
             var token = httpContextAccessor.HttpContext.GetToken();
 
             var basketProducts = await customHttpClient.GetStringAsync(getBasketUrl, token);
 
             return JsonConvert.DeserializeObject<UserBasketViewModel>(basketProducts);
+        }
+
+        public async Task ClearBasket()
+        {
+            var userId = httpContextAccessor.HttpContext.GetNameIdentifier();
+
+            var clearBasketUrl = $"{baseUrl}{userId}";
+
+            var token = httpContextAccessor.HttpContext.GetToken();
+
+            await customHttpClient.DeleteAsync(clearBasketUrl, token);
+        }
+
+        public async Task RemoveProduct(int productId)
+        {
+            var userId = httpContextAccessor.HttpContext.GetNameIdentifier();
+
+            var removeProductUrl = $"{baseUrl}{userId}/product/{productId}";
+
+            var token = httpContextAccessor.HttpContext.GetToken();
+
+            await customHttpClient.DeleteAsync(removeProductUrl, token);
         }
 
         public async Task UpdateBasket(List<BasketProduct> basketProducts)

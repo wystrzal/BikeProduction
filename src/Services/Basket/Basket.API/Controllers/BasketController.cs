@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
+using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
-using Basket.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers
@@ -27,6 +27,22 @@ namespace Basket.API.Controllers
         public async Task<IActionResult> GetBasket(string userId)
         {
             return Ok(await basketService.GetBasket(userId));
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> ClearBasket(string userId)
+        {
+            await basketService.RemoveBasket(userId);
+
+            return Ok();
+        }
+
+        [HttpDelete("{userId}/product/{productId}")]
+        public async Task<IActionResult> DeleteProduct(string userId, int productId)
+        {
+            await basketService.RemoveProduct(userId, productId);
+
+            return Ok();
         }
     }
 }

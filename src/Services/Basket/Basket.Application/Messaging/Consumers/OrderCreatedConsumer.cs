@@ -13,12 +13,10 @@ namespace Basket.Application.Messaging.Consumers
 {
     public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IBasketService basketService;
 
-        public OrderCreatedConsumer(IHttpContextAccessor httpContextAccessor, IBasketService basketService)
+        public OrderCreatedConsumer(IBasketService basketService)
         {
-            this.httpContextAccessor = httpContextAccessor;
             this.basketService = basketService;
         }
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)

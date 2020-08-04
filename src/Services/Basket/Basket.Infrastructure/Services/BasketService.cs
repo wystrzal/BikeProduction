@@ -1,5 +1,5 @@
-﻿using Basket.Core.Interfaces;
-using Basket.Core.Models;
+﻿using Basket.Core.Dtos;
+using Basket.Core.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
@@ -71,5 +71,27 @@ namespace Basket.Infrastructure.Services
         {
             await distributedCache.RemoveAsync(userId);
         }
+
+        public async Task RemoveProduct(string userId, int productId)
+        {
+            var basket = await GetBasket(userId);
+
+            if (basket != null && basket.Products.Count > 0)
+            {
+                var productToRemove = basket.Products.Where(x => x.Id == productId).FirstOrDefault();
+
+                basket.TotalPrice -= (productToRemove.Price * productToRemove.Quantity);
+
+                basket.Products.Remove(productToRemove);
+
+                string serializeObject = JsonConvert.SerializeObject(basket);
+
+                await distributedCache.SetStringAsync(basket.UserId, serializeObject, new DistributedCacheEntryOptions()
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddDays(1)
+                });
+            }
+        }
+
     }
 }

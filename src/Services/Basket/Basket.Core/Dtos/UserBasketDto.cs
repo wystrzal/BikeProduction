@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Basket.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Basket.Core.Models
+namespace Basket.Core.Dtos
 {
     public class UserBasketDto
     {

@@ -13,3 +13,4 @@ namespace ShopMVC.Models.Dtos
         public int ProductId { get; set; }
     }
 }
+

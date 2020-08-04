@@ -31,7 +31,7 @@ namespace ShopMVC.Services
 
         public async Task<HttpResponseMessage> Login(LoginDto loginDto)
         {
-            string loginUrl = baseUrl + "login";
+            string loginUrl = $"{baseUrl}login";
 
             var response = await customHttpClient.PostAsync(loginUrl, loginDto);
 
@@ -65,7 +65,7 @@ namespace ShopMVC.Services
 
         public async Task<HttpResponseMessage> Register(RegisterDto registerDto)
         {
-            string registerUrl = baseUrl + "register";
+            string registerUrl = $"{baseUrl}register";
 
             return await customHttpClient.PostAsync(registerUrl, registerDto);
         }
