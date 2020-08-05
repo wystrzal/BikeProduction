@@ -5,15 +5,15 @@
 }
 
     <div class="container mt-5">
-        <div class="col-12 text-left">
+        <div class="col-12 text-left mb-4">
             @Html.ActionLink("Clear", "ClearBasket", "Basket", null, new { @class = "btn btn-danger" })
         </div>
 
         @foreach (var product in Model.Products)
         {
-            <div id="basketProduct-@product.Id" class="row" style="align-items: center;">
+            <div id="basketProduct-@product.Id" class="row my-2" style="align-items: center;">
                 <div class="col-4">@product.ProductName</div>
-                <div class="col-3">@product.Price</div>
+                <div class="col-3">@product.Price$</div>
                 <div class="col-3">
                     @Html.ActionLink("+", "ChangeProductQuantity", "Basket",
                         new { ChangeQuantityAction = 1, ProductId = product.Id }, new { @class = "text-dark" })
@@ -30,7 +30,7 @@
             </div>
         }
 
-        <div class="col-12 my-3 text-right">
+        <div class="col-12 my-5 text-right">
             <h3 id="basketTotalPrice">@Model.TotalPrice$</h3>
         </div>
 

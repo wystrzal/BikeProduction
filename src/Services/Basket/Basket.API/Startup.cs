@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Basket.Application.Commands;
 using Basket.Application.Extensions;
 using CustomerOrder.Application.Extensions;
 using MediatR;
@@ -42,6 +43,8 @@ namespace Basket.API
             });
 
             services.AddCustomAuth(Configuration);
+
+            services.AddMediatR(typeof(AddProductCommand).Assembly);
 
             services.AddCustomMassTransit();
 

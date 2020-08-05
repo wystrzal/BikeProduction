@@ -13,9 +13,9 @@ namespace Basket.Application.Messaging.Consumers
 {
     public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
     {
-        private readonly IBasketService basketService;
+        private readonly IBasketRedisService basketService;
 
-        public OrderCreatedConsumer(IBasketService basketService)
+        public OrderCreatedConsumer(IBasketRedisService basketService)
         {
             this.basketService = basketService;
         }
