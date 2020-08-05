@@ -12,8 +12,9 @@ namespace ShopMVC.Interfaces
     public interface IBasketService
     {
         Task<UserBasketViewModel> GetBasket();
-        Task UpdateBasket(List<BasketProduct> basketProducts);
+        Task AddProduct(BasketProduct basketProduct);
         Task ClearBasket();
+        Task ChangeProductQuantity(ChangeProductQuantityDto changeProductQuantityDto);
         Task RemoveProduct(int productId);
         Task<int> GetBasketQuantity();
     }

@@ -8,7 +8,7 @@ using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
 using ShopMVC.Models.ViewModels;
-using static ShopMVC.Models.Enums.UpdateBasketEnum;
+using static ShopMVC.Models.Enums.ChangeProductQuantityEnum;
 
 namespace ShopMVC.Controllers
 {
@@ -33,9 +33,9 @@ namespace ShopMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToBasket([FromBody]List<BasketProduct> basketProducts)
+        public async Task<IActionResult> AddProduct([FromBody]BasketProduct basketProduct)
         {
-            await basketService.UpdateBasket(basketProducts);
+            await basketService.AddProduct(basketProduct);
 
             var basketQuantity = await basketService.GetBasketQuantity();
 
@@ -56,29 +56,9 @@ namespace ShopMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> UpdateBasket(UpdateBasketDto updateBasketDto)
+        public async Task<IActionResult> ChangeProductQuantity(ChangeProductQuantityDto changeProductQuantityDto)
         {
-            var basketProducts = await basketService.GetBasket();
-
-            var product = basketProducts.Products.Where(x => x.Id == updateBasketDto.ProductId).FirstOrDefault();
-
-            if (updateBasketDto.UpdateBasketAction == UpdateBasketAction.Plus)
-            {
-                product.Quantity++;
-                basketProducts.TotalPrice += product.Price;
-            } 
-            else
-            {
-                product.Quantity--;
-                basketProducts.TotalPrice -= product.Price;
-            }
-
-            if (product.Quantity <= 0)
-            {
-                basketProducts.Products.Remove(product);
-            }
-
-            await basketService.UpdateBasket(basketProducts.Products);
+            await basketService.ChangeProductQuantity(changeProductQuantityDto);
 
             return RedirectToAction("Index");
         }

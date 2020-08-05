@@ -16,10 +16,19 @@ namespace Basket.API.Controllers
             this.basketService = basketService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateBasket(UserBasketDto userBasket)
+        [HttpPost("change/quantity")]
+        public async Task<IActionResult> ChangeProductQuantity(ChangeProductQuantityDto changeProductQuantityDto)
         {
-            await basketService.UpdateBasket(userBasket);
+            await basketService.ChangeProductQuantity(changeProductQuantityDto);
+
+            return Ok();
+        }
+
+        [HttpPost("add/product")]
+        public async Task<IActionResult> AddProduct(AddProductDto addProductDto)
+        {
+            await basketService.AddProduct(addProductDto);
+
             return Ok();
         }
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Basket.Core.Dtos.Enums.ChangeProductQuantityEnum;
 
 namespace Basket.Infrastructure.Services
 {
@@ -19,37 +20,65 @@ namespace Basket.Infrastructure.Services
             this.distributedCache = distributedCache;
         }
 
-        public async Task UpdateBasket(UserBasketDto userBasket)
+        public async Task AddProduct(AddProductDto addProductDto)
         {
-            if (userBasket.Products.Count == 1 && userBasket.Products.Any(x => x.Quantity == 1))
+            var basket = await GetBasket(addProductDto.UserId);
+
+            var basketProduct = basket.Products.Where(x => x.Id == addProductDto.Product.Id).FirstOrDefault();
+
+            if (basketProduct != null)
             {
-                var basket = await GetBasket(userBasket.UserId);
-
-                if (basket != null && basket.Products.Count > 0)
-                {
-                    foreach (var basketProduct in basket.Products)
-                    {
-                        if (basketProduct.Id == userBasket.Products.First().Id)
-                        {
-                            basket.Products.Remove(basketProduct);
-                            break;
-                        }
-                    }
-
-                    userBasket.Products.AddRange(basket.Products);
-                }
+                basketProduct.Quantity += addProductDto.Product.Quantity;
+            } 
+            else
+            {
+                basket.Products.Add(addProductDto.Product);
             }
 
-            foreach (var product in userBasket.Products)
+            basket.TotalPrice += (addProductDto.Product.Price * addProductDto.Product.Quantity);
+
+            await distributedCache.RemoveAsync(addProductDto.UserId);
+
+            string serializeObject = JsonConvert.SerializeObject(basket);
+
+            await distributedCache.SetStringAsync(addProductDto.UserId, serializeObject, new DistributedCacheEntryOptions()
             {
-                userBasket.TotalPrice += (product.Price * product.Quantity);
+                AbsoluteExpiration = DateTimeOffset.Now.AddDays(1)
+            });
+        }
+
+        public async Task ChangeProductQuantity(ChangeProductQuantityDto changeProductQuantityDto)
+        {
+            var basket = await GetBasket(changeProductQuantityDto.UserId);
+
+            var basketProduct = basket.Products.Where(x => x.Id == changeProductQuantityDto.ProductId).FirstOrDefault();
+
+            if (basketProduct == null)
+            {
+                return;
             }
 
-            await distributedCache.RemoveAsync(userBasket.UserId);
+            if (changeProductQuantityDto.ChangeQuantityAction == ChangeQuantityAction.Plus)
+            {
+                basketProduct.Quantity++;
+                basket.TotalPrice += basketProduct.Price;
+            }
+            else
+            {
+                basketProduct.Quantity--;
+                basket.TotalPrice -= basketProduct.Price;
+            }
 
-            string serializeObject = JsonConvert.SerializeObject(userBasket);
+            if (basketProduct.Quantity <= 0)
+            {
+                basket.Products.Remove(basketProduct);
+            }
 
-            await distributedCache.SetStringAsync(userBasket.UserId, serializeObject, new DistributedCacheEntryOptions()
+            await distributedCache.RemoveAsync(changeProductQuantityDto.UserId);
+
+            string serializeObject = JsonConvert.SerializeObject(basket);
+
+            await distributedCache.SetStringAsync(basket.UserId, serializeObject, new DistributedCacheEntryOptions()
             {
                 AbsoluteExpiration = DateTimeOffset.Now.AddDays(1)
             });

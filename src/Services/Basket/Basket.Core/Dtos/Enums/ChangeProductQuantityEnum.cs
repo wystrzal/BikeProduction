@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShopMVC.Models.Enums
+namespace Basket.Core.Dtos.Enums
 {
-    public class UpdateBasketEnum
+    public class ChangeProductQuantityEnum
     {
-        public enum UpdateBasketAction
+        public enum ChangeQuantityAction
         {
             Plus = 1,
             Minus = 2,
