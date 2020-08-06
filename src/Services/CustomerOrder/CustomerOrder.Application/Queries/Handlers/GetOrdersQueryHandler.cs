@@ -24,17 +24,8 @@ namespace CustomerOrder.Application.Queries.Handlers
 
         public async Task<IEnumerable<GetOrdersDto>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            List<Order> orders = null;
-
-            if (request.UserId != null)
-            {
-                orders = await orderRepository
-                    .GetByConditionWithIncludeToList(x => x.UserId == request.UserId, y => y.OrderItems);
-            }
-            else
-            {
-                orders = await orderRepository.GetOrders();
-            }
+            List<Order> orders = await orderRepository
+                    .GetByConditionToList(x => x.UserId == request.UserId);
 
             return mapper.Map<List<GetOrdersDto>>(orders);
         }

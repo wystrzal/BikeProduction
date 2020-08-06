@@ -49,8 +49,8 @@ namespace CustomerOrder.API.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetOrders([FromQuery] string userId)
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetOrders(string userId)
         {
             return Ok(await mediator.Send(new GetOrdersQuery(userId)));
         }

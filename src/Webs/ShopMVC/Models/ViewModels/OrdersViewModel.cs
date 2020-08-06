@@ -1,12 +1,12 @@
-﻿using CustomerOrder.Core.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
+using System.Linq;
+using System.Threading.Tasks;
+using static ShopMVC.Models.Enums.OrderStatusEnum;
 
-namespace CustomerOrder.Application.Mapping
+namespace ShopMVC.Models.ViewModels
 {
-    public class GetOrdersDto
+    public class OrdersViewModel
     {
         public int OrderId { get; set; }
         public DateTime OrderDate { get; set; }

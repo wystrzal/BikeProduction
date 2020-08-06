@@ -21,6 +21,15 @@ namespace ShopMVC.Controllers
         }
 
 
+        public async Task<IActionResult> Index()
+        {
+            var orders = await orderService.GetOrders();
+
+            orders ??= new List<OrdersViewModel>();
+
+            return View(orders);
+        }
+
         public IActionResult CreateOrder(UserBasketViewModel vm)
         {
             return View(vm);

@@ -24,7 +24,8 @@ namespace CustomerOrder.Application.Queries.Handlers
 
         public async Task<GetOrderDto> Handle(GetOrderQuery request, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.GetByConditionFirst(x => x.OrderId == request.OrderId);
+            var order = await orderRepository
+                .GetByConditionWithIncludeFirst(x => x.OrderId == request.OrderId, y => y.OrderItems);
 
             if (order == null)
             {

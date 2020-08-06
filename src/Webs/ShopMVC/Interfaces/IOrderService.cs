@@ -1,4 +1,5 @@
 ﻿using ShopMVC.Models;
+using ShopMVC.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace ShopMVC.Interfaces
     public interface IOrderService
     {
         Task CreateOrder(Order order);
+        Task<List<OrdersViewModel>> GetOrders();
     }
 }

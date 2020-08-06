@@ -1,0 +1,10 @@
+﻿@model List<ShopMVC.Models.ViewModels.OrdersViewModel>
+
+    <div class="row text-center">
+        @foreach (var order in Model)
+        {
+            <div class="col-3">@order.OrderDate</div>
+            <div class="col-3">@order.OrderStatus</div>
+            <div class="col-3">@order.TotalPrice</div>
+        }
+    </div>
