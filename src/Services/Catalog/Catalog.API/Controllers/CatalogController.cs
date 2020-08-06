@@ -51,10 +51,10 @@ namespace Catalog.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        [HttpGet("{take}/{skip}")]
+        public async Task<IActionResult> GetProducts(int take, int skip)
         {
-            return Ok(await mediator.Send(new GetProductsQuery()));
+            return Ok(await mediator.Send(new GetProductsQuery(take, skip)));
         }
     }
 }

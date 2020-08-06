@@ -23,9 +23,9 @@ namespace Catalog.Application.Queries.Handlers
 
         public async Task<IEnumerable<GetProductsDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetAll();
+            var products = await productRepository.GetProducts(request.Take, request.Skip);
 
-            return mapper.Map<IEnumerable<GetProductsDto>>(products);
+            return mapper.Map<List<GetProductsDto>>(products);
         }
     }
 }

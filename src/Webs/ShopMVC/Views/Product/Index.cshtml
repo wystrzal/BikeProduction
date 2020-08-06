@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ShopMVC.Models.CatalogProduct>
+﻿@model ShopMVC.Models.ViewModels.CatalogProductsViewModel
 
 <div class="container-fluid text-center">
     <div class="row">
@@ -26,9 +26,9 @@
         </div>
 
         <div class="col-12">
-            <div class="row">
+            <div class="row" id="catalogProducts">
                 @{
-                    foreach (var product in Model)
+                    foreach (var product in Model.CatalogProducts)
                     {
                         <div class="col-md-4 mb-4 col-6">
                             <h5>@product.ProductName</h5>
@@ -50,7 +50,7 @@
                                         Reference: '@product.Reference',
                                         Quantity: 1
                                     };
-                                    
+
 
                                     $.ajax({
                                         type: "POST",
@@ -71,9 +71,45 @@
                     }
                 }
             </div>
+
             <div class="mt-2">
-                <a class="catalog__arrow"> &#8659; </a>
+                <a id="loadProducts" class="catalog__arrow"> &#8659;</a>
             </div>
+
+            <script>
+                $(document).ready(() => {
+
+                    let skip = @Model.Skip;
+                    const take = @Model.Take;
+
+                    $("#loadProducts").click(() => {
+
+                        skip += take;
+
+                        const model = {
+                            Take: take,
+                            Skip: skip
+                        };
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Product/GetProducts",
+                            data: JSON.stringify(model),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            failure: function (response) {
+                                console.log(response);
+                            },
+                            complete: function (response) {
+                                if (response.responseJSON !== undefined) {
+                                    console.log(response.responseJSON.products);
+                                }                        
+                            }
+                        });
+                    });
+                });
+            </script>
+
         </div>
     </div>
 </div>

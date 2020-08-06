@@ -13,7 +13,7 @@
                     <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Bikes</a>
+                    @Html.ActionLink("Bikes", "Index", "Product", new { take = 6 }, new { @class = "nav-link text-dark" })
                 </li>
             </ul>
         </div>
