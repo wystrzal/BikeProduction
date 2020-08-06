@@ -9,6 +9,5 @@ namespace ShopMVC.Models.ViewModels
     {
         public List<CatalogProduct> CatalogProducts { get; set; } = new List<CatalogProduct>();
         public int Take { get; set; }
-        public int Skip { get; set; }
     }
 }

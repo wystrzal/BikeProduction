@@ -18,29 +18,15 @@ namespace ShopMVC.Controllers
             this.catalogService = catalogService;
         }
 
-        public async Task<IActionResult> Index(int take, int skip)
+        public async Task<IActionResult> Index(CatalogProductsViewModel vm)
         {
-            var vm = new CatalogProductsViewModel
-            {
-                CatalogProducts = await catalogService.GetProducts(take, skip),
-                Take = take,
-                Skip = skip
-            };
+            var skip = vm.CatalogProducts.Count;
+
+            var catalogProducts = await catalogService.GetProducts(vm.Take, skip);
+
+            vm.CatalogProducts.AddRange(catalogProducts);
 
             return View(vm);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> GetProducts([FromBody]GetProductsDto getProductsDto)
-        {
-            var products = await catalogService.GetProducts(getProductsDto.Take, getProductsDto.Skip);
-
-            if (products == null || products.Count < 0)
-            {
-                return Ok();
-            }
-
-            return Json(new { products });
         }
     }
 }
