@@ -1,10 +1,12 @@
 ﻿@model List<ShopMVC.Models.ViewModels.OrdersViewModel>
 
-    <div class="row text-center">
-        @foreach (var order in Model)
-        {
-            <div class="col-3">@order.OrderDate</div>
-            <div class="col-3">@order.OrderStatus</div>
-            <div class="col-3">@order.TotalPrice</div>
-        }
-    </div>
+<div class="row text-center mt-5">
+    @foreach (var order in Model)
+    {
+        <a class="text-dark mt-4" style="text-decoration: none; width: 100%;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
+            <div class="col-4 d-inline">@order.OrderDate</div>
+            <div class="col-4 d-inline">@order.OrderStatus</div>
+            <div class="col-4 d-inline">@order.TotalPrice$</div>
+        </a>
+    }
+</div>

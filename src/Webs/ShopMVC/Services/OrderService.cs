@@ -42,5 +42,14 @@ namespace ShopMVC.Services
 
             return JsonConvert.DeserializeObject<List<OrdersViewModel>>(orders);
         }
+
+        public async Task<OrderDetailViewModel> GetOrderDetail(int id)
+        {
+            var getOrderDetailUrl = $"{baseUrl}{id}";
+
+            var order = await customHttpClient.GetStringAsync(getOrderDetailUrl, token);
+
+            return JsonConvert.DeserializeObject<OrderDetailViewModel>(order);
+        }
     }
 }

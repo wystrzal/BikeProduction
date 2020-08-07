@@ -9,18 +9,9 @@ namespace ShopMVC.Models
     public class CatalogProduct
     {
         public int Id { get; set; }
-
-        [Required]
         public string ProductName { get; set; }
-
-        [Required]
         public string Reference { get; set; }
-
-        [Column(TypeName = "decimal(18,2)")]
-        [Required]
         public decimal Price { get; set; }
-        
-        [Required]
         public string PhotoUrl { get; set; }
     }
 }

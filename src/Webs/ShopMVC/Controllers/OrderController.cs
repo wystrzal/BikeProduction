@@ -30,6 +30,13 @@ namespace ShopMVC.Controllers
             return View(orders);
         }
 
+        public async Task<IActionResult> OrderDetail(int id)
+        {
+            var order = await orderService.GetOrderDetail(id);
+
+            return View(order);
+        }
+
         public IActionResult CreateOrder(UserBasketViewModel vm)
         {
             return View(vm);

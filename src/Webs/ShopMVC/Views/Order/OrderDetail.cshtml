@@ -1,0 +1,22 @@
+﻿@model ShopMVC.Models.ViewModels.OrderDetailViewModel
+
+<div class="row">
+    <div class="col-3">@Model.OrderDate</div>
+    <div class="col-3">@Model.OrderStatus</div>
+    <div class="col-3">@Model.TotalPrice$</div>
+
+    <div class="col-12 text-center">
+        <h4 class="my-5">Ordered Products</h4>
+    </div>
+
+
+    @foreach (var item in Model.OrderItems)
+    {
+        var itemPrice = item.Price * item.Quantity;
+
+            <div class="col-4 mt-3">@item.ProductName</div>
+            <div class="col-4 mt-3">@itemPrice$</div>
+            <div class="col-4 mt-3">@item.Quantity</div>
+    }
+
+</div>
