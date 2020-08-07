@@ -151,7 +151,7 @@ services:
 
   redis:
     image: redis
-    container_name: cache
+    container_name: redis
     networks:
       - backend
     expose:

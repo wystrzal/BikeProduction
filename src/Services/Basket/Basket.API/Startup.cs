@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 
 namespace Basket.API
 {
@@ -54,8 +55,19 @@ namespace Basket.API
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = "host.docker.internal:6379";
+                options.Configuration = "redis:6379";
             });
+
+            var options = new ConfigurationOptions()
+            {
+                KeepAlive = 0,
+                AllowAdmin = true,
+                EndPoints = { { "redis", 6379 } },
+                ConnectTimeout = 5000,
+                ConnectRetry = 5,
+                SyncTimeout = 5000,
+                AbortOnConnectFail = false
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
