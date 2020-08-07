@@ -1,12 +1,53 @@
 ﻿@model ShopMVC.Models.ViewModels.OrderDetailViewModel
 
-<div class="row">
-    <div class="col-3">@Model.OrderDate</div>
-    <div class="col-3">@Model.OrderStatus</div>
-    <div class="col-3">@Model.TotalPrice$</div>
+<div class="row text-center">
+    <div class="col-4">Order Date:</div>
+    <div class="col-4">Order Status:</div>
+    <div class="col-4">TotalPrice:</div>
 
-    <div class="col-12 text-center">
-        <h4 class="my-5">Ordered Products</h4>
+    <div class="col-4 mt-3">
+        <p>@Model.OrderDate</p>
+    </div>
+    <div class="col-4 mt-3">
+        <p>@Model.OrderStatus</p>
+    </div>
+    <div class="col-4 mt-3">
+        <p>@Model.TotalPrice$</p>
+    </div>
+
+    <div class="col-12 mt-5 border-top">
+        <h6>Personal Data</h6>
+    </div>
+
+    <div class="col-6 mt-2">
+        <p>First Name: @Model.CustomerFirstName</p>
+    </div>
+    <div class="col-6 mt-2">
+        <p>Last Name: @Model.CustomerLastName</p>
+    </div>
+    <div class="offset-3 col-6 mt-1">
+        <p>Phone Number: @Model.PhoneNumber</p>
+    </div>
+
+    <div class="col-12 mt-5 border-top">
+        <h6>Address</h6>
+    </div>
+
+    <div class="col-6 mt-2">
+        <p>City: @Model.City</p>
+    </div>
+    <div class="col-6 mt-2">
+        <p>Post Code: @Model.PostCode</p>
+    </div>
+    <div class="col-6 mt-1">
+        <p>Street: @Model.Street</p>
+    </div>
+    <div class="col-6 mt-1">
+        <p>House Number: @Model.HouseNumber</p>
+    </div>
+
+    <div class="col-12 mt-5 mb-4 border-top">
+        <h6>Ordered Products</h6>
     </div>
 
 
@@ -14,9 +55,9 @@
     {
         var itemPrice = item.Price * item.Quantity;
 
-            <div class="col-4 mt-3">@item.ProductName</div>
-            <div class="col-4 mt-3">@itemPrice$</div>
-            <div class="col-4 mt-3">@item.Quantity</div>
+        <div class="col-4 mb-2">@item.ProductName</div>
+        <div class="col-4 mb-2">@itemPrice$</div>
+        <div class="col-4 mb-2">@item.Quantity</div>
     }
 
 </div>
