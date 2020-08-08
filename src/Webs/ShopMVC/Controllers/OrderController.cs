@@ -77,7 +77,7 @@ namespace ShopMVC.Controllers
         {
             await orderService.DeleteOrder(id);
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

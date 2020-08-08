@@ -77,7 +77,11 @@
                                 });
                             } else {
                                 window.location = response.responseJSON.url;
-                            }                                        
+
+                                setTimeout(() => {
+                                    $("#basketQuantity").html('(0)');
+                                }, 200)
+                            }
                         }
                     });
                 })
