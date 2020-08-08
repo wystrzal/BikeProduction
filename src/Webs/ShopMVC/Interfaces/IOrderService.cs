@@ -12,5 +12,6 @@ namespace ShopMVC.Interfaces
         Task CreateOrder(Order order);
         Task<List<OrdersViewModel>> GetOrders();
         Task<OrderDetailViewModel> GetOrderDetail(int id);
+        Task DeleteOrder(int id);
     }
 }

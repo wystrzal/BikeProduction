@@ -10,16 +10,16 @@ namespace Basket.Application.Queries.Handlers
 {
     public class GetBasketQuantityQueryHandler : IRequestHandler<GetBasketQuantityQuery, int>
     {
-        private readonly IBasketRedisService basketService;
+        private readonly IBasketRedisService basketRedisService;
 
-        public GetBasketQuantityQueryHandler(IBasketRedisService basketService)
+        public GetBasketQuantityQueryHandler(IBasketRedisService basketRedisService)
         {
-            this.basketService = basketService;
+            this.basketRedisService = basketRedisService;
         }
 
         public async Task<int> Handle(GetBasketQuantityQuery request, CancellationToken cancellationToken)
         {
-            var basket = await basketService.GetBasket(request.UserId);
+            var basket = await basketRedisService.GetBasket(request.UserId);
 
             return basket == null ? 0 : basket.Products.Count;
         }

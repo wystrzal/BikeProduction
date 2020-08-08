@@ -72,5 +72,12 @@ namespace ShopMVC.Controllers
 
             return Json(new { status = "success", url = Url.Action("Index", "Home") });
         }
+
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            await orderService.DeleteOrder(id);
+
+            return View("Index");
+        }
     }
 }

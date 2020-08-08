@@ -14,16 +14,16 @@ namespace Basket.Application.Commands.Handlers
 {
     public class AddProductCommandHandler : IRequestHandler<AddProductCommand>
     {
-        private readonly IBasketRedisService basketService;
+        private readonly IBasketRedisService basketRedisService;
 
-        public AddProductCommandHandler(IBasketRedisService basketService)
+        public AddProductCommandHandler(IBasketRedisService basketRedisService)
         {
-            this.basketService = basketService;
+            this.basketRedisService = basketRedisService;
         }
 
         public async Task<Unit> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
-            var basket = await basketService.GetBasket(request.UserId);
+            var basket = await basketRedisService.GetBasket(request.UserId);
 
             if (basket == null)
             {
@@ -48,11 +48,11 @@ namespace Basket.Application.Commands.Handlers
 
             basket.TotalPrice += (request.Product.Price * request.Product.Quantity);
 
-            await basketService.RemoveBasket(request.UserId);
+            await basketRedisService.RemoveBasket(request.UserId);
 
             string serializeObject = JsonConvert.SerializeObject(basket);
 
-            await basketService.SaveBasket(request.UserId, serializeObject);
+            await basketRedisService.SaveBasket(request.UserId, serializeObject);
 
             return Unit.Value;
         }

@@ -56,11 +56,11 @@ namespace CustomerOrder.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> CancelOrder(int id)
+        public async Task<IActionResult> DeleteOrder(int id)
         {
             try
             {
-                await mediator.Send(new CancelOrderCommand(id));
+                await mediator.Send(new DeleteOrderCommand(id));
                 return Ok();
             }
             catch (Exception ex)

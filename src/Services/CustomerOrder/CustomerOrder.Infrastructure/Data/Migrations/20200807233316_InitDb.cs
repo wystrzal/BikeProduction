@@ -50,7 +50,7 @@ namespace CustomerOrder.Infrastructure.Migrations
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -107,7 +107,8 @@ namespace CustomerOrder.Infrastructure.Migrations
                 {
                     b.HasOne("CustomerOrder.Core.Models.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

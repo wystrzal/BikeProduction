@@ -5,11 +5,11 @@ using System.Text;
 
 namespace CustomerOrder.Application.Commands
 {
-    public class CancelOrderCommand : IRequest
+    public class DeleteOrderCommand : IRequest
     {
         public int OrderId { get; set; }
 
-        public CancelOrderCommand(int orderId)
+        public DeleteOrderCommand(int orderId)
         {
             OrderId = orderId;
         }

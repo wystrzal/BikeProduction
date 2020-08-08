@@ -28,6 +28,16 @@ namespace CustomerOrder.Infrastructure.Data
             }
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Order>(order =>
+            {
+                order.HasMany(x => x.OrderItems)
+                .WithOne(x => x.Order)
+                .OnDelete(DeleteBehavior.Cascade);
+            });
+        }
+
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
     }

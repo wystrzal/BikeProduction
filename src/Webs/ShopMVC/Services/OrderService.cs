@@ -51,5 +51,12 @@ namespace ShopMVC.Services
 
             return JsonConvert.DeserializeObject<OrderDetailViewModel>(order);
         }
+
+        public async Task DeleteOrder(int id)
+        {
+            var deleteOrderUrl = $"{baseUrl}{id}";
+
+            await customHttpClient.DeleteAsync(deleteOrderUrl, token);
+        }
     }
 }

@@ -10,16 +10,16 @@ using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
 
 namespace CustomerOrder.Application.Commands.Handlers
 {
-    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand>
+    public class DeleteOrderCommandHandler : IRequestHandler<DeleteOrderCommand>
     {
         private readonly IOrderRepository orderRepository;
 
-        public CancelOrderCommandHandler(IOrderRepository orderRepository)
+        public DeleteOrderCommandHandler(IOrderRepository orderRepository)
         {
             this.orderRepository = orderRepository;
         }
 
-        public async Task<Unit> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
             var order = await orderRepository.GetById(request.OrderId);
 
@@ -28,13 +28,12 @@ namespace CustomerOrder.Application.Commands.Handlers
                 throw new OrderNotFoundException();
             }
 
-            if (order.OrderStatus != OrderStatus.WaitingForConfirm)
+            if (order.OrderStatus == OrderStatus.WaitingForConfirm || order.OrderStatus == OrderStatus.Delivered)
             {
-                throw new OrderIsConfirmedException();
-            }
+                orderRepository.Delete(order);
 
-            orderRepository.Delete(order);
-            await orderRepository.SaveAllAsync();
+                await orderRepository.SaveAllAsync();
+            }
 
             return Unit.Value;
         }

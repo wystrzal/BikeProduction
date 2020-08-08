@@ -11,16 +11,16 @@ namespace Basket.Application.Queries.Handlers
 {
     public class GetBasketQueryHandler : IRequestHandler<GetBasketQuery, UserBasketDto>
     {
-        private readonly IBasketRedisService basketService;
+        private readonly IBasketRedisService basketRedisService;
 
-        public GetBasketQueryHandler(IBasketRedisService basketService)
+        public GetBasketQueryHandler(IBasketRedisService basketRedisService)
         {
-            this.basketService = basketService;
+            this.basketRedisService = basketRedisService;
         }
 
         public async Task<UserBasketDto> Handle(GetBasketQuery request, CancellationToken cancellationToken)
         {
-            return await basketService.GetBasket(request.UserId);
+            return await basketRedisService.GetBasket(request.UserId);
         }
     }
 }

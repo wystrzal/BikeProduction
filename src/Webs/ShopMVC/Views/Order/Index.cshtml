@@ -1,19 +1,34 @@
 ﻿@model List<ShopMVC.Models.ViewModels.OrdersViewModel>
 
-    <div class="row text-center mt-5">
-        @{
+<div class="row text-center mt-5">
+    @{
+        if (Model != null)
+        {
             int number = 0;
 
             foreach (var order in Model)
             {
                 number++;
 
-                <a class="text-dark mt-4" style="text-decoration: none; width: 100%;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
-                    <div class="d-inline col-3">@number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - </div>
-                    <div class="col-3 d-inline">@order.OrderDate</div>
-                    <div class="col-3 d-inline">@order.OrderStatus</div>
-                    <div class="col-3 d-inline">@order.TotalPrice$</div>
-                </a>
+                <div class="col-8">
+                    <a class="text-dark mt-4" style="text-decoration: none; width: 100%;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
+                        <div class="d-inline col-3">@number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - </div>
+                        <div class="col-3 d-inline">@order.OrderDate</div>
+                        <div class="col-3 d-inline">@order.OrderStatus</div>
+                        <div class="col-3 d-inline">@order.TotalPrice$</div>
+                    </a>
+                </div>
+                <div class="col-4">
+                    @if (order.OrderStatus == ShopMVC.Models.Enums.OrderStatusEnum.OrderStatus.WaitingForConfirm)
+                    {
+                        @Html.ActionLink("Cancel", "DeleteOrder", "Order", new { id = order.OrderId }, new { @class = "btn btn-warning" })
+                    }
+                    else if (order.OrderStatus == ShopMVC.Models.Enums.OrderStatusEnum.OrderStatus.Delivered)
+                    {
+                        @Html.ActionLink("Delete", "DeleteOrder", "Order", new { id = order.OrderId }, new { @class = "btn btn-danger" })
+                    }
+                </div>
             }
         }
-    </div>
+    }
+</div>
