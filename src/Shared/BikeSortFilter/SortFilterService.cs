@@ -9,7 +9,9 @@ using System.Threading.Tasks;
 
 namespace BikeSortFilter
 {
-    public class SortFilterService<TEntity> : ISortFilterService<TEntity> where TEntity : class
+    public class SortFilterService<TEntity, TFilteringData> : ISortFilterService<TEntity, TFilteringData>
+        where TEntity : class
+        where TFilteringData : class
     {
         private readonly IBaseRepository<TEntity> repository;
         private readonly List<Predicate<TEntity>> filtersToUse;
@@ -21,13 +23,14 @@ namespace BikeSortFilter
             this.repository = repository;
         }
 
-        public void SetConcreteFilter<TFilter>(TFilter typeOfFilter) where TFilter : class
+        public void SetConcreteFilter<TFilter>(TFilter typeOfFilter, TFilteringData filteringData) 
+            where TFilter : class
         {
             var concreteFilters = new Hashtable();
 
             if (!concreteFilters.ContainsKey(typeOfFilter))
             {
-                var concreteFilter = Activator.CreateInstance(typeOfFilter as Type);
+                var concreteFilter = Activator.CreateInstance(typeOfFilter as Type, filteringData);
 
                 concreteFilters.Add(typeOfFilter, concreteFilter);
             }

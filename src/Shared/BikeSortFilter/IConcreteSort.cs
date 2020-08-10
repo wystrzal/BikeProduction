@@ -5,7 +5,7 @@ using System.Text;
 namespace BikeSortFilter
 {
     /// <summary>
-    /// Interface for retrieving the sorting instruction
+    /// Interface for retrieving the sorting instruction.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TKey">The type of the returned key.</typeparam>

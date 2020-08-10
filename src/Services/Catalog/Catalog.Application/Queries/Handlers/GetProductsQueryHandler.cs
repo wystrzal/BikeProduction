@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Catalog.Application.Mapping;
 using Catalog.Core.Interfaces;
+using Catalog.Core.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,20 @@ namespace Catalog.Application.Queries.Handlers
     {
         private readonly IProductRepository productRepository;
         private readonly IMapper mapper;
+        private readonly ISearchProductService searchProductService;
 
-        public GetProductsQueryHandler(IProductRepository productRepository, IMapper mapper)
+        public GetProductsQueryHandler(IProductRepository productRepository, IMapper mapper, ISearchProductService searchProductService)
         {
             this.productRepository = productRepository;
             this.mapper = mapper;
+            this.searchProductService = searchProductService;
         }
 
         public async Task<IEnumerable<GetProductsDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetProducts();
+            var filteringData = new FilteringData { Id = 1 };
+
+            var products = await searchProductService.GetProducts(true, request.Skip, request.Take, filteringData);
 
             return mapper.Map<List<GetProductsDto>>(products);
         }

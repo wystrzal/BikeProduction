@@ -5,13 +5,20 @@ using System.Threading.Tasks;
 
 namespace BikeSortFilter
 {
-    public interface ISortFilterService<TEntity> where TEntity : class
+    /// <summary>
+    /// Interface to search for sorted and filtered data.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of the entity.</typeparam>
+    /// <typeparam name="TFilteringData">The type of the data to filter.</typeparam>
+    public interface ISortFilterService<TEntity, TFilteringData>
+        where TEntity : class
+        where TFilteringData : class
     {
         /// <summary>
         /// Set filter to search data.
         /// </summary>
         /// <param name="typeOfFilter">The type of the filter (typeof(Filter)).</param>
-        void SetConcreteFilter<TFilter>(TFilter typeOfFilter) where TFilter : class;
+        void SetConcreteFilter<TFilter>(TFilter typeOfFilter, TFilteringData filteringData) where TFilter : class;
         /// <summary>
         /// Set sort to search data.
         /// </summary>
