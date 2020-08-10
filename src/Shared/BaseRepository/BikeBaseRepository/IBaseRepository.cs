@@ -19,8 +19,8 @@ namespace BikeBaseRepository
         Task<List<TEntity>> GetAll();
         Task<TEntity> GetById(int id);
         Task<bool> SaveAllAsync();
-        Task<List<TEntity>> GetSortedData(Func<TEntity, bool> sortBy, OrderByType orderByType, int skip, int take);
-        Task<List<TEntity>> GetFilteredData(Func<TEntity, bool> filterBy, int skip, int take);
+        Task<List<TEntity>> FilterSortData(Func<TEntity, bool> filterBy, Func<TEntity, bool> sortBy,
+           OrderByType orderByType, int skip, int take);
 
     }
 }

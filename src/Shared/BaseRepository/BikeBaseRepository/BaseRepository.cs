@@ -71,7 +71,8 @@ namespace BikeBaseRepository
             return await dataContext.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<List<TEntity>> GetSortedData(Func<TEntity, bool> sortBy, OrderByType orderByType, int skip, int take)
+        public async Task<List<TEntity>> FilterSortData(Func<TEntity, bool> filterBy, Func<TEntity, bool> sortBy,
+            OrderByType orderByType, int skip, int take)
         {
             List<TEntity> data = null;
 
@@ -79,42 +80,26 @@ namespace BikeBaseRepository
             {
                 if (orderByType == OrderByType.Ascending)
                 {
-                    data = dataContext.Set<TEntity>().AsNoTracking().OrderBy(sortBy).ToList();
+                    data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).ToList();
                 }
                 else
                 {
-                    data = dataContext.Set<TEntity>().AsNoTracking().OrderByDescending(sortBy).ToList();
-                }             
-            } 
+                    data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderByDescending(sortBy).ToList();
+                }
+            }
             else
             {
                 if (orderByType == OrderByType.Ascending)
                 {
-                    data = dataContext.Set<TEntity>().AsNoTracking().OrderBy(sortBy).Skip(skip).Take(take).ToList();
+                    data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).Skip(skip).Take(take).ToList();
                 }
                 else
                 {
-                    data = dataContext.Set<TEntity>().AsNoTracking().OrderByDescending(sortBy).Skip(skip).Take(take).ToList();
-                }           
+                    data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderByDescending(sortBy).Skip(skip).Take(take).ToList();
+                }
             }
 
             return await Task.FromResult(data);
-        }
-
-        public Task<List<TEntity>> GetFilteredData(Func<TEntity, bool> filterBy, int skip, int take)
-        {
-            List<TEntity> data = null;
-
-            if (take == 0)
-            {
-                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).ToList();
-            }
-            else
-            {
-                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).Skip(skip).Take(take).ToList();
-            }
-
-            return Task.FromResult(data);
         }
     }
 }

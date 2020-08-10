@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BikeBaseRepository;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,47 +12,46 @@ namespace BikeSortFilter
 {
     public class SortFilterService<TEntity> : ISortFilterService<TEntity> where TEntity : class
     {
-        private readonly ISearchService<TEntity> searchService;
-        private readonly List<Predicate<TEntity>> predicates;
+        private readonly IBaseRepository<TEntity> repository;
+        private readonly List<Predicate<TEntity>> filtersToUse;
+        private Func<TEntity, bool> sortToUse;
 
-        public SortFilterService(ISearchService<TEntity> searchService)
+        public SortFilterService(IBaseRepository<TEntity> repository)
         {
-            predicates = new List<Predicate<TEntity>>();
-            this.searchService = searchService;
+            filtersToUse = new List<Predicate<TEntity>>();
+            this.repository = repository;
         }
 
-        public void SetConcreteFilter<T>(T typeOfFilter) where T : class
+        public void SetConcreteFilter<T, TValue>(T typeOfFilter, TValue filterValue) where T : class where TValue : class
         {
-            var filters = new Hashtable();
+            var concreteFilters = new Hashtable();
 
-            if (!filters.ContainsKey(typeOfFilter))
+            if (!concreteFilters.ContainsKey(typeOfFilter))
             {
-                var filter = Activator.CreateInstance(typeOfFilter as Type);
+                var concreteFilter = Activator.CreateInstance(typeOfFilter as Type);
 
-                filters.Add(typeOfFilter, filter);
+                concreteFilters.Add(typeOfFilter, concreteFilter);
             }
 
-            var selectedFilter = filters[typeOfFilter] as IConcreteSearch<TEntity>;
+            var selectedFilter = concreteFilters[typeOfFilter] as IConcreteSearch<TEntity>;
 
-            predicates.Add(selectedFilter.getConcreteFilter());
+            filtersToUse.Add(selectedFilter.GetConcreteFilter(filterValue));
         }
 
-        public async Task<List<TEntity>> SearchFiltered()
-        {
-            Expression<Func<TEntity, bool>> expression = x => predicates.All(all => all(x));
-
-            var data = await searchService.Filter(expression);
-
-            predicates.Clear();
-
-            return data;
-        }
-
-        public async Task<List<TEntity>> SearchSorted<T>(T typeOfSort, OrderByType orderByType)
+        public void SetConcreteSort<T>(T typeOfSort) where T : class
         {
             var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSearch<TEntity>;
 
-            var data = await searchService.Sort(sort.getConcreteSort(), orderByType);
+            sortToUse = sort.GetConcreteSort();
+        }
+
+        public async Task<List<TEntity>> Search(OrderByType orderByType, int skip = 0, int take = 0)
+        {
+            Expression<Func<TEntity, bool>> expression = x => filtersToUse.All(all => all(x));
+
+           var compiledFilterBy = expression.Compile();
+
+            var data = await repository.FilterSortData(compiledFilterBy, sortToUse, orderByType, skip, take);
 
             return data;
         }
