@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using static BikeBaseRepository.OrderByTypeEnum;
 
 namespace BikeBaseRepository
 {
@@ -68,6 +69,52 @@ namespace BikeBaseRepository
         public async Task<bool> SaveAllAsync()
         {
             return await dataContext.SaveChangesAsync() > 0 ? true : false;
+        }
+
+        public async Task<List<TEntity>> GetSortedData(Func<TEntity, bool> sortBy, OrderByType orderByType, int skip, int take)
+        {
+            List<TEntity> data = null;
+
+            if (take == 0)
+            {
+                if (orderByType == OrderByType.Ascending)
+                {
+                    data = dataContext.Set<TEntity>().AsNoTracking().OrderBy(sortBy).ToList();
+                }
+                else
+                {
+                    data = dataContext.Set<TEntity>().AsNoTracking().OrderByDescending(sortBy).ToList();
+                }             
+            } 
+            else
+            {
+                if (orderByType == OrderByType.Ascending)
+                {
+                    data = dataContext.Set<TEntity>().AsNoTracking().OrderBy(sortBy).Skip(skip).Take(take).ToList();
+                }
+                else
+                {
+                    data = dataContext.Set<TEntity>().AsNoTracking().OrderByDescending(sortBy).Skip(skip).Take(take).ToList();
+                }           
+            }
+
+            return await Task.FromResult(data);
+        }
+
+        public Task<List<TEntity>> GetFilteredData(Func<TEntity, bool> filterBy, int skip, int take)
+        {
+            List<TEntity> data = null;
+
+            if (take == 0)
+            {
+                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).ToList();
+            }
+            else
+            {
+                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).Skip(skip).Take(take).ToList();
+            }
+
+            return Task.FromResult(data);
         }
     }
 }
