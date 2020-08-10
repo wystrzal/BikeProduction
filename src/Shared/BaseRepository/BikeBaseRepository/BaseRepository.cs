@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using static BikeBaseRepository.OrderByTypeEnum;
 
 namespace BikeBaseRepository
 {
@@ -71,14 +70,14 @@ namespace BikeBaseRepository
             return await dataContext.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<List<TEntity>> FilterSortData(Func<TEntity, bool> filterBy, Func<TEntity, bool> sortBy,
-            OrderByType orderByType, int skip, int take)
+        public async Task<List<TEntity>> FilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
+            bool orderDesc, int skip, int take)
         {
             List<TEntity> data = null;
 
             if (take == 0)
             {
-                if (orderByType == OrderByType.Ascending)
+                if (!orderDesc)
                 {
                     data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).ToList();
                 }
@@ -89,7 +88,7 @@ namespace BikeBaseRepository
             }
             else
             {
-                if (orderByType == OrderByType.Ascending)
+                if (!orderDesc)
                 {
                     data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).Skip(skip).Take(take).ToList();
                 }

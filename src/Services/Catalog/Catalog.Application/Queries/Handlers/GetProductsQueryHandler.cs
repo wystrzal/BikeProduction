@@ -23,7 +23,7 @@ namespace Catalog.Application.Queries.Handlers
 
         public async Task<IEnumerable<GetProductsDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetProducts(request.Take, request.Skip);
+            var products = await productRepository.GetProducts();
 
             return mapper.Map<List<GetProductsDto>>(products);
         }

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using static BikeBaseRepository.OrderByTypeEnum;
 
 namespace BikeBaseRepository
 {
@@ -19,8 +17,8 @@ namespace BikeBaseRepository
         Task<List<TEntity>> GetAll();
         Task<TEntity> GetById(int id);
         Task<bool> SaveAllAsync();
-        Task<List<TEntity>> FilterSortData(Func<TEntity, bool> filterBy, Func<TEntity, bool> sortBy,
-           OrderByType orderByType, int skip, int take);
+        Task<List<TEntity>> FilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
+           bool orderDesc, int skip, int take);
 
     }
 }

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using static BikeBaseRepository.OrderByTypeEnum;
 
 namespace BikeSortFilter
 {
@@ -14,7 +13,7 @@ namespace BikeSortFilter
     {
         private readonly IBaseRepository<TEntity> repository;
         private readonly List<Predicate<TEntity>> filtersToUse;
-        private Func<TEntity, bool> sortToUse;
+        private dynamic sortToUse; 
 
         public SortFilterService(IBaseRepository<TEntity> repository)
         {
@@ -22,7 +21,7 @@ namespace BikeSortFilter
             this.repository = repository;
         }
 
-        public void SetConcreteFilter<T, TValue>(T typeOfFilter, TValue filterValue) where T : class where TValue : class
+        public void SetConcreteFilter<TFilter>(TFilter typeOfFilter) where TFilter : class
         {
             var concreteFilters = new Hashtable();
 
@@ -33,25 +32,25 @@ namespace BikeSortFilter
                 concreteFilters.Add(typeOfFilter, concreteFilter);
             }
 
-            var selectedFilter = concreteFilters[typeOfFilter] as IConcreteSearch<TEntity>;
+            var selectedFilter = concreteFilters[typeOfFilter] as IConcreteFilter<TEntity>;
 
-            filtersToUse.Add(selectedFilter.GetConcreteFilter(filterValue));
+            filtersToUse.Add(selectedFilter.GetConcreteFilter());
         }
 
-        public void SetConcreteSort<T>(T typeOfSort) where T : class
+        public void SetConcreteSort<TSort, TKey>(TSort typeOfSort) where TSort : class
         {
-            var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSearch<TEntity>;
+            var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSort<TEntity, TKey>;
 
             sortToUse = sort.GetConcreteSort();
         }
 
-        public async Task<List<TEntity>> Search(OrderByType orderByType, int skip = 0, int take = 0)
+        public async Task<List<TEntity>> Search(bool orderDesc, int skip = 0, int take = 0)
         {
             Expression<Func<TEntity, bool>> expression = x => filtersToUse.All(all => all(x));
 
            var compiledFilterBy = expression.Compile();
 
-            var data = await repository.FilterSortData(compiledFilterBy, sortToUse, orderByType, skip, take);
+            var data = await repository.FilterSortData(compiledFilterBy, sortToUse, orderDesc, skip, take);
 
             return data;
         }
