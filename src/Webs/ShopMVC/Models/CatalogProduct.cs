@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using static ShopMVC.Models.Enums.ColorsEnum;
 
 namespace ShopMVC.Models
 {
@@ -13,5 +14,6 @@ namespace ShopMVC.Models
         public string Reference { get; set; }
         public decimal Price { get; set; }
         public string PhotoUrl { get; set; }
+        public Colors Colors { get; set; }
     }
 }

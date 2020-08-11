@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using static Catalog.Core.Models.ColorsEnum;
 
 namespace Catalog.Core.Models
 {
@@ -15,6 +16,9 @@ namespace Catalog.Core.Models
 
         [Required]
         public string Reference { get; set; }
+
+        [Required]
+        public Colors Colors { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
         [Required]

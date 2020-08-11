@@ -14,6 +14,7 @@ namespace Catalog.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductName = table.Column<string>(nullable: false),
                     Reference = table.Column<string>(nullable: false),
+                    Colors = table.Column<int>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PhotoUrl = table.Column<string>(nullable: false)
                 },
