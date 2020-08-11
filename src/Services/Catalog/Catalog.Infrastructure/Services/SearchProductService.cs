@@ -2,12 +2,13 @@
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Catalog.Core.SearchSpecification;
+using Catalog.Core.SearchSpecification.FilterClasses;
 using Catalog.Core.SearchSpecification.SortClasses;
-using Catalog.Infrastructure.Services.FilterClasses;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using static Catalog.Core.Models.ColorsEnum;
 
 namespace Catalog.Infrastructure.Services
 {
@@ -37,7 +38,11 @@ namespace Catalog.Infrastructure.Services
                     break;
             }
 
-            sortFilterService.SetConcreteFilter<TestFilter>(filteringData);
+            if (filteringData.Colors != Colors.All)
+            {
+                sortFilterService.SetConcreteFilter<ColorFilter>(filteringData);
+            }
+
             
             return await sortFilterService.Search(orderDesc, skip, take);
         }

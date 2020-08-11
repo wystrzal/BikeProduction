@@ -1,24 +1,23 @@
 ﻿using BikeSortFilter;
 using Catalog.Core.Models;
-using Catalog.Core.SearchSpecification;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Catalog.Infrastructure.Services.FilterClasses
+namespace Catalog.Core.SearchSpecification.FilterClasses
 {
-    public class TestFilter : IConcreteFilter<Product>
+    public class ColorFilter : IConcreteFilter<Product>
     {
         private readonly FilteringData filteringData;
 
-        public TestFilter(FilteringData filteringData)
+        public ColorFilter(FilteringData filteringData)
         {
             this.filteringData = filteringData;
         }
 
         public Predicate<Product> GetConcreteFilter()
         {
-            return x => x.Id != filteringData.Id;
+            return x => x.Colors == filteringData.Colors;
         }
     }
 }
