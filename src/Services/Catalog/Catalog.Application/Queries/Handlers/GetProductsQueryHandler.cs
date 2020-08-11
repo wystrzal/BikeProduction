@@ -2,6 +2,7 @@
 using Catalog.Application.Mapping;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
+using Catalog.Core.SearchSpecification;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,11 @@ namespace Catalog.Application.Queries.Handlers
 {
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumerable<GetProductsDto>>
     {
-        private readonly IProductRepository productRepository;
         private readonly IMapper mapper;
         private readonly ISearchProductService searchProductService;
 
-        public GetProductsQueryHandler(IProductRepository productRepository, IMapper mapper, ISearchProductService searchProductService)
+        public GetProductsQueryHandler(IMapper mapper, ISearchProductService searchProductService)
         {
-            this.productRepository = productRepository;
             this.mapper = mapper;
             this.searchProductService = searchProductService;
         }
@@ -28,7 +27,7 @@ namespace Catalog.Application.Queries.Handlers
         {
             var filteringData = new FilteringData { Id = 1 };
 
-            var products = await searchProductService.GetProducts(true, request.Skip, request.Take, filteringData);
+            var products = await searchProductService.GetProducts(request.Skip, request.Take, filteringData);
 
             return mapper.Map<List<GetProductsDto>>(products);
         }

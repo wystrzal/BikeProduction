@@ -9,6 +9,5 @@ namespace Catalog.Core.Interfaces
 {
     public interface IProductRepository : IBaseRepository<Product>
     {
-        Task<List<Product>> GetProducts(int take = 6, int skip = 0);
     }
 }

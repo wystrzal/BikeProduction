@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 namespace BikeSortFilter
 {
     /// <summary>
-    /// Interface to search for sorted and filtered data.
+    /// <para>Interface to search for sorted and filtered data.</para>
+    /// <para>Important: You must set concrete sort
+    /// before start search data.</para>
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TFilteringData">The type of the data to filter.</typeparam>
@@ -17,15 +19,15 @@ namespace BikeSortFilter
         /// <summary>
         /// Set filter to search data.
         /// </summary>
-        /// <param name="typeOfFilter">The type of the filter (typeof(Filter)).</param>
-        void SetConcreteFilter<TFilter>(TFilter typeOfFilter, TFilteringData filteringData) where TFilter : class;
+        /// <typeparam name="TFilter">The type of the filter.</typeparam>
+        /// <param name="filteringData">Data used for filtering.</param>
+        void SetConcreteFilter<TFilter>(TFilteringData filteringData) where TFilter : class;
         /// <summary>
         /// Set sort to search data.
         /// </summary>
-        /// <typeparam name="TSort">The type of the sort (typeof(Sort)).</typeparam>
+        /// <typeparam name="TSort">The type of the sort.</typeparam>
         /// <typeparam name="TKey">The type of the returned key.</typeparam>
-        /// <param name="typeOfSort">The type of the sort (typeof(Sort)).</param>
-        void SetConcreteSort<TSort, TKey>(TSort typeOfSort) where TSort : class;
+        void SetConcreteSort<TSort, TKey>() where TSort : class;
         /// <summary>
         /// Search for data based on set filters and sort.
         /// </summary>

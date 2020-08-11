@@ -13,17 +13,8 @@ namespace Catalog.Infrastructure.Repositories
 {
     public class ProductRepository : BaseRepository<Product, DataContext>, IProductRepository
     {
-        private readonly DataContext dataContext;
-
         public ProductRepository(DataContext dataContext) : base(dataContext)
         {
-            this.dataContext = dataContext;
-        }
-
-
-        public async Task<List<Product>> GetProducts(int take, int skip)
-        {
-            return await dataContext.Products.AsNoTracking().Skip(skip).Take(take).ToListAsync();
         }
     }
 }

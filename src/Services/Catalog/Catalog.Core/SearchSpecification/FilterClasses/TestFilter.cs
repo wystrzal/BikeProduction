@@ -1,5 +1,6 @@
 ﻿using BikeSortFilter;
 using Catalog.Core.Models;
+using Catalog.Core.SearchSpecification;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,7 @@ namespace Catalog.Infrastructure.Services.FilterClasses
 
         public Predicate<Product> GetConcreteFilter()
         {
-            return x => x.Id == filteringData.Id;
+            return x => x.Id != filteringData.Id;
         }
     }
 }

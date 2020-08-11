@@ -2,6 +2,7 @@
 using BikeSortFilter;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
+using Catalog.Core.SearchSpecification;
 using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repositories;
 using Catalog.Infrastructure.Services;

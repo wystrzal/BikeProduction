@@ -15,7 +15,7 @@ namespace BikeSortFilter
     {
         private readonly IBaseRepository<TEntity> repository;
         private readonly List<Predicate<TEntity>> filtersToUse;
-        private dynamic sortToUse; 
+        private dynamic sortToUse;
 
         public SortFilterService(IBaseRepository<TEntity> repository)
         {
@@ -23,9 +23,11 @@ namespace BikeSortFilter
             this.repository = repository;
         }
 
-        public void SetConcreteFilter<TFilter>(TFilter typeOfFilter, TFilteringData filteringData) 
+        public void SetConcreteFilter<TFilter>(TFilteringData filteringData)
             where TFilter : class
         {
+            var typeOfFilter = typeof(TFilter);
+
             var concreteFilters = new Hashtable();
 
             if (!concreteFilters.ContainsKey(typeOfFilter))
@@ -40,8 +42,10 @@ namespace BikeSortFilter
             filtersToUse.Add(selectedFilter.GetConcreteFilter());
         }
 
-        public void SetConcreteSort<TSort, TKey>(TSort typeOfSort) where TSort : class
+        public void SetConcreteSort<TSort, TKey>() where TSort : class
         {
+            var typeOfSort = typeof(TSort);
+
             var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSort<TEntity, TKey>;
 
             sortToUse = sort.GetConcreteSort();
@@ -51,9 +55,12 @@ namespace BikeSortFilter
         {
             Expression<Func<TEntity, bool>> expression = x => filtersToUse.All(all => all(x));
 
-           var compiledFilterBy = expression.Compile();
+            var compiledFilterBy = expression.Compile();
 
             var data = await repository.FilterSortData(compiledFilterBy, sortToUse, orderDesc, skip, take);
+
+            sortToUse = null;
+            filtersToUse.Clear();
 
             return data;
         }

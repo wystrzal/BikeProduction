@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Shared\BaseRepository\BikeBaseRepository\BikeBaseRepository.csproj" />
+    <ProjectReference Include="..\..\..\Shared\BikeSortFilter\BikeSortFilter.csproj" />
   </ItemGroup>
 
 </Project>
