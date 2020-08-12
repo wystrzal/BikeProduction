@@ -146,8 +146,26 @@ body {
     cursor: pointer;
 }
 
-/***** Basket View *****/
+.sortFilter__button {
+    position: fixed;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
 
+.sortFilter {
+    bottom: 0;
+    right: 0;
+    position: fixed;
+    height: 0%;
+    width: 100%;
+    z-index: 1001;
+    background-color: dimgray;
+}
+
+
+/***** Basket View *****/
 .basket__quantity {
     cursor: pointer;
     font-size: 30px;

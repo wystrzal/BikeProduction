@@ -26,7 +26,7 @@ namespace Catalog.Infrastructure.Services
 
             switch (filteringData.Sort)
             {
-                case SortEnum.Sort.SortByPrice:
+                case SortEnum.Sort.SortByPriceAsc:
                     sortFilterService.SetConcreteSort<SortByPrice, decimal>();
                     break;
                 case SortEnum.Sort.SortByPriceDesc:

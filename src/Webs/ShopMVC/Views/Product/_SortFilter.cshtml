@@ -1,0 +1,71 @@
+﻿<div class="sortFilter__button">
+    <div class="btn-group">
+        <button id="sort-button" class="btn btn-secondary px-4" type="button">
+            Sort
+        </button>
+        <button class="btn btn-secondary px-4" type="button">
+            &#8635
+        </button>
+        <button id="filter-button" class="btn btn-secondary px-4" type="button">
+            Filter
+        </button>
+    </div>
+</div>
+
+<div class="sortFilter text-center">
+    <div class="text-right">
+        <span id="sortFilter-close" class="text-danger mt-2 mr-4" style="font-size: 50px; cursor: pointer;">&#9746</span>
+    </div>
+
+    <div id="sort" style="display: none;">
+        <h2 class="text-white">Sort</h2>
+        <div class="form-check mt-4">
+            <input class="form-check-input" type="radio" name="sortRadios" id="sortRadio1" value="1" />
+            <label class="form-check-label text-white" for="sortRadio1">
+                Price Ascending
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="sortRadios" id="sortRadio2" value="2" />
+            <label class="form-check-label text-white" for="sortRadio2">
+                Price Descending
+            </label>
+        </div>
+        <div class="mt-4">
+            <button class="btn btn-light">Search</button>
+        </div>
+    </div>
+
+    <div id="filter" style="display: none;">
+        <h2 class="text-white">Filter</h2>
+        <select class="form-control position-relative" style="width: 50%; left: 25%;">
+            <option value="All" selected>All</option>
+            @foreach (var color in Enum.GetValues(typeof(ShopMVC.Models.Enums.ColorsEnum.Colors)))
+            {
+                <option value="@color">@color</option>
+            }
+        </select>
+        <div class="mt-4">
+            <button class="btn btn-light">Search</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#sort-button").click(() => {
+        $(".sortFilter").animate({ height: '100%' }, 500);
+        $("#sort").css("display", "block");
+    });
+
+    $("#filter-button").click(() => {
+        $(".sortFilter").animate({ height: '100%' }, 500);
+        $("#filter").css("display", "block");
+    });
+
+    $("#sortFilter-close").click(() => {
+        $(".sortFilter").animate({ height: '0%' }, 500);
+        $("#sort").css("display", "none");
+        $("#filter").css("display", "none");
+    });
+
+</script>
