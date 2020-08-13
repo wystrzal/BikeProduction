@@ -1,4 +1,5 @@
 ﻿@model ShopMVC.Models.ViewModels.CatalogProductsViewModel
+@using ShopMVC.Extensions
 
 <div class="sortFilter__button">
     <div class="btn-group">
@@ -41,9 +42,8 @@
         </div>
         <div id="filter" style="display: none;">
             <h2 class="text-white">Filter</h2>
-            @Html.DropDownListFor(x => x.FilteringData.Colors,
-           Enum.GetNames(typeof(ShopMVC.Models.Enums.ColorsEnum.Colors)).Select(x => new SelectListItem() { Text = x, Value = x }),
-           new { @class = "form-control form-dropDown" })
+            @Html.DropDownListFor(x => x.FilteringData.Colors, Model.FilteringData.Colors.SelectListItem(),
+                new { @class = "form-control form-dropDown" })
             <div class="mt-4">
                 <button type="submit" class="btn btn-light">Search</button>
             </div>
