@@ -26,5 +26,9 @@ namespace Catalog.Core.Models
         
         [Required]
         public string PhotoUrl { get; set; }
+
+        [Required]
+        public int BrandId { get; set; }
+        public Brand Brand { get; set; }
     }
 }

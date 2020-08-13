@@ -12,6 +12,5 @@ namespace Catalog.Application.Mapping
         public string Reference { get; set; }
         public decimal Price { get; set; }
         public string PhotoUrl { get; set; }
-        public Colors Colors { get; set; }
     }
 }
