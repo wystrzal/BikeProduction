@@ -10,6 +10,7 @@ namespace Catalog.Core.SearchSpecification
     {
         public Sort Sort { get; set; }
         public Colors Colors { get; set; }
+        public int BrandId { get; set; }
         public int Take { get; set; }
         public int Skip { get; set; }
     }

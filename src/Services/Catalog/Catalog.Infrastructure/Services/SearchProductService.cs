@@ -43,6 +43,11 @@ namespace Catalog.Infrastructure.Services
                 sortFilterService.SetConcreteFilter<ColorFilter>(filteringData);
             }
 
+            if (filteringData.BrandId != 0)
+            {
+                sortFilterService.SetConcreteFilter<BrandFilter>(filteringData);
+            }
+
             
             return await sortFilterService.Search(orderDesc, filteringData.Skip, filteringData.Take);
         }
