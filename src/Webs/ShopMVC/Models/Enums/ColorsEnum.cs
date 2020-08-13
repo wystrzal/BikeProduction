@@ -8,6 +8,7 @@ namespace ShopMVC.Models.Enums
     {
         public enum Colors
         {
+            All = 0,
             White = 1,
             Black = 2,
             Yellow = 3,

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Interfaces;
+using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
 using ShopMVC.Models.ViewModels;
 
@@ -20,9 +21,13 @@ namespace ShopMVC.Controllers
 
         public async Task<IActionResult> Index(CatalogProductsViewModel vm)
         {
-            var skip = vm.CatalogProducts.Count;
+            vm.FilteringData ??= new FilteringData();
 
-            var catalogProducts = await catalogService.GetProducts(vm.Take, skip);
+            vm.FilteringData.Take = vm.FilteringData.Take == 0 ? 6 : vm.FilteringData.Take;
+
+            vm.FilteringData.Skip = vm.CatalogProducts.Count;
+
+            var catalogProducts = await catalogService.GetProducts(vm.FilteringData);
 
             vm.CatalogProducts.AddRange(catalogProducts);
 

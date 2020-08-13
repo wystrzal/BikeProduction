@@ -20,7 +20,7 @@ namespace Catalog.Infrastructure.Services
         {
             this.sortFilterService = sortFilterService;
         }
-        public async Task<List<Product>> GetProducts(int skip, int take, FilteringData filteringData)
+        public async Task<List<Product>> GetProducts(FilteringData filteringData)
         {
             bool orderDesc = false;
 
@@ -44,7 +44,7 @@ namespace Catalog.Infrastructure.Services
             }
 
             
-            return await sortFilterService.Search(orderDesc, skip, take);
+            return await sortFilterService.Search(orderDesc, filteringData.Skip, filteringData.Take);
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static Catalog.Core.Models.ColorsEnum;
-using static Catalog.Core.SearchSpecification.SortEnum;
+using static ShopMVC.Models.Enums.ColorsEnum;
+using static ShopMVC.Models.Enums.SortEnum;
 
-namespace Catalog.Core.SearchSpecification
+namespace ShopMVC.Models
 {
     public class FilteringData
     {

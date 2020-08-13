@@ -20,11 +20,27 @@ namespace ShopMVC.Services
             this.customHttpClient = customHttpClient;
         }
 
-        public async Task<List<CatalogProduct>> GetProducts(int take, int skip)
+        public async Task<List<CatalogProduct>> GetProducts(FilteringData filteringData)
         {
-            var getProductsUrl = $"{baseUrl}{take}/{skip}";
+            var getProductsUrl = $"{baseUrl}";
 
-            var products = await customHttpClient.GetStringAsync(getProductsUrl);
+            var queryParams = new Dictionary<string, string>
+            {
+                ["Take"] = filteringData.Take.ToString(),
+                ["Skip"] = filteringData.Skip.ToString()
+            };
+
+            if (filteringData.Sort != 0)
+            {
+                queryParams.Add("Sort", filteringData.Sort.ToString());
+            }
+
+            if (filteringData.Colors != 0)
+            {
+                queryParams.Add("Colors", filteringData.Colors.ToString());
+            }
+
+            var products = await customHttpClient.GetStringAsync(getProductsUrl, null, queryParams);
 
             return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);
         }

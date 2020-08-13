@@ -1,4 +1,5 @@
 ﻿using Catalog.Application.Mapping;
+using Catalog.Core.SearchSpecification;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,11 @@ namespace Catalog.Application.Queries
 {
     public class GetProductsQuery : IRequest<IEnumerable<GetProductsDto>>
     {
-        public int Take { get; set; }
-        public int Skip { get; set; }
+        public FilteringData FilteringData { get; set; }
 
-        public GetProductsQuery(int take, int skip)
+        public GetProductsQuery(FilteringData filteringData)
         {
-            Take = take;
-            Skip = skip;
+            FilteringData = filteringData;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Delivery.Application.Extensions
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddTransient<ICustomHttpClient, CustomHttpClient>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICustomerOrderService, CustomerOrderService>();
             services.AddTransient<IPackToDeliveryRepo, PackToDeliveryRepo>();
         }

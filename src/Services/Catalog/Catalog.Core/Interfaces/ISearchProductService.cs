@@ -9,6 +9,6 @@ namespace Catalog.Core.Interfaces
 {
     public interface ISearchProductService
     {
-        Task<List<Product>> GetProducts(int skip, int take, FilteringData filteringData);
+        Task<List<Product>> GetProducts(FilteringData filteringData);
     }
 }

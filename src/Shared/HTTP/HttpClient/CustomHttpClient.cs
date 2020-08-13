@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace BikeHttpClient
 {
@@ -20,17 +22,27 @@ namespace BikeHttpClient
 
         public async Task<string> GetStringAsync(string uri, string authorizationToken = null, Dictionary<string, string> queryParams = null)
         {
+            if (queryParams != null)
+            {
+                var builder = new UriBuilder(uri);
+
+                var query = HttpUtility.ParseQueryString(builder.Query);
+
+                foreach (var queryParam in queryParams)
+                {
+                    query[queryParam.Key] = queryParam.Value;
+                };
+
+                builder.Query = query.ToString();
+
+                uri = builder.ToString();
+            }
+
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
-            // SetAuthorizationHeader(requestMessage);
             if (authorizationToken != null)
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
-            }
-
-            if (queryParams != null)
-            {
-                requestMessage.Content = new FormUrlEncodedContent(queryParams);
             }
 
             var response = await client.SendAsync(requestMessage);

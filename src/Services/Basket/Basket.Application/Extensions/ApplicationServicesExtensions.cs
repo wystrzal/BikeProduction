@@ -12,8 +12,8 @@ namespace Basket.Application.Extensions
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddSingleton<IDistributedCache, RedisCache>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IBasketRedisService, BasketRedisService>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }
 }

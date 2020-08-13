@@ -25,9 +25,8 @@ namespace Catalog.Application.Queries.Handlers
 
         public async Task<IEnumerable<GetProductsDto>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var filteringData = new FilteringData { Id = 1 };
-
-            var products = await searchProductService.GetProducts(request.Skip, request.Take, filteringData);
+            var products = await searchProductService
+                .GetProducts(request.FilteringData);
 
             return mapper.Map<List<GetProductsDto>>(products);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Catalog.Application.Commands;
 using Catalog.Application.Queries;
+using Catalog.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -51,10 +52,10 @@ namespace Catalog.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{take}/{skip}")]
-        public async Task<IActionResult> GetProducts(int take, int skip)
+        [HttpGet]
+        public async Task<IActionResult> GetProducts([FromQuery]FilteringData filteringData)
         {
-            return Ok(await mediator.Send(new GetProductsQuery(take, skip)));
+            return Ok(await mediator.Send(new GetProductsQuery(filteringData)));
         }
     }
 }

@@ -148,10 +148,16 @@ body {
 
 .sortFilter__button {
     position: fixed;
-    top: 85%;
+    top: 90%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+}
+
+.form-dropDown {
+    position: relative;
+    width: 50%;
+    left: 25%;
 }
 
 .sortFilter {

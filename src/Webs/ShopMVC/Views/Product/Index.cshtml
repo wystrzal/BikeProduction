@@ -1,6 +1,6 @@
 ﻿@model ShopMVC.Models.ViewModels.CatalogProductsViewModel
 
-@if (Model.CatalogProducts.Count > Model.Take)
+@if (Model.CatalogProducts.Count > Model.FilteringData.Take)
 {
     <script>
         $(document).ready(() => {
@@ -15,7 +15,7 @@
 <div class="container-fluid text-center">
     <div class="row">
 
-        <partial name="_SortFilter" />
+        <partial name="_SortFilter" model="Model" />
 
         <div class="col-12">
             <div class="row" id="catalogProducts">
@@ -66,7 +66,10 @@
 
             @using (@Html.BeginForm("Index", "Product", FormMethod.Get))
             {
-                @Html.TextBoxFor(x => x.Take, new { style = "display: none;" })
+                @Html.TextBoxFor(x => x.FilteringData.Take, new { style = "display: none;" })
+
+                @Html.TextBoxFor(x => x.FilteringData.Sort, new { style = "display: none;" })
+                @Html.TextBoxFor(x => x.FilteringData.Colors, new { style = "display: none;" })
 
                 for (int i = 0; i < Model.CatalogProducts.Count; i++)
                 {
@@ -77,7 +80,7 @@
                     @Html.TextBoxFor(x => x.CatalogProducts[i].Reference, new { style = "display: none;" })
                 }
 
-                <input id="expandCatalogProducts" type="submit" value="&#8659;" class="mt-2 btn catalog__arrow">
+                <input id="expandCatalogProducts" type="submit" value="&#8659;" class="btn catalog__arrow">
             }
         </div>
     </div>
