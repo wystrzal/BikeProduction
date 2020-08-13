@@ -11,6 +11,6 @@ namespace Warehouse.Core.Models
         public string ProductName { get; set; }
         public string Reference { get; set; }
         public int Quantity { get; set; }
-        public ICollection<ProductsParts> ProductsParts { get; set; }
+        public virtual ICollection<ProductsParts> ProductsParts { get; set; }
     }
 }

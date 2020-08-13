@@ -57,5 +57,12 @@ namespace Catalog.API.Controllers
         {
             return Ok(await mediator.Send(new GetProductsQuery(filteringData)));
         }
+
+        [AllowAnonymous]
+        [HttpGet("brands")]
+        public async Task<IActionResult> GetBrands()
+        {
+            return Ok(await mediator.Send(new GetBrandsQuery()));
+        }
     }
 }

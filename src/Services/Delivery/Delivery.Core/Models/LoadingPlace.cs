@@ -13,6 +13,6 @@ namespace Delivery.Core.Models
         public int AmountOfSpace { get; set; }
         public LoadingPlaceStatus LoadingPlaceStatus { get; set; }
         public int LoadingPlaceNumber { get; set; }
-        public ICollection<PackToDelivery> PacksToDelivery { get; set; }
+        public virtual ICollection<PackToDelivery> PacksToDelivery { get; set; }
     }
 }
