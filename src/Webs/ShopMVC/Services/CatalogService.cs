@@ -1,4 +1,5 @@
 ﻿using BikeHttpClient;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
@@ -20,13 +21,17 @@ namespace ShopMVC.Services
             this.customHttpClient = customHttpClient;
         }
 
-        public async Task<List<Brand>> GetBrands()
+        public async Task<IEnumerable<SelectListItem>> GetBrandListItem()
         {
             var getBrandsUrl = $"{baseUrl}brands";
 
             var brands = await customHttpClient.GetStringAsync(getBrandsUrl);
 
-            return JsonConvert.DeserializeObject<List<Brand>>(brands);
+            var deserializedBrands = JsonConvert.DeserializeObject<List<Brand>>(brands);
+
+            var brandListItem = deserializedBrands.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+
+            return brandListItem;
         }
 
         public async Task<List<CatalogProduct>> GetProducts(FilteringData filteringData)
@@ -47,6 +52,11 @@ namespace ShopMVC.Services
             if (filteringData.Colors != 0)
             {
                 queryParams.Add("Colors", filteringData.Colors.ToString());
+            }
+
+            if (filteringData.BrandId != 0)
+            {
+                queryParams.Add("BrandId", filteringData.BrandId.ToString());
             }
 
             var products = await customHttpClient.GetStringAsync(getProductsUrl, null, queryParams);

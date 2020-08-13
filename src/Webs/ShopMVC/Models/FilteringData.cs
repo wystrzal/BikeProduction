@@ -12,5 +12,6 @@ namespace ShopMVC.Models
         public Colors Colors { get; set; }
         public int Take { get; set; }
         public int Skip { get; set; }
+        public int BrandId { get; set; }
     }
 }

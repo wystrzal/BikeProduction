@@ -67,6 +67,7 @@
             @using (@Html.BeginForm("Index", "Product", FormMethod.Get))
             {
                 @Html.TextBoxFor(x => x.FilteringData.Take, new { style = "display: none;" })
+                @Html.TextBoxFor(x => x.FilteringData.BrandId, new { style = "display: none;"})
 
                 @Html.TextBoxFor(x => x.FilteringData.Sort, new { style = "display: none;" })
                 @Html.TextBoxFor(x => x.FilteringData.Colors, new { style = "display: none;" })

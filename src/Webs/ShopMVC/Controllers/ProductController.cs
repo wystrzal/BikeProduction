@@ -24,9 +24,7 @@ namespace ShopMVC.Controllers
         {
             vm.FilteringData ??= new FilteringData();
 
-            var brands = await catalogService.GetBrands();
-
-            vm.BrandListItem = brands.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
+            vm.BrandListItem = await catalogService.GetBrandListItem();
 
             vm.FilteringData.Take = vm.FilteringData.Take == 0 ? 6 : vm.FilteringData.Take;
 

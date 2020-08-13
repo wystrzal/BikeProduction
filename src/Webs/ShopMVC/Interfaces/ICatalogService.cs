@@ -1,4 +1,5 @@
-﻿using ShopMVC.Models;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using ShopMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace ShopMVC.Interfaces
     public interface ICatalogService
     {
         Task<List<CatalogProduct>> GetProducts(FilteringData filteringData);
-        Task<List<Brand>> GetBrands();
+        Task<IEnumerable<SelectListItem>> GetBrandListItem();
     }
 }
