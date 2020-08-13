@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
@@ -22,6 +23,10 @@ namespace ShopMVC.Controllers
         public async Task<IActionResult> Index(CatalogProductsViewModel vm)
         {
             vm.FilteringData ??= new FilteringData();
+
+            var brands = await catalogService.GetBrands();
+
+            vm.BrandListItem = brands.Select(x => new SelectListItem { Text = x.Name, Value = x.Id.ToString() });
 
             vm.FilteringData.Take = vm.FilteringData.Take == 0 ? 6 : vm.FilteringData.Take;
 

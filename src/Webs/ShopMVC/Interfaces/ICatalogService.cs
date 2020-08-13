@@ -9,5 +9,6 @@ namespace ShopMVC.Interfaces
     public interface ICatalogService
     {
         Task<List<CatalogProduct>> GetProducts(FilteringData filteringData);
+        Task<List<Brand>> GetBrands();
     }
 }

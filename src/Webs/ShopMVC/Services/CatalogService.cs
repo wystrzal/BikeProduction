@@ -20,6 +20,15 @@ namespace ShopMVC.Services
             this.customHttpClient = customHttpClient;
         }
 
+        public async Task<List<Brand>> GetBrands()
+        {
+            var getBrandsUrl = $"{baseUrl}brands";
+
+            var brands = await customHttpClient.GetStringAsync(getBrandsUrl);
+
+            return JsonConvert.DeserializeObject<List<Brand>>(brands);
+        }
+
         public async Task<List<CatalogProduct>> GetProducts(FilteringData filteringData)
         {
             var getProductsUrl = $"{baseUrl}";
