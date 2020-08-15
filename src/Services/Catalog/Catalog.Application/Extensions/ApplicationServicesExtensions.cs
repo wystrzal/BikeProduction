@@ -15,9 +15,9 @@ namespace Catalog.Application.Extensions
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IBrandRepository, BrandRepository>();
             services.AddTransient<ISortFilterService<Product, FilteringData>, SortFilterService<Product, FilteringData>>();
             services.AddTransient<IBaseRepository<Product>, BaseRepository<Product, DataContext>>();
-            services.AddTransient<IBaseRepository<Brand>, BaseRepository<Brand, DataContext>>();
             services.AddTransient<ISearchProductService, SearchProductService>();
         }
     }
