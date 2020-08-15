@@ -12,7 +12,8 @@ namespace ShopMVC.Extensions
         {
             var enumType = @enum.GetType();
 
-            return Enum.GetNames(enumType).Select(x => new SelectListItem() { Text = x, Value = x });
+            return Enum.GetNames(enumType)
+                .Select(x => new SelectListItem() { Text = x.Replace("_", " "), Value = x });
         }
     }
 }

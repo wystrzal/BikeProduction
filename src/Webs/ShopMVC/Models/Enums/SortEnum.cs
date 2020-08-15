@@ -8,8 +8,10 @@ namespace ShopMVC.Models.Enums
     {
         public enum Sort
         {
-            SortByPriceAsc = 1,
-            SortByPriceDesc = 2
+            Price_Ascending = 1,
+            Price_Descending = 2,
+            Oldest_Added = 3,
+            Latest_Added = 4
         }
     }
 }

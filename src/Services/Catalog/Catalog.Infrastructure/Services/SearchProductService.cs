@@ -26,17 +26,17 @@ namespace Catalog.Infrastructure.Services
 
             switch (filteringData.Sort)
             {
-                case SortEnum.Sort.SortByPriceAsc:
+                case SortEnum.Sort.Price_Ascending:
                     sortFilterService.SetConcreteSort<SortByPrice, decimal>();
                     break;
-                case SortEnum.Sort.SortByPriceDesc:
+                case SortEnum.Sort.Price_Descending:
                     sortFilterService.SetConcreteSort<SortByPrice, decimal>();
                     orderDesc = true;
                     break;
-                case SortEnum.Sort.SortByDateAsc:
+                case SortEnum.Sort.Oldest_Added:
                     sortFilterService.SetConcreteSort<SortByDate, DateTime>();
                     break;
-                case SortEnum.Sort.SortByDateDesc:
+                case SortEnum.Sort.Latest_Added:
                     sortFilterService.SetConcreteSort<SortByDate, DateTime>();
                     orderDesc = true;
                     break;

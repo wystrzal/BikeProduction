@@ -23,18 +23,18 @@
     <form asp-action="Index" asp-controller="Product">
         <div id="sort" style="display: none;">
             <h2 class="text-white">Sort</h2>
-            <div class="form-check mt-4">
-                @Html.RadioButtonFor(x => x.FilteringData.Sort, 1, new { @class = "form-check-input", @id = "sortRadio1"})
-                <label class="form-check-label text-white" for="sortRadio1">
-                    Price Ascending
-                </label>
-            </div>
-            <div class="form-check">
-                @Html.RadioButtonFor(x => x.FilteringData.Sort, 2, new { @class = "form-check-input", @id = "sortRadio2" })
-                <label class="form-check-label text-white" for="sortRadio2">
-                    Price Descending
-                </label>
-            </div>
+
+            @foreach (var item in Model.FilteringData.Sort.SelectListItem())
+            {
+                <div class="form-check mt-4">
+                    @Html.RadioButtonFor(x => x.FilteringData.Sort, item.Value,
+                    new { @class = "form-check-input", @id = $"sortRadio-{item.Value}" })
+                    <label class="form-check-label text-white" for="sortRadio-@item.Value">
+                        @item.Text
+                    </label>
+                </div>
+            }
+
             <div class="mt-4">
                 <button type="submit" class="btn btn-light">Search</button>
             </div>
