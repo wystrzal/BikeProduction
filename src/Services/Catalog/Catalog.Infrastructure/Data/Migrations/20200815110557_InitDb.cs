@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Catalog.Infrastructure.Migrations
 {
@@ -30,7 +31,8 @@ namespace Catalog.Infrastructure.Migrations
                     Colors = table.Column<int>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PhotoUrl = table.Column<string>(nullable: false),
-                    BrandId = table.Column<int>(nullable: false)
+                    BrandId = table.Column<int>(nullable: false),
+                    DateAdded = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -30,5 +30,11 @@ namespace Catalog.Core.Models
         [Required]
         public int BrandId { get; set; }
         public Brand Brand { get; set; }
+        public DateTime DateAdded { get; set; }
+
+        public Product()
+        {
+            DateAdded = DateTime.Now;
+        }
     }
 }

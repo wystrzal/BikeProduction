@@ -9,7 +9,9 @@ namespace Catalog.Core.SearchSpecification
         public enum Sort
         {
             SortByPriceAsc = 1,
-            SortByPriceDesc = 2
+            SortByPriceDesc = 2,
+            SortByDateAsc = 3,
+            SortByDateDesc = 4,
         }
     }
 }

@@ -33,6 +33,13 @@ namespace Catalog.Infrastructure.Services
                     sortFilterService.SetConcreteSort<SortByPrice, decimal>();
                     orderDesc = true;
                     break;
+                case SortEnum.Sort.SortByDateAsc:
+                    sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+                    break;
+                case SortEnum.Sort.SortByDateDesc:
+                    sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+                    orderDesc = true;
+                    break;
                 default:
                     sortFilterService.SetConcreteSort<SortByName, string>();
                     break;
