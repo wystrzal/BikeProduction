@@ -29,6 +29,8 @@ namespace Catalog.Core.Models
 
         [Required]
         public int BrandId { get; set; }
+
+        public int Popularity { get; set; }
         public Brand Brand { get; set; }
         public DateTime DateAdded { get; set; }
 

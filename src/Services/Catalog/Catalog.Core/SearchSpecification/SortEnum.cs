@@ -12,6 +12,8 @@ namespace Catalog.Core.SearchSpecification
             Price_Descending = 2,
             Oldest_Added = 3,
             Latest_Added = 4,
+            The_Most_Popular = 5,
+            The_Least_Popular = 6
         }
     }
 }

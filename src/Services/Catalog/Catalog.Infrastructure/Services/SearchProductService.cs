@@ -40,6 +40,13 @@ namespace Catalog.Infrastructure.Services
                     sortFilterService.SetConcreteSort<SortByDate, DateTime>();
                     orderDesc = true;
                     break;
+                case SortEnum.Sort.The_Most_Popular:
+                    sortFilterService.SetConcreteSort<SortByPopularity, int>();
+                    orderDesc = true;
+                    break;
+                case SortEnum.Sort.The_Least_Popular:
+                    sortFilterService.SetConcreteSort<SortByPopularity, int>();
+                    break;
                 default:
                     sortFilterService.SetConcreteSort<SortByName, string>();
                     break;

@@ -32,6 +32,7 @@ namespace Catalog.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     PhotoUrl = table.Column<string>(nullable: false),
                     BrandId = table.Column<int>(nullable: false),
+                    Popularity = table.Column<int>(nullable: false),
                     DateAdded = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
