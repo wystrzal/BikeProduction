@@ -11,11 +11,11 @@ using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Messaging.Consumers
 {
-    public class ConfirmProductionConsumer : IConsumer<ProductionConfirmedEvent>
+    public class ProductionConfirmedConsumer : IConsumer<ProductionConfirmedEvent>
     {
         private readonly IProductPartRepo productPartRepo;
 
-        public ConfirmProductionConsumer(IProductPartRepo productPartRepo)
+        public ProductionConfirmedConsumer(IProductPartRepo productPartRepo)
         {
             this.productPartRepo = productPartRepo;
         }

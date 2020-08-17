@@ -48,6 +48,8 @@ namespace Catalog.API
 
             services.AddMediatR(typeof(AddProductCommand).Assembly);
 
+            services.AddCustomMassTransit();
+
             services.AddApplicationServices();
 
             services.AddSwaggerDocumentation();

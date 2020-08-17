@@ -14,7 +14,7 @@ namespace Warehouse.Application.Extensions
             services.AddMassTransit(options =>
             {
 
-                options.AddConsumer<ConfirmProductionConsumer>();
+                options.AddConsumer<ProductionConfirmedConsumer>();
                 options.AddConsumer<ProductAddedConsumer>();
                 options.AddConsumer<ProductDeletedConsumer>();
 
@@ -31,7 +31,7 @@ namespace Warehouse.Application.Extensions
                     cfg.ReceiveEndpoint("production_confirmed", ep =>
                     {
                         ep.Bind<ProductionConfirmedEvent>();
-                        ep.ConfigureConsumer<ConfirmProductionConsumer>(provider);
+                        ep.ConfigureConsumer<ProductionConfirmedConsumer>(provider);
                     });
 
                     cfg.ReceiveEndpoint("product_added", ep =>
