@@ -9,6 +9,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using static Catalog.Core.Models.Enums.HomeProductEnum;
 
 namespace Catalog.API.Controllers
 {
@@ -63,6 +64,13 @@ namespace Catalog.API.Controllers
         public async Task<IActionResult> GetBrands()
         {
             return Ok(await mediator.Send(new GetBrandsQuery()));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("home/{homeProduct}")]
+        public async Task<IActionResult> GetHomePageProducts(HomeProduct homeProduct)
+        {
+            return Ok(await mediator.Send(new GetHomeProductsQuery(homeProduct)));
         }
     }
 }
