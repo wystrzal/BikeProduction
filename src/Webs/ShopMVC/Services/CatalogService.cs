@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static ShopMVC.Models.Enums.HomeProductEnum;
 
 namespace ShopMVC.Services
 {
@@ -60,6 +61,15 @@ namespace ShopMVC.Services
             }
 
             var products = await customHttpClient.GetStringAsync(getProductsUrl, null, queryParams);
+
+            return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);
+        }
+
+        public async Task<List<CatalogProduct>> GetHomeProducts(HomeProduct homeProduct)
+        {
+            var getHomeProductsUrl = $"{baseUrl}home/{homeProduct}";
+
+            var products = await customHttpClient.GetStringAsync(getHomeProductsUrl);
 
             return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);
         }
