@@ -17,6 +17,7 @@ namespace Catalog.Application.Extensions
             services.AddMassTransit(options =>
             {
                 options.AddConsumer<OrderCreatedConsumer>();
+                options.AddConsumer<OrderCanceledConsumer>();
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -34,6 +35,11 @@ namespace Catalog.Application.Extensions
                         ep.ConfigureConsumer<OrderCreatedConsumer>(provider);
                     });
 
+                    cfg.ReceiveEndpoint("order_canceled_catalog", ep =>
+                    {
+                        ep.Bind<OrderCanceledEvent>();
+                        ep.ConfigureConsumer<OrderCanceledConsumer>(provider);
+                    });
                 }));
             });
 

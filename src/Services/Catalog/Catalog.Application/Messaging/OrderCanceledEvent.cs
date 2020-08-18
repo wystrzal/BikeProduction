@@ -1,15 +1,13 @@
 ﻿using Catalog.Application.Messaging.MessagingModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
 namespace Common.Application.Messaging
 {
-    public class OrderCreatedEvent
+    public class OrderCanceledEvent
     {
-        public List<OrderItem> OrderItems { get; set; }
+        public List<string> References { get; set; }
     }
 }
-
 
