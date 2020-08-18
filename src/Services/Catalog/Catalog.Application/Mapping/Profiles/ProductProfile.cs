@@ -16,6 +16,10 @@ namespace Catalog.Application.Mapping.Profiles
             CreateMap<Product, GetProductsDto>();
 
             CreateMap<Product, GetHomeProductsDto>();
+
+            CreateMap<Product, GetProductDto>()
+                .ForMember(dest => dest.BrandName, opt =>
+                opt.MapFrom(src => src.Brand.Name));
         }
     }
 }

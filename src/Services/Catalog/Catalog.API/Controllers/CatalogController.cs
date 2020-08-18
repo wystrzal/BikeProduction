@@ -60,6 +60,13 @@ namespace Catalog.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id)
+        {
+            return Ok(await mediator.Send(new GetProductQuery(id)));
+        }
+
+        [AllowAnonymous]
         [HttpGet("brands")]
         public async Task<IActionResult> GetBrands()
         {
