@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using static Catalog.Core.Models.ColorsEnum;
+using static Catalog.Core.Models.Enums.BikeTypeEnum;
 
 namespace Catalog.Core.Models
 {
@@ -30,8 +31,12 @@ namespace Catalog.Core.Models
         [Required]
         public int BrandId { get; set; }
 
-        public int Popularity { get; set; }
+        [Required]
+        public BikeType BikeType { get; set; }
+
+        [Required]
         public Brand Brand { get; set; }
+        public int Popularity { get; set; }
         public DateTime DateAdded { get; set; }
 
         public Product()
