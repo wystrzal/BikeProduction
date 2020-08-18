@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using static Catalog.Core.Models.ColorsEnum;
+using static Catalog.Core.Models.Enums.BikeTypeEnum;
 
 namespace Catalog.Infrastructure.Services
 {
@@ -60,6 +61,11 @@ namespace Catalog.Infrastructure.Services
             if (filteringData.BrandId != 0)
             {
                 sortFilterService.SetConcreteFilter<BrandFilter>(filteringData);
+            }
+
+            if (filteringData.BikeType != BikeType.All)
+            {
+                sortFilterService.SetConcreteFilter<TypeFilter>(filteringData);
             }
 
             

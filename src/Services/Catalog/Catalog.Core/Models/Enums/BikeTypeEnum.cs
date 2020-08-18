@@ -8,6 +8,7 @@ namespace Catalog.Core.Models.Enums
     {
         public enum BikeType
         {
+            All = 0,
             Mountain_Bike = 1,
             Road_Bike = 2,
             Fitness_Bike = 3,
