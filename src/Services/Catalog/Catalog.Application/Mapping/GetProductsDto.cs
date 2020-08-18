@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Catalog.Core.Models.ColorsEnum;
-
-namespace Catalog.Application.Mapping
+﻿namespace Catalog.Application.Mapping
 {
     public class GetProductsDto
     {

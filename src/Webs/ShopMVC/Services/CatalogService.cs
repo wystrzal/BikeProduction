@@ -60,6 +60,11 @@ namespace ShopMVC.Services
                 queryParams.Add("BrandId", filteringData.BrandId.ToString());
             }
 
+            if (filteringData.BikeType != 0)
+            {
+                queryParams.Add("BikeType", filteringData.BikeType.ToString());
+            }
+
             var products = await customHttpClient.GetStringAsync(getProductsUrl, null, queryParams);
 
             return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);

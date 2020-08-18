@@ -1,8 +1,5 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static Catalog.Core.Models.ColorsEnum;
+using static Catalog.Core.Models.Enums.ColorsEnum;
 
 namespace Catalog.Application.Commands
 {

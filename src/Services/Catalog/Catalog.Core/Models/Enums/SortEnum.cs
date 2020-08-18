@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Catalog.Core.SearchSpecification
+namespace Catalog.Core.Models.Enums
 {
     public class SortEnum
     {

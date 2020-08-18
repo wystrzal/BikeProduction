@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using static Catalog.Core.Models.ColorsEnum;
 using static Catalog.Core.Models.Enums.BikeTypeEnum;
+using static Catalog.Core.Models.Enums.ColorsEnum;
 
 namespace Catalog.Core.Models
 {

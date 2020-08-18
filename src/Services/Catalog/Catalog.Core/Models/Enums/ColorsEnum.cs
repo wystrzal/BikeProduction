@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Catalog.Core.Models
+namespace Catalog.Core.Models.Enums
 {
     public class ColorsEnum
     {

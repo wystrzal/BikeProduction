@@ -1,15 +1,15 @@
 ﻿using BikeSortFilter;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
+using Catalog.Core.Models.Enums;
 using Catalog.Core.SearchSpecification;
 using Catalog.Core.SearchSpecification.FilterClasses;
 using Catalog.Core.SearchSpecification.SortClasses;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using static Catalog.Core.Models.ColorsEnum;
 using static Catalog.Core.Models.Enums.BikeTypeEnum;
+using static Catalog.Core.Models.Enums.ColorsEnum;
 
 namespace Catalog.Infrastructure.Services
 {
