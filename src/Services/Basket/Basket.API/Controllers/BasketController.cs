@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
-using Basket.Application.Commands;
+﻿using Basket.Application.Commands;
 using Basket.Application.Queries;
-using Basket.Core.Dtos;
-using Basket.Core.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Basket.API.Controllers
 {

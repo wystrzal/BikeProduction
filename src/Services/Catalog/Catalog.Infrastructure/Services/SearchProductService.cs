@@ -68,7 +68,7 @@ namespace Catalog.Infrastructure.Services
                 sortFilterService.SetConcreteFilter<TypeFilter>(filteringData);
             }
 
-            
+
             return await sortFilterService.Search(orderDesc, filteringData.Skip, filteringData.Take);
         }
     }

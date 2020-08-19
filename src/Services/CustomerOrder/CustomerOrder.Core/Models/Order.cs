@@ -1,10 +1,7 @@
-﻿using CustomerOrder.Core.Models.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
 
 namespace CustomerOrder.Core.Models

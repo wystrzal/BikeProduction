@@ -3,9 +3,6 @@ using CustomerOrder.Application.Mapping;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +29,7 @@ namespace CustomerOrder.Application.Queries.Handlers
                 throw new OrderNotFoundException();
             }
 
-            return mapper.Map<GetOrderDto>(order);        
+            return mapper.Map<GetOrderDto>(order);
         }
     }
 }

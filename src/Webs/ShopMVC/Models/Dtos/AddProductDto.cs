@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ShopMVC.Models.Dtos
+﻿namespace ShopMVC.Models.Dtos
 {
     public class AddProductDto
     {

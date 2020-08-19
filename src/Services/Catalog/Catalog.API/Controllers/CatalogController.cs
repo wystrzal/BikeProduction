@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Catalog.Application.Commands;
+﻿using Catalog.Application.Commands;
 using Catalog.Application.Queries;
 using Catalog.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using static Catalog.Core.Models.Enums.HomeProductEnum;
 
 namespace Catalog.API.Controllers

@@ -1,9 +1,6 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using Production.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Production.Application.Messaging.Consumers

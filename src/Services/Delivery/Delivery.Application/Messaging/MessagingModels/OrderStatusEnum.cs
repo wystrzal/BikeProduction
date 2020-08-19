@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Delivery.Application.Messaging.MessagingModels
+﻿namespace Delivery.Application.Messaging.MessagingModels
 {
     public class OrderStatusEnum
     {

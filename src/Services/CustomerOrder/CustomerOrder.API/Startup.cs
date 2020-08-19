@@ -1,4 +1,3 @@
-using System.Net;
 using AutoMapper;
 using CustomerOrder.API.Extensions;
 using CustomerOrder.Application.Commands;
@@ -17,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace CustomerOrder
 {

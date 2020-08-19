@@ -6,11 +6,6 @@ using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
 using ShopMVC.Models.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShopMVC.Services
@@ -64,9 +59,10 @@ namespace ShopMVC.Services
 
         public async Task AddProduct(BasketProduct basketProduct)
         {
-            var addProductDto = new AddProductDto 
+            var addProductDto = new AddProductDto
             {
-                Product = basketProduct, UserId = userId 
+                Product = basketProduct,
+                UserId = userId
             };
 
             var addProductUrl = $"{baseUrl}add/product";

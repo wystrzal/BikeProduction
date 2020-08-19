@@ -1,7 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using static Basket.Core.Dtos.Enums.ChangeProductQuantityEnum;
 
 namespace Basket.Application.Commands

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static ShopMVC.Models.Enums.BikeTypeEnum;
+﻿using static ShopMVC.Models.Enums.BikeTypeEnum;
 using static ShopMVC.Models.Enums.ColorsEnum;
 using static ShopMVC.Models.Enums.SortEnum;
 

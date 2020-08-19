@@ -3,9 +3,6 @@ using Delivery.Core.Exceptions;
 using Delivery.Core.Interfaces;
 using MassTransit;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Delivery.Application.Messaging.MessagingModels.OrderStatusEnum;
@@ -54,7 +51,7 @@ namespace Delivery.Application.Commands.Handlers
                 await loadingPlaceRepo.SaveAllAsync();
 
                 await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.ReadyToSend));
-            } 
+            }
             else
             {
                 throw new LackOfSpaceException();

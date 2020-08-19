@@ -1,12 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MassTransit;
-using RabbitMQ.Client;
-using Basket.Application.Messaging.Consumers;
+﻿using Basket.Application.Messaging.Consumers;
 using Common.Application.Messaging;
+using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 
 namespace CustomerOrder.Application.Extensions
 {

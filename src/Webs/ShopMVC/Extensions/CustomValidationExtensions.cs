@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ShopMVC.Extensions
+﻿namespace ShopMVC.Extensions
 {
     public static class CustomValidationExtensions
     {

@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Common.Application.Messaging;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
 using Warehouse.Core.Models;

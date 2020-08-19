@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using Warehouse.Application.Commands;
 using Warehouse.Application.Queries;
 
@@ -46,7 +43,7 @@ namespace Warehouse.API.Controllers
         public async Task<IActionResult> GetPart(int id)
         {
             try
-            {              
+            {
                 return Ok(await mediator.Send(new GetPartQuery(id)));
             }
             catch (Exception ex)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static Catalog.Core.Models.Enums.BikeTypeEnum;
+﻿using static Catalog.Core.Models.Enums.BikeTypeEnum;
 using static Catalog.Core.Models.Enums.ColorsEnum;
 
 namespace Catalog.Application.Mapping

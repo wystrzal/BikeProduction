@@ -1,13 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MassTransit;
-using RabbitMQ.Client;
+﻿using Common.Application.Commands;
 using Common.Application.Messaging;
 using Delivery.Application.Messaging.Consumers;
-using Common.Application.Commands;
+using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 
 namespace Delivery.Application.Extensions
 {

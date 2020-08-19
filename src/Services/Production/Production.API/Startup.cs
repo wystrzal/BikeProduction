@@ -1,4 +1,3 @@
-using System.Net;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,9 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Production.Application.Commands;
-using Production.Application.Commands.Handlers;
 using Production.Application.Extensions;
 using Production.Infrastructure.Data;
+using System.Net;
 
 namespace Production.API
 {
@@ -44,7 +43,7 @@ namespace Production.API
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
-           
+
 
             services.AddCustomAuth(Configuration);
 

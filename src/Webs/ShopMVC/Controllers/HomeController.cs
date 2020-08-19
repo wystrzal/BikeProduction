@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Interfaces;
-using ShopMVC.Models;
 using ShopMVC.Models.ViewModels;
+using System.Threading.Tasks;
 using static ShopMVC.Models.Enums.HomeProductEnum;
 
 namespace ShopMVC.Controllers

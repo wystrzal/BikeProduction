@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Catalog.Application.Mapping
+﻿namespace Catalog.Application.Mapping
 {
     public class GetBrandsDto
     {

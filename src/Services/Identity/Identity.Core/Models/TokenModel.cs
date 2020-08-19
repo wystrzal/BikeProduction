@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Identity.Core.Models
+﻿namespace Identity.Core.Models
 {
     public class TokenModel
     {

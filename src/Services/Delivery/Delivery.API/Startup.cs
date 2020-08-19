@@ -1,4 +1,3 @@
-using System.Net;
 using AutoMapper;
 using CustomerOrder.API.Extensions;
 using Delivery.Application.Extensions;
@@ -14,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
+using System.Net;
 
 namespace Delivery.API
 {

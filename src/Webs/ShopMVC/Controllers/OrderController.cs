@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using ShopMVC.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.ViewModels;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ShopMVC.Controllers
 {

@@ -3,10 +3,8 @@ using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Catalog.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static Catalog.Core.Models.Enums.HomeProductEnum;
 

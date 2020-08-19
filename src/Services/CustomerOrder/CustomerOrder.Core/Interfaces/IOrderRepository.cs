@@ -1,9 +1,7 @@
-﻿using CustomerOrder.Core.Models;
-using System;
+﻿using BikeBaseRepository;
+using CustomerOrder.Core.Models;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using BikeBaseRepository;
 
 namespace CustomerOrder.Core.Interfaces
 {

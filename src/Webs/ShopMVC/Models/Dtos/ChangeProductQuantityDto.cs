@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static ShopMVC.Models.Enums.ChangeProductQuantityEnum;
+﻿using static ShopMVC.Models.Enums.ChangeProductQuantityEnum;
 
 namespace ShopMVC.Models.Dtos
 {

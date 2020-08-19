@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static Production.Core.Models.Enums.ProductionStatusEnum;
+﻿using static Production.Core.Models.Enums.ProductionStatusEnum;
 
 namespace Production.Core.Models
 {

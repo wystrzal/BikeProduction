@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ShopMVC.Models.Enums
+﻿namespace ShopMVC.Models.Enums
 {
     public class ColorsEnum
     {

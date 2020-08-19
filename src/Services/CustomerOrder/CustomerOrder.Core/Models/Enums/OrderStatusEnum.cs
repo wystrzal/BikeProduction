@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CustomerOrder.Core.Models.Enums
+﻿namespace CustomerOrder.Core.Models.Enums
 {
     public class OrderStatusEnum
     {

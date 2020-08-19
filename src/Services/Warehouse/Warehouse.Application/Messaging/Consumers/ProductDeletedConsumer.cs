@@ -1,8 +1,5 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Exceptions;
 using Warehouse.Core.Interfaces;

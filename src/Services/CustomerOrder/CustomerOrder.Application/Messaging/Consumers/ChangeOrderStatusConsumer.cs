@@ -2,9 +2,6 @@
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CustomerOrder.Application.Messaging.Consumers

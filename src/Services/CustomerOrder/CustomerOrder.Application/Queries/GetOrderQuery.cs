@@ -1,9 +1,5 @@
 ﻿using CustomerOrder.Application.Mapping;
-using CustomerOrder.Core.Models;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CustomerOrder.Application.Queries
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Production.Core.Models.Enums
+﻿namespace Production.Core.Models.Enums
 {
     public class ProductionStatusEnum
     {

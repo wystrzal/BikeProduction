@@ -1,9 +1,7 @@
-using System.Net;
 using AutoMapper;
 using Catalog.Application.Commands;
 using Catalog.Application.Extensions;
 using Catalog.Application.Mapping;
-using Catalog.Application.Mapping.Profiles;
 using Catalog.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net;
 
 namespace Catalog.API
 {

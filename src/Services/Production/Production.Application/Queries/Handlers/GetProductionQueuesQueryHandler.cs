@@ -2,9 +2,7 @@
 using MediatR;
 using Production.Application.Mapping;
 using Production.Core.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

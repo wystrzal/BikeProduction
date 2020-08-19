@@ -1,7 +1,4 @@
-﻿using Delivery.Core.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using static Delivery.Core.Models.Enums.LoadingPlaceStatusEnum;
 
 namespace Delivery.Core.Models

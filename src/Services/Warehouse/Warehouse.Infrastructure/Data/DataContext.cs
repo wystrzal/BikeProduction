@@ -1,8 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Warehouse.Core.Models;
 
 namespace Warehouse.Infrastructure.Data
@@ -33,7 +29,7 @@ namespace Warehouse.Infrastructure.Data
 
             modelBuilder.Entity<ProductsParts>(pp =>
             {
-                pp.HasKey(x => new { x.PartId, x.ProductId } );
+                pp.HasKey(x => new { x.PartId, x.ProductId });
 
                 pp.HasOne(x => x.Product)
                 .WithMany(x => x.ProductsParts)

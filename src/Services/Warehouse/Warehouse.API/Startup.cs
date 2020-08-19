@@ -1,4 +1,3 @@
-using System.Net;
 using AutoMapper;
 using Common.Application.Messaging;
 using MediatR;
@@ -12,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net;
 using Warehouse.Application.Extensions;
 using Warehouse.Infrastructure.Data;
 

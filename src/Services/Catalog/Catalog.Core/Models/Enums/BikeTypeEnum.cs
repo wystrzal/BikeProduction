@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Catalog.Core.Models.Enums
+﻿namespace Catalog.Core.Models.Enums
 {
     public class BikeTypeEnum
     {

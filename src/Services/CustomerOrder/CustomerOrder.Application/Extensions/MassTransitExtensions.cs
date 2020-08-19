@@ -1,12 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MassTransit;
-using RabbitMQ.Client;
+﻿using Common.Application.Messaging;
 using CustomerOrder.Application.Messaging.Consumers;
-using Common.Application.Messaging;
+using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
+using RabbitMQ.Client;
 
 namespace CustomerOrder.Application.Extensions
 {
@@ -20,11 +16,11 @@ namespace CustomerOrder.Application.Extensions
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
-                    cfg.Host("rabbitmq://host.docker.internal",  h =>
-                    {
-                        h.Username("guest");
-                        h.Password("guest");
-                    });
+                    cfg.Host("rabbitmq://host.docker.internal", h =>
+                   {
+                       h.Username("guest");
+                       h.Password("guest");
+                   });
 
                     cfg.ExchangeType = ExchangeType.Fanout;
 

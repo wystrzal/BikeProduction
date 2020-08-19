@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using static ShopMVC.Models.Enums.OrderStatusEnum;
 
 namespace ShopMVC.Models.ViewModels

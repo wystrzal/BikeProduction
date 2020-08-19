@@ -2,9 +2,6 @@
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using static Delivery.Core.Models.Enums.PackStatusEnum;
 
@@ -46,7 +43,7 @@ namespace Delivery.Application.Messaging.Consumers
                 packToDelivery.ProductsQuantity += context.Message.ProductsQuantity;
             }
 
-            await packToDeliveryRepo.SaveAllAsync();         
+            await packToDeliveryRepo.SaveAllAsync();
         }
     }
 }

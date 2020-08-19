@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Warehouse.Core.Interfaces;
-using Warehouse.Core.Models;
 using Warehouse.Infrastructure.Repositories;
 
 namespace Warehouse.Application.Extensions

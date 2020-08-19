@@ -3,10 +3,6 @@ using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Delivery.Infrastructure.Services

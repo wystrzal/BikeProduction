@@ -2,10 +2,6 @@
 using Production.Core.Interfaces;
 using Production.Core.Models;
 using Production.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Production.Infrastructure.Repositories
 {

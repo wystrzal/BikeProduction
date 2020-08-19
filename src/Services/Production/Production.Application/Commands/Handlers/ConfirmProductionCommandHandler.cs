@@ -1,11 +1,8 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
-using Production.Application.Messaging;
 using Production.Core.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Production.Application.Messaging.MessagingModels.OrderStatusEnum;
@@ -27,7 +24,7 @@ namespace Production.Application.Commands.Handlers
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue.ProductionStatus == ProductionStatus.Waiting 
+            if (productionQueue.ProductionStatus == ProductionStatus.Waiting
                 || productionQueue.ProductionStatus == ProductionStatus.NoParts)
             {
                 var serviceAddress = new Uri("rabbitmq://localhost/production_confirmed");
@@ -45,7 +42,7 @@ namespace Production.Application.Commands.Handlers
                     productionQueue.ProductionStatus = ProductionStatus.NoParts;
                 }
 
-                await productionQueueRepo.SaveAllAsync();        
+                await productionQueueRepo.SaveAllAsync();
             }
 
             return Unit.Value;

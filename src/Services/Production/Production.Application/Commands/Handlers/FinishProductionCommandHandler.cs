@@ -2,12 +2,8 @@
 using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Internal;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
@@ -35,7 +31,7 @@ namespace Production.Application.Commands.Handlers
                 await productionQueueRepo.SaveAllAsync();
 
                 await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
-            } 
+            }
             else
             {
                 throw new ProductsNotBeingCreatedException();

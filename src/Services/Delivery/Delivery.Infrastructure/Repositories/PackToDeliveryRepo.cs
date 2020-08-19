@@ -2,9 +2,6 @@
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using Delivery.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Delivery.Infrastructure.Repositories
 {

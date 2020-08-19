@@ -2,9 +2,6 @@
 using Common.Application.Messaging;
 using Delivery.Core.Interfaces;
 using MassTransit;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using static Delivery.Application.Messaging.MessagingModels.OrderStatusEnum;
 using static Delivery.Core.Models.Enums.PackStatusEnum;

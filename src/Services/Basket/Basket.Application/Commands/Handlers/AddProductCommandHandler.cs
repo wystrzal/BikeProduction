@@ -1,12 +1,9 @@
 ﻿using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
 using MediatR;
-using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

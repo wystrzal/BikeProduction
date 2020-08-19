@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
+﻿using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
 
 namespace Common.Application.Messaging
 {
-    public class ChangeOrderStatusEvent 
+    public class ChangeOrderStatusEvent
     {
         public int OrderId { get; set; }
         public OrderStatus OrderStatus { get; set; }

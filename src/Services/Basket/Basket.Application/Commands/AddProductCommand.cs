@@ -1,8 +1,5 @@
 ﻿using Basket.Core.Models;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Basket.Application.Commands
 {

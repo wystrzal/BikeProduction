@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Catalog.Application.Mapping;
 using Catalog.Core.Interfaces;
-using Catalog.Core.Models;
-using Catalog.Core.SearchSpecification;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

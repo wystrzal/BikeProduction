@@ -2,7 +2,6 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
-using Warehouse.Application.Messaging;
 using Warehouse.Application.Messaging.Consumers;
 
 namespace Warehouse.Application.Extensions

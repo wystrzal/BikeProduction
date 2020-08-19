@@ -1,12 +1,9 @@
 ﻿using Common.Application.Messaging;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
-using CustomerOrder.Core.Models;
 using MassTransit;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;

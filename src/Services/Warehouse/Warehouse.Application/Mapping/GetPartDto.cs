@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Mapping

@@ -1,13 +1,7 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
-using MassTransit.Initializers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
-using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Messaging.Consumers
 {
@@ -45,12 +39,12 @@ namespace Warehouse.Application.Messaging.Consumers
                     else
                     {
                         part.Quantity -= (productionQuantity);
-                    }             
+                    }
                 }
             }
 
             await productPartRepo.SaveAllAsync();
-            
+
             await context.RespondAsync<ProductionConfirmedResult>(new { StartProduction = startProduction });
         }
     }
