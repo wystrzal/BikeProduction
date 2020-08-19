@@ -25,17 +25,16 @@ namespace Production.Application.Commands.Handlers
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue.ProductionStatus == ProductionStatus.BeingCreated)
-            {
-                productionQueue.ProductionStatus = ProductionStatus.Finished;
-                await productionQueueRepo.SaveAllAsync();
-
-                await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
-            }
-            else
+            if (productionQueue.ProductionStatus != ProductionStatus.BeingCreated)
             {
                 throw new ProductsNotBeingCreatedException();
             }
+
+            productionQueue.ProductionStatus = ProductionStatus.Finished;
+
+            await productionQueueRepo.SaveAllAsync();
+
+            await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
 
             var checkProductionStatus = await productionQueueRepo
                 .GetByConditionToList(x => x.OrderId == productionQueue.OrderId && x.ProductionStatus != ProductionStatus.Finished);
