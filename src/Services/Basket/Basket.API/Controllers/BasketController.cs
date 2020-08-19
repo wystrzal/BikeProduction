@@ -2,6 +2,7 @@
 using Basket.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace Basket.API.Controllers
@@ -20,45 +21,89 @@ namespace Basket.API.Controllers
         [HttpPost("change/quantity")]
         public async Task<IActionResult> ChangeProductQuantity(ChangeProductQuantityCommand command)
         {
-            await mediator.Send(command);
+            try
+            {
+                await mediator.Send(command);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpPost("add/product")]
         public async Task<IActionResult> AddProduct(AddProductCommand command)
         {
-            await mediator.Send(command);
+            try
+            {
+                await mediator.Send(command);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetBasket(string userId)
         {
-            return Ok(await mediator.Send(new GetBasketQuery(userId)));
+            try
+            {
+                return Ok(await mediator.Send(new GetBasketQuery(userId)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{userId}/quantity")]
         public async Task<IActionResult> GetBasketQuantity(string userId)
         {
-            return Ok(await mediator.Send(new GetBasketQuantityQuery(userId)));
+            try
+            {
+                return Ok(await mediator.Send(new GetBasketQuantityQuery(userId)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> ClearBasket(string userId)
         {
-            await mediator.Send(new ClearBasketCommand(userId));
+            try
+            {
+                await mediator.Send(new ClearBasketCommand(userId));
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpDelete("{userId}/product/{productId}")]
         public async Task<IActionResult> DeleteProduct(string userId, int productId)
         {
-            await mediator.Send(new RemoveProductCommand(userId, productId));
+            try
+            {
+                await mediator.Send(new RemoveProductCommand(userId, productId));
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
