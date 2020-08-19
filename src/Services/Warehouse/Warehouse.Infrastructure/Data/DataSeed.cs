@@ -28,18 +28,18 @@ namespace Warehouse.Infrastructure.Data
             {
                 var products = new List<Product>()
                 {
-                    new Product {Reference = "1", Quantity = 5, ProductName = "Red Bike Sigwe"},
-                    new Product {Reference = "2", Quantity = 5, ProductName = "Black Bike Hidse"},
-                    new Product {Reference = "3", Quantity = 5, ProductName = "Orange-Blue Mgise"},
-                    new Product {Reference = "4", Quantity = 5, ProductName = "Orange-White G-Sier"},
-                    new Product {Reference = "5", Quantity = 5, ProductName = "Green Siget"},
-                    new Product {Reference = "6", Quantity = 5, ProductName = "White Xuder"},
-                    new Product {Reference = "7", Quantity = 5, ProductName = "Orange-Black X-Biser"},
-                    new Product {Reference = "8", Quantity = 5, ProductName = "Red Dihier"},
-                    new Product {Reference = "9", Quantity = 5, ProductName = "Pink Kisge"},
-                    new Product {Reference = "10", Quantity = 5, ProductName = "Turquoise Losige"},
-                    new Product {Reference = "11", Quantity = 5, ProductName = "Yellow Bisue"},
-                    new Product {Reference = "12", Quantity = 5, ProductName = "White Dilis"}
+                    new Product {Reference = "1", Quantity = 5, ProductName = "Sigwe"},
+                    new Product {Reference = "2", Quantity = 5, ProductName = "Hidse"},
+                    new Product {Reference = "3", Quantity = 5, ProductName = "Mgise"},
+                    new Product {Reference = "4", Quantity = 5, ProductName = "G-Sier"},
+                    new Product {Reference = "5", Quantity = 5, ProductName = "Siget"},
+                    new Product {Reference = "6", Quantity = 5, ProductName = "Xuder"},
+                    new Product {Reference = "7", Quantity = 5, ProductName = "X-Biser"},
+                    new Product {Reference = "8", Quantity = 5, ProductName = "Dihier"},
+                    new Product {Reference = "9", Quantity = 5, ProductName = "Kisge"},
+                    new Product {Reference = "10", Quantity = 5, ProductName = "Losige"},
+                    new Product {Reference = "11", Quantity = 5, ProductName = "Bisue"},
+                    new Product {Reference = "12", Quantity = 5, ProductName = "Dilis"}
                 };
 
                 await dataContext.Products.AddRangeAsync(products);
@@ -49,12 +49,11 @@ namespace Warehouse.Infrastructure.Data
             {
                 var parts = new List<Part>()
                 {
-                    new Part {Reference = "9000", PartName = "Frame", Quantity = 5, StoragePlaceId = 1 },
-                    new Part {Reference = "9001", PartName = "Circle", Quantity = 5, StoragePlaceId = 2 },
-                    new Part {Reference = "9002", PartName = "Saddle", Quantity = 5, StoragePlaceId = 3 },
-                    new Part {Reference = "9003", PartName = "Wheel", Quantity = 5, StoragePlaceId = 4 },
-                    new Part {Reference = "9004", PartName = "Chain", Quantity = 5, StoragePlaceId = 5 },
-                    new Part {Reference = "9005", PartName = "Pedal", Quantity = 5, StoragePlaceId = 6 },
+                    new Part {Reference = "9000", PartName = "Frame", Quantity = 5, StoragePlaceId = 1, QuantityForProduction = 1 },
+                    new Part {Reference = "9001", PartName = "Saddle", Quantity = 5, StoragePlaceId = 2, QuantityForProduction = 1 },
+                    new Part {Reference = "9002", PartName = "Wheel", Quantity = 5, StoragePlaceId = 3, QuantityForProduction = 2 },
+                    new Part {Reference = "9003", PartName = "Chain", Quantity = 5, StoragePlaceId = 4, QuantityForProduction = 1 },
+                    new Part {Reference = "9004", PartName = "Pedal", Quantity = 5, StoragePlaceId = 5, QuantityForProduction = 2 },
                 };
 
                 await dataContext.Parts.AddRangeAsync(parts);
@@ -69,84 +68,72 @@ namespace Warehouse.Infrastructure.Data
                     new ProductsParts {PartId = 3, ProductId = 1},
                     new ProductsParts {PartId = 4, ProductId = 1},
                     new ProductsParts {PartId = 5, ProductId = 1},
-                    new ProductsParts {PartId = 6, ProductId = 1},
 
                     new ProductsParts {PartId = 1, ProductId = 2},
                     new ProductsParts {PartId = 2, ProductId = 2},
                     new ProductsParts {PartId = 3, ProductId = 2},
                     new ProductsParts {PartId = 4, ProductId = 2},
                     new ProductsParts {PartId = 5, ProductId = 2},
-                    new ProductsParts {PartId = 6, ProductId = 2},
 
                     new ProductsParts {PartId = 1, ProductId = 3},
                     new ProductsParts {PartId = 2, ProductId = 3},
                     new ProductsParts {PartId = 3, ProductId = 3},
                     new ProductsParts {PartId = 4, ProductId = 3},
                     new ProductsParts {PartId = 5, ProductId = 3},
-                    new ProductsParts {PartId = 6, ProductId = 3},
 
                     new ProductsParts {PartId = 1, ProductId = 4},
                     new ProductsParts {PartId = 2, ProductId = 4},
                     new ProductsParts {PartId = 3, ProductId = 4},
                     new ProductsParts {PartId = 4, ProductId = 4},
                     new ProductsParts {PartId = 5, ProductId = 4},
-                    new ProductsParts {PartId = 6, ProductId = 4},
 
                     new ProductsParts {PartId = 1, ProductId = 5},
                     new ProductsParts {PartId = 2, ProductId = 5},
                     new ProductsParts {PartId = 3, ProductId = 5},
                     new ProductsParts {PartId = 4, ProductId = 5},
                     new ProductsParts {PartId = 5, ProductId = 5},
-                    new ProductsParts {PartId = 6, ProductId = 5},
 
                     new ProductsParts {PartId = 1, ProductId = 6},
                     new ProductsParts {PartId = 2, ProductId = 6},
                     new ProductsParts {PartId = 3, ProductId = 6},
                     new ProductsParts {PartId = 4, ProductId = 6},
                     new ProductsParts {PartId = 5, ProductId = 6},
-                    new ProductsParts {PartId = 6, ProductId = 6},
 
                     new ProductsParts {PartId = 1, ProductId = 7},
                     new ProductsParts {PartId = 2, ProductId = 7},
                     new ProductsParts {PartId = 3, ProductId = 7},
                     new ProductsParts {PartId = 4, ProductId = 7},
                     new ProductsParts {PartId = 5, ProductId = 7},
-                    new ProductsParts {PartId = 6, ProductId = 7},
 
                     new ProductsParts {PartId = 1, ProductId = 8},
                     new ProductsParts {PartId = 2, ProductId = 8},
                     new ProductsParts {PartId = 3, ProductId = 8},
                     new ProductsParts {PartId = 4, ProductId = 8},
                     new ProductsParts {PartId = 5, ProductId = 8},
-                    new ProductsParts {PartId = 6, ProductId = 8},
 
                     new ProductsParts {PartId = 1, ProductId = 9},
                     new ProductsParts {PartId = 2, ProductId = 9},
                     new ProductsParts {PartId = 3, ProductId = 9},
                     new ProductsParts {PartId = 4, ProductId = 9},
                     new ProductsParts {PartId = 5, ProductId = 9},
-                    new ProductsParts {PartId = 6, ProductId = 9},
 
                     new ProductsParts {PartId = 1, ProductId = 10},
                     new ProductsParts {PartId = 2, ProductId = 10},
                     new ProductsParts {PartId = 3, ProductId = 10},
                     new ProductsParts {PartId = 4, ProductId = 10},
                     new ProductsParts {PartId = 5, ProductId = 10},
-                    new ProductsParts {PartId = 6, ProductId = 10},
 
                     new ProductsParts {PartId = 1, ProductId = 11},
                     new ProductsParts {PartId = 2, ProductId = 11},
                     new ProductsParts {PartId = 3, ProductId = 11},
                     new ProductsParts {PartId = 4, ProductId = 11},
                     new ProductsParts {PartId = 5, ProductId = 11},
-                    new ProductsParts {PartId = 6, ProductId = 11},
 
                     new ProductsParts {PartId = 1, ProductId = 12},
                     new ProductsParts {PartId = 2, ProductId = 12},
                     new ProductsParts {PartId = 3, ProductId = 12},
                     new ProductsParts {PartId = 4, ProductId = 12},
                     new ProductsParts {PartId = 5, ProductId = 12},
-                    new ProductsParts {PartId = 6, ProductId = 12},
                 };
 
                 await dataContext.ProductsParts.AddRangeAsync(productsParts);
