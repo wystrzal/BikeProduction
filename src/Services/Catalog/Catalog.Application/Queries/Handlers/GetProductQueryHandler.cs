@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.Application.Mapping;
+using Catalog.Core.Exceptions;
 using Catalog.Core.Interfaces;
 using MediatR;
 using System.Threading;
@@ -22,6 +23,11 @@ namespace Catalog.Application.Queries.Handlers
         {
             var product = await productRepository
                 .GetByConditionWithIncludeFirst(x => x.Id == request.ProductId, y => y.Brand);
+
+            if (product == null)
+            {
+                throw new ProductNotFoundException();
+            }
 
             return mapper.Map<GetProductDto>(product);
         }

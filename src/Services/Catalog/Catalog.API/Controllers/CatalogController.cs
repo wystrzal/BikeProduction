@@ -60,7 +60,14 @@ namespace Catalog.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            return Ok(await mediator.Send(new GetProductQuery(id)));
+            try
+            {
+                return Ok(await mediator.Send(new GetProductQuery(id)));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }         
         }
 
         [AllowAnonymous]
