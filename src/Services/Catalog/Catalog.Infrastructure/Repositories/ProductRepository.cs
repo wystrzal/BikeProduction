@@ -21,13 +21,14 @@ namespace Catalog.Infrastructure.Repositories
 
         public async Task<List<Product>> GetHomePageProducts(HomeProduct homeProduct)
         {
-            if (homeProduct == HomeProduct.NewProduct)
+            switch (homeProduct)
             {
-                return await dataContext.Products.OrderByDescending(x => x.DateAdded).Take(10).ToListAsync();
-            }
-            else
-            {
-                return await dataContext.Products.OrderByDescending(x => x.Popularity).Take(10).ToListAsync();
+                case HomeProduct.NewProduct:
+                    return await dataContext.Products.OrderByDescending(x => x.DateAdded).Take(10).ToListAsync();
+                case HomeProduct.PopularProduct:
+                    return await dataContext.Products.OrderByDescending(x => x.Popularity).Take(10).ToListAsync();
+                default:
+                    return null;
             }
         }
     }
