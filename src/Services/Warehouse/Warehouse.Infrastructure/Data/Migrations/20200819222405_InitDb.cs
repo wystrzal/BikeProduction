@@ -42,6 +42,7 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PartName = table.Column<string>(nullable: true),
                     Reference = table.Column<string>(nullable: true),
+                    QuantityForProduction = table.Column<int>(nullable: false),
                     Quantity = table.Column<int>(nullable: false),
                     StoragePlaceId = table.Column<int>(nullable: false)
                 },

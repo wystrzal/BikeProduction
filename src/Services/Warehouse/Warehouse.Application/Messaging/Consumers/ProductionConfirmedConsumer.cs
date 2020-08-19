@@ -23,8 +23,7 @@ namespace Warehouse.Application.Messaging.Consumers
 
             foreach (var part in parts)
             {
-                if (part.PartName.ToLower() == "circle" && part.Quantity < (productionQuantity * 2)
-                    || part.Quantity < productionQuantity)
+                if (part.Quantity < (productionQuantity * part.QuantityForProduction))
                 {
                     startProduction = false;
                     break;
@@ -32,14 +31,8 @@ namespace Warehouse.Application.Messaging.Consumers
                 else
                 {
                     startProduction = true;
-                    if (part.PartName.ToLower() == "circle")
-                    {
-                        part.Quantity -= (productionQuantity * 2);
-                    }
-                    else
-                    {
-                        part.Quantity -= (productionQuantity);
-                    }
+
+                    part.Quantity -= (productionQuantity * part.QuantityForProduction);
                 }
             }
 
