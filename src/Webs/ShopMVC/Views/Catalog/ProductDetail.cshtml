@@ -1,0 +1,27 @@
+﻿@model ShopMVC.Models.CatalogProduct
+
+<div class="row text-center">
+    <div class="col-6 mt-5">
+        <p>Bike: @Model.ProductName</p>
+    </div>
+
+    <div class="col-6 mt-5">
+        <p>Brand: @Model.BrandName</p>
+    </div>
+
+    <div class="col-6 mt-4">
+        <p>Type: @Model.BikeType.ToString().Replace("_", " ")</p>
+    </div>
+
+    <div class="col-6 mt-4">
+        <p>Color: @Model.Colors.ToString().Replace("_", " ")</p>
+    </div>
+
+    <div class="offset-3 col-6 mt-4">
+        <p>@Model.Price$</p>
+    </div>
+
+    <div class="col-12 mt-3">
+        <img src="@Model.PhotoUrl" class="img-fluid" />
+    </div>
+</div>
