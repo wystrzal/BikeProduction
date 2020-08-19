@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using static ShopMVC.Models.Enums.BikeTypeEnum;
 using static ShopMVC.Models.Enums.ColorsEnum;
 
 namespace ShopMVC.Models
@@ -15,5 +16,7 @@ namespace ShopMVC.Models
         public decimal Price { get; set; }
         public string PhotoUrl { get; set; }
         public Colors Colors { get; set; }
+        public BikeType BikeType { get; set; }
+        public string BrandName { get; set; }
     }
 }

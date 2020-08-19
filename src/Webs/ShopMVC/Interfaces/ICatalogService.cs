@@ -13,5 +13,6 @@ namespace ShopMVC.Interfaces
         Task<List<CatalogProduct>> GetProducts(FilteringData filteringData);
         Task<IEnumerable<SelectListItem>> GetBrandListItem();
         Task<List<CatalogProduct>> GetHomeProducts(HomeProduct homeProduct);
+        Task<CatalogProduct> GetProduct(int id);
     }
 }

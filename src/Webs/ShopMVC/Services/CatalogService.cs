@@ -78,5 +78,14 @@ namespace ShopMVC.Services
 
             return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);
         }
+
+        public async Task<CatalogProduct> GetProduct(int id)
+        {
+            var getProductUrl = $"{baseUrl}{id}";
+
+            var product = await customHttpClient.GetStringAsync(getProductUrl);
+
+            return JsonConvert.DeserializeObject<CatalogProduct>(product);
+        }
     }
 }

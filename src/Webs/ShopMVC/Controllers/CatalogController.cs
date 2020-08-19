@@ -11,11 +11,11 @@ using ShopMVC.Models.ViewModels;
 
 namespace ShopMVC.Controllers
 {
-    public class ProductController : Controller
+    public class CatalogController : Controller
     {
         private readonly ICatalogService catalogService;
 
-        public ProductController(ICatalogService catalogService)
+        public CatalogController(ICatalogService catalogService)
         {
             this.catalogService = catalogService;
         }
@@ -35,6 +35,13 @@ namespace ShopMVC.Controllers
             vm.CatalogProducts.AddRange(catalogProducts);
 
             return View(vm);
+        }
+
+        public async Task<IActionResult> ProductDetail(int id)
+        {
+            var product = await catalogService.GetProduct(id);
+
+            return View(product);
         }
     }
 }
