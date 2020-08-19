@@ -19,15 +19,14 @@ namespace Production.Application.Commands.Handlers
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue.ProductionStatus == ProductionStatus.Confirmed)
-            {
-                productionQueue.ProductionStatus = ProductionStatus.BeingCreated;
-                await productionQueueRepo.SaveAllAsync();
-            }
-            else
+            if (productionQueue.ProductionStatus != ProductionStatus.Confirmed)
             {
                 throw new ProductionQueueNotConfirmedException();
             }
+
+            productionQueue.ProductionStatus = ProductionStatus.BeingCreated;
+
+            await productionQueueRepo.SaveAllAsync();
 
             return Unit.Value;
         }
