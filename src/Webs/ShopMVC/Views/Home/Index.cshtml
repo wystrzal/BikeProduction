@@ -32,7 +32,9 @@
                     @foreach (var newProduct in Model.NewProducts.Select((value, i) => (value, i)))
                     {
                         <div class="carousel-item @if(newProduct.i == 0) { <text>active</text>} ">
-                            <img src="@newProduct.value.PhotoUrl" class="d-block img-fluid carousel-img" />
+                            <a href="/Catalog/ProductDetail/@newProduct.value.Id">
+                                <img src="@newProduct.value.PhotoUrl" class="d-block img-fluid carousel-img" />
+                            </a>
                         </div>
                     }
                 </div>
@@ -55,7 +57,9 @@
                     @foreach (var popularProduct in Model.PopularProducts.Select((value, i) => (value, i)))
                     {
                         <div class="carousel-item @if(popularProduct.i == 0) { <text>active</text>} ">
-                            <img src="@popularProduct.value.PhotoUrl" class="d-block img-fluid carousel-img" />
+                            <a href="/Catalog/ProductDetail/@popularProduct.value.Id">
+                                <img src="@popularProduct.value.PhotoUrl" class="d-block img-fluid carousel-img" />
+                            </a>
                         </div>
                     }
 
