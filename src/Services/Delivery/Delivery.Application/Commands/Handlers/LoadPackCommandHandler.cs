@@ -40,22 +40,20 @@ namespace Delivery.Application.Commands.Handlers
                 throw new LoadingPlaceNotFoundException();
             }
 
-            if (pack.ProductsQuantity < (loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity))
-            {
-                pack.LoadingPlace = loadingPlace;
-                pack.PackStatus = PackStatus.ReadyToSend;
-
-                loadingPlace.LoadedQuantity += pack.ProductsQuantity;
-                loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Loading;
-
-                await loadingPlaceRepo.SaveAllAsync();
-
-                await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.ReadyToSend));
-            }
-            else
+            if (pack.ProductsQuantity > (loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity))
             {
                 throw new LackOfSpaceException();
             }
+
+            pack.LoadingPlace = loadingPlace;
+            pack.PackStatus = PackStatus.ReadyToSend;
+
+            loadingPlace.LoadedQuantity += pack.ProductsQuantity;
+            loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Loading;
+
+            await loadingPlaceRepo.SaveAllAsync();
+
+            await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.ReadyToSend));
 
             return Unit.Value;
         }
