@@ -32,15 +32,18 @@ namespace Basket.Application.Commands.Handlers
                 return Unit.Value;
             }
 
-            if (request.ChangeQuantityAction == ChangeQuantityAction.Plus)
+            switch (request.ChangeQuantityAction)
             {
-                basketProduct.Quantity++;
-                basket.TotalPrice += basketProduct.Price;
-            }
-            else
-            {
-                basketProduct.Quantity--;
-                basket.TotalPrice -= basketProduct.Price;
+                case ChangeQuantityAction.Plus:
+                    basketProduct.Quantity++;
+                    basket.TotalPrice += basketProduct.Price;
+                    break;
+                case ChangeQuantityAction.Minus:
+                    basketProduct.Quantity--;
+                    basket.TotalPrice -= basketProduct.Price;
+                    break;
+                default:
+                    break;
             }
 
             if (basketProduct.Quantity <= 0)
