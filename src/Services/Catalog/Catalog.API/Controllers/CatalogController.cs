@@ -27,17 +27,9 @@ namespace Catalog.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogWarning(ex.Message);
+            await mediator.Send(command);
 
-                return BadRequest(ex.Message);
-            }
+            return Ok();
         }
 
         [HttpDelete("{id}")]
@@ -76,7 +68,7 @@ namespace Catalog.API.Controllers
                 logger.LogWarning(ex.Message);
 
                 return BadRequest(ex.Message);
-            }         
+            }
         }
 
         [AllowAnonymous]
