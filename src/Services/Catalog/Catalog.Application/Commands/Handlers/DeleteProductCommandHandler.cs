@@ -22,12 +22,13 @@ namespace Catalog.Application.Commands.Handlers
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
             var product = await productRepository.GetById(request.ProductId);
-            string reference = product.Reference;
 
             if (product == null)
             {
                 throw new ProductNotFoundException();
             }
+
+            string reference = product.Reference;
 
             if (await productRepository.SaveAllAsync())
             {
