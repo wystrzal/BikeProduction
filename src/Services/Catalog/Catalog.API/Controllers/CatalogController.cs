@@ -4,6 +4,7 @@ using Catalog.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using static Catalog.Core.Models.Enums.HomeProductEnum;
@@ -15,10 +16,12 @@ namespace Catalog.API.Controllers
     public class CatalogController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly ILogger<CatalogController> logger;
 
-        public CatalogController(IMediator mediator)
+        public CatalogController(IMediator mediator, ILogger<CatalogController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -31,6 +34,8 @@ namespace Catalog.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogWarning(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -45,6 +50,8 @@ namespace Catalog.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogWarning(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -66,6 +73,8 @@ namespace Catalog.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogWarning(ex.Message);
+
                 return BadRequest(ex.Message);
             }         
         }
