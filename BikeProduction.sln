@@ -95,7 +95,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SortFilterService", "SortFilterService", "{40BF1BC2-3D8F-47A2-BB1C-985101FD1FF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeSortFilter", "src\Shared\BikeSortFilter\BikeSortFilter.csproj", "{AA821E59-2198-4229-91B3-A30A7ADC6396}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeSortFilter", "src\Shared\BikeSortFilter\BikeSortFilter.csproj", "{AA821E59-2198-4229-91B3-A30A7ADC6396}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Test", "src\Services\Catalog\Catalog.Test\Catalog.Test.csproj", "{136EDCCB-6645-4A93-9001-EC9DCE47DDD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -235,6 +237,10 @@ Global
 		{AA821E59-2198-4229-91B3-A30A7ADC6396}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA821E59-2198-4229-91B3-A30A7ADC6396}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA821E59-2198-4229-91B3-A30A7ADC6396}.Release|Any CPU.Build.0 = Release|Any CPU
+		{136EDCCB-6645-4A93-9001-EC9DCE47DDD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{136EDCCB-6645-4A93-9001-EC9DCE47DDD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{136EDCCB-6645-4A93-9001-EC9DCE47DDD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{136EDCCB-6645-4A93-9001-EC9DCE47DDD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -285,6 +291,7 @@ Global
 		{ABEAFFA3-2B44-461B-A3E1-77A5FB036A68} = {1DD68D20-86E5-4DA8-84FA-686FEDDED2EC}
 		{40BF1BC2-3D8F-47A2-BB1C-985101FD1FF3} = {A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660}
 		{AA821E59-2198-4229-91B3-A30A7ADC6396} = {40BF1BC2-3D8F-47A2-BB1C-985101FD1FF3}
+		{136EDCCB-6645-4A93-9001-EC9DCE47DDD7} = {37B7EFB6-E2D8-4DB7-A5D3-F30A92B0582A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1302E2C5-6D1D-40F1-AD1F-52ECA36DBC2E}

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Basket.API
 {
@@ -13,7 +14,15 @@ namespace Basket.API
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            .ConfigureLogging(logBuilder =>
+            {
+                logBuilder.ClearProviders();
+                logBuilder.AddConsole();
+                logBuilder.AddDebug();
+                logBuilder.AddTraceSource("Information, ActivityTracing");
+                logBuilder.AddFile("Logs/Log-Basket.txt");
+            })
+            .UseStartup<Startup>()
+            .Build();
     }
 }
