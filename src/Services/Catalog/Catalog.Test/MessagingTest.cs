@@ -56,6 +56,7 @@ namespace Catalog.Test
 
             //Assert
             productRepository.Verify(x => x.SaveAllAsync(), Times.Once);
+            productRepository.Verify(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()), Times.Once);
         }
     }
 }
