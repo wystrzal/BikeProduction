@@ -45,11 +45,37 @@ namespace Catalog.Test
                 x.Message == orderCreatedEvent);
 
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
-                .Returns(Task.FromResult(new Product()));
+                .Returns(Task.FromResult(new Product())).Verifiable();
 
             productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var consumer = new OrderCreatedConsumer(productRepository.Object);
+
+            //Act
+            await consumer.Consume(context);
+
+            //Assert
+            productRepository.Verify(x => x.SaveAllAsync(), Times.Once);
+            productRepository.Verify(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task OrderCanceledConsumer_Success()
+        {
+            //Arrange
+            var references = new List<string> { "1" };
+
+            var orderCanceledEvent = new OrderCanceledEvent { References = references };
+
+            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x =>
+                x.Message == orderCanceledEvent);
+
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
+                .Returns(Task.FromResult(new Product())).Verifiable();
+
+            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
+
+            var consumer = new OrderCanceledConsumer(productRepository.Object);
 
             //Act
             await consumer.Consume(context);
