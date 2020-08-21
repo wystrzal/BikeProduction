@@ -5,6 +5,7 @@ using Catalog.Application.Queries.Handlers;
 using Catalog.Core.Exceptions;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
+using Catalog.Core.Models.Enums;
 using Catalog.Core.SearchSpecification;
 using Moq;
 using System;
@@ -97,6 +98,31 @@ namespace Catalog.Test
 
             //Assert
             await Assert.ThrowsAsync<ProductNotFoundException>(() => queryHandler.Handle(query, It.IsAny<CancellationToken>()));
+        }
+
+        [Fact]
+        public async Task GetHomeProductsQueryHandler_Success()
+        {
+            //Arrange
+            var homeProduct = HomeProductEnum.HomeProduct.NewProduct;
+
+            var products = new List<Product>() { new Product { Id = 1 }, new Product { Id = 2 } };
+            var homeProductsDto = new List<GetHomeProductsDto> { new GetHomeProductsDto { Id = 1 }, new GetHomeProductsDto { Id = 2 } };
+
+            var query = new GetHomeProductsQuery(homeProduct);
+
+            productRepository.Setup(x => x.GetHomePageProducts(homeProduct)).Returns(Task.FromResult(products));
+
+            mapper.Setup(x => x.Map<List<GetHomeProductsDto>>(products)).Returns(homeProductsDto);
+
+            var queryHandler = new GetHomeProductsQueryHandler(productRepository.Object, mapper.Object);
+
+            //Act
+            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(2, action.Count());
+            Assert.Equal(1, action.Select(x => x.Id).First());
         }
     }
 }
