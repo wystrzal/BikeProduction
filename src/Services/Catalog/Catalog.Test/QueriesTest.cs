@@ -24,12 +24,14 @@ namespace Catalog.Test
         private readonly Mock<IMapper> mapper;
         private readonly Mock<ISearchProductService> searchProductService;
         private readonly Mock<IProductRepository> productRepository;
+        private readonly Mock<IBrandRepository> brandRepository;
 
         public QueriesTest()
         {
             mapper = new Mock<IMapper>();
             searchProductService = new Mock<ISearchProductService>();
             productRepository = new Mock<IProductRepository>();
+            brandRepository = new Mock<IBrandRepository>();
         }
 
         [Fact]
@@ -116,6 +118,30 @@ namespace Catalog.Test
             mapper.Setup(x => x.Map<List<GetHomeProductsDto>>(products)).Returns(homeProductsDto);
 
             var queryHandler = new GetHomeProductsQueryHandler(productRepository.Object, mapper.Object);
+
+            //Act
+            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(2, action.Count());
+            Assert.Equal(1, action.Select(x => x.Id).First());
+        }
+
+        [Fact]
+        public async Task GetBrandsQueryHandler_Success()
+        {
+            //Arrange
+            var query = new GetBrandsQuery();
+
+            var brands = new List<Brand> { new Brand { Id = 1 }, new Brand { Id = 2 } };
+
+            var brandsDto = new List<GetBrandsDto> { new GetBrandsDto { Id = 1 }, new GetBrandsDto { Id = 2 } };
+
+            brandRepository.Setup(x => x.GetAll()).Returns(Task.FromResult(brands));
+
+            mapper.Setup(x => x.Map<List<GetBrandsDto>>(brands)).Returns(brandsDto);
+
+            var queryHandler = new GetBrandsQueryHandler(brandRepository.Object, mapper.Object);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
