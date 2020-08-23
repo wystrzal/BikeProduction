@@ -33,6 +33,6 @@ namespace BikeSortFilter
         /// <param name="skip">Amount of items to skip.</param>
         /// <param name="take">Amount of items to take.</param>
         /// <returns></returns>
-        Task<List<TEntity>> Search(bool orderDesc, int skip = 0, int take = 0);
+        Task<List<TEntity>> Search(bool orderDesc, int skip = 0, int take = 6);
     }
 }
