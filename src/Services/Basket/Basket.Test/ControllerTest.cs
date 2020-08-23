@@ -56,5 +56,39 @@ namespace Basket.Test
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
         }
+
+        [Fact]
+        public async Task AddProduct_OkResult()
+        {
+            //Arrange
+            mediator.Setup(x => x.Send(It.IsAny<AddProductCommand>(), It.IsAny<CancellationToken>())).Verifiable();
+
+            var controller = new BasketController(mediator.Object, logger.Object);
+
+            //Act
+            var action = await controller.AddProduct(It.IsAny<AddProductCommand>()) as OkResult;
+
+            //Assert
+            mediator.Verify(x => x.Send(It.IsAny<AddProductCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+            Assert.Equal(200, action.StatusCode);
+        }
+
+
+        [Fact]
+        public async Task AddProduct_BadRequestObjectResult()
+        {
+            //Arrange
+            mediator.Setup(x => x.Send(It.IsAny<AddProductCommand>(), It.IsAny<CancellationToken>()))
+                .Throws(new Exception());
+
+            var controller = new BasketController(mediator.Object, logger.Object);
+
+            //Act
+            var action = await controller.AddProduct(It.IsAny<AddProductCommand>()) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
     }
 }
