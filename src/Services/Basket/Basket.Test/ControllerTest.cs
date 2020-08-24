@@ -130,5 +130,41 @@ namespace Basket.Test
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
         }
+
+        [Fact]
+        public async Task GetBasketQuantity_OkObjectResult()
+        {
+            //Arrange
+            int quantity = 1;
+
+            mediator.Setup(x => x.Send(It.IsAny<GetBasketQuantityQuery>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(quantity));
+
+            var controller = new BasketController(mediator.Object, logger.Object);
+
+            //Act
+            var action = await controller.GetBasketQuantity(It.IsAny<string>()) as OkObjectResult;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+            Assert.Equal(quantity, action.Value);
+        }
+
+        [Fact]
+        public async Task GetBasketQuantity_BadRequestObjectResult()
+        {
+            //Arrange
+            mediator.Setup(x => x.Send(It.IsAny<GetBasketQuantityQuery>(), It.IsAny<CancellationToken>()))
+                .Throws(new Exception());
+
+            var controller = new BasketController(mediator.Object, logger.Object);
+
+            //Act
+            var action = await controller.GetBasketQuantity(It.IsAny<string>()) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
     }
 }
