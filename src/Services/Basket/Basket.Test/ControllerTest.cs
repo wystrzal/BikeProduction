@@ -1,5 +1,7 @@
 ﻿using Basket.API.Controllers;
 using Basket.Application.Commands;
+using Basket.Application.Queries;
+using Basket.Core.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -85,6 +87,44 @@ namespace Basket.Test
 
             //Act
             var action = await controller.AddProduct(It.IsAny<AddProductCommand>()) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
+
+        [Fact]
+        public async Task GetBasket_OkObjectResult()
+        {
+            //Arrange
+            var userId = "1";
+            var userBasketDto = new UserBasketDto { UserId = userId };
+
+            mediator.Setup(x => x.Send(It.IsAny<GetBasketQuery>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(userBasketDto));
+
+            var controller = new BasketController(mediator.Object, logger.Object);
+
+            //Act
+            var action = await controller.GetBasket(It.IsAny<string>()) as OkObjectResult;
+            var value = action.Value as UserBasketDto;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+            Assert.Equal(userId, value.UserId);
+        }
+
+        [Fact]
+        public async Task GetBasket_BadRequestObjectResult()
+        {
+            //Arrange
+            mediator.Setup(x => x.Send(It.IsAny<GetBasketQuery>(), It.IsAny<CancellationToken>()))
+                .Throws(new Exception());
+
+            var controller = new BasketController(mediator.Object, logger.Object);
+
+            //Act
+            var action = await controller.GetBasket(It.IsAny<string>()) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);
