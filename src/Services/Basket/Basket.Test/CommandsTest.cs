@@ -123,6 +123,88 @@ namespace Basket.Test
             basketRedisService.Verify(x => x.RemoveBasket(userId), Times.Once);
         }
 
+        [Fact]
+        public async Task ChangeProductQuantityCommandHandler_NullBasket_Success()
+        {
+            //Arrange
+            var userId = "1";
+            var command = new ChangeProductQuantityCommand
+            {
+                UserId = userId,
+                ProductId = 1,
+                ChangeQuantityAction = Core.Dtos.Enums.ChangeProductQuantityEnum.ChangeQuantityAction.Minus
+            };
 
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult((UserBasketDto)null));
+
+            var commandHandler = new ChangeProductQuantityCommandHandler(basketRedisService.Object);
+
+            //Act
+            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(Unit.Value, action);
+        }
+
+        [Fact]
+        public async Task ChangeProductQuantityCommandHandler_NullBasketProduct_Success()
+        {
+            //Arrange
+            var userId = "1";
+            var command = new ChangeProductQuantityCommand
+            {
+                UserId = userId,
+                ProductId = 1,
+                ChangeQuantityAction = Core.Dtos.Enums.ChangeProductQuantityEnum.ChangeQuantityAction.Minus
+            };
+
+            var userBasketDto = new UserBasketDto
+            {
+                UserId = userId
+            };
+
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
+
+            var commandHandler = new ChangeProductQuantityCommandHandler(basketRedisService.Object);
+
+            //Act
+            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(Unit.Value, action);
+        }
+
+        [Fact]
+        public async Task ChangeProductQuantityCommandHandler_Success()
+        {
+            //Arrange
+            var userId = "1";
+            var command = new ChangeProductQuantityCommand
+            {
+                UserId = userId,
+                ProductId = 1,
+                ChangeQuantityAction = Core.Dtos.Enums.ChangeProductQuantityEnum.ChangeQuantityAction.Minus
+            };
+
+            var userBasketDto = new UserBasketDto
+            {
+                UserId = userId,
+                Products = new List<Core.Models.BasketProduct> { new Core.Models.BasketProduct { Id = 1 } }
+            };
+
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
+
+            basketRedisService.Setup(x => x.RemoveBasket(userId)).Verifiable();
+
+            basketRedisService.Setup(x => x.SaveBasket(userId, It.IsAny<string>())).Verifiable();
+
+            var commandHandler = new ChangeProductQuantityCommandHandler(basketRedisService.Object);
+
+            //Act
+            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(Unit.Value, action);
+        }
     }
 }
