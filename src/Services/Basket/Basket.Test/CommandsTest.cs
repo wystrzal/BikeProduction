@@ -102,5 +102,27 @@ namespace Basket.Test
 
             basketRedisService.Verify(x => x.SaveBasket(userId, It.IsAny<string>()), Times.Once);
         }
+
+        [Fact]
+        public async Task ClearBasketCommandHandler_Success()
+        {
+            //Arrange
+            var userId = "1";
+            var command = new ClearBasketCommand(userId);
+
+            basketRedisService.Setup(x => x.RemoveBasket(userId)).Verifiable();
+
+            var commandHandler = new ClearBasketCommandHandler(basketRedisService.Object);
+
+            //Act
+            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(Unit.Value, action);
+
+            basketRedisService.Verify(x => x.RemoveBasket(userId), Times.Once);
+        }
+
+
     }
 }
