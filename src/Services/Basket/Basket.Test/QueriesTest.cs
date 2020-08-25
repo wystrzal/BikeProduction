@@ -2,6 +2,7 @@
 using Basket.Application.Queries.Handlers;
 using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,46 @@ namespace Basket.Test
 
             //Assert
             Assert.Equal(userId, action.UserId);
+        }
+
+        [Fact]
+        public async Task GetBasketQuantityQueryHandler_Success()
+        {
+            //Arrange
+            var userId = "1";
+            var query = new GetBasketQuantityQuery(userId);
+            var userBasketDto = new UserBasketDto
+            {
+                Products = new List<BasketProduct> { new BasketProduct(), new BasketProduct() }
+            };
+
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
+
+            var queryHandler = new GetBasketQuantityQueryHandler(basketRedisService.Object);
+
+            //Act
+            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(userBasketDto.Products.Count, action);
+        }
+
+        [Fact]
+        public async Task GetBasketQuantityQueryHandler_NullBaset_Success()
+        {
+            //Arrange
+            var userId = "1";
+            var query = new GetBasketQuantityQuery(userId);
+
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult((UserBasketDto)null));
+
+            var queryHandler = new GetBasketQuantityQueryHandler(basketRedisService.Object);
+
+            //Act
+            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
+
+            //Assert
+            Assert.Equal(0, action);
         }
     }
 }
