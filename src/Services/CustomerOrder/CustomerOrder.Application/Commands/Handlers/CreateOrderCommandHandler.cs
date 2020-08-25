@@ -28,7 +28,7 @@ namespace CustomerOrder.Application.Commands.Handlers
         {
             var orderForAdd = mapper.Map<Order>(request);
 
-            orderForAdd.OrderStatus = OrderStatus.WaitingForConfirm;
+            orderForAdd.OrderStatus = OrderStatus.Waiting_For_Confirm;
 
             orderRepository.Add(orderForAdd);
 

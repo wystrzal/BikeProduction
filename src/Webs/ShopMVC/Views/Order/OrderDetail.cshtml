@@ -9,7 +9,7 @@
             <p>@Model.OrderDate</p>
         </div>
         <div class="col-4 mt-3">
-            <p>@Model.OrderStatus</p>
+            <p>@Model.OrderStatus.ToString().Replace("_", " ")</p>
         </div>
         <div class="col-4 mt-3">
             <p>@Model.TotalPrice$</p>

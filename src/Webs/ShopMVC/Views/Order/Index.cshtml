@@ -14,12 +14,12 @@
                     <a class="text-dark mt-4" style="text-decoration: none; width: 100%;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
                         <div class="d-inline col-3">@number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - </div>
                         <div class="col-3 d-inline">@order.OrderDate</div>
-                        <div class="col-3 d-inline">@order.OrderStatus</div>
+                        <div class="col-3 d-inline">@order.OrderStatus.ToString().Replace("_", " ")</div>
                         <div class="col-3 d-inline">@order.TotalPrice$</div>
                     </a>
                 </div>
                 <div class="col-4">
-                    @if (order.OrderStatus == ShopMVC.Models.Enums.OrderStatusEnum.OrderStatus.WaitingForConfirm)
+                    @if (order.OrderStatus == ShopMVC.Models.Enums.OrderStatusEnum.OrderStatus.Waiting_For_Confirm)
                     {
                         @Html.ActionLink("Cancel", "DeleteOrder", "Order", new { id = order.OrderId }, new { @class = "btn btn-warning" })
                     }

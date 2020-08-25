@@ -31,9 +31,9 @@ namespace CustomerOrder.Application.Commands.Handlers
                 throw new OrderNotFoundException();
             }
 
-            if (order.OrderStatus == OrderStatus.WaitingForConfirm || order.OrderStatus == OrderStatus.Delivered)
+            if (order.OrderStatus == OrderStatus.Waiting_For_Confirm || order.OrderStatus == OrderStatus.Delivered)
             {
-                if (order.OrderStatus == OrderStatus.WaitingForConfirm)
+                if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)
                 {
                     List<string> references = new List<string>();
 
