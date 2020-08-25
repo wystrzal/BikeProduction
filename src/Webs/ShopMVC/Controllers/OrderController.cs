@@ -40,6 +40,7 @@ namespace ShopMVC.Controllers
             return View(vm);
         }
 
+        [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody]Order order)
         {
             if (order.OrderItems.Count == 0 || order.OrderItems == null)

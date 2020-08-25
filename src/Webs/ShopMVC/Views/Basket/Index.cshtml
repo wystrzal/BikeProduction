@@ -4,48 +4,29 @@
     ViewData["Title"] = "Index";
 }
 
-    <div class="container mt-5">
-        <div class="col-12 text-left mb-4">
-            @Html.ActionLink("Clear", "ClearBasket", "Basket", null, new { @class = "btn btn-danger" })
-        </div>
-
-        @foreach (var product in Model.Products)
-        {
-            <div id="basketProduct-@product.Id" class="row my-2" style="align-items: center;">
-                <div class="col-4">@product.ProductName</div>
-                <div class="col-3">@product.Price$</div>
-                <div class="col-3">
-                    @Html.ActionLink("+", "ChangeProductQuantity", "Basket",
-                        new { ChangeQuantityAction = 1, ProductId = product.Id }, new { @class = "text-dark" })
-
-                    <div class="d-inline" id="@product.Id-quantity">@product.Quantity</div>
-
-                    @Html.ActionLink("-", "ChangeProductQuantity", "Basket",
-                        new { ChangeQuantityAction = 2, ProductId = product.Id }, new { @class = "text-dark" })
-                </div>
-
-                <div class="col-2">
-                    @Html.ActionLink("Delete", "RemoveProduct", "Basket", new { productId = product.Id}, new { @class = "btn btn-danger" } )
-                </div>
-            </div>
-        }
-
-        <div class="col-12 my-5 text-right">
-            <h3 id="basketTotalPrice">@Model.TotalPrice$</h3>
-        </div>
-
-        @using (@Html.BeginForm("CreateOrder", "Order", FormMethod.Get))
-        {
-            @Html.TextBoxFor(x => x.TotalPrice, new { style = "display: none;", @Value = Model.TotalPrice })
-
-            for (int i = 0; i < Model.Products.Count; i++)
-            {
-                @Html.TextBoxFor(x => x.Products[i].Price, new { style = "display: none;", @Value = Model.Products[i].Price })
-                @Html.TextBoxFor(x => x.Products[i].ProductName, new { style = "display: none;", @Value = Model.Products[i].ProductName })
-                @Html.TextBoxFor(x => x.Products[i].Quantity, new { style = "display: none;", @Value = Model.Products[i].Quantity })
-                @Html.TextBoxFor(x => x.Products[i].Reference, new { style = "display: none;", @Value = Model.Products[i].Reference })
-            }
-
-            <input type="submit" value="Buy" class="btn btn-success">
-        }
+<div class="container mt-5">
+    <div class="col-12 text-left mb-4">
+        @Html.ActionLink("Clear", "ClearBasket", "Basket", null, new { @class = "btn btn-danger" })
     </div>
+
+    <partial name="_BasketProduct" model="Model.Products" />
+
+    <div class="col-12 my-5 text-right">
+        <h3 id="basketTotalPrice">@Model.TotalPrice$</h3>
+    </div>
+
+    @using (@Html.BeginForm("CreateOrder", "Order", FormMethod.Get))
+    {
+        @Html.TextBoxFor(x => x.TotalPrice, new { style = "display: none;", @Value = Model.TotalPrice })
+
+        for (int i = 0; i < Model.Products.Count; i++)
+        {
+            @Html.TextBoxFor(x => x.Products[i].Price, new { style = "display: none;", @Value = Model.Products[i].Price })
+            @Html.TextBoxFor(x => x.Products[i].ProductName, new { style = "display: none;", @Value = Model.Products[i].ProductName })
+            @Html.TextBoxFor(x => x.Products[i].Quantity, new { style = "display: none;", @Value = Model.Products[i].Quantity })
+            @Html.TextBoxFor(x => x.Products[i].Reference, new { style = "display: none;", @Value = Model.Products[i].Reference })
+        }
+
+        <input type="submit" value="Buy" class="btn btn-success">
+    }
+</div>
