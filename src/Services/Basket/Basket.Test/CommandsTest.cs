@@ -205,6 +205,10 @@ namespace Basket.Test
 
             //Assert
             Assert.Equal(Unit.Value, action);
+
+            basketRedisService.Verify(x => x.RemoveBasket(userId), Times.Once);
+
+            basketRedisService.Verify(x => x.SaveBasket(userId, It.IsAny<string>()), Times.Once);
         }
     }
 }
