@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ShopMVC.Filters;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.ViewModels;
@@ -7,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShopMVC.Controllers
 {
+    [AuthorizeActionFilter]
     public class OrderController : Controller
     {
         private readonly IOrderService orderService;
@@ -15,7 +18,6 @@ namespace ShopMVC.Controllers
         {
             this.orderService = orderService;
         }
-
 
         public async Task<IActionResult> Index()
         {
@@ -38,7 +40,6 @@ namespace ShopMVC.Controllers
             return View(vm);
         }
 
-        [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody]Order order)
         {
             if (order.OrderItems.Count == 0 || order.OrderItems == null)

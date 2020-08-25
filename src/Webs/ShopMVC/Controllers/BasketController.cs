@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ShopMVC.Filters;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
@@ -8,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ShopMVC.Controllers
 {
+    [AuthorizeActionFilter]
     public class BasketController : Controller
     {
         private readonly IBasketService basketService;
