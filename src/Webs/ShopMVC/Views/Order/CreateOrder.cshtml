@@ -46,6 +46,8 @@
         <script>
             $(document).ready(() => {
                 $("#createOrder").click(() => {
+                    $("#createOrder").attr("disabled", true);
+
                     const model = {
                         CustomerFirstName: $("#firstName").val(),
                         CustomerLastName: $("#lastName").val(),
@@ -80,7 +82,7 @@
 
                                 setTimeout(() => {
                                     $("#basketQuantity").html('(0)');
-                                }, 400)
+                                }, 600)
                             }
                         }
                     });
