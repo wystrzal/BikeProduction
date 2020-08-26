@@ -32,6 +32,11 @@ namespace CustomerOrder.Infrastructure.Services
                 sortFilterService.SetConcreteFilter<FilterByOrderStatus>(filteringData);
             }
 
+            if (filteringData.UserId != null)
+            {
+                sortFilterService.SetConcreteFilter<FilterByUserId>(filteringData);
+            }
+
             return await sortFilterService.Search(orderDesc);
         }
     }
