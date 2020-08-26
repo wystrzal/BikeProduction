@@ -1,4 +1,5 @@
 ﻿using CustomerOrder.Application.Mapping;
+using CustomerOrder.Core.SearchSpecification;
 using MediatR;
 using System.Collections.Generic;
 
@@ -6,11 +7,11 @@ namespace CustomerOrder.Application.Queries
 {
     public class GetOrdersQuery : IRequest<IEnumerable<GetOrdersDto>>
     {
-        public string UserId { get; set; }
+        public FilteringData FilteringData { get; set; }
 
-        public GetOrdersQuery(string userId)
+        public GetOrdersQuery(FilteringData filteringData)
         {
-            UserId = userId;
+            FilteringData = filteringData;
         }
     }
 }

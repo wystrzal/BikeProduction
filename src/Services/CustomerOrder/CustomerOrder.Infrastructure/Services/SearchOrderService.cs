@@ -1,4 +1,5 @@
 ﻿using BikeSortFilter;
+using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using CustomerOrder.Core.SearchSpecification;
 using CustomerOrder.Core.SearchSpecification.FilterClasses;
@@ -9,13 +10,13 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CustomerOrder.Infrastructure
+namespace CustomerOrder.Infrastructure.Services
 {
-    public class SearchOrderSerivce
+    public class SearchOrderService : ISearchOrderService
     {
         private readonly ISortFilterService<Order, FilteringData> sortFilterService;
 
-        public SearchOrderSerivce(ISortFilterService<Order, FilteringData> sortFilterService)
+        public SearchOrderService(ISortFilterService<Order, FilteringData> sortFilterService)
         {
             this.sortFilterService = sortFilterService;
         }

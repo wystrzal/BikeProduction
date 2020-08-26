@@ -11,19 +11,18 @@ namespace CustomerOrder.Application.Queries.Handlers
 {
     public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IEnumerable<GetOrdersDto>>
     {
-        private readonly IOrderRepository orderRepository;
+        private readonly ISearchOrderService searchOrderService;
         private readonly IMapper mapper;
 
-        public GetOrdersQueryHandler(IOrderRepository orderRepository, IMapper mapper)
+        public GetOrdersQueryHandler(ISearchOrderService searchOrderService, IMapper mapper)
         {
-            this.orderRepository = orderRepository;
+            this.searchOrderService = searchOrderService;
             this.mapper = mapper;
         }
 
         public async Task<IEnumerable<GetOrdersDto>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
         {
-            List<Order> orders = await orderRepository
-                    .GetByConditionToList(x => x.UserId == request.UserId);
+            var orders = await searchOrderService.GetOrders(request.FilteringData);
 
             return mapper.Map<List<GetOrdersDto>>(orders);
         }

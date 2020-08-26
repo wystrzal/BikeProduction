@@ -1,5 +1,6 @@
 ﻿using CustomerOrder.Application.Commands;
 using CustomerOrder.Application.Queries;
+using CustomerOrder.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,10 +46,10 @@ namespace CustomerOrder.API.Controllers
             }
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetOrders(string userId)
+        [HttpGet]
+        public async Task<IActionResult> GetOrders([FromQuery]FilteringData filteringData)
         {
-            return Ok(await mediator.Send(new GetOrdersQuery(userId)));
+            return Ok(await mediator.Send(new GetOrdersQuery(filteringData)));
         }
 
         [HttpDelete("{id}")]
