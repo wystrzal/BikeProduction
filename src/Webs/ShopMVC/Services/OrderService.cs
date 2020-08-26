@@ -32,19 +32,15 @@ namespace ShopMVC.Services
             await customHttpClient.PostAsync(baseUrl, order, token);
         }
 
-        public async Task<List<OrdersViewModel>> GetOrders(OrderFilteringData filteringData)
+        public async Task<List<Order>> GetOrders(OrderFilteringData filteringData)
         {
             var getOrdersUrl = $"{baseUrl}";
 
-            var queryParams = new Dictionary<string, string>
-            {
-                ["Take"] = filteringData.Take.ToString(),
-                ["Skip"] = filteringData.Skip.ToString()
-            };
+            var queryParams = new Dictionary<string, string>();
 
             var orders = await customHttpClient.GetStringAsync(getOrdersUrl, token, queryParams);
 
-            return JsonConvert.DeserializeObject<List<OrdersViewModel>>(orders);
+            return JsonConvert.DeserializeObject<List<Order>>(orders);
         }
 
         public async Task<OrderDetailViewModel> GetOrderDetail(int id)

@@ -8,7 +8,7 @@ namespace ShopMVC.Interfaces
     public interface IOrderService
     {
         Task CreateOrder(Order order);
-        Task<List<OrdersViewModel>> GetOrders(OrderFilteringData filteringData);
+        Task<List<Order>> GetOrders(OrderFilteringData filteringData);
         Task<OrderDetailViewModel> GetOrderDetail(int id);
         Task DeleteOrder(int id);
     }

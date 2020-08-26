@@ -32,7 +32,7 @@ namespace CustomerOrder.Infrastructure.Services
                 sortFilterService.SetConcreteFilter<FilterByOrderStatus>(filteringData);
             }
 
-            return await sortFilterService.Search(orderDesc, filteringData.Skip, filteringData.Take);
+            return await sortFilterService.Search(orderDesc);
         }
     }
 }

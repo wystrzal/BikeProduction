@@ -8,9 +8,8 @@ namespace ShopMVC.Models
 {
     public class OrderFilteringData
     {
-        public int Take { get; set; }
-        public int Skip { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public string UserId { get; set; }
+        public int Page { get; set; } = 1;
     }
 }
