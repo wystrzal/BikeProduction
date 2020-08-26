@@ -17,7 +17,7 @@ namespace ShopMVC.Controllers
 
         public async Task<IActionResult> Index(CatalogProductsViewModel vm)
         {
-            vm.FilteringData ??= new FilteringData();
+            vm.FilteringData ??= new CatalogFilteringData();
 
             vm.BrandListItem = await catalogService.GetBrandListItem();
 

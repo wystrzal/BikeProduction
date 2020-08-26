@@ -34,7 +34,7 @@ namespace ShopMVC.Services
             return brandListItem;
         }
 
-        public async Task<List<CatalogProduct>> GetProducts(FilteringData filteringData)
+        public async Task<List<CatalogProduct>> GetProducts(CatalogFilteringData filteringData)
         {
             var getProductsUrl = $"{baseUrl}";
 

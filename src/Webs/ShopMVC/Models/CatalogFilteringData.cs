@@ -4,7 +4,7 @@ using static ShopMVC.Models.Enums.SortEnum;
 
 namespace ShopMVC.Models
 {
-    public class FilteringData
+    public class CatalogFilteringData
     {
         public Sort Sort { get; set; }
         public Colors Colors { get; set; }

@@ -8,7 +8,7 @@ namespace ShopMVC.Interfaces
 {
     public interface ICatalogService
     {
-        Task<List<CatalogProduct>> GetProducts(FilteringData filteringData);
+        Task<List<CatalogProduct>> GetProducts(CatalogFilteringData filteringData);
         Task<IEnumerable<SelectListItem>> GetBrandListItem();
         Task<List<CatalogProduct>> GetHomeProducts(HomeProduct homeProduct);
         Task<CatalogProduct> GetProduct(int id);

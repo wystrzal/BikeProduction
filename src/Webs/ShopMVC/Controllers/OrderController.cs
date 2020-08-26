@@ -19,9 +19,9 @@ namespace ShopMVC.Controllers
             this.orderService = orderService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(OrderFilteringData filteringData)
         {
-            var orders = await orderService.GetOrders();
+            var orders = await orderService.GetOrders(filteringData);
 
             orders ??= new List<OrdersViewModel>();
 
