@@ -14,11 +14,11 @@ using Xunit;
 
 namespace Catalog.Test
 {
-    public class SearchProductServiceTest
+    public class ServicesTest
     {
         private readonly Mock<ISortFilterService<Product, FilteringData>> sortFilterService;
 
-        public SearchProductServiceTest()
+        public ServicesTest()
         {
             sortFilterService = new Mock<ISortFilterService<Product, FilteringData>>();
         }
