@@ -20,5 +20,7 @@ namespace ShopMVC.Models.ViewModels
             int start = (CurrentPage - 1) * PageSize;
             return Orders.Skip(start).Take(PageSize).ToList();
         }
+
+        public OrderFilteringData FilteringData { get; set; }
     }
 }

@@ -21,11 +21,10 @@ namespace ShopMVC.Controllers
 
         public async Task<IActionResult> Index(OrderFilteringData filteringData)
         {
-            filteringData ??= new OrderFilteringData();
-
             var vm = new OrdersViewModel
             {
-                PageSize = 25,
+                FilteringData = filteringData ??= new OrderFilteringData(),
+                PageSize = 1,
                 Orders = await orderService.GetOrders(filteringData),
                 CurrentPage = filteringData.Page
             };

@@ -3,13 +3,13 @@
 
 <div class="sortFilter__button">
     <div class="btn-group">
-        <button id="sort-button" class="btn btn-secondary px-4" type="button">
+        <button id="catalog-sort-button" class="btn btn-secondary px-4" type="button">
             Sort
         </button>
         <button class="btn btn-secondary px-4" type="button">
             &#8635
         </button>
-        <button id="filter-button" class="btn btn-secondary px-4" type="button">
+        <button id="catalog-filter-button" class="btn btn-secondary px-4" type="button">
             Filter
         </button>
     </div>
@@ -17,19 +17,19 @@
 
 <div class="sortFilter text-center">
     <div class="text-right">
-        <span id="sortFilter-close" class="text-danger mt-2 mr-4" style="font-size: 50px; cursor: pointer;">&#9746</span>
+        <span id="catalog-sortFilter-close" class="text-danger mt-2 mr-4" style="font-size: 50px; cursor: pointer;">&#9746</span>
     </div>
 
-    <form asp-action="Index" asp-controller="Product">
-        <div id="sort" style="display: none;">
+    <form asp-action="Index" asp-controller="Catalog">
+        <div id="catalog-sort" style="display: none;">
             <h2 class="text-white">Sort</h2>
 
             @foreach (var item in Model.FilteringData.Sort.SelectListItem())
             {
                 <div class="form-check mt-4">
                     @Html.RadioButtonFor(x => x.FilteringData.Sort, item.Value,
-                    new { @class = "form-check-input", @id = $"sortRadio-{item.Value}" })
-                    <label class="form-check-label text-white" for="sortRadio-@item.Value">
+                    new { @class = "form-check-input", @id = $"catalog-sortRadio-{item.Value}" })
+                    <label class="form-check-label text-white" for="catalog-sortRadio-@item.Value">
                         @item.Text
                     </label>
                 </div>
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <div id="filter" style="display: none;">
+        <div id="catalog-filter" style="display: none;">
             <h2 class="text-white">Filter</h2>
 
             <h6 class="text-white mt-5">Colors</h6>
@@ -64,20 +64,20 @@
 
 
 <script>
-    $("#sort-button").click(() => {
+    $("#catalog-sort-button").click(() => {
         $(".sortFilter").animate({ height: '100%' }, 500);
-        $("#sort").css("display", "block");
+        $("#catalog-sort").css("display", "block");
     });
 
-    $("#filter-button").click(() => {
+    $("#catalog-filter-button").click(() => {
         $(".sortFilter").animate({ height: '100%' }, 500);
-        $("#filter").css("display", "block");
+        $("#catalog-filter").css("display", "block");
     });
 
-    $("#sortFilter-close").click(() => {
+    $("#catalog-sortFilter-close").click(() => {
         $(".sortFilter").animate({ height: '0%' }, 500);
-        $("#sort").css("display", "none");
-        $("#filter").css("display", "none");
+        $("#catalog-sort").css("display", "none");
+        $("#catalog-filter").css("display", "none");
     });
 
 </script>

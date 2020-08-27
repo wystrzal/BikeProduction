@@ -1,0 +1,52 @@
+﻿@model ShopMVC.Models.ViewModels.OrdersViewModel
+@using ShopMVC.Extensions
+
+<div class="sortFilter__button">
+    <div class="btn-group">
+        <button id="order-filter-button" class="btn btn-secondary px-4" type="button">
+            Filter
+        </button>
+    </div>
+</div>
+
+<div class="sortFilter text-center">
+    <div class="text-right">
+        <span id="order-filter-close" class="text-danger mt-2 mr-4" style="font-size: 50px; cursor: pointer;">&#9746</span>
+    </div>
+
+    <form asp-action="Index" asp-controller="Order">
+        <div id="order-filter" style="display: none;">
+            <h2 class="text-white">Filter</h2>
+
+            <h4 class="text-white mt-5">Order Status</h4>
+            @foreach (var item in Model.FilteringData.OrderStatus.SelectListItem())
+            {
+                <div class="form-check mt-4">
+                    @Html.RadioButtonFor(x => x.FilteringData.OrderStatus, item.Value,
+                    new { @class = "form-check-input", @id = $"order-sortRadio-{item.Value}" })
+                    <label class="form-check-label text-white" for="order-sortRadio-@item.Value">
+                        @item.Text
+                    </label>
+                </div>
+            }
+
+            <div class="mt-5">
+                <button type="submit" class="btn btn-light">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $("#order-filter-button").click(() => {
+        $(".sortFilter").animate({ height: '100%' }, 500);
+        $("#order-filter").css("display", "block");
+    });
+
+    $("#order-filter-close").click(() => {
+        $(".sortFilter").animate({ height: '0%' }, 500);
+        $("#order-filter").css("display", "none");
+    });
+
+</script>
