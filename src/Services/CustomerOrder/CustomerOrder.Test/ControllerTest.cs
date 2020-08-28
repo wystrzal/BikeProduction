@@ -2,11 +2,13 @@
 using CustomerOrder.Application.Commands;
 using CustomerOrder.Application.Mapping;
 using CustomerOrder.Application.Queries;
+using CustomerOrder.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -94,7 +96,65 @@ namespace CustomerOrder.Test
             Assert.NotNull(action.Value);
         }
 
+        [Fact]
+        public async Task GetOrders_OkObjectResult()
+        {
+            //Arrange
+            var filteringData = new FilteringData();
+            IEnumerable<GetOrdersDto> ordersDto 
+                = new List<GetOrdersDto> { new GetOrdersDto { OrderId = 1 }, new GetOrdersDto { OrderId = 2 } };
 
+            mediator.Setup(x => x.Send(It.IsAny<GetOrdersQuery>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(ordersDto));
 
+            var controller = new CustomerOrderController(mediator.Object);
+
+            //Act
+            var action = await controller.GetOrders(filteringData) as OkObjectResult;
+            var value = action.Value as List<GetOrdersDto>;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+            Assert.Equal(2, value.Count);
+            Assert.Equal(1, value.Select(x => x.OrderId).First());
+        }
+
+        [Fact]
+        public async Task DeleteOrder_OkResult()
+        {
+            //Arrange
+            var orderId = 1;
+
+            mediator.Setup(x => x.Send(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()))
+                .Verifiable();
+
+            var controller = new CustomerOrderController(mediator.Object);
+
+            //Act
+            var action = await controller.DeleteOrder(orderId) as OkResult;
+
+            //Assert
+            Assert.Equal(200, action.StatusCode);
+            mediator.Verify(x => x.Send(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task DeleteOrder_BadRequestObjectResult()
+        {
+            //Arrange
+            var orderId = 1;
+
+            mediator.Setup(x => x.Send(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()))
+                .Throws(new Exception());
+
+            var controller = new CustomerOrderController(mediator.Object);
+
+            //Act
+            var action = await controller.DeleteOrder(orderId) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
     }
 }
