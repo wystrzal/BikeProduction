@@ -3,6 +3,7 @@ using CustomerOrder.Application.Queries;
 using CustomerOrder.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -13,10 +14,12 @@ namespace CustomerOrder.API.Controllers
     public class CustomerOrderController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly ILogger<CustomerOrderController> logger;
 
-        public CustomerOrderController(IMediator mediator)
+        public CustomerOrderController(IMediator mediator, ILogger<CustomerOrderController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         [HttpPost]
@@ -29,6 +32,8 @@ namespace CustomerOrder.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -42,6 +47,8 @@ namespace CustomerOrder.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -62,6 +69,8 @@ namespace CustomerOrder.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }

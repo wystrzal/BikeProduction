@@ -2,6 +2,8 @@
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using MassTransit;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace CustomerOrder.Application.Messaging.Consumers
@@ -9,10 +11,12 @@ namespace CustomerOrder.Application.Messaging.Consumers
     public class ChangeOrderStatusConsumer : IConsumer<ChangeOrderStatusEvent>
     {
         private readonly IOrderRepository orderRepository;
+        private readonly ILogger<ChangeOrderStatusConsumer> logger;
 
-        public ChangeOrderStatusConsumer(IOrderRepository orderRepository)
+        public ChangeOrderStatusConsumer(IOrderRepository orderRepository, ILogger<ChangeOrderStatusConsumer> logger)
         {
             this.orderRepository = orderRepository;
+            this.logger = logger;
         }
 
         public async Task Consume(ConsumeContext<ChangeOrderStatusEvent> context)
@@ -21,12 +25,18 @@ namespace CustomerOrder.Application.Messaging.Consumers
 
             if (order == null)
             {
-                throw new OrderNotFoundException();
+                var exception = new OrderNotFoundException();
+
+                logger.LogError(exception.Message);
+
+                throw exception;
             }
 
             order.OrderStatus = context.Message.OrderStatus;
 
             await orderRepository.SaveAllAsync();
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }
