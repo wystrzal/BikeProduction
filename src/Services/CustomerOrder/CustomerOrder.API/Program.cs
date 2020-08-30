@@ -33,6 +33,14 @@ namespace CustomerOrder.API
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging(logBuilder =>
+                {
+                    logBuilder.ClearProviders();
+                    logBuilder.AddConsole();
+                    logBuilder.AddDebug();
+                    logBuilder.AddTraceSource("Information, ActivityTracing");
+                    logBuilder.AddFile("Logs/Log-CustomerOrder.txt");
+                })
                 .UseStartup<Startup>()
                 .Build();
     }
