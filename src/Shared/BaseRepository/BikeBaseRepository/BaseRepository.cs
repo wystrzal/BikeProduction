@@ -36,15 +36,15 @@ namespace BikeBaseRepository
             return await dataContext.Set<TEntity>().ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetByConditionToList(Func<TEntity, bool> func)
+        public async Task<List<TEntity>> GetByConditionToList(Func<TEntity, bool> condition)
         {
-            var data = dataContext.Set<TEntity>().Where(func).ToList();
+            var data = dataContext.Set<TEntity>().Where(condition).ToList();
             return await Task.FromResult(data);
         }
 
-        public async Task<TEntity> GetByConditionFirst(Func<TEntity, bool> func)
+        public async Task<TEntity> GetByConditionFirst(Func<TEntity, bool> condition)
         {
-            var data = dataContext.Set<TEntity>().Where(func).FirstOrDefault();
+            var data = dataContext.Set<TEntity>().Where(condition).FirstOrDefault();
             return await Task.FromResult(data);
         }
 
@@ -53,15 +53,15 @@ namespace BikeBaseRepository
             return await dataContext.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity> GetByConditionWithIncludeFirst<TProp>(Func<TEntity, bool> where, Expression<Func<TEntity, TProp>> include)
+        public async Task<TEntity> GetByConditionWithIncludeFirst<TProp>(Func<TEntity, bool> condition, Expression<Func<TEntity, TProp>> include)
         {
-            var data = dataContext.Set<TEntity>().Include(include).Where(where).FirstOrDefault();
+            var data = dataContext.Set<TEntity>().Include(include).Where(condition).FirstOrDefault();
             return await Task.FromResult(data);
         }
 
-        public async Task<List<TEntity>> GetByConditionWithIncludeToList<TProp>(Func<TEntity, bool> where, Expression<Func<TEntity, TProp>> include)
+        public async Task<List<TEntity>> GetByConditionWithIncludeToList<TProp>(Func<TEntity, bool> condition, Expression<Func<TEntity, TProp>> include)
         {
-            var data = dataContext.Set<TEntity>().Include(include).Where(where).ToList();
+            var data = dataContext.Set<TEntity>().Include(include).Where(condition).ToList();
             return await Task.FromResult(data);
         }
 
