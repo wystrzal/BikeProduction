@@ -1,10 +1,12 @@
-﻿using Catalog.Application.Messaging.Consumers;
+﻿using Castle.Core.Logging;
+using Catalog.Application.Messaging.Consumers;
 using Catalog.Application.Messaging.MessagingModels;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using MassTransit.NewIdProviders;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,8 @@ namespace Catalog.Test
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
+            var logger = new Mock<ILogger<OrderCreatedConsumer>>();
+
             var orderItems = new List<OrderItem>
             {
                 new OrderItem
@@ -49,7 +53,7 @@ namespace Catalog.Test
 
             productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
-            var consumer = new OrderCreatedConsumer(productRepository.Object);
+            var consumer = new OrderCreatedConsumer(productRepository.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);
@@ -63,6 +67,8 @@ namespace Catalog.Test
         public async Task OrderCanceledConsumer_Success()
         {
             //Arrange
+            var logger = new Mock<ILogger<OrderCanceledConsumer>>();
+
             var references = new List<string> { "1" };
 
             var orderCanceledEvent = new OrderCanceledEvent { References = references };
@@ -75,7 +81,7 @@ namespace Catalog.Test
 
             productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
-            var consumer = new OrderCanceledConsumer(productRepository.Object);
+            var consumer = new OrderCanceledConsumer(productRepository.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);

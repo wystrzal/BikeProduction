@@ -1,6 +1,7 @@
 ﻿using Catalog.Core.Interfaces;
 using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Catalog.Application.Messaging.Consumers
@@ -8,10 +9,12 @@ namespace Catalog.Application.Messaging.Consumers
     public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
     {
         private readonly IProductRepository productRepository;
+        private readonly ILogger<OrderCreatedConsumer> logger;
 
-        public OrderCreatedConsumer(IProductRepository productRepository)
+        public OrderCreatedConsumer(IProductRepository productRepository, ILogger<OrderCreatedConsumer> logger)
         {
             this.productRepository = productRepository;
+            this.logger = logger;
         }
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
@@ -24,6 +27,8 @@ namespace Catalog.Application.Messaging.Consumers
                 }
 
                 await productRepository.SaveAllAsync();
+
+                logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
             }
         }
     }

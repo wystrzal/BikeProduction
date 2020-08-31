@@ -1,7 +1,9 @@
 ﻿using Basket.Application.Messaging.Consumers;
 using Basket.Core.Interfaces;
+using Castle.Core.Logging;
 using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -23,6 +25,8 @@ namespace Basket.Test
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
+            var logger = new Mock<ILogger<OrderCreatedConsumer>>();
+
             var userId = "1";
             var orderCreatedEvent = new OrderCreatedEvent { UserId = userId };
 
@@ -30,7 +34,7 @@ namespace Basket.Test
 
             basketRedisService.Setup(x => x.RemoveBasket(userId)).Verifiable();
 
-            var consumer = new OrderCreatedConsumer(basketRedisService.Object);
+            var consumer = new OrderCreatedConsumer(basketRedisService.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);

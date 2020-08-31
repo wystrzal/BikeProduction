@@ -32,7 +32,7 @@ namespace Basket.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -50,7 +50,7 @@ namespace Basket.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -65,7 +65,7 @@ namespace Basket.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -80,7 +80,7 @@ namespace Basket.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -97,7 +97,7 @@ namespace Basket.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -115,7 +115,7 @@ namespace Basket.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }

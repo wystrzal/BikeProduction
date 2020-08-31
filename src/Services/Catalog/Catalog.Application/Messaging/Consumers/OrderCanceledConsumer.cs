@@ -1,6 +1,7 @@
 ﻿using Catalog.Core.Interfaces;
 using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace Catalog.Application.Messaging.Consumers
@@ -8,10 +9,12 @@ namespace Catalog.Application.Messaging.Consumers
     public class OrderCanceledConsumer : IConsumer<OrderCanceledEvent>
     {
         private readonly IProductRepository productRepository;
+        private readonly ILogger<OrderCanceledConsumer> logger;
 
-        public OrderCanceledConsumer(IProductRepository productRepository)
+        public OrderCanceledConsumer(IProductRepository productRepository, ILogger<OrderCanceledConsumer> logger)
         {
             this.productRepository = productRepository;
+            this.logger = logger;
         }
 
         public async Task Consume(ConsumeContext<OrderCanceledEvent> context)
@@ -25,6 +28,8 @@ namespace Catalog.Application.Messaging.Consumers
                 }
 
                 await productRepository.SaveAllAsync();
+
+                logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
             }
         }
     }

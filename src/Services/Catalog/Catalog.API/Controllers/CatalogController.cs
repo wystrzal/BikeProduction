@@ -42,7 +42,7 @@ namespace Catalog.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }
@@ -65,7 +65,7 @@ namespace Catalog.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex.Message);
+                logger.LogError(ex.Message);
 
                 return BadRequest(ex.Message);
             }
