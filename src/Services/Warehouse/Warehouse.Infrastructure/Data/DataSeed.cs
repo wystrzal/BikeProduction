@@ -9,21 +9,6 @@ namespace Warehouse.Infrastructure.Data
     {
         public static async Task AddSeed(DataContext dataContext)
         {
-            if (!dataContext.StoragePlaces.Any())
-            {
-                var storagePlaces = new List<StoragePlace>
-                {
-                    new StoragePlace { Name = "A-0-0" },
-                    new StoragePlace { Name = "A-0-1" },
-                    new StoragePlace { Name = "A-0-2" },
-                    new StoragePlace { Name = "B-0-1" },
-                    new StoragePlace { Name = "B-0-2" },
-                    new StoragePlace { Name = "B-0-3" },
-                };
-
-                await dataContext.StoragePlaces.AddRangeAsync(storagePlaces);
-            }
-
             if (!dataContext.Products.Any())
             {
                 var products = new List<Product>()
@@ -49,11 +34,11 @@ namespace Warehouse.Infrastructure.Data
             {
                 var parts = new List<Part>()
                 {
-                    new Part {Reference = "9000", PartName = "Frame", Quantity = 5, StoragePlaceId = 1, QuantityForProduction = 1 },
-                    new Part {Reference = "9001", PartName = "Saddle", Quantity = 5, StoragePlaceId = 2, QuantityForProduction = 1 },
-                    new Part {Reference = "9002", PartName = "Wheel", Quantity = 5, StoragePlaceId = 3, QuantityForProduction = 2 },
-                    new Part {Reference = "9003", PartName = "Chain", Quantity = 5, StoragePlaceId = 4, QuantityForProduction = 1 },
-                    new Part {Reference = "9004", PartName = "Pedal", Quantity = 5, StoragePlaceId = 5, QuantityForProduction = 2 },
+                    new Part {Reference = "9000", PartName = "Frame", Quantity = 5, QuantityForProduction = 1 },
+                    new Part {Reference = "9001", PartName = "Saddle", Quantity = 5, QuantityForProduction = 1 },
+                    new Part {Reference = "9002", PartName = "Wheel", Quantity = 5, QuantityForProduction = 2 },
+                    new Part {Reference = "9003", PartName = "Chain", Quantity = 5, QuantityForProduction = 1 },
+                    new Part {Reference = "9004", PartName = "Pedal", Quantity = 5, QuantityForProduction = 2 },
                 };
 
                 await dataContext.Parts.AddRangeAsync(parts);
@@ -137,6 +122,20 @@ namespace Warehouse.Infrastructure.Data
                 };
 
                 await dataContext.ProductsParts.AddRangeAsync(productsParts);
+            }
+
+            if (!dataContext.StoragePlaces.Any())
+            {
+                var storagePlaces = new List<StoragePlace>
+                {
+                    new StoragePlace { Name = "A-0-0", PartId = 1 },
+                    new StoragePlace { Name = "A-0-1", PartId = 2 },
+                    new StoragePlace { Name = "A-0-2", PartId = 3 },
+                    new StoragePlace { Name = "B-0-1", PartId = 4 },
+                    new StoragePlace { Name = "B-0-2", PartId = 5 },
+                };
+
+                await dataContext.StoragePlaces.AddRangeAsync(storagePlaces);
             }
 
             await dataContext.SaveChangesAsync();

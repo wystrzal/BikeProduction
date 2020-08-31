@@ -1,11 +1,14 @@
-﻿using CustomerOrder.API.Controllers;
+﻿using Castle.Core.Logging;
+using CustomerOrder.API.Controllers;
 using CustomerOrder.Application.Commands;
 using CustomerOrder.Application.Mapping;
 using CustomerOrder.Application.Queries;
 using CustomerOrder.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +22,12 @@ namespace CustomerOrder.Test
     public class ControllerTest
     {
         private readonly Mock<IMediator> mediator;
+        private readonly Mock<ILogger<CustomerOrderController>> logger;
 
         public ControllerTest()
         {
             mediator = new Mock<IMediator>();
+            logger = new Mock<ILogger<CustomerOrderController>>();
         }
 
         [Fact]
@@ -31,7 +36,7 @@ namespace CustomerOrder.Test
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<CreateOrderCommand>(), It.IsAny<CancellationToken>())).Verifiable();
 
-            var controller = new CustomerOrderController(mediator.Object);
+            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.CreateOrder(It.IsAny<CreateOrderCommand>()) as OkResult;
@@ -47,7 +52,7 @@ namespace CustomerOrder.Test
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<CreateOrderCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
-            var controller = new CustomerOrderController(mediator.Object);
+            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.CreateOrder(It.IsAny<CreateOrderCommand>()) as BadRequestObjectResult;
@@ -66,7 +71,7 @@ namespace CustomerOrder.Test
             mediator.Setup(x => x.Send(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(new GetOrderDto { OrderId = orderId }));
 
-            var controller = new CustomerOrderController(mediator.Object);
+            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetOrder(orderId) as OkObjectResult;
@@ -86,7 +91,7 @@ namespace CustomerOrder.Test
             mediator.Setup(x => x.Send(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
 
-            var controller = new CustomerOrderController(mediator.Object);
+            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetOrder(orderId) as BadRequestObjectResult;
@@ -107,7 +112,7 @@ namespace CustomerOrder.Test
             mediator.Setup(x => x.Send(It.IsAny<GetOrdersQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(ordersDto));
 
-            var controller = new CustomerOrderController(mediator.Object);
+            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetOrders(filteringData) as OkObjectResult;
@@ -128,7 +133,7 @@ namespace CustomerOrder.Test
             mediator.Setup(x => x.Send(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()))
                 .Verifiable();
 
-            var controller = new CustomerOrderController(mediator.Object);
+            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.DeleteOrder(orderId) as OkResult;
@@ -147,7 +152,7 @@ namespace CustomerOrder.Test
             mediator.Setup(x => x.Send(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
 
-            var controller = new CustomerOrderController(mediator.Object);
+            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.DeleteOrder(orderId) as BadRequestObjectResult;

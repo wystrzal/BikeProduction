@@ -1,9 +1,11 @@
-﻿using Common.Application.Messaging;
+﻿using Castle.Core.Logging;
+using Common.Application.Messaging;
 using CustomerOrder.Application.Messaging.Consumers;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -17,10 +19,12 @@ namespace CustomerOrder.Test
     public class MessagingTest
     {
         private readonly Mock<IOrderRepository> orderRepository;
+        private readonly Mock<ILogger<ChangeOrderStatusConsumer>> logger;
 
         public MessagingTest()
         {
             orderRepository = new Mock<IOrderRepository>();
+            logger = new Mock<ILogger<ChangeOrderStatusConsumer>>();
         }
 
         [Fact]
@@ -35,7 +39,7 @@ namespace CustomerOrder.Test
 
             orderRepository.Setup(x => x.GetById(id)).Throws(new OrderNotFoundException());
 
-            var consumer = new ChangeOrderStatusConsumer(orderRepository.Object);
+            var consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<OrderNotFoundException>(() => consumer.Consume(context));
@@ -55,7 +59,7 @@ namespace CustomerOrder.Test
             orderRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(order));
             orderRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
-            var consumer = new ChangeOrderStatusConsumer(orderRepository.Object);
+            var consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);

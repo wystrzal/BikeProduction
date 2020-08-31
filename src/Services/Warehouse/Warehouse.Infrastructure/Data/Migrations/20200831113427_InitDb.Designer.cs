@@ -9,7 +9,7 @@ using Warehouse.Infrastructure.Data;
 namespace Warehouse.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200819222405_InitDb")]
+    [Migration("20200831113427_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,13 +39,7 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StoragePlaceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("StoragePlaceId")
-                        .IsUnique();
 
                     b.ToTable("Parts");
                 });
@@ -96,18 +90,15 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PartId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("StoragePlaces");
-                });
+                    b.HasIndex("PartId")
+                        .IsUnique();
 
-            modelBuilder.Entity("Warehouse.Core.Models.Part", b =>
-                {
-                    b.HasOne("Warehouse.Core.Models.StoragePlace", "StoragePlace")
-                        .WithOne("Part")
-                        .HasForeignKey("Warehouse.Core.Models.Part", "StoragePlaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("StoragePlaces");
                 });
 
             modelBuilder.Entity("Warehouse.Core.Models.ProductsParts", b =>
@@ -121,6 +112,15 @@ namespace Warehouse.Infrastructure.Migrations
                     b.HasOne("Warehouse.Core.Models.Product", "Product")
                         .WithMany("ProductsParts")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Warehouse.Core.Models.StoragePlace", b =>
+                {
+                    b.HasOne("Warehouse.Core.Models.Part", "Part")
+                        .WithOne("StoragePlace")
+                        .HasForeignKey("Warehouse.Core.Models.StoragePlace", "PartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
