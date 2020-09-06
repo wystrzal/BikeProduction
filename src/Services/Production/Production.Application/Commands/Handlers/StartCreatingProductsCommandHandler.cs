@@ -7,7 +7,7 @@ using static Production.Core.Models.Enums.ProductionStatusEnum;
 
 namespace Production.Application.Commands.Handlers
 {
-    class StartCreatingProductsCommandHandler : IRequestHandler<StartCreatingProductsCommand>
+    public class StartCreatingProductsCommandHandler : IRequestHandler<StartCreatingProductsCommand>
     {
         private readonly IProductionQueueRepo productionQueueRepo;
 
@@ -19,7 +19,7 @@ namespace Production.Application.Commands.Handlers
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue.ProductionStatus != ProductionStatus.Confirmed)
+            if (productionQueue == null || productionQueue.ProductionStatus != ProductionStatus.Confirmed)
             {
                 throw new ProductionQueueNotConfirmedException();
             }
