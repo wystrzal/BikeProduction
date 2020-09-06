@@ -25,7 +25,7 @@ namespace Production.Application.Commands.Handlers
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue.ProductionStatus != ProductionStatus.BeingCreated)
+            if (productionQueue == null || productionQueue.ProductionStatus != ProductionStatus.BeingCreated)
             {
                 throw new ProductsNotBeingCreatedException();
             }
@@ -36,10 +36,10 @@ namespace Production.Application.Commands.Handlers
 
             await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
 
-            var checkProductionStatus = await productionQueueRepo
+            var checkIfProductionFinished = await productionQueueRepo
                 .GetByConditionToList(x => x.OrderId == productionQueue.OrderId && x.ProductionStatus != ProductionStatus.Finished);
 
-            if (checkProductionStatus.Count == 0)
+            if (checkIfProductionFinished.Count == 0)
             {
                 await bus.Publish(new PackReadyToSendEvent(productionQueue.OrderId));
             }
