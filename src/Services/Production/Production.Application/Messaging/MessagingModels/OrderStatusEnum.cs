@@ -4,11 +4,12 @@
     {
         public enum OrderStatus
         {
-            WaitingForConfirm = 1,
+            Waiting_For_Confirm = 1,
             Confirmed = 2,
-            ReadyToSend = 3,
+            Ready_To_Send = 3,
             Sended = 4,
             Delivered = 5
         }
     }
 }
+

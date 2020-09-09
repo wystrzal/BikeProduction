@@ -1,6 +1,7 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
+using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using System;
 using System.Threading;
@@ -23,6 +24,11 @@ namespace Production.Application.Commands.Handlers
         public async Task<Unit> Handle(ConfirmProductionCommand request, CancellationToken cancellationToken)
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
+
+            if (productionQueue == null)
+            {
+                throw new ProductionQueueNotFoundException();
+            }
 
             if (productionQueue.ProductionStatus == ProductionStatus.Waiting
                 || productionQueue.ProductionStatus == ProductionStatus.NoParts)
