@@ -92,5 +92,41 @@ namespace Production.Test
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
         }
+
+        [Fact]
+        public async Task FinishProduction_OkResult()
+        {
+            //Arrange
+            var id = 1;
+
+            mediator.Setup(x => x.Send(It.IsAny<FinishProductionCommand>(), It.IsAny<CancellationToken>())).Verifiable();
+
+            var controller = new ProductionQueueController(mediator.Object);
+
+            //Act
+            var action = await controller.FinishProduction(id) as OkResult;
+
+            //Assert
+            mediator.Verify(x => x.Send(It.IsAny<FinishProductionCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+            Assert.Equal(200, action.StatusCode);
+        }
+
+        [Fact]
+        public async Task FinishProduction_BadRequestObjectResult()
+        {
+            //Arrange
+            var id = 1;
+
+            mediator.Setup(x => x.Send(It.IsAny<FinishProductionCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+
+            var controller = new ProductionQueueController(mediator.Object);
+
+            //Act
+            var action = await controller.FinishProduction(id) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
     }
 }
