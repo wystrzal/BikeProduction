@@ -84,5 +84,37 @@ namespace Delivery.Test
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
         }
+
+        [Fact]
+        public async Task CompleteDelivery_OkResult()
+        {
+            //Arrange
+            mediator.Setup(x => x.Send(It.IsAny<CompleteDeliveryCommand>(), It.IsAny<CancellationToken>())).Verifiable();
+
+            var controller = new DeliveryController(mediator.Object);
+
+            //Act
+            var action = await controller.CompleteDelivery(It.IsAny<int>()) as OkResult;
+
+            //Assert
+            mediator.Verify(x => x.Send(It.IsAny<CompleteDeliveryCommand>(), It.IsAny<CancellationToken>()), Times.Once);
+            Assert.Equal(200, action.StatusCode);
+        }
+
+        [Fact]
+        public async Task CompleteDelivery_BadRequestObjectResult()
+        {
+            //Arrange
+            mediator.Setup(x => x.Send(It.IsAny<CompleteDeliveryCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+
+            var controller = new DeliveryController(mediator.Object);
+
+            //Act
+            var action = await controller.CompleteDelivery(It.IsAny<int>()) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+        }
     }
 }
