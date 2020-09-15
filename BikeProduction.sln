@@ -109,7 +109,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Production.Test", "src\Serv
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Delivery.Test", "src\Services\Delivery\Delivery.Test\Delivery.Test.csproj", "{09CC3777-0B8D-435C-86A6-39CFA07B516A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminMVC", "src\Webs\AdminMVC\AdminMVC.csproj", "{D9A9EEA0-B8EB-4E78-83C0-8DE2F4EE73E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminMVC", "src\Webs\AdminMVC\AdminMVC.csproj", "{D9A9EEA0-B8EB-4E78-83C0-8DE2F4EE73E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

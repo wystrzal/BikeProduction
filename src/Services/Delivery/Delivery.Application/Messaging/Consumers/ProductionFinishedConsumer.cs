@@ -2,6 +2,7 @@
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using static Delivery.Core.Models.Enums.PackStatusEnum;
 
@@ -11,11 +12,14 @@ namespace Delivery.Application.Messaging.Consumers
     {
         private readonly ICustomerOrderService customerOrderService;
         private readonly IPackToDeliveryRepo packToDeliveryRepo;
+        private readonly ILogger<ProductionFinishedConsumer> logger;
 
-        public ProductionFinishedConsumer(ICustomerOrderService customerOrderService, IPackToDeliveryRepo packToDeliveryRepo)
+        public ProductionFinishedConsumer(ICustomerOrderService customerOrderService, IPackToDeliveryRepo packToDeliveryRepo,
+            ILogger<ProductionFinishedConsumer> logger)
         {
             this.customerOrderService = customerOrderService;
             this.packToDeliveryRepo = packToDeliveryRepo;
+            this.logger = logger;
         }
 
         public async Task Consume(ConsumeContext<ProductionFinishedEvent> context)
@@ -44,6 +48,8 @@ namespace Delivery.Application.Messaging.Consumers
             }
 
             await packToDeliveryRepo.SaveAllAsync();
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }

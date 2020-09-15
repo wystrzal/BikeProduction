@@ -1,6 +1,7 @@
 ﻿using Delivery.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -11,10 +12,12 @@ namespace Delivery.API.Controllers
     public class DeliveryController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly ILogger<DeliveryController> logger;
 
-        public DeliveryController(IMediator mediator)
+        public DeliveryController(IMediator mediator, ILogger<DeliveryController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         [HttpPost("loading/{loadingPlaceId}/pack/{packId})")]
@@ -27,6 +30,8 @@ namespace Delivery.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -41,6 +46,8 @@ namespace Delivery.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -55,6 +62,8 @@ namespace Delivery.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
