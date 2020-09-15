@@ -1,11 +1,9 @@
-﻿using Castle.Core.Logging;
-using Catalog.Application.Messaging.Consumers;
+﻿using Catalog.Application.Messaging.Consumers;
 using Catalog.Application.Messaging.MessagingModels;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
-using MassTransit.NewIdProviders;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -14,23 +12,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Catalog.Test
+namespace Catalog.Test.Messaging
 {
-    public class MessagingTest
+    public class OrderCreatedConsumerTest
     {
         private readonly Mock<IProductRepository> productRepository;
+        private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
 
-        public MessagingTest()
+        public OrderCreatedConsumerTest()
         {
             productRepository = new Mock<IProductRepository>();
+            logger = new Mock<ILogger<OrderCreatedConsumer>>();
         }
 
         [Fact]
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
-            var logger = new Mock<ILogger<OrderCreatedConsumer>>();
-
             var orderItems = new List<OrderItem>
             {
                 new OrderItem
@@ -54,34 +52,6 @@ namespace Catalog.Test
             productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var consumer = new OrderCreatedConsumer(productRepository.Object, logger.Object);
-
-            //Act
-            await consumer.Consume(context);
-
-            //Assert
-            productRepository.Verify(x => x.SaveAllAsync(), Times.Once);
-            productRepository.Verify(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()), Times.Once);
-        }
-
-        [Fact]
-        public async Task OrderCanceledConsumer_Success()
-        {
-            //Arrange
-            var logger = new Mock<ILogger<OrderCanceledConsumer>>();
-
-            var references = new List<string> { "1" };
-
-            var orderCanceledEvent = new OrderCanceledEvent { References = references };
-
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x =>
-                x.Message == orderCanceledEvent);
-
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
-                .Returns(Task.FromResult(new Product())).Verifiable();
-
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-
-            var consumer = new OrderCanceledConsumer(productRepository.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);

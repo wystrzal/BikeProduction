@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Catalog.Test
+namespace Catalog.Test.Services
 {
     public class SearchProductServiceTest
     {
