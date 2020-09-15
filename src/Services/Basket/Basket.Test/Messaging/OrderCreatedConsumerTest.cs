@@ -1,32 +1,33 @@
 ﻿using Basket.Application.Messaging.Consumers;
 using Basket.Core.Interfaces;
-using Castle.Core.Logging;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Basket.Test
+namespace Basket.Test.Messaging
 {
-    public class MessagingTest
+    public class OrderCreatedConsumerTest
     {
         private readonly Mock<IBasketRedisService> basketRedisService;
-        public MessagingTest()
+        private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
+
+        public OrderCreatedConsumerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
+            logger = new Mock<ILogger<OrderCreatedConsumer>>();
         }
 
         [Fact]
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
-            var logger = new Mock<ILogger<OrderCreatedConsumer>>();
-
             var userId = "1";
             var orderCreatedEvent = new OrderCreatedEvent { UserId = userId };
 
