@@ -1,5 +1,4 @@
-﻿using Castle.Core.Logging;
-using Common.Application.Messaging;
+﻿using Common.Application.Messaging;
 using CustomerOrder.Application.Messaging.Consumers;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
@@ -14,14 +13,14 @@ using System.Threading.Tasks;
 using Xunit;
 using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
 
-namespace CustomerOrder.Test
+namespace CustomerOrder.Test.Messaging
 {
-    public class MessagingTest
+    public class ChangeOrderStatusConsumerTest
     {
         private readonly Mock<IOrderRepository> orderRepository;
         private readonly Mock<ILogger<ChangeOrderStatusConsumer>> logger;
 
-        public MessagingTest()
+        public ChangeOrderStatusConsumerTest()
         {
             orderRepository = new Mock<IOrderRepository>();
             logger = new Mock<ILogger<ChangeOrderStatusConsumer>>();

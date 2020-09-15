@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CustomerOrder.Test
+namespace CustomerOrder.Test.Services
 {
     public class ServicesTest
     {

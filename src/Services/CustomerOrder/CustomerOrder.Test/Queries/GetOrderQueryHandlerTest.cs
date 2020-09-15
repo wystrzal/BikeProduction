@@ -5,30 +5,26 @@ using CustomerOrder.Application.Queries.Handlers;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
-using CustomerOrder.Core.SearchSpecification;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CustomerOrder.Test
+namespace CustomerOrder.Test.Queries
 {
-    public class QueriesTest
+    public class GetOrderQueryHandlerTest
     {
         private readonly Mock<IOrderRepository> orderRepository;
         private readonly Mock<IMapper> mapper;
-        private readonly Mock<ISearchOrderService> searchOrderService;
 
-        public QueriesTest()
+        public GetOrderQueryHandlerTest()
         {
             orderRepository = new Mock<IOrderRepository>();
             mapper = new Mock<IMapper>();
-            searchOrderService = new Mock<ISearchOrderService>();
         }
 
         [Fact]
@@ -42,7 +38,7 @@ namespace CustomerOrder.Test
             var queryHandler = new GetOrderQueryHandler(orderRepository.Object, mapper.Object);
 
             //Assert
-            await Assert.ThrowsAsync<OrderNotFoundException>(() => 
+            await Assert.ThrowsAsync<OrderNotFoundException>(() =>
                 queryHandler.Handle(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()));
         }
 
@@ -67,29 +63,6 @@ namespace CustomerOrder.Test
 
             //Assert
             Assert.Equal(id, action.OrderId);
-        }
-
-        [Fact]
-        public async Task GetOrdersQueryHandler_Success()
-        {
-            //Arrange
-            var filteringData = new FilteringData();
-            var query = new GetOrdersQuery(filteringData);
-            var orders = new List<Order> { new Order { OrderId = 1 }, new Order { OrderId = 2 } };
-            var ordersDto = new List<GetOrdersDto> { new GetOrdersDto { OrderId = 1 }, new GetOrdersDto { OrderId = 2 } };
-
-            searchOrderService.Setup(x => x.GetOrders(filteringData)).Returns(Task.FromResult(orders));
-
-            mapper.Setup(x => x.Map<List<GetOrdersDto>>(orders)).Returns(ordersDto);
-
-            var queryHandler = new GetOrdersQueryHandler(searchOrderService.Object, mapper.Object);
-
-            //Act
-            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
-
-            //Assert
-            Assert.Equal(2, action.Count());
-            Assert.Equal(1, action.Select(x => x.OrderId).First());
         }
     }
 }
