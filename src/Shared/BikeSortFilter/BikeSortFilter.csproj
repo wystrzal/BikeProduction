@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BaseRepository\BikeBaseRepository\BikeBaseRepository.csproj" />
+    <ProjectReference Include="..\BaseRepository\BikeBaseRepository.csproj" />
   </ItemGroup>
 
 </Project>
