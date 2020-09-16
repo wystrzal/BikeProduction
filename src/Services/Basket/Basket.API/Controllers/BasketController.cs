@@ -36,7 +36,6 @@ namespace Basket.API.Controllers
 
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpPost("add/product")]
@@ -101,7 +100,6 @@ namespace Basket.API.Controllers
 
                 return BadRequest(ex.Message);
             }
-
         }
 
         [HttpDelete("{userId}/product/{productId}")]

@@ -8,11 +8,10 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace Identity.Test
+namespace Identity.Test.Services
 {
-    public class ServicesTest
-    {         
-        //TokenService
+    public class TokenServiceTest
+    {
         [Fact]
         public void GenerateToken_Success()
         {
