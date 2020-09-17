@@ -1,5 +1,6 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Production.Core.Interfaces;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace Production.Application.Messaging.Consumers
     public class OrderCanceledConsumer : IConsumer<OrderCanceledEvent>
     {
         private readonly IProductionQueueRepo productionQueueRepo;
+        private readonly ILogger<OrderCanceledConsumer> logger;
 
         public OrderCanceledConsumer(IProductionQueueRepo productionQueueRepo)
         {
@@ -23,6 +25,8 @@ namespace Production.Application.Messaging.Consumers
             }
 
             await productionQueueRepo.SaveAllAsync();
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }

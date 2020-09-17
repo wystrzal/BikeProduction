@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Production.Application.Commands;
 using Production.Application.Queries;
 using System;
@@ -12,6 +13,7 @@ namespace Production.API.Controllers
     public class ProductionQueueController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly ILogger<ProductionQueueController> logger;
 
         public ProductionQueueController(IMediator mediator)
         {
@@ -28,6 +30,8 @@ namespace Production.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -42,6 +46,8 @@ namespace Production.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -56,6 +62,8 @@ namespace Production.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }

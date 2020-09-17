@@ -1,5 +1,6 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
@@ -11,6 +12,7 @@ namespace Production.Application.Messaging.Consumers
     public class OrderCreatedConsumer : IConsumer<OrderCreatedEvent>
     {
         private readonly IProductionQueueRepo productionQueueRepo;
+        private readonly ILogger<OrderCreatedConsumer> logger;
 
         public OrderCreatedConsumer(IProductionQueueRepo productionQueueRepo)
         {
@@ -32,8 +34,14 @@ namespace Production.Application.Messaging.Consumers
 
             if (!await productionQueueRepo.SaveAllAsync())
             {
-                throw new ProductNotAddedException();
+                var exception = new ProductNotAddedException();
+
+                logger.LogError(exception.Message);
+
+                throw exception;
             }
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }
