@@ -111,6 +111,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminMVC", "src\Webs\AdminM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeBaseRepository", "src\Shared\BaseRepository\BikeBaseRepository.csproj", "{E8F2C4F6-B590-4887-A707-F0C1036FFEDD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Test", "src\Services\Warehouse\Warehouse.Test\Warehouse.Test.csproj", "{44818A0D-DFAD-4183-B330-CB345557E2BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +279,10 @@ Global
 		{E8F2C4F6-B590-4887-A707-F0C1036FFEDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8F2C4F6-B590-4887-A707-F0C1036FFEDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8F2C4F6-B590-4887-A707-F0C1036FFEDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44818A0D-DFAD-4183-B330-CB345557E2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44818A0D-DFAD-4183-B330-CB345557E2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44818A0D-DFAD-4183-B330-CB345557E2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44818A0D-DFAD-4183-B330-CB345557E2BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -334,6 +340,7 @@ Global
 		{09CC3777-0B8D-435C-86A6-39CFA07B516A} = {C5CE3412-F9E7-4168-BA1E-DEE36C507B4E}
 		{D9A9EEA0-B8EB-4E78-83C0-8DE2F4EE73E8} = {26360E5B-DB68-4467-9553-FEF4D44C6993}
 		{E8F2C4F6-B590-4887-A707-F0C1036FFEDD} = {BCCBFADF-75B9-487E-BCE6-218C6C479552}
+		{44818A0D-DFAD-4183-B330-CB345557E2BA} = {85B2DBE9-215B-4069-B30F-5B9EE07AFCD2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1302E2C5-6D1D-40F1-AD1F-52ECA36DBC2E}
