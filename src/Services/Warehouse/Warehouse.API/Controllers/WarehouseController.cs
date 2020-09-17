@@ -33,7 +33,7 @@ namespace Warehouse.API.Controllers
         {
             try
             {
-                await mediator.Send(new DeletePartCommand(command.PartId));
+                await mediator.Send(command);
                 return Ok();
             }
             catch (Exception ex)
