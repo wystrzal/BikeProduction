@@ -13,14 +13,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Production.Test
+namespace Production.Test.Queries
 {
-    public class QueriesTest
+    public class GetProductionQueuesQueryHandlerTest
     {
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
         private readonly Mock<IMapper> mapper;
 
-        public QueriesTest()
+        public GetProductionQueuesQueryHandlerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
             mapper = new Mock<IMapper>();

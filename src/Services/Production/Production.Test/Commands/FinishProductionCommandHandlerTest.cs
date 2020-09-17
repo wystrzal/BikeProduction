@@ -10,62 +10,23 @@ using Production.Core.Interfaces;
 using Production.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
 
-namespace Production.Test
+namespace Production.Test.Commands
 {
-    public class CommandsTest
+    public class FinishProductionCommandHandlerTest
     {
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
         private readonly Mock<IBus> bus;
 
-        public CommandsTest()
+        public FinishProductionCommandHandlerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
             bus = new Mock<IBus>();
-        }
-
-        [Fact]
-        public async Task StartCreatingProductsCommandHandler_ThrowsProductionQueueNotConfirmedException()
-        {
-            //Arrange
-            var id = 1;
-            var command = new StartCreatingProductsCommand(id);
-
-            productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult((ProductionQueue)null));
-
-            var commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
-
-            //Assert
-            await Assert.ThrowsAsync<ProductionQueueNotConfirmedException>(() 
-                => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
-        }
-
-        [Fact]
-        public async Task StartCreatingProductsCommandHandler_Success()
-        {
-            //Arrange
-            var id = 1;
-            var productionQueue = new ProductionQueue { ProductionStatus = ProductionStatus.Confirmed };
-            var command = new StartCreatingProductsCommand(id);
-
-            productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult(productionQueue));
-            productionQueueRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-
-
-            var commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
-
-            //Act
-            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
-
-            //Assert
-            productionQueueRepo.Verify(x => x.SaveAllAsync(), Times.Once);
-            Assert.Equal(Unit.Value, action);
         }
 
         [Fact]
@@ -75,13 +36,13 @@ namespace Production.Test
             var id = 1;
 
             productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult((ProductionQueue)null));
-      
+
             var command = new FinishProductionCommand(id);
 
             var commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
 
             //Assert
-            await Assert.ThrowsAsync<ProductsNotBeingCreatedException>(() 
+            await Assert.ThrowsAsync<ProductsNotBeingCreatedException>(()
                 => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
         }
 
