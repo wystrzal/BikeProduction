@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
 using Warehouse.Core.Models;
@@ -11,11 +12,13 @@ namespace Warehouse.Application.Messaging.Consumers
     {
         private readonly IProductRepository productRepository;
         private readonly IMapper mapper;
+        private readonly ILogger<ProductAddedConsumer> logger;
 
-        public ProductAddedConsumer(IProductRepository productRepository, IMapper mapper)
+        public ProductAddedConsumer(IProductRepository productRepository, IMapper mapper, ILogger<ProductAddedConsumer> logger)
         {
             this.productRepository = productRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task Consume(ConsumeContext<ProductAddedEvent> context)
@@ -25,6 +28,8 @@ namespace Warehouse.Application.Messaging.Consumers
             productRepository.Add(productToAdd);
 
             await productRepository.SaveAllAsync();
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }

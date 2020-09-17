@@ -1,5 +1,7 @@
-﻿using Common.Application.Messaging;
+﻿using Castle.Core.Logging;
+using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Production.Application.Messaging.Consumers;
 using Production.Core.Interfaces;
@@ -15,10 +17,12 @@ namespace Production.Test.Messaging
     public class OrderCanceledConsumerTest
     {
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
+        private readonly Mock<ILogger<OrderCanceledConsumer>> logger;
 
         public OrderCanceledConsumerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
+            logger = new Mock<ILogger<OrderCanceledConsumer>>();
         }
 
         [Fact]
@@ -35,7 +39,7 @@ namespace Production.Test.Messaging
             productionQueueRepo.Setup(x => x.Delete(It.IsAny<ProductionQueue>())).Verifiable();
             productionQueueRepo.Setup(x => x.SaveAllAsync()).Verifiable();
 
-            var consumer = new OrderCanceledConsumer(productionQueueRepo.Object);
+            var consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);

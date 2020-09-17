@@ -14,9 +14,10 @@ namespace Production.Application.Messaging.Consumers
         private readonly IProductionQueueRepo productionQueueRepo;
         private readonly ILogger<OrderCreatedConsumer> logger;
 
-        public OrderCreatedConsumer(IProductionQueueRepo productionQueueRepo)
+        public OrderCreatedConsumer(IProductionQueueRepo productionQueueRepo, ILogger<OrderCreatedConsumer> logger)
         {
             this.productionQueueRepo = productionQueueRepo;
+            this.logger = logger;
         }
 
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)

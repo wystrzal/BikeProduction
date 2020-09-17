@@ -11,9 +11,10 @@ namespace Production.Application.Messaging.Consumers
         private readonly IProductionQueueRepo productionQueueRepo;
         private readonly ILogger<OrderCanceledConsumer> logger;
 
-        public OrderCanceledConsumer(IProductionQueueRepo productionQueueRepo)
+        public OrderCanceledConsumer(IProductionQueueRepo productionQueueRepo, ILogger<OrderCanceledConsumer> logger)
         {
             this.productionQueueRepo = productionQueueRepo;
+            this.logger = logger;
         }
         public async Task Consume(ConsumeContext<OrderCanceledEvent> context)
         {

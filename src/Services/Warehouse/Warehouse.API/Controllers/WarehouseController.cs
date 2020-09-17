@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Warehouse.Application.Commands;
@@ -12,10 +13,12 @@ namespace Warehouse.API.Controllers
     public class WarehouseController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly ILogger<WarehouseController> logger;
 
-        public WarehouseController(IMediator mediator)
+        public WarehouseController(IMediator mediator, ILogger<WarehouseController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         [HttpPost("part")]
@@ -35,6 +38,8 @@ namespace Warehouse.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -48,6 +53,8 @@ namespace Warehouse.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -75,6 +82,8 @@ namespace Warehouse.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }

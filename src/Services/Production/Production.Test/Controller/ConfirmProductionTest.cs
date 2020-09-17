@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Production.API.Controllers;
 using Production.Application.Commands;
@@ -15,10 +16,12 @@ namespace Production.Test.Controller
     public class ConfirmProductionTest
     {
         private readonly Mock<IMediator> mediator;
+        private readonly Mock<ILogger<ProductionQueueController>> logger;
 
         public ConfirmProductionTest()
         {
             mediator = new Mock<IMediator>();
+            logger = new Mock<ILogger<ProductionQueueController>>();
         }
 
         [Fact]
@@ -29,7 +32,7 @@ namespace Production.Test.Controller
 
             mediator.Setup(x => x.Send(It.IsAny<ConfirmProductionCommand>(), It.IsAny<CancellationToken>())).Verifiable();
 
-            var controller = new ProductionQueueController(mediator.Object);
+            var controller = new ProductionQueueController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.ConfirmProduction(id) as OkResult;
@@ -47,7 +50,7 @@ namespace Production.Test.Controller
 
             mediator.Setup(x => x.Send(It.IsAny<ConfirmProductionCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
-            var controller = new ProductionQueueController(mediator.Object);
+            var controller = new ProductionQueueController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.ConfirmProduction(id) as BadRequestObjectResult;

@@ -1,5 +1,7 @@
-﻿using Common.Application.Messaging;
+﻿using Castle.Core.Logging;
+using Common.Application.Messaging;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Production.Application.Messaging.Consumers;
 using Production.Application.Messaging.MessagingModels;
@@ -17,10 +19,12 @@ namespace Production.Test.Messaging
     public class OrderCreatedConsumerTest
     {
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
+        private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
 
         public OrderCreatedConsumerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
+            logger = new Mock<ILogger<OrderCreatedConsumer>>();
         }
 
         [Fact]
@@ -35,7 +39,7 @@ namespace Production.Test.Messaging
             productionQueueRepo.Setup(x => x.Add(It.IsAny<ProductionQueue>())).Verifiable();
             productionQueueRepo.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
-            var consumer = new OrderCreatedConsumer(productionQueueRepo.Object);
+            var consumer = new OrderCreatedConsumer(productionQueueRepo.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);
@@ -56,7 +60,7 @@ namespace Production.Test.Messaging
             productionQueueRepo.Setup(x => x.Add(It.IsAny<ProductionQueue>())).Verifiable();
             productionQueueRepo.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
 
-            var consumer = new OrderCreatedConsumer(productionQueueRepo.Object);
+            var consumer = new OrderCreatedConsumer(productionQueueRepo.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<ProductNotAddedException>(() => consumer.Consume(context));

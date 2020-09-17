@@ -15,9 +15,10 @@ namespace Production.API.Controllers
         private readonly IMediator mediator;
         private readonly ILogger<ProductionQueueController> logger;
 
-        public ProductionQueueController(IMediator mediator)
+        public ProductionQueueController(IMediator mediator, ILogger<ProductionQueueController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         [HttpPost("confirm/{id}")]
