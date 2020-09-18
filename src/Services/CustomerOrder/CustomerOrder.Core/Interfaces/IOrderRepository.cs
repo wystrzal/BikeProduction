@@ -7,6 +7,5 @@ namespace CustomerOrder.Core.Interfaces
 {
     public interface IOrderRepository : IBaseRepository<Order>
     {
-        Task<List<Order>> GetOrders();
     }
 }

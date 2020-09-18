@@ -16,10 +16,5 @@ namespace CustomerOrder.Infrastructure.Repositories
         {
             this.dataContext = dataContext;
         }
-
-        public async Task<List<Order>> GetOrders()
-        {
-            return await dataContext.Orders.Include(x => x.OrderItems).ToListAsync();
-        }
     }
 }
