@@ -66,7 +66,7 @@ namespace Warehouse.API.Controllers
         }
 
         [HttpPost("storage-place")]
-        public async Task<IActionResult> AddStoragePlace(AddPartCommand command)
+        public async Task<IActionResult> AddStoragePlace(AddStoragePlaceCommand command)
         {
             await mediator.Send(command);
             return Ok();
