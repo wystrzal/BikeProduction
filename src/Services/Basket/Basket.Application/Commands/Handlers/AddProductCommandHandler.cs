@@ -1,5 +1,6 @@
 ﻿using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using MediatR;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Basket.Application.Commands.Handlers
             {
                 basket = new UserBasketDto()
                 {
-                    Products = new List<Core.Models.BasketProduct>(),
+                    Products = new List<BasketProduct>(),
                     TotalPrice = 0,
                     UserId = request.UserId
                 };
@@ -45,8 +46,6 @@ namespace Basket.Application.Commands.Handlers
 
             basket.TotalPrice += (request.Product.Price * request.Product.Quantity);
 
-            await basketRedisService.RemoveBasket(request.UserId);
-
             string serializeObject = JsonConvert.SerializeObject(basket);
 
             await basketRedisService.SaveBasket(request.UserId, serializeObject);
@@ -55,3 +54,4 @@ namespace Basket.Application.Commands.Handlers
         }
     }
 }
+

@@ -28,8 +28,6 @@ namespace Basket.Application.Commands.Handlers
 
                 basket.Products.Remove(productToRemove);
 
-                await basketRedisService.RemoveBasket(request.UserId);
-
                 string serializeObject = JsonConvert.SerializeObject(basket);
 
                 await basketRedisService.SaveBasket(request.UserId, serializeObject);
@@ -39,3 +37,4 @@ namespace Basket.Application.Commands.Handlers
         }
     }
 }
+

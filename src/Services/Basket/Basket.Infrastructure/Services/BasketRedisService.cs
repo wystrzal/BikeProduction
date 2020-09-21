@@ -34,7 +34,7 @@ namespace Basket.Infrastructure.Services
 
         public async Task SaveBasket(string userId, string serializeObject)
         {
-            CheckIfUserIdIsNull(userId);
+            await RemoveBasket(userId);
 
             await distributedCache.SetStringAsync(userId, serializeObject, new DistributedCacheEntryOptions()
             {

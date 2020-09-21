@@ -57,8 +57,6 @@ namespace Basket.Test.Commands
 
             basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
 
-            basketRedisService.Setup(x => x.RemoveBasket(userId)).Verifiable();
-
             basketRedisService.Setup(x => x.SaveBasket(userId, It.IsAny<string>())).Verifiable();
 
 
@@ -69,8 +67,6 @@ namespace Basket.Test.Commands
 
             //Assert
             Assert.Equal(Unit.Value, action);
-
-            basketRedisService.Verify(x => x.RemoveBasket(userId), Times.Once);
 
             basketRedisService.Verify(x => x.SaveBasket(userId, It.IsAny<string>()), Times.Once);
         }
