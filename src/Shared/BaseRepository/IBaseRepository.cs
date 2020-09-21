@@ -74,7 +74,7 @@ namespace BikeBaseRepository
         /// <param name="skip">Set skip.</param>
         /// <param name="take">Set take.</param>
         /// <returns></returns>
-        Task<List<TEntity>> FilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
+        Task<List<TEntity>> GetFilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
            bool orderDesc, int skip, int take);
 
     }

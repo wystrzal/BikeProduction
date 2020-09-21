@@ -70,7 +70,7 @@ namespace BikeBaseRepository
             return await dataContext.SaveChangesAsync() > 0 ? true : false;
         }
 
-        public async Task<List<TEntity>> FilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
+        public async Task<List<TEntity>> GetFilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
             bool orderDesc, int skip, int take)
         {
             List<TEntity> data = null;
