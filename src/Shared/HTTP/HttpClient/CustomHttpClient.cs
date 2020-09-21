@@ -11,29 +11,18 @@ namespace BikeHttpClient
 {
     public class CustomHttpClient : ICustomHttpClient
     {
-        private readonly System.Net.Http.HttpClient client;
+        private readonly HttpClient client;
 
         public CustomHttpClient()
         {
-            this.client = new System.Net.Http.HttpClient();
+            client = new HttpClient();
         }
 
         public async Task<string> GetStringAsync(string uri, string authorizationToken = null, Dictionary<string, string> queryParams = null)
         {
             if (queryParams != null)
             {
-                var builder = new UriBuilder(uri);
-
-                var query = HttpUtility.ParseQueryString(builder.Query);
-
-                foreach (var queryParam in queryParams)
-                {
-                    query[queryParam.Key] = queryParam.Value;
-                };
-
-                builder.Query = query.ToString();
-
-                uri = builder.ToString();
+                uri = SetQueryParams(uri, queryParams);
             }
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
@@ -46,6 +35,22 @@ namespace BikeHttpClient
             var response = await client.SendAsync(requestMessage);
 
             return await response.Content.ReadAsStringAsync();
+        }
+
+        private string SetQueryParams(string uri, Dictionary<string, string> queryParams)
+        {
+            var builder = new UriBuilder(uri);
+
+            var query = HttpUtility.ParseQueryString(builder.Query);
+
+            foreach (var queryParam in queryParams)
+            {
+                query[queryParam.Key] = queryParam.Value;
+            };
+
+            builder.Query = query.ToString();
+
+            return builder.ToString();
         }
 
         private async Task<HttpResponseMessage> DoPostPutAsync<T>(HttpMethod method, string uri, T item, string authorizationToken = null)
