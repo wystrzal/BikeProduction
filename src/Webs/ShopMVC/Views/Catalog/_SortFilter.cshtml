@@ -6,9 +6,9 @@
         <button id="catalog-sort-button" class="btn btn-secondary px-4" type="button">
             Sort
         </button>
-        <button class="btn btn-secondary px-4" type="button">
-            &#8635
-        </button>
+
+        @Html.ActionLink("↻", "Index", "Catalog", null, new { @class = "btn btn-secondary px-4" })
+
         <button id="catalog-filter-button" class="btn btn-secondary px-4" type="button">
             Filter
         </button>
