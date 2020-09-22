@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace BikeBaseRepository
 {
-    public class BaseRepository<TEntity, DataContext> : IBaseRepository<TEntity> where TEntity : class where DataContext : DbContext
+    public class BaseRepository<TEntity, TDataContext> : IBaseRepository<TEntity>
+        where TEntity : class 
+        where TDataContext : DbContext
     {
-        private readonly DataContext dataContext;
+        private readonly TDataContext dataContext;
 
-        public BaseRepository(DataContext dataContext)
+        public BaseRepository(TDataContext dataContext)
         {
             this.dataContext = dataContext;
         }
@@ -69,47 +71,6 @@ namespace BikeBaseRepository
         public async Task<bool> SaveAllAsync()
         {
             return await dataContext.SaveChangesAsync() > 0 ? true : false;
-        }
-
-        private async Task<List<TEntity>> GetAllFilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
-            bool orderDesc)
-        {
-            List<TEntity> data = null;
-
-            if (!orderDesc)
-            {
-                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).ToList();
-            }
-            else
-            {
-                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderByDescending(sortBy).ToList();
-            }
-
-            return await Task.FromResult(data);
-        }
-
-        public async Task<List<TEntity>> GetFilterSortData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
-            bool orderDesc, int skip, int take)
-        {
-            List<TEntity> data = null;
-
-            if (take == 0)
-            {
-                return await GetAllFilterSortData(filterBy, sortBy, orderDesc);
-            }
-
-            if (!orderDesc)
-            {
-                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy)
-                    .OrderBy(sortBy).Skip(skip).Take(take).ToList();
-            }
-            else
-            {
-                data = dataContext.Set<TEntity>().AsNoTracking().Where(filterBy)
-                    .OrderByDescending(sortBy).Skip(skip).Take(take).ToList();
-            }
-
-            return await Task.FromResult(data);
         }
     }
 }

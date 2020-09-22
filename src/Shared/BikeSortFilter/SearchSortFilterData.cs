@@ -12,11 +12,11 @@ namespace BikeSortFilter
         where TEntity : class
         where TFilteringData : class
     {
-        private readonly IBaseRepository<TEntity> repository;
+        private readonly ISortFilterRepository<TEntity> repository;
         private readonly List<Predicate<TEntity>> filtersToUse;
         private dynamic sortToUse;
 
-        public SearchSortFilterData(IBaseRepository<TEntity> repository)
+        public SearchSortFilterData(ISortFilterRepository<TEntity> repository)
         {
             filtersToUse = new List<Predicate<TEntity>>();
             this.repository = repository;
@@ -56,7 +56,7 @@ namespace BikeSortFilter
 
             var compiledFilterBy = expression.Compile();
 
-            var data = await repository.GetFilterSortData(compiledFilterBy, sortToUse, orderDesc, skip, take);
+            var data = await repository.GetSortFilterData(compiledFilterBy, sortToUse, orderDesc, skip, take);
             
             sortToUse = null;
             filtersToUse.Clear();
