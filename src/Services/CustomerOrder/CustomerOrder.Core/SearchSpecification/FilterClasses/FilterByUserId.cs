@@ -6,16 +6,13 @@ using System.Text;
 
 namespace CustomerOrder.Core.SearchSpecification.FilterClasses
 {
-    public class FilterByUserId : IConcreteFilter<Order>
+    public class FilterByUserId : ConcreteFilter<Order, FilteringData>
     {
-        private readonly FilteringData filteringData;
-
-        public FilterByUserId(FilteringData filteringData)
+        public FilterByUserId(FilteringData filteringData) : base(filteringData)
         {
-            this.filteringData = filteringData;
         }
 
-        public Predicate<Order> GetConcreteFilter()
+        public override Predicate<Order> GetConcreteFilter()
         {
             return x => x.UserId == filteringData.UserId;
         }

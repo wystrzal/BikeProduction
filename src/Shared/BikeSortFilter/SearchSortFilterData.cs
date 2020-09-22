@@ -36,7 +36,7 @@ namespace BikeSortFilter
                 concreteFilters.Add(typeOfFilter, concreteFilter);
             }
 
-            var selectedFilter = concreteFilters[typeOfFilter] as IConcreteFilter<TEntity>;
+            var selectedFilter = concreteFilters[typeOfFilter] as ConcreteFilter<TEntity, TFilteringData>;
 
             filtersToUse.Add(selectedFilter.GetConcreteFilter());
         }

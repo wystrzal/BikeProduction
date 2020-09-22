@@ -4,16 +4,13 @@ using System;
 
 namespace Catalog.Core.SearchSpecification.FilterClasses
 {
-    public class TypeFilter : IConcreteFilter<Product>
+    public class TypeFilter : ConcreteFilter<Product, FilteringData>
     {
-        private readonly FilteringData filteringData;
-
-        public TypeFilter(FilteringData filteringData)
+        public TypeFilter(FilteringData filteringData) : base(filteringData)
         {
-            this.filteringData = filteringData;
         }
 
-        public Predicate<Product> GetConcreteFilter()
+        public override Predicate<Product> GetConcreteFilter()
         {
             return x => x.BikeType == filteringData.BikeType;
         }
