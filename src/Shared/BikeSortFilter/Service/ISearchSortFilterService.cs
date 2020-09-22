@@ -3,12 +3,7 @@ using System.Threading.Tasks;
 
 namespace BikeSortFilter
 {
-    /// <summary>
-    /// <para>Interface to search for sorted and filtered data.</para>
-    /// <para>Important: You must set concrete sort
-    /// before start search data.</para>
-    /// </summary>
-    public interface ISearchSortFilterData<TEntity, TFilteringData>
+    public interface ISearchSortFilterService<TEntity, TFilteringData>
         where TEntity : class
         where TFilteringData : class
     {

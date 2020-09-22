@@ -14,9 +14,9 @@ namespace CustomerOrder.Infrastructure.Services
 {
     public class SearchOrderService : ISearchOrderService
     {
-        private readonly ISearchSortFilterData<Order, FilteringData> sortFilterService;
+        private readonly ISearchSortFilterService<Order, FilteringData> sortFilterService;
 
-        public SearchOrderService(ISearchSortFilterData<Order, FilteringData> sortFilterService)
+        public SearchOrderService(ISearchSortFilterService<Order, FilteringData> sortFilterService)
         {
             this.sortFilterService = sortFilterService;
         }

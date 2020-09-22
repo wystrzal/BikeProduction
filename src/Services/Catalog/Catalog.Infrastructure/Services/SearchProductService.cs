@@ -15,9 +15,9 @@ namespace Catalog.Infrastructure.Services
 {
     public class SearchProductService : ISearchProductService
     {
-        private readonly ISearchSortFilterData<Product, FilteringData> sortFilterService;
+        private readonly ISearchSortFilterService<Product, FilteringData> sortFilterService;
 
-        public SearchProductService(ISearchSortFilterData<Product, FilteringData> sortFilterService)
+        public SearchProductService(ISearchSortFilterService<Product, FilteringData> sortFilterService)
         {
             this.sortFilterService = sortFilterService;
         }
@@ -67,7 +67,6 @@ namespace Catalog.Infrastructure.Services
             {
                 sortFilterService.SetConcreteFilter<TypeFilter>(filteringData);
             }
-
 
             return await sortFilterService.Search(orderDesc, filteringData.Skip, filteringData.Take);
         }

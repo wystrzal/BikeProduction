@@ -12,7 +12,7 @@ namespace CustomerOrder.Core.SearchSpecification.FilterClasses
         {
         }
 
-        public override Predicate<Order> GetConcreteFilter()
+        public override Predicate<Order> GetFilteringCondition()
         {
             return x => x.OrderStatus == filteringData.OrderStatus;
         }

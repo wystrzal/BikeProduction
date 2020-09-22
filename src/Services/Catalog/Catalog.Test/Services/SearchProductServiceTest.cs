@@ -16,11 +16,11 @@ namespace Catalog.Test.Services
 {
     public class SearchProductServiceTest
     {
-        private readonly Mock<ISearchSortFilterData<Product, FilteringData>> sortFilterService;
+        private readonly Mock<ISearchSortFilterService<Product, FilteringData>> sortFilterService;
 
         public SearchProductServiceTest()
         {
-            sortFilterService = new Mock<ISearchSortFilterData<Product, FilteringData>>();
+            sortFilterService = new Mock<ISearchSortFilterService<Product, FilteringData>>();
         }
 
         [Fact]

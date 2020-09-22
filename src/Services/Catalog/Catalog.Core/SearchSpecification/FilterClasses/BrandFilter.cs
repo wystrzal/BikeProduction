@@ -10,7 +10,7 @@ namespace Catalog.Core.SearchSpecification.FilterClasses
         {
         }
 
-        public override Predicate<Product> GetConcreteFilter()
+        public override Predicate<Product> GetFilteringCondition()
         {
             return x => x.BrandId == filteringData.BrandId;
         }

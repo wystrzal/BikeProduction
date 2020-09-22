@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BikeSortFilter
 {
-    public class SearchSortFilterData<TEntity, TFilteringData> : ISearchSortFilterData<TEntity, TFilteringData>
+    public class SearchSortFilterService<TEntity, TFilteringData> : ISearchSortFilterService<TEntity, TFilteringData>
         where TEntity : class
         where TFilteringData : class
     {
@@ -16,7 +16,7 @@ namespace BikeSortFilter
         private readonly List<Predicate<TEntity>> filtersToUse;
         private dynamic sortToUse;
 
-        public SearchSortFilterData(ISortFilterRepository<TEntity> repository)
+        public SearchSortFilterService(ISortFilterRepository<TEntity> repository)
         {
             filtersToUse = new List<Predicate<TEntity>>();
             this.repository = repository;
@@ -38,7 +38,7 @@ namespace BikeSortFilter
 
             var selectedFilter = concreteFilters[typeOfFilter] as ConcreteFilter<TEntity, TFilteringData>;
 
-            filtersToUse.Add(selectedFilter.GetConcreteFilter());
+            filtersToUse.Add(selectedFilter.GetFilteringCondition());
         }
 
         public void SetConcreteSort<TSort, TKey>() where TSort : class
@@ -52,11 +52,20 @@ namespace BikeSortFilter
 
         public async Task<List<TEntity>> Search(bool orderDesc, int skip = 0, int take = 0)
         {
+            dynamic data;
+
             Expression<Func<TEntity, bool>> expression = x => filtersToUse.All(all => all(x));
 
             var compiledFilterBy = expression.Compile();
 
-            var data = await repository.GetSortFilterData(compiledFilterBy, sortToUse, orderDesc, skip, take);
+            if (sortToUse == null)
+            {
+                data = await repository.GetFilteredData(compiledFilterBy, skip, take);
+            } 
+            else
+            {
+                data = await repository.GetSortedFilteredData(compiledFilterBy, sortToUse, orderDesc, skip, take);
+            }
             
             sortToUse = null;
             filtersToUse.Clear();

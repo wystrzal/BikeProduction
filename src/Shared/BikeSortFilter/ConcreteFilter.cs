@@ -13,6 +13,6 @@ namespace BikeSortFilter
             this.filteringData = filteringData;
         }
 
-        public abstract Predicate<TEntity> GetConcreteFilter();
+        public abstract Predicate<TEntity> GetFilteringCondition();
     }
 }
