@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BikeSortFilter
 {
-    public class SortFilterService<TEntity, TFilteringData> : ISortFilterService<TEntity, TFilteringData>
+    public class SearchSortFilterData<TEntity, TFilteringData> : ISearchSortFilterData<TEntity, TFilteringData>
         where TEntity : class
         where TFilteringData : class
     {
@@ -16,7 +16,7 @@ namespace BikeSortFilter
         private readonly List<Predicate<TEntity>> filtersToUse;
         private dynamic sortToUse;
 
-        public SortFilterService(IBaseRepository<TEntity> repository)
+        public SearchSortFilterData(IBaseRepository<TEntity> repository)
         {
             filtersToUse = new List<Predicate<TEntity>>();
             this.repository = repository;
@@ -47,7 +47,7 @@ namespace BikeSortFilter
 
             var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSort<TEntity, TKey>;
 
-            sortToUse = sort.GetConcreteSort();
+            sortToUse = sort.GetSortCondition();
         }
 
         public async Task<List<TEntity>> Search(bool orderDesc, int skip = 0, int take = 0)

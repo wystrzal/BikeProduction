@@ -15,9 +15,9 @@ namespace Catalog.Infrastructure.Services
 {
     public class SearchProductService : ISearchProductService
     {
-        private readonly ISortFilterService<Product, FilteringData> sortFilterService;
+        private readonly ISearchSortFilterData<Product, FilteringData> sortFilterService;
 
-        public SearchProductService(ISortFilterService<Product, FilteringData> sortFilterService)
+        public SearchProductService(ISearchSortFilterData<Product, FilteringData> sortFilterService)
         {
             this.sortFilterService = sortFilterService;
         }

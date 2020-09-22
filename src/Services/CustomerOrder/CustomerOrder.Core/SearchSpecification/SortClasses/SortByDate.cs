@@ -8,9 +8,10 @@ namespace CustomerOrder.Core.SearchSpecification.SortClasses
 {
     public class SortByDate : IConcreteSort<Order, DateTime>
     {
-        public Func<Order, DateTime> GetConcreteSort()
+        public Func<Order, DateTime> GetSortCondition()
         {
             return x => x.OrderDate;
         }
     }
 }
+

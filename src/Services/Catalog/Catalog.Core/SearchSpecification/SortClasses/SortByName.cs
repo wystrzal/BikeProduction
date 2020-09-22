@@ -6,9 +6,10 @@ namespace Catalog.Core.SearchSpecification.SortClasses
 {
     public class SortByName : IConcreteSort<Product, string>
     {
-        public Func<Product, string> GetConcreteSort()
+        public Func<Product, string> GetSortCondition()
         {
             return x => x.ProductName;
         }
     }
 }
+

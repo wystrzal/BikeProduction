@@ -6,9 +6,10 @@ namespace Catalog.Core.SearchSpecification.SortClasses
 {
     public class SortByDate : IConcreteSort<Product, DateTime>
     {
-        public Func<Product, DateTime> GetConcreteSort()
+        public Func<Product, DateTime> GetSortCondition()
         {
             return x => x.DateAdded;
         }
     }
 }
+

@@ -17,7 +17,7 @@ namespace CustomerOrder.API.Extensions
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<ISearchOrderService, SearchOrderService>();
             services.AddTransient<IBaseRepository<Order>, BaseRepository<Order, DataContext>>();
-            services.AddTransient<ISortFilterService<Order, FilteringData>, SortFilterService<Order, FilteringData>>();
+            services.AddTransient<ISearchSortFilterData<Order, FilteringData>, SearchSortFilterData<Order, FilteringData>>();
         }
     }
 }
