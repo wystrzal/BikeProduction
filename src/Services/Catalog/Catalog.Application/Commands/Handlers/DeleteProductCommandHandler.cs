@@ -24,7 +24,7 @@ namespace Catalog.Application.Commands.Handlers
         {
             var product = await productRepository.GetById(request.ProductId);
 
-            CheckIfProductIsNull(product);
+            ThrowsProductNotFoundExceptionIfProductIsNull(product);
 
             string reference = product.Reference;
 
@@ -35,12 +35,10 @@ namespace Catalog.Application.Commands.Handlers
             return Unit.Value;
         }
 
-        private void CheckIfProductIsNull(Product product)
+        private void ThrowsProductNotFoundExceptionIfProductIsNull(Product product)
         {
             if (product == null)
-            {
                 throw new ProductNotFoundException();
-            }
         }
     }
 }
