@@ -1,7 +1,9 @@
-﻿using Catalog.Core.Interfaces;
+﻿using Catalog.Application.Messaging.MessagingModels;
+using Catalog.Core.Interfaces;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Catalog.Application.Messaging.Consumers
@@ -20,15 +22,20 @@ namespace Catalog.Application.Messaging.Consumers
         {
             if (context.Message.OrderItems != null && context.Message.OrderItems.Count > 0)
             {
-                foreach (var item in context.Message.OrderItems)
-                {
-                    var product = await productRepository.GetByConditionFirst(x => x.Reference == item.Reference);
-                    product.Popularity++;
-                }
+                await ChangeProductsPopularity(context.Message.OrderItems);
 
                 await productRepository.SaveAllAsync();
 
                 logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+            }
+        }
+
+        private async Task ChangeProductsPopularity(List<OrderItem> orderItems)
+        {
+            foreach (var orderItem in orderItems)
+            {
+                var product = await productRepository.GetByConditionFirst(x => x.Reference == orderItem.Reference);
+                product.Popularity++;
             }
         }
     }
