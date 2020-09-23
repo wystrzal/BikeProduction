@@ -25,17 +25,15 @@ namespace Catalog.Application.Queries.Handlers
             var product = await productRepository
                 .GetByConditionWithIncludeFirst(x => x.Id == request.ProductId, y => y.Brand);
 
-            CheckIfProductIsNull(product);
+            ThrowsProductNotFoundExceptionIfProductIsNull(product);
 
             return mapper.Map<GetProductDto>(product);
         }
 
-        private void CheckIfProductIsNull(Product product)
+        private void ThrowsProductNotFoundExceptionIfProductIsNull(Product product)
         {
             if (product == null)
-            {
                 throw new ProductNotFoundException();
-            }
         }
     }
 }
