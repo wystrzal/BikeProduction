@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using static Catalog.Core.Models.Enums.BikeTypeEnum;
 using static Catalog.Core.Models.Enums.ColorsEnum;
+using static Catalog.Core.Models.Enums.SortEnum;
 
 namespace Catalog.Infrastructure.Services
 {
@@ -23,29 +24,38 @@ namespace Catalog.Infrastructure.Services
         }
         public async Task<List<Product>> GetProducts(FilteringData filteringData)
         {
+            bool orderDesc = SetSorting(filteringData.Sort);
+
+            SetFiltering(filteringData);
+
+            return await sortFilterService.Search(orderDesc, filteringData.Skip, filteringData.Take);
+        }
+
+        private bool SetSorting(Sort sort)
+        {
             bool orderDesc = false;
 
-            switch (filteringData.Sort)
+            switch (sort)
             {
-                case SortEnum.Sort.Price_Ascending:
+                case Sort.Price_Ascending:
                     sortFilterService.SetConcreteSort<SortByPrice, decimal>();
                     break;
-                case SortEnum.Sort.Price_Descending:
+                case Sort.Price_Descending:
                     sortFilterService.SetConcreteSort<SortByPrice, decimal>();
                     orderDesc = true;
                     break;
-                case SortEnum.Sort.Oldest_Added:
+                case Sort.Oldest_Added:
                     sortFilterService.SetConcreteSort<SortByDate, DateTime>();
                     break;
-                case SortEnum.Sort.Latest_Added:
+                case Sort.Latest_Added:
                     sortFilterService.SetConcreteSort<SortByDate, DateTime>();
                     orderDesc = true;
                     break;
-                case SortEnum.Sort.The_Most_Popular:
+                case Sort.The_Most_Popular:
                     sortFilterService.SetConcreteSort<SortByPopularity, int>();
                     orderDesc = true;
                     break;
-                case SortEnum.Sort.The_Least_Popular:
+                case Sort.The_Least_Popular:
                     sortFilterService.SetConcreteSort<SortByPopularity, int>();
                     break;
                 default:
@@ -53,6 +63,11 @@ namespace Catalog.Infrastructure.Services
                     break;
             }
 
+            return orderDesc;
+        }
+
+        private void SetFiltering(FilteringData filteringData)
+        {
             if (filteringData.Colors != Colors.All)
             {
                 sortFilterService.SetConcreteFilter<ColorFilter>(filteringData);
@@ -67,8 +82,6 @@ namespace Catalog.Infrastructure.Services
             {
                 sortFilterService.SetConcreteFilter<TypeFilter>(filteringData);
             }
-
-            return await sortFilterService.Search(orderDesc, filteringData.Skip, filteringData.Take);
         }
     }
 }
