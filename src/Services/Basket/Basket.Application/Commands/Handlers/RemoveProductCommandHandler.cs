@@ -37,8 +37,8 @@ namespace Basket.Application.Commands.Handlers
             if (productToRemove == null)
                 return;
 
-            basket.TotalPrice -= (productToRemove.Price * productToRemove.Quantity);
             basket.Products.Remove(productToRemove);
+            basket.TotalPrice -= (productToRemove.Price * productToRemove.Quantity);
 
             await SerializeAndSaveBasket(basket, request.UserId);
         }

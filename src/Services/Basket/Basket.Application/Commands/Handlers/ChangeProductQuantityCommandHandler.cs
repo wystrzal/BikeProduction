@@ -1,4 +1,6 @@
-﻿using Basket.Core.Interfaces;
+﻿using Basket.Core.Dtos;
+using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using MediatR;
 using Newtonsoft.Json;
 using System.Linq;
@@ -21,18 +23,24 @@ namespace Basket.Application.Commands.Handlers
             var basket = await basketRedisService.GetBasket(request.UserId);
 
             if (basket == null)
-            {
                 return Unit.Value;
-            }
-
+            
             var basketProduct = basket.Products.Where(x => x.Id == request.ProductId).FirstOrDefault();
 
             if (basketProduct == null)
-            {
                 return Unit.Value;
-            }
 
-            switch (request.ChangeQuantityAction)
+            ChangeProductQuantityAndBasketTotalPrice(basketProduct, basket, request.ChangeQuantityAction);
+
+            await SerializeAndSaveBasket(basket, request.UserId);
+
+            return Unit.Value;
+        }
+
+        private void ChangeProductQuantityAndBasketTotalPrice(BasketProduct basketProduct, UserBasketDto basket,
+            ChangeQuantityAction changeQuantityAction)
+        {
+            switch (changeQuantityAction)
             {
                 case ChangeQuantityAction.Plus:
                     basketProduct.Quantity++;
@@ -46,16 +54,20 @@ namespace Basket.Application.Commands.Handlers
                     break;
             }
 
-            if (basketProduct.Quantity <= 0)
-            {
-                basket.Products.Remove(basketProduct);
-            }
+            RemoveProductIfQuantityIsLessOrEqualZero(basketProduct, basket);
+        }
 
+        private void RemoveProductIfQuantityIsLessOrEqualZero(BasketProduct basketProduct, UserBasketDto basket)
+        {
+            if (basketProduct.Quantity <= 0)
+                basket.Products.Remove(basketProduct);
+        }
+
+        private async Task SerializeAndSaveBasket(UserBasketDto basket, string userId)
+        {
             string serializeObject = JsonConvert.SerializeObject(basket);
 
-            await basketRedisService.SaveBasket(request.UserId, serializeObject);
-
-            return Unit.Value;
+            await basketRedisService.SaveBasket(userId, serializeObject);
         }
     }
 }
