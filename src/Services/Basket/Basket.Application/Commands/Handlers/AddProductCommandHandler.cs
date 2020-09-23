@@ -24,33 +24,43 @@ namespace Basket.Application.Commands.Handlers
             var basket = await basketRedisService.GetBasket(request.UserId);
 
             if (basket == null)
-            {
-                basket = new UserBasketDto()
-                {
-                    Products = new List<BasketProduct>(),
-                    TotalPrice = 0,
-                    UserId = request.UserId
-                };
-            }
+                CreateNewBasket(request.UserId);
 
             var basketProduct = basket.Products.Where(x => x.Id == request.Product.Id).FirstOrDefault();
 
+            await AddProductToBasketAndIncreaseBasketTotalPrice(basketProduct, basket, request);
+
+            return Unit.Value;
+        }
+
+        private UserBasketDto CreateNewBasket(string userId)
+        {
+            return new UserBasketDto()
+            {
+                Products = new List<BasketProduct>(),
+                TotalPrice = 0,
+                UserId = userId
+            };
+        }
+
+        private async Task AddProductToBasketAndIncreaseBasketTotalPrice(BasketProduct basketProduct,
+            UserBasketDto basket, AddProductCommand request)
+        {
             if (basketProduct != null)
-            {
                 basketProduct.Quantity += request.Product.Quantity;
-            }
             else
-            {
                 basket.Products.Add(request.Product);
-            }
 
             basket.TotalPrice += (request.Product.Price * request.Product.Quantity);
 
+            await SerializeAndSaveBasket(basket, request.UserId);
+        }
+
+        private async Task SerializeAndSaveBasket(UserBasketDto basket, string userId)
+        {
             string serializeObject = JsonConvert.SerializeObject(basket);
 
-            await basketRedisService.SaveBasket(request.UserId, serializeObject);
-
-            return Unit.Value;
+            await basketRedisService.SaveBasket(userId, serializeObject);
         }
     }
 }

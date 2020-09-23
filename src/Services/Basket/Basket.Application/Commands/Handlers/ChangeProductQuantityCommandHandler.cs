@@ -30,17 +30,15 @@ namespace Basket.Application.Commands.Handlers
             if (basketProduct == null)
                 return Unit.Value;
 
-            ChangeProductQuantityAndBasketTotalPrice(basketProduct, basket, request.ChangeQuantityAction);
-
-            await SerializeAndSaveBasket(basket, request.UserId);
+            await ChangeProductQuantityAndBasketTotalPrice(basketProduct, basket, request);
 
             return Unit.Value;
         }
 
-        private void ChangeProductQuantityAndBasketTotalPrice(BasketProduct basketProduct, UserBasketDto basket,
-            ChangeQuantityAction changeQuantityAction)
+        private async Task ChangeProductQuantityAndBasketTotalPrice(BasketProduct basketProduct, UserBasketDto basket,
+            ChangeProductQuantityCommand request)
         {
-            switch (changeQuantityAction)
+            switch (request.ChangeQuantityAction)
             {
                 case ChangeQuantityAction.Plus:
                     basketProduct.Quantity++;
@@ -55,6 +53,8 @@ namespace Basket.Application.Commands.Handlers
             }
 
             RemoveProductIfQuantityIsLessOrEqualZero(basketProduct, basket);
+
+            await SerializeAndSaveBasket(basket, request.UserId);
         }
 
         private void RemoveProductIfQuantityIsLessOrEqualZero(BasketProduct basketProduct, UserBasketDto basket)
