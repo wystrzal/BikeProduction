@@ -1,5 +1,6 @@
 ﻿using Catalog.Core.Exceptions;
 using Catalog.Core.Interfaces;
+using Catalog.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
@@ -23,19 +24,23 @@ namespace Catalog.Application.Commands.Handlers
         {
             var product = await productRepository.GetById(request.ProductId);
 
+            CheckIfProductIsNull(product);
+
+            string reference = product.Reference;
+
+            await productRepository.SaveAllAsync();
+
+            await bus.Publish(new ProductDeletedEvent(reference));
+
+            return Unit.Value;
+        }
+
+        private void CheckIfProductIsNull(Product product)
+        {
             if (product == null)
             {
                 throw new ProductNotFoundException();
             }
-
-            string reference = product.Reference;
-
-            if (await productRepository.SaveAllAsync())
-            {
-                await bus.Publish(new ProductDeletedEvent(reference));
-            }
-
-            return Unit.Value;
         }
     }
 }
