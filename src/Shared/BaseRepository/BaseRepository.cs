@@ -70,7 +70,7 @@ namespace BikeBaseRepository
 
         public async Task<bool> SaveAllAsync()
         {
-            return await dataContext.SaveChangesAsync() > 0 ? true : false;
+            return await dataContext.SaveChangesAsync() > 0 ? true : throw new ChangesNotSavedCorrectlyException(typeof(TEntity));
         }
     }
 }
