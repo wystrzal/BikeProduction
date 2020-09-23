@@ -24,7 +24,7 @@ namespace ShopMVC.Controllers
             var vm = new OrdersViewModel
             {
                 FilteringData = filteringData ??= new OrderFilteringData(),
-                PageSize = 1,
+                PageSize = 25,
                 Orders = await orderService.GetOrders(filteringData),
                 CurrentPage = filteringData.Page
             };
