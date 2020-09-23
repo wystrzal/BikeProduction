@@ -1,4 +1,5 @@
-﻿using Basket.Core.Interfaces;
+﻿using Basket.Core.Dtos;
+using Basket.Core.Interfaces;
 using MediatR;
 using Newtonsoft.Json;
 using System.Linq;
@@ -20,20 +21,33 @@ namespace Basket.Application.Commands.Handlers
         {
             var basket = await basketRedisService.GetBasket(request.UserId);
 
-            if (basket != null && basket.Products.Count > 0)
-            {
-                var productToRemove = basket.Products.Where(x => x.Id == request.ProductId).FirstOrDefault();
+            if (basket == null)
+                return Unit.Value;
 
-                basket.TotalPrice -= (productToRemove.Price * productToRemove.Quantity);
-
-                basket.Products.Remove(productToRemove);
-
-                string serializeObject = JsonConvert.SerializeObject(basket);
-
-                await basketRedisService.SaveBasket(request.UserId, serializeObject);
-            }
+            if (basket.Products.Count > 0)
+                await RemoveProductAndDecreaseBasketTotalPrice(basket, request);
 
             return Unit.Value;
+        }
+
+        private async Task RemoveProductAndDecreaseBasketTotalPrice(UserBasketDto basket, RemoveProductCommand request)
+        {
+            var productToRemove = basket.Products.Where(x => x.Id == request.ProductId).FirstOrDefault();
+
+            if (productToRemove == null)
+                return;
+
+            basket.TotalPrice -= (productToRemove.Price * productToRemove.Quantity);
+            basket.Products.Remove(productToRemove);
+
+            await SerializeAndSaveBasket(basket, request.UserId);
+        }
+
+        private async Task SerializeAndSaveBasket(UserBasketDto basket, string userId)
+        {
+            string serializeObject = JsonConvert.SerializeObject(basket);
+
+            await basketRedisService.SaveBasket(userId, serializeObject);
         }
     }
 }
