@@ -28,10 +28,9 @@ namespace Catalog.Application.Commands.Handlers
 
             productRepository.Add(productToAdd);
 
-            if (await productRepository.SaveAllAsync())
-            {
-                await bus.Publish(new ProductAddedEvent(request.ProductName, request.Reference));
-            }
+            await productRepository.SaveAllAsync();
+
+            await bus.Publish(new ProductAddedEvent(request.ProductName, request.Reference));
 
             return Unit.Value;
         }
