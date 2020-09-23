@@ -18,7 +18,7 @@ namespace Basket.Infrastructure.Services
 
         public async Task<UserBasketDto> GetBasket(string userId)
         {
-            CheckIfUserIdIsNull(userId);
+            ThrowsArgumentNullExceptionIfUserIdIsNull(userId);
 
             var basket = await distributedCache.GetStringAsync(userId);
 
@@ -27,7 +27,7 @@ namespace Basket.Infrastructure.Services
 
         public async Task RemoveBasket(string userId)
         {
-            CheckIfUserIdIsNull(userId);
+            ThrowsArgumentNullExceptionIfUserIdIsNull(userId);
 
             await distributedCache.RemoveAsync(userId);
         }
@@ -42,12 +42,10 @@ namespace Basket.Infrastructure.Services
             });
         }
 
-        private void CheckIfUserIdIsNull(string userId)
+        private void ThrowsArgumentNullExceptionIfUserIdIsNull(string userId)
         {
-            if (userId == null)
-            {
-                throw new ArgumentNullException("UserId could not be null.");
-            }
+            if (userId == null)       
+                throw new ArgumentNullException("UserId could not be null.");        
         }
     }
 }
