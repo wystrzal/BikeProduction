@@ -2,6 +2,7 @@
 using Catalog.Application.Mapping;
 using Catalog.Core.Exceptions;
 using Catalog.Core.Interfaces;
+using Catalog.Core.Models;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,12 +25,17 @@ namespace Catalog.Application.Queries.Handlers
             var product = await productRepository
                 .GetByConditionWithIncludeFirst(x => x.Id == request.ProductId, y => y.Brand);
 
+            CheckIfProductIsNull(product);
+
+            return mapper.Map<GetProductDto>(product);
+        }
+
+        private void CheckIfProductIsNull(Product product)
+        {
             if (product == null)
             {
                 throw new ProductNotFoundException();
             }
-
-            return mapper.Map<GetProductDto>(product);
         }
     }
 }
