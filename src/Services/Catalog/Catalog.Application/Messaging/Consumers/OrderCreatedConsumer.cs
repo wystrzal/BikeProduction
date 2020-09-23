@@ -1,5 +1,7 @@
 ﻿using Catalog.Application.Messaging.MessagingModels;
+using Catalog.Core.Exceptions;
 using Catalog.Core.Interfaces;
+using Catalog.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -20,7 +22,10 @@ namespace Catalog.Application.Messaging.Consumers
         }
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
-            if (context.Message.OrderItems != null && context.Message.OrderItems.Count > 0)
+            if (context.Message.OrderItems == null)
+                return;
+
+            if (context.Message.OrderItems.Count > 0)
             {
                 await IncreaseProductsPopularity(context.Message.OrderItems);
 
@@ -33,10 +38,19 @@ namespace Catalog.Application.Messaging.Consumers
             foreach (var orderItem in orderItems)
             {
                 var product = await productRepository.GetByConditionFirst(x => x.Reference == orderItem.Reference);
+
+                ThrowsProductNotFoundExceptionIfProductIsNull(product);
+
                 product.Popularity++;
             }
 
             await productRepository.SaveAllAsync();
+        }
+
+        private void ThrowsProductNotFoundExceptionIfProductIsNull(Product product)
+        {
+            if (product == null)
+                throw new ProductNotFoundException();
         }
     }
 }
