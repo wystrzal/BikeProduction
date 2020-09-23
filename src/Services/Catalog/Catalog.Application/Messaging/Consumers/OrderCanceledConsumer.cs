@@ -1,5 +1,7 @@
 ﻿using Catalog.Application.Messaging.MessagingModels;
+using Catalog.Core.Exceptions;
 using Catalog.Core.Interfaces;
+using Catalog.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -34,10 +36,19 @@ namespace Catalog.Application.Messaging.Consumers
             foreach (var orderItemReference in references)
             {
                 var product = await productRepository.GetByConditionFirst(x => x.Reference == orderItemReference);
+
+                ThrowsProductNotFoundExceptionIfProductIsNull(product);
+
                 product.Popularity--;
             }
 
             await productRepository.SaveAllAsync();
+        }
+
+        private void ThrowsProductNotFoundExceptionIfProductIsNull(Product product)
+        {
+            if (product == null)
+                throw new ProductNotFoundException();
         }
     }
 }
