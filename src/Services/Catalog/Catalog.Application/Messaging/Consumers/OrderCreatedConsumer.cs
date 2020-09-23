@@ -22,21 +22,21 @@ namespace Catalog.Application.Messaging.Consumers
         {
             if (context.Message.OrderItems != null && context.Message.OrderItems.Count > 0)
             {
-                await ChangeProductsPopularity(context.Message.OrderItems);
-
-                await productRepository.SaveAllAsync();
+                await IncreaseProductsPopularity(context.Message.OrderItems);
 
                 logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
             }
         }
 
-        private async Task ChangeProductsPopularity(List<OrderItem> orderItems)
+        private async Task IncreaseProductsPopularity(List<OrderItem> orderItems)
         {
             foreach (var orderItem in orderItems)
             {
                 var product = await productRepository.GetByConditionFirst(x => x.Reference == orderItem.Reference);
                 product.Popularity++;
             }
+
+            await productRepository.SaveAllAsync();
         }
     }
 }
