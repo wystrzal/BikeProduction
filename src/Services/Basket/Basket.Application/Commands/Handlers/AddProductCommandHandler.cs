@@ -24,7 +24,7 @@ namespace Basket.Application.Commands.Handlers
             var basket = await basketRedisService.GetBasket(request.UserId);
 
             if (basket == null)
-                CreateNewBasket(request.UserId);
+                basket = CreateNewBasket(request.UserId);
 
             var basketProduct = basket.Products.Where(x => x.Id == request.Product.Id).FirstOrDefault();
 

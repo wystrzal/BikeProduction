@@ -30,12 +30,12 @@ namespace CustomerOrder.Application.Commands.Handlers
             if (order == null)
                 throw new OrderNotFoundException();
 
-            if (order.OrderStatus != OrderStatus.Waiting_For_Confirm || order.OrderStatus != OrderStatus.Delivered)
-                return Unit.Value;
+            if (order.OrderStatus == OrderStatus.Waiting_For_Confirm || order.OrderStatus == OrderStatus.Delivered)
+            {
+                await PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(order);
 
-            await PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(order);
-
-            await DeleteOrderFromRepository(order);
+                await DeleteOrderFromRepository(order);
+            }
 
             return Unit.Value;
         }

@@ -31,24 +31,6 @@ namespace CustomerOrder.Test.Commands
         }
 
         [Fact]
-        public async Task CreateOrderCommandHandler_ThrowsOrderNotAddedException()
-        {
-            //Arrange
-            var command = new CreateOrderCommand();
-            var order = new Order();
-
-            mapper.Setup(x => x.Map<Order>(command)).Returns(order);
-
-            orderRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(false));
-
-            var commandHandler = new CreateOrderCommandHandler(mapper.Object, orderRepository.Object, bus.Object);
-
-            //Assert
-            await Assert.ThrowsAsync<OrderNotAddedException>(() =>
-                commandHandler.Handle(command, It.IsAny<CancellationToken>()));
-        }
-
-        [Fact]
         public async Task CreateOrderCommandHandler_Success()
         {
             //Arrange
