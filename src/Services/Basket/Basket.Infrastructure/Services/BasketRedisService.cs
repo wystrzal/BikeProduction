@@ -18,7 +18,8 @@ namespace Basket.Infrastructure.Services
 
         public async Task<UserBasketDto> GetBasket(string userId)
         {
-            ThrowsArgumentNullExceptionIfUserIdIsNull(userId);
+            if (userId == null)
+                throw new ArgumentNullException("UserId could not be null.");
 
             var basket = await distributedCache.GetStringAsync(userId);
 
@@ -27,25 +28,22 @@ namespace Basket.Infrastructure.Services
 
         public async Task RemoveBasket(string userId)
         {
-            ThrowsArgumentNullExceptionIfUserIdIsNull(userId);
+            if (userId == null)
+                throw new ArgumentNullException("UserId could not be null.");
 
             await distributedCache.RemoveAsync(userId);
         }
 
-        public async Task SaveBasket(string userId, string serializeObject)
+        public async Task SaveBasket(string userId, UserBasketDto basket)
         {
             await RemoveBasket(userId);
+
+            string serializeObject = JsonConvert.SerializeObject(basket);
 
             await distributedCache.SetStringAsync(userId, serializeObject, new DistributedCacheEntryOptions()
             {
                 AbsoluteExpiration = DateTimeOffset.Now.AddDays(1)
             });
-        }
-
-        private void ThrowsArgumentNullExceptionIfUserIdIsNull(string userId)
-        {
-            if (userId == null)       
-                throw new ArgumentNullException("UserId could not be null.");        
         }
     }
 }

@@ -22,9 +22,7 @@ namespace Catalog.Application.Commands.Handlers
 
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await productRepository.GetById(request.ProductId);
-
-            ThrowsProductNotFoundExceptionIfProductIsNull(product);
+            var product = await GetProduct(request.ProductId);
 
             string reference = product.Reference;
 
@@ -35,10 +33,11 @@ namespace Catalog.Application.Commands.Handlers
             return Unit.Value;
         }
 
-        private void ThrowsProductNotFoundExceptionIfProductIsNull(Product product)
+        private async Task<Product> GetProduct(int productId)
         {
-            if (product == null)
-                throw new ProductNotFoundException();
+            var product = await productRepository.GetById(productId);
+
+            return product ?? throw new ProductNotFoundException();
         }
     }
 }

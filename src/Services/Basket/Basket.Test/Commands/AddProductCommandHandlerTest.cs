@@ -1,5 +1,6 @@
 ﻿using Basket.Application.Commands;
 using Basket.Application.Commands.Handlers;
+using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
 using MediatR;
 using Moq;
@@ -30,7 +31,7 @@ namespace Basket.Test.Commands
 
             basketRedisService.Setup(x => x.GetBasket(userId)).Verifiable();
 
-            basketRedisService.Setup(x => x.SaveBasket(userId, It.IsAny<string>())).Verifiable();
+            basketRedisService.Setup(x => x.SaveBasket(userId, It.IsAny<UserBasketDto>())).Verifiable();
 
             var commandHandler = new AddProductCommandHandler(basketRedisService.Object);
 
@@ -42,7 +43,7 @@ namespace Basket.Test.Commands
 
             basketRedisService.Verify(x => x.GetBasket(userId), Times.Once);
 
-            basketRedisService.Verify(x => x.SaveBasket(userId, It.IsAny<string>()), Times.Once);
+            basketRedisService.Verify(x => x.SaveBasket(userId, It.IsAny<UserBasketDto>()), Times.Once);
         }
     }
 }

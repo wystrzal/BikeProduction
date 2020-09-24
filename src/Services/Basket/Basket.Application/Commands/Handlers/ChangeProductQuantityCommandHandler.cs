@@ -54,20 +54,13 @@ namespace Basket.Application.Commands.Handlers
 
             RemoveProductIfQuantityIsLessOrEqualZero(basketProduct, basket);
 
-            await SerializeAndSaveBasket(basket, request.UserId);
+            await basketRedisService.SaveBasket(request.UserId, basket);
         }
 
         private void RemoveProductIfQuantityIsLessOrEqualZero(BasketProduct basketProduct, UserBasketDto basket)
         {
             if (basketProduct.Quantity <= 0)
                 basket.Products.Remove(basketProduct);
-        }
-
-        private async Task SerializeAndSaveBasket(UserBasketDto basket, string userId)
-        {
-            string serializeObject = JsonConvert.SerializeObject(basket);
-
-            await basketRedisService.SaveBasket(userId, serializeObject);
         }
     }
 }

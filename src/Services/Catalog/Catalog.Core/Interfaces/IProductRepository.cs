@@ -9,5 +9,6 @@ namespace Catalog.Core.Interfaces
     public interface IProductRepository : IBaseRepository<Product>
     {
         Task<List<Product>> GetHomePageProducts(HomeProduct homeProduct);
+        Task<Product> GetProductByReference(string reference);
     }
 }

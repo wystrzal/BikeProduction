@@ -40,14 +40,7 @@ namespace Basket.Application.Commands.Handlers
             basket.Products.Remove(productToRemove);
             basket.TotalPrice -= (productToRemove.Price * productToRemove.Quantity);
 
-            await SerializeAndSaveBasket(basket, request.UserId);
-        }
-
-        private async Task SerializeAndSaveBasket(UserBasketDto basket, string userId)
-        {
-            string serializeObject = JsonConvert.SerializeObject(basket);
-
-            await basketRedisService.SaveBasket(userId, serializeObject);
+            await basketRedisService.SaveBasket(request.UserId, basket);
         }
     }
 }

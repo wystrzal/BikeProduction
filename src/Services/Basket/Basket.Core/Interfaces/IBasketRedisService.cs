@@ -7,6 +7,6 @@ namespace Basket.Core.Interfaces
     {
         Task RemoveBasket(string userId);
         Task<UserBasketDto> GetBasket(string userId);
-        Task SaveBasket(string userId, string serializeObject);
+        Task SaveBasket(string userId, UserBasketDto basket);
     }
 }
