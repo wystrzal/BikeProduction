@@ -2,6 +2,7 @@
 using CustomerOrder.Application.Mapping;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
+using CustomerOrder.Core.Models;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,12 +25,15 @@ namespace CustomerOrder.Application.Queries.Handlers
             var order = await orderRepository
                 .GetByConditionWithIncludeFirst(x => x.OrderId == request.OrderId, y => y.OrderItems);
 
-            if (order == null)
-            {
-                throw new OrderNotFoundException();
-            }
+            ThrowsOrderNotFoundExceptionIfOrderIsNull(order);
 
             return mapper.Map<GetOrderDto>(order);
+        }
+
+        private void ThrowsOrderNotFoundExceptionIfOrderIsNull(Order order)
+        {
+            if (order == null)
+                throw new OrderNotFoundException();
         }
     }
 }
