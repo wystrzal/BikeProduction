@@ -30,12 +30,12 @@ namespace CustomerOrder.Application.Commands.Handlers
             if (order == null)
                 throw new OrderNotFoundException();
 
-            if (order.OrderStatus == OrderStatus.Waiting_For_Confirm || order.OrderStatus == OrderStatus.Delivered)
-            {
-                await PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(order);
+            if (order.OrderStatus != OrderStatus.Waiting_For_Confirm || order.OrderStatus != OrderStatus.Delivered)
+                return Unit.Value;
 
-                await DeleteOrderFromRepository(order);
-            }
+            await PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(order);
+
+            await DeleteOrderFromRepository(order);
 
             return Unit.Value;
         }
@@ -48,7 +48,7 @@ namespace CustomerOrder.Application.Commands.Handlers
 
                 foreach (var item in order.OrderItems)
                     references.Add(item.Reference);
-                
+
                 await bus.Publish(new OrderCanceledEvent(references, order.OrderId));
             }
         }
