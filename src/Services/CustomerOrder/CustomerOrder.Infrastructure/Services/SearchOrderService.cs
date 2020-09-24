@@ -25,8 +25,20 @@ namespace CustomerOrder.Infrastructure.Services
         {
             bool orderDesc = true;
 
-            sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+            SetSorting();
 
+            SetFiltering(filteringData);
+
+            return await sortFilterService.Search(orderDesc);
+        }
+
+        private void SetSorting()
+        {
+            sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+        }
+
+        private void SetFiltering(FilteringData filteringData)
+        {
             if (filteringData.OrderStatus != 0)
             {
                 sortFilterService.SetConcreteFilter<FilterByOrderStatus>(filteringData);
@@ -36,8 +48,6 @@ namespace CustomerOrder.Infrastructure.Services
             {
                 sortFilterService.SetConcreteFilter<FilterByUserId>(filteringData);
             }
-
-            return await sortFilterService.Search(orderDesc);
         }
     }
 }
