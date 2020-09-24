@@ -69,19 +69,13 @@ namespace Catalog.Infrastructure.Services
         private void SetFiltering(FilteringData filteringData)
         {
             if (filteringData.Colors != Colors.All)
-            {
                 sortFilterService.SetConcreteFilter<ColorFilter>(filteringData);
-            }
 
             if (filteringData.BrandId != 0)
-            {
                 sortFilterService.SetConcreteFilter<BrandFilter>(filteringData);
-            }
 
             if (filteringData.BikeType != BikeType.All)
-            {
                 sortFilterService.SetConcreteFilter<TypeFilter>(filteringData);
-            }
         }
     }
 }
