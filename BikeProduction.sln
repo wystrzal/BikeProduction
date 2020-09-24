@@ -111,7 +111,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminMVC", "src\Webs\AdminM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeBaseRepository", "src\Shared\BaseRepository\BikeBaseRepository.csproj", "{E8F2C4F6-B590-4887-A707-F0C1036FFEDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse.Test", "src\Services\Warehouse\Warehouse.Test\Warehouse.Test.csproj", "{44818A0D-DFAD-4183-B330-CB345557E2BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.Test", "src\Services\Warehouse\Warehouse.Test\Warehouse.Test.csproj", "{44818A0D-DFAD-4183-B330-CB345557E2BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

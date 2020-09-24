@@ -5,9 +5,9 @@ using MassTransit;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using static Delivery.Application.Messaging.MessagingModels.OrderStatusEnum;
 using static Delivery.Core.Models.Enums.LoadingPlaceStatusEnum;
 using static Delivery.Core.Models.Enums.PackStatusEnum;
+using static Delivery.Core.Models.MessagingModels.OrderStatusEnum;
 
 namespace Delivery.Application.Commands.Handlers
 {

@@ -1,4 +1,4 @@
-﻿using static Production.Application.Messaging.MessagingModels.OrderStatusEnum;
+﻿using static Production.Core.Models.MessagingModels.OrderStatusEnum;
 
 namespace Common.Application.Messaging
 {

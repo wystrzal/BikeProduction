@@ -1,16 +1,13 @@
-﻿using Castle.Core.Logging;
-using Common.Application.Messaging;
+﻿using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Production.Application.Messaging.Consumers;
-using Production.Application.Messaging.MessagingModels;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
-using System;
+using Production.Core.Models.MessagingModels;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

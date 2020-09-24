@@ -1,4 +1,4 @@
-﻿namespace Delivery.Application.Messaging.MessagingModels
+﻿namespace Delivery.Core.Models.MessagingModels
 {
     public class OrderStatusEnum
     {

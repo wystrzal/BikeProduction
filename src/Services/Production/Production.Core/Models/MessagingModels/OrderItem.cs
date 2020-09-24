@@ -1,4 +1,4 @@
-﻿namespace Production.Application.Messaging.MessagingModels
+﻿namespace Production.Core.Models.MessagingModels
 {
     public class OrderItem
     {

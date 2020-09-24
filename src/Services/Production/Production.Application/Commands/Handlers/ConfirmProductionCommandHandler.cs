@@ -6,8 +6,8 @@ using Production.Core.Interfaces;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using static Production.Application.Messaging.MessagingModels.OrderStatusEnum;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
+using static Production.Core.Models.MessagingModels.OrderStatusEnum;
 
 namespace Production.Application.Commands.Handlers
 {

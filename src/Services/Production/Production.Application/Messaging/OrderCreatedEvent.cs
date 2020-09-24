@@ -1,4 +1,4 @@
-﻿using Production.Application.Messaging.MessagingModels;
+﻿using Production.Core.Models.MessagingModels;
 using System.Collections.Generic;
 
 namespace Common.Application.Messaging
