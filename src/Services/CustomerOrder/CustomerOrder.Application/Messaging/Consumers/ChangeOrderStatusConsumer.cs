@@ -1,6 +1,7 @@
 ﻿using Common.Application.Messaging;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
+using CustomerOrder.Core.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,20 +24,19 @@ namespace CustomerOrder.Application.Messaging.Consumers
         {
             var order = await orderRepository.GetById(context.Message.OrderId);
 
-            if (order == null)
-            {
-                var exception = new OrderNotFoundException();
-
-                logger.LogError(exception.Message);
-
-                throw exception;
-            }
+            ThrowsOrderNotFoundExceptionIfOrderIsNull(order);
 
             order.OrderStatus = context.Message.OrderStatus;
 
             await orderRepository.SaveAllAsync();
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ThrowsOrderNotFoundExceptionIfOrderIsNull(Order order)
+        {
+            if (order == null)
+                throw new OrderNotFoundException();
         }
     }
 }
