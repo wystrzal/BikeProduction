@@ -36,7 +36,12 @@ namespace CustomerOrder.Application.Messaging.Consumers
         private void ThrowsOrderNotFoundExceptionIfOrderIsNull(Order order)
         {
             if (order == null)
-                throw new OrderNotFoundException();
+            {
+                var exception = new OrderNotFoundException();
+                logger.LogError($"{exception.Message} at {this}");
+                throw exception;
+            }
+                 
         }
     }
 }

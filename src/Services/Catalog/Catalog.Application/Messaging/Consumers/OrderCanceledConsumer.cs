@@ -48,7 +48,11 @@ namespace Catalog.Application.Messaging.Consumers
         private void ThrowsProductNotFoundExceptionIfProductIsNull(Product product)
         {
             if (product == null)
-                throw new ProductNotFoundException();
+            {
+                var exception = new ProductNotFoundException();
+                logger.LogError($"{exception.Message} at {this}");
+                throw exception;
+            } 
         }
     }
 }
