@@ -1,6 +1,7 @@
 ﻿using Common.Application.Messaging;
 using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
+using CustomerOrder.Core.Models;
 using MassTransit;
 using MediatR;
 using System.Collections.Generic;
@@ -27,30 +28,36 @@ namespace CustomerOrder.Application.Commands.Handlers
                 .GetByConditionWithIncludeFirst(x => x.OrderId == request.OrderId, y => y.OrderItems);
 
             if (order == null)
-            {
                 throw new OrderNotFoundException();
-            }
 
             if (order.OrderStatus == OrderStatus.Waiting_For_Confirm || order.OrderStatus == OrderStatus.Delivered)
             {
-                if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)
-                {
-                    List<string> references = new List<string>();
+                await PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(order);
 
-                    foreach (var item in order.OrderItems)
-                    {
-                        references.Add(item.Reference);
-                    }
-
-                    await bus.Publish(new OrderCanceledEvent(references, order.OrderId));
-                }
-
-                orderRepository.Delete(order);
-
-                await orderRepository.SaveAllAsync();
+                await DeleteOrderFromRepository(order);
             }
 
             return Unit.Value;
+        }
+
+        private async Task PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(Order order)
+        {
+            if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)
+            {
+                List<string> references = new List<string>();
+
+                foreach (var item in order.OrderItems)
+                    references.Add(item.Reference);
+                
+                await bus.Publish(new OrderCanceledEvent(references, order.OrderId));
+            }
+        }
+
+        private async Task DeleteOrderFromRepository(Order order)
+        {
+            orderRepository.Delete(order);
+
+            await orderRepository.SaveAllAsync();
         }
     }
 }
