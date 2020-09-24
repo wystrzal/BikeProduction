@@ -24,24 +24,18 @@ namespace CustomerOrder.Application.Messaging.Consumers
         {
             var order = await orderRepository.GetById(context.Message.OrderId);
 
-            ThrowsOrderNotFoundExceptionIfOrderIsNull(order);
-
-            order.OrderStatus = context.Message.OrderStatus;
-
-            await orderRepository.SaveAllAsync();
-
-            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
-        }
-
-        private void ThrowsOrderNotFoundExceptionIfOrderIsNull(Order order)
-        {
             if (order == null)
             {
                 var exception = new OrderNotFoundException();
                 logger.LogError($"{exception.Message} at {this}");
                 throw exception;
             }
-                 
+
+            order.OrderStatus = context.Message.OrderStatus;
+
+            await orderRepository.SaveAllAsync();
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }
