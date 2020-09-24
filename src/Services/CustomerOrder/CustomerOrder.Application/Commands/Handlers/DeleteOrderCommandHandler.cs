@@ -4,7 +4,9 @@ using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using MassTransit;
 using MediatR;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
@@ -32,31 +34,18 @@ namespace CustomerOrder.Application.Commands.Handlers
 
             if (order.OrderStatus == OrderStatus.Waiting_For_Confirm || order.OrderStatus == OrderStatus.Delivered)
             {
-                await PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(order);
-
+                if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)
+                    await bus.Publish(new OrderCanceledEvent(order.OrderItems.Cast<OrderItem>().ToList(), order.OrderId));
+                
                 await DeleteOrderFromRepository(order);
             }
 
             return Unit.Value;
         }
 
-        private async Task PublishOrderCanceledEventIfOrderStatusIsWaitingForConfirm(Order order)
-        {
-            if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)
-            {
-                List<string> references = new List<string>();
-
-                foreach (var item in order.OrderItems)
-                    references.Add(item.Reference);
-
-                await bus.Publish(new OrderCanceledEvent(references, order.OrderId));
-            }
-        }
-
         private async Task DeleteOrderFromRepository(Order order)
         {
             orderRepository.Delete(order);
-
             await orderRepository.SaveAllAsync();
         }
     }

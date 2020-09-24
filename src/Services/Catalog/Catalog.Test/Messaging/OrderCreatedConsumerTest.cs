@@ -1,14 +1,13 @@
 ﻿using Catalog.Application.Messaging.Consumers;
-using Catalog.Application.Messaging.MessagingModels;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
+using Catalog.Core.Models.MessagingModels;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,12 +15,12 @@ namespace Catalog.Test.Messaging
 {
     public class OrderCreatedConsumerTest
     {
-        private readonly Mock<IProductRepository> productRepository;
+        private readonly Mock<IChangeProductsPopularityService> changeProductsPopularityService;
         private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
 
         public OrderCreatedConsumerTest()
         {
-            productRepository = new Mock<IProductRepository>();
+            changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCreatedConsumer>>();
         }
 
@@ -46,19 +45,18 @@ namespace Catalog.Test.Messaging
             var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x =>
                 x.Message == orderCreatedEvent);
 
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
-                .Returns(Task.FromResult(new Product())).Verifiable();
+            changeProductsPopularityService
+                .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()))
+                .Returns(Task.FromResult(true)).Verifiable();
 
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-
-            var consumer = new OrderCreatedConsumer(productRepository.Object, logger.Object);
+            var consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);
 
             //Assert
-            productRepository.Verify(x => x.SaveAllAsync(), Times.Once);
-            productRepository.Verify(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()), Times.Once);
+            changeProductsPopularityService
+                .Verify(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()), Times.Once);
         }
     }
 }

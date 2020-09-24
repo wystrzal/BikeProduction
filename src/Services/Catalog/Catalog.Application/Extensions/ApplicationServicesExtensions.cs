@@ -19,6 +19,7 @@ namespace Catalog.Application.Extensions
             services.AddTransient<ISearchProductService, SearchProductService>();
             services.AddTransient<ISortFilterRepository<Product>, SortFilterRepository<Product, DataContext>>();
             services.AddTransient<ISearchSortFilterService<Product, FilteringData>, SearchSortFilterService<Product, FilteringData>>();
+            services.AddTransient<IChangeProductsPopularityService, ChangeProductsPopularityService>();
         }
     }
 }

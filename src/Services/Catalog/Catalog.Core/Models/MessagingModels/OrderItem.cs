@@ -1,4 +1,4 @@
-﻿namespace Catalog.Application.Messaging.MessagingModels
+﻿namespace Catalog.Core.Models.MessagingModels
 {
     public class OrderItem
     {

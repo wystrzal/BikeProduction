@@ -1,4 +1,4 @@
-﻿using Catalog.Application.Messaging.MessagingModels;
+﻿using Catalog.Core.Models.MessagingModels;
 using System.Collections.Generic;
 
 namespace Common.Application.Messaging

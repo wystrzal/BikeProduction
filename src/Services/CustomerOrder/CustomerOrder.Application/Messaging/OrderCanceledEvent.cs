@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using CustomerOrder.Core.Models;
+using System.Collections.Generic;
 
 namespace Common.Application.Messaging
 {
     public class OrderCanceledEvent
     {
+        public List<OrderItem> OrderItems { get; set; }
         public int OrderId { get; set; }
-        public List<string> References { get; set; }
-        public OrderCanceledEvent(List<string> references, int orderId)
+        public OrderCanceledEvent(List<OrderItem> orderItems, int orderId)
         {
-            References = references;
+            OrderItems = orderItems;
             OrderId = orderId;
         }
     }

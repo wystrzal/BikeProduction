@@ -1,6 +1,7 @@
 ﻿using Catalog.Application.Messaging.Consumers;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
+using Catalog.Core.Models.MessagingModels;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -15,12 +16,12 @@ namespace Catalog.Test.Messaging
 {
     public class OrderCanceledConsumerTest
     {
-        private readonly Mock<IProductRepository> productRepository;
+        private readonly Mock<IChangeProductsPopularityService> changeProductsPopularityService;
         private readonly Mock<ILogger<OrderCanceledConsumer>> logger;
 
         public OrderCanceledConsumerTest()
         {
-            productRepository = new Mock<IProductRepository>();
+            changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCanceledConsumer>>();
         }
 
@@ -28,26 +29,25 @@ namespace Catalog.Test.Messaging
         public async Task OrderCanceledConsumer_Success()
         {
             //Arrange
-            var references = new List<string> { "1" };
+            var orderItems = new List<OrderItem> { new OrderItem() };
 
-            var orderCanceledEvent = new OrderCanceledEvent { References = references };
+            var orderCanceledEvent = new OrderCanceledEvent { OrderItems = orderItems };
 
             var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x =>
                 x.Message == orderCanceledEvent);
 
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
-                .Returns(Task.FromResult(new Product())).Verifiable();
+            changeProductsPopularityService
+                .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()))
+                .Returns(Task.FromResult(true)).Verifiable();
 
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-
-            var consumer = new OrderCanceledConsumer(productRepository.Object, logger.Object);
+            var consumer = new OrderCanceledConsumer(changeProductsPopularityService.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);
 
             //Assert
-            productRepository.Verify(x => x.SaveAllAsync(), Times.Once);
-            productRepository.Verify(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()), Times.Once);
+            changeProductsPopularityService
+                .Verify(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()), Times.Once);
         }
     }
 }
