@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
+using Production.Core.Models.MessagingModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
 
@@ -22,27 +24,25 @@ namespace Production.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
-            foreach (var item in context.Message.OrderItems)
+            AddOrderedItemsToProductionQueue(context.Message.OrderItems, context.Message.OrderId);
+
+            await productionQueueRepo.SaveAllAsync();
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void AddOrderedItemsToProductionQueue(List<OrderItem> orderItems, int orderId)
+        {
+            foreach (var orderItem in orderItems)
             {
                 productionQueueRepo.Add(new ProductionQueue
                 {
-                    Reference = item.Reference,
-                    Quantity = item.Quantity,
+                    Reference = orderItem.Reference,
+                    Quantity = orderItem.Quantity,
                     ProductionStatus = ProductionStatus.Waiting,
-                    OrderId = context.Message.OrderId
+                    OrderId = orderId
                 });
             };
-
-            if (!await productionQueueRepo.SaveAllAsync())
-            {
-                var exception = new ProductNotAddedException();
-
-                logger.LogError(exception.Message);
-
-                throw exception;
-            }
-
-            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }
