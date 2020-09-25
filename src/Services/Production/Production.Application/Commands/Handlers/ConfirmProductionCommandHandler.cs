@@ -3,6 +3,7 @@ using MassTransit;
 using MediatR;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
+using Production.Core.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,32 +27,35 @@ namespace Production.Application.Commands.Handlers
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
             if (productionQueue == null)
-            {
                 throw new ProductionQueueNotFoundException();
-            }
 
             if (productionQueue.ProductionStatus == ProductionStatus.Waiting
                 || productionQueue.ProductionStatus == ProductionStatus.NoParts)
             {
-                var serviceAddress = new Uri("rabbitmq://host.docker.internal/production_confirmed");
-                var client = bus.CreateRequestClient<ProductionConfirmedEvent>(serviceAddress);
-                var response = await client.GetResponse<ProductionConfirmedResult>(
-                    new { productionQueue.Reference, productionQueue.Quantity });
-
-                if (response.Message.StartProduction)
-                {
-                    productionQueue.ProductionStatus = ProductionStatus.Confirmed;
-                    await bus.Publish(new ChangeOrderStatusEvent(productionQueue.OrderId, OrderStatus.Confirmed));
-                }
-                else
-                {
-                    productionQueue.ProductionStatus = ProductionStatus.NoParts;
-                }
-
-                await productionQueueRepo.SaveAllAsync();
+                await RequestForConfirmProduction(productionQueue);
             }
 
             return Unit.Value;
+        }
+
+        private async Task RequestForConfirmProduction(ProductionQueue productionQueue)
+        {
+            var serviceAddress = new Uri("rabbitmq://host.docker.internal/production_confirmed");
+            var client = bus.CreateRequestClient<ProductionConfirmedEvent>(serviceAddress);
+            var response = await client.GetResponse<ProductionConfirmedResult>(
+                new { productionQueue.Reference, productionQueue.Quantity });
+
+            if (response.Message.ConfirmProduction)
+            {
+                productionQueue.ProductionStatus = ProductionStatus.Confirmed;
+                await bus.Publish(new ChangeOrderStatusEvent(productionQueue.OrderId, OrderStatus.Confirmed));
+            }
+            else
+            {
+                productionQueue.ProductionStatus = ProductionStatus.NoParts;
+            }
+
+            await productionQueueRepo.SaveAllAsync();
         }
     }
 }

@@ -26,9 +26,7 @@ namespace Production.Application.Commands.Handlers
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
             if (productionQueue == null || productionQueue.ProductionStatus != ProductionStatus.BeingCreated)
-            {
                 throw new ProductsNotBeingCreatedException();
-            }
 
             productionQueue.ProductionStatus = ProductionStatus.Finished;
 
@@ -36,15 +34,18 @@ namespace Production.Application.Commands.Handlers
 
             await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
 
-            var checkIfProductionFinished = await productionQueueRepo
-                .GetByConditionToList(x => x.OrderId == productionQueue.OrderId && x.ProductionStatus != ProductionStatus.Finished);
-
-            if (checkIfProductionFinished.Count == 0)
-            {
-                await bus.Publish(new PackReadyToSendEvent(productionQueue.OrderId));
-            }
+            await PublishPackReadyToSendEventIfOrderedProductsFinished(productionQueue.OrderId);
 
             return Unit.Value;
+        }
+
+        private async Task PublishPackReadyToSendEventIfOrderedProductsFinished(int orderId)
+        {
+            var orderedProducts = await productionQueueRepo
+                .GetByConditionToList(x => x.OrderId == orderId && x.ProductionStatus != ProductionStatus.Finished);
+
+            if (orderedProducts.Count == 0)
+                await bus.Publish(new PackReadyToSendEvent(orderId));
         }
     }
 }

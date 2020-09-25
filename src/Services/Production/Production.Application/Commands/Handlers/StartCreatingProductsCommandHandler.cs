@@ -20,9 +20,7 @@ namespace Production.Application.Commands.Handlers
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
             if (productionQueue == null || productionQueue.ProductionStatus != ProductionStatus.Confirmed)
-            {
                 throw new ProductionQueueNotConfirmedException();
-            }
 
             productionQueue.ProductionStatus = ProductionStatus.BeingCreated;
 

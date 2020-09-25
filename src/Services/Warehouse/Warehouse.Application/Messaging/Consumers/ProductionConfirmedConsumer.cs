@@ -22,18 +22,18 @@ namespace Warehouse.Application.Messaging.Consumers
             var parts = await productPartRepo.GetPartsForCheckAvailability(context.Message.Reference);
             int productionQuantity = context.Message.Quantity;
 
-            bool startProduction = false;
+            bool confirmProduction = false;
 
             foreach (var part in parts)
             {
                 if (part.Quantity < (productionQuantity * part.QuantityForProduction))
                 {
-                    startProduction = false;
+                    confirmProduction = false;
                     break;
                 }
                 else
                 {
-                    startProduction = true;
+                    confirmProduction = true;
 
                     part.Quantity -= (productionQuantity * part.QuantityForProduction);
                 }
@@ -41,7 +41,7 @@ namespace Warehouse.Application.Messaging.Consumers
 
             await productPartRepo.SaveAllAsync();
 
-            await context.RespondAsync<ProductionConfirmedResult>(new { StartProduction = startProduction });
+            await context.RespondAsync<ProductionConfirmedResult>(new { ConfirmProduction = confirmProduction });
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
