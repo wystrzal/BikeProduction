@@ -1,5 +1,7 @@
 ﻿using Common.Application.Messaging;
+using Delivery.Core.Exceptions;
 using Delivery.Core.Interfaces;
+using Delivery.Core.Models;
 using MassTransit;
 using MediatR;
 using System.Threading;
@@ -26,18 +28,23 @@ namespace Delivery.Application.Commands.Handlers
             var loadingPlace = await loadingPlaceRepo
                 .GetByConditionWithIncludeFirst(x => x.Id == request.LoadingPlaceId, y => y.PacksToDelivery);
 
-            foreach (var pack in loadingPlace.PacksToDelivery)
-            {
-                pack.PackStatus = PackStatus.Sended;
+            if (loadingPlace == null)
+                throw new LoadingPlaceNotFoundException();
 
-                await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.Sended));
-            }
+            foreach (var pack in loadingPlace.PacksToDelivery)
+                await ChangePackStatusToSended(pack);
 
             loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Sended;
 
             await loadingPlaceRepo.SaveAllAsync();
 
             return Unit.Value;
+        }
+
+        private async Task ChangePackStatusToSended(PackToDelivery pack)
+        {
+            pack.PackStatus = PackStatus.Sended;
+            await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.Sended));
         }
     }
 }

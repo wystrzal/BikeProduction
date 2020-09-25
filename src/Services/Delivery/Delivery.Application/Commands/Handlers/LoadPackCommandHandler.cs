@@ -29,21 +29,16 @@ namespace Delivery.Application.Commands.Handlers
             var pack = await packToDeliveryRepo.GetByConditionFirst(x => x.Id == request.PackId);
 
             if (pack == null)
-            {
                 throw new PackNotFoundException();
-            }
 
             var loadingPlace = await loadingPlaceRepo.GetByConditionFirst(x => x.Id == request.LoadingPlaceId);
 
             if (loadingPlace == null)
-            {
                 throw new LoadingPlaceNotFoundException();
-            }
+
 
             if (pack.ProductsQuantity > (loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity))
-            {
                 throw new LackOfSpaceException();
-            }
 
             pack.LoadingPlace = loadingPlace;
             pack.PackStatus = PackStatus.ReadyToSend;
