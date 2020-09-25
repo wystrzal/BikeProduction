@@ -24,8 +24,16 @@ namespace Warehouse.API.Controllers
         [HttpPost("part")]
         public async Task<IActionResult> AddPart(AddPartCommand command)
         {
-            await mediator.Send(command);
-            return Ok();
+            try
+            {
+                await mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            } 
         }
 
         [HttpDelete("part")]
@@ -68,8 +76,17 @@ namespace Warehouse.API.Controllers
         [HttpPost("storage-place")]
         public async Task<IActionResult> AddStoragePlace(AddStoragePlaceCommand command)
         {
-            await mediator.Send(command);
-            return Ok();
+            try
+            {
+                await mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+
         }
 
         [HttpDelete("storage-place/{id}")]

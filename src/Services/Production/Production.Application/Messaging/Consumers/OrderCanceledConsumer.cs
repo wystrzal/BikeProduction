@@ -21,9 +21,7 @@ namespace Production.Application.Messaging.Consumers
             var productionQueues = await productionQueueRepo.GetByConditionToList(x => x.OrderId == context.Message.OrderId);
 
             foreach (var productionQueue in productionQueues)
-            {
                 productionQueueRepo.Delete(productionQueue);
-            }
 
             await productionQueueRepo.SaveAllAsync();
 
