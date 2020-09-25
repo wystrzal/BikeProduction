@@ -30,18 +30,12 @@ namespace CustomerOrder.Application.Commands.Handlers
 
             orderForAdd.OrderStatus = OrderStatus.Waiting_For_Confirm;
 
-            await AddOrderToRepository(orderForAdd);
+            orderRepository.Add(orderForAdd);
+            await orderRepository.SaveAllAsync();
 
             await bus.Publish(new OrderCreatedEvent(orderForAdd.OrderItems as List<OrderItem>, orderForAdd.OrderId, request.UserId));
 
             return Unit.Value;
-        }
-
-        private async Task AddOrderToRepository(Order orderForAdd)
-        {
-            orderRepository.Add(orderForAdd);
-
-            await orderRepository.SaveAllAsync();
         }
     }
 }

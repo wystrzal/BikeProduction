@@ -36,17 +36,12 @@ namespace CustomerOrder.Application.Commands.Handlers
             {
                 if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)
                     await bus.Publish(new OrderCanceledEvent(order.OrderItems.Cast<OrderItem>().ToList(), order.OrderId));
-                
-                await DeleteOrderFromRepository(order);
+
+                orderRepository.Delete(order);
+                await orderRepository.SaveAllAsync();
             }
 
             return Unit.Value;
-        }
-
-        private async Task DeleteOrderFromRepository(Order order)
-        {
-            orderRepository.Delete(order);
-            await orderRepository.SaveAllAsync();
         }
     }
 }
