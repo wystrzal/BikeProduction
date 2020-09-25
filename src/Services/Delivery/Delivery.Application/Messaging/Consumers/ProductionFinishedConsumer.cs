@@ -24,32 +24,31 @@ namespace Delivery.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionFinishedEvent> context)
         {
-            int orderId = context.Message.OrderId;
-
-            var packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == orderId);
+            var packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
 
             if (packToDelivery == null)
-            {
-                var order = await customerOrderService.GetOrder(orderId);
-                var newPackToDelivery = new PackToDelivery
-                {
-                    OrderId = orderId,
-                    Address = order.Address,
-                    PhoneNumber = order.PhoneNumber,
-                    ProductsQuantity = context.Message.ProductsQuantity,
-                    PackStatus = PackStatus.Waiting
-                };
-
-                packToDeliveryRepo.Add(newPackToDelivery);
-            }
+                await AddNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
             else
-            {
                 packToDelivery.ProductsQuantity += context.Message.ProductsQuantity;
-            }
-
+            
             await packToDeliveryRepo.SaveAllAsync();
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private async Task AddNewPackToDelivery(int orderId, int productsQuantity)
+        {
+            var order = await customerOrderService.GetOrder(orderId);
+            var newPackToDelivery = new PackToDelivery
+            {
+                OrderId = orderId,
+                Address = order.Address,
+                PhoneNumber = order.PhoneNumber,
+                ProductsQuantity = productsQuantity,
+                PackStatus = PackStatus.Waiting
+            };
+
+            packToDeliveryRepo.Add(newPackToDelivery);
         }
     }
 }
