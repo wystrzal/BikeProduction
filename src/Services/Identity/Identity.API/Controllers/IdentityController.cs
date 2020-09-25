@@ -39,11 +39,8 @@ namespace Identity.API.Controllers
         {
             try
             {
-                if (ModelState.IsValid && command.Password.ContainsDigit()
-                    && command.Password.ContainsUpper())
-                {
+                if (ModelState.IsValid && command.Password.ContainsDigit() && command.Password.ContainsUpper())
                     return Ok(await mediator.Send(command));
-                }
 
                 return BadRequest("Password must have minimum 6 signs (1 digit, 1 uppercase letter).");
             }
