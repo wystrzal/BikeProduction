@@ -59,13 +59,9 @@ namespace BikeSortFilter
             var compiledFilterBy = expression.Compile();
 
             if (sortToUse == null)
-            {
                 data = await repository.GetFilteredData(compiledFilterBy, skip, take);
-            } 
             else
-            {
                 data = await repository.GetSortedFilteredData(compiledFilterBy, sortToUse, orderDesc, skip, take);
-            }
             
             sortToUse = null;
             filtersToUse.Clear();
