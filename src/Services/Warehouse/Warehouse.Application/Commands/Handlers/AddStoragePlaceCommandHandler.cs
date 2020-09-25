@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
@@ -19,6 +20,9 @@ namespace Warehouse.Application.Commands.Handlers
         }
         public async Task<Unit> Handle(AddStoragePlaceCommand request, CancellationToken cancellationToken)
         {
+            if (request == null)
+                throw new ArgumentNullException("AddStoragePlaceCommand");
+
             var storagePlaceToAdd = mapper.Map<StoragePlace>(request);
 
             storagePlaceRepo.Add(storagePlaceToAdd);
