@@ -1,8 +1,10 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
+using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Messaging.Consumers
 {
@@ -19,10 +21,22 @@ namespace Warehouse.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionConfirmedEvent> context)
         {
-            var parts = await productPartRepo.GetPartsForCheckAvailability(context.Message.Reference);
+            var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
             int productionQuantity = context.Message.Quantity;
 
-            bool confirmProduction = false;
+            bool confirmProduction = ConfirmProductionIfPartsAvailable(parts, productionQuantity);
+
+            if (confirmProduction)
+                await productPartRepo.SaveAllAsync();
+
+            await context.RespondAsync<ProductionConfirmedResult>(new { ConfirmProduction = confirmProduction });
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private bool ConfirmProductionIfPartsAvailable(List<Part> parts, int productionQuantity)
+        {
+            bool confirmProduction = true;
 
             foreach (var part in parts)
             {
@@ -33,17 +47,11 @@ namespace Warehouse.Application.Messaging.Consumers
                 }
                 else
                 {
-                    confirmProduction = true;
-
                     part.Quantity -= (productionQuantity * part.QuantityForProduction);
                 }
             }
 
-            await productPartRepo.SaveAllAsync();
-
-            await context.RespondAsync<ProductionConfirmedResult>(new { ConfirmProduction = confirmProduction });
-
-            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+            return confirmProduction;
         }
     }
 }
