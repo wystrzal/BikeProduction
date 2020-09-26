@@ -3,9 +3,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using Warehouse.Core.Exceptions;
 using Warehouse.Core.Interfaces;
-using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Messaging.Consumers
 {

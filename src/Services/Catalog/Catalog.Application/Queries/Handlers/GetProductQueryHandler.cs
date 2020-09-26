@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Catalog.Application.Mapping;
-using Catalog.Core.Exceptions;
 using Catalog.Core.Interfaces;
-using Catalog.Core.Models;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

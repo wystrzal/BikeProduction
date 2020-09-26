@@ -30,40 +30,6 @@ namespace Delivery.Test.Commands
         }
 
         [Fact]
-        public async Task LoadPackCommandHandler_ThrowsPackNotFoundException()
-        {
-            //Arrange
-            var command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
-
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
-                .Returns(Task.FromResult((PackToDelivery)null));
-
-            var commandHandler = new LoadPackCommandHandler(packToDeliveryRepo.Object, loadingPlaceRepo.Object, bus.Object);
-
-            //Assert
-            await Assert.ThrowsAsync<PackNotFoundException>(() => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
-        }
-
-        [Fact]
-        public async Task LoadPackCommandHandler_ThrowsLoadingPlaceNotFoundException()
-        {
-            //Arrange
-            var command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
-            var packToDelivery = new PackToDelivery();
-
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
-                .Returns(Task.FromResult(packToDelivery));
-
-            loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<LoadingPlace, bool>>()))
-                .Returns(Task.FromResult((LoadingPlace)null));
-
-            var commandHandler = new LoadPackCommandHandler(packToDeliveryRepo.Object, loadingPlaceRepo.Object, bus.Object);
-
-            //Assert
-            await Assert.ThrowsAsync<LoadingPlaceNotFoundException>(() => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
-        }
-
-        [Fact]
         public async Task LoadPackCommandHandler_ThrowsLackOfSpaceException()
         {
             //Arrange

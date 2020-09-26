@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using CustomerOrder.Application.Mapping;
-using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
-using CustomerOrder.Core.Models;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;

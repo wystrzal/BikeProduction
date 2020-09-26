@@ -3,7 +3,6 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 using Warehouse.Application.Mapping;
-using Warehouse.Core.Exceptions;
 using Warehouse.Core.Interfaces;
 
 namespace Warehouse.Application.Queries.Handlers

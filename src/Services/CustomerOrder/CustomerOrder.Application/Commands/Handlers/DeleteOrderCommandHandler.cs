@@ -1,11 +1,8 @@
 ﻿using Common.Application.Messaging;
-using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using MassTransit;
 using MediatR;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

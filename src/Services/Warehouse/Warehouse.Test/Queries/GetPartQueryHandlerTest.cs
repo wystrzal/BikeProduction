@@ -1,14 +1,10 @@
 ﻿using AutoMapper;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Warehouse.Application.Mapping;
 using Warehouse.Application.Queries;
 using Warehouse.Application.Queries.Handlers;
-using Warehouse.Core.Exceptions;
 using Warehouse.Core.Interfaces;
 using Warehouse.Core.Models;
 using Xunit;
@@ -24,21 +20,6 @@ namespace Warehouse.Test.Queries
         {
             partRepository = new Mock<IPartRepository>();
             mapper = new Mock<IMapper>();
-        }
-
-        [Fact]
-        public async Task GetPartQueryHandler_ThrowsPartNotFoundException()
-        {
-            //Arrange
-            var request = new GetPartQuery(It.IsAny<int>());
-
-            partRepository.Setup(x => x.GetPart(It.IsAny<int>())).Returns(Task.FromResult((Part)null));
-
-            var queryHandler = new GetPartQueryHandler(partRepository.Object, mapper.Object);
-
-            //Assert
-            await Assert.ThrowsAsync<PartNotFoundException>(()
-                => queryHandler.Handle(request, It.IsAny<CancellationToken>()));
         }
 
         [Fact]

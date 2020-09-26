@@ -1,7 +1,6 @@
 ﻿using Common.Application.Messaging;
 using CustomerOrder.Application.Commands;
 using CustomerOrder.Application.Commands.Handlers;
-using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using MassTransit;
@@ -10,7 +9,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -27,21 +25,6 @@ namespace CustomerOrder.Test.Commands
         {
             orderRepository = new Mock<IOrderRepository>();
             bus = new Mock<IBus>();
-        }
-
-        [Fact]
-        public async Task DeleteOrderCommandHandler_ThrowsOrderNotFoundException()
-        {
-            //Arrange
-            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
-                It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
-                .Returns(Task.FromResult((Order)null));
-
-            var commandHandler = new DeleteOrderCommandHandler(orderRepository.Object, bus.Object);
-
-            //Assert
-            await Assert.ThrowsAsync<OrderNotFoundException>(() =>
-                commandHandler.Handle(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()));
         }
 
         [Fact]

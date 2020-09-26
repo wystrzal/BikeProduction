@@ -25,7 +25,8 @@ namespace Catalog.Test.Services
             //Arrange
             var orderItems = new List<OrderItem> { new OrderItem() };
 
-            productRepository.Setup(x => x.GetProductByReference(It.IsAny<string>())).Returns(Task.FromResult(new Product()));
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
+                .Returns(Task.FromResult(new Product()));
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true)).Verifiable();
 
             var service = new ChangeProductsPopularityService(productRepository.Object);

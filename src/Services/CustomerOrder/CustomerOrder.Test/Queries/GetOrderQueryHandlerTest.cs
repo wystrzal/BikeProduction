@@ -2,14 +2,12 @@
 using CustomerOrder.Application.Mapping;
 using CustomerOrder.Application.Queries;
 using CustomerOrder.Application.Queries.Handlers;
-using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -25,21 +23,6 @@ namespace CustomerOrder.Test.Queries
         {
             orderRepository = new Mock<IOrderRepository>();
             mapper = new Mock<IMapper>();
-        }
-
-        [Fact]
-        public async Task GetOrderQueryHandler_ThrowOrderNotFoundException()
-        {
-            //Arrange
-            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
-                It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
-                .Returns(Task.FromResult((Order)null));
-
-            var queryHandler = new GetOrderQueryHandler(orderRepository.Object, mapper.Object);
-
-            //Assert
-            await Assert.ThrowsAsync<OrderNotFoundException>(() =>
-                queryHandler.Handle(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()));
         }
 
         [Fact]

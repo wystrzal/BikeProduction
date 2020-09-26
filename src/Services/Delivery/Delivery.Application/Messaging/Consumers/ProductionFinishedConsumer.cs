@@ -1,4 +1,5 @@
-﻿using Common.Application.Messaging;
+﻿using BikeBaseRepository;
+using Common.Application.Messaging;
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using MassTransit;
@@ -31,7 +32,7 @@ namespace Delivery.Application.Messaging.Consumers
                 packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
                 packToDelivery.ProductsQuantity += context.Message.ProductsQuantity;
             }
-            catch (NullReferenceException)
+            catch (NullDataException)
             {
                 packToDelivery = await AddNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
             }

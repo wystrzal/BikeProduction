@@ -48,19 +48,19 @@ namespace BikeBaseRepository
         public async Task<TEntity> GetByConditionFirst(Func<TEntity, bool> condition)
         {
             var data = dataContext.Set<TEntity>().Where(condition).FirstOrDefault();
-            return data == null ? throw new NullReferenceException() : await Task.FromResult(data);
+            return data == null ? throw new NullDataException() : await Task.FromResult(data);
         }
 
         public async Task<TEntity> GetById(int id)
         {
-            return await dataContext.Set<TEntity>().FindAsync(id) ?? throw new NullReferenceException();
+            return await dataContext.Set<TEntity>().FindAsync(id) ?? throw new NullDataException();
         }
 
         public async Task<TEntity> GetByConditionWithIncludeFirst<TProp>(Func<TEntity, bool> condition,
             Expression<Func<TEntity, TProp>> include)
         {
             var data = dataContext.Set<TEntity>().Include(include).Where(condition).FirstOrDefault();
-            return data == null ? throw new NullReferenceException() : await Task.FromResult(data);
+            return data == null ? throw new NullDataException() : await Task.FromResult(data);
         }
 
         public async Task<List<TEntity>> GetByConditionWithIncludeToList<TProp>(Func<TEntity, bool> condition, Expression<Func<TEntity, TProp>> include)

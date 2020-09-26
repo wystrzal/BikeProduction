@@ -1,6 +1,4 @@
-﻿using Catalog.Core.Exceptions;
-using Catalog.Core.Interfaces;
-using Catalog.Core.Models;
+﻿using Catalog.Core.Interfaces;
 using Common.Application.Messaging;
 using MassTransit;
 using MediatR;

@@ -1,7 +1,5 @@
 ﻿using Common.Application.Messaging;
-using CustomerOrder.Core.Exceptions;
 using CustomerOrder.Core.Interfaces;
-using CustomerOrder.Core.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
