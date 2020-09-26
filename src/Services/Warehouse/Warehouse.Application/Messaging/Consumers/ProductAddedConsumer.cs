@@ -2,6 +2,7 @@
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
 using Warehouse.Core.Models;
@@ -27,7 +28,14 @@ namespace Warehouse.Application.Messaging.Consumers
 
             productRepository.Add(productToAdd);
 
-            await productRepository.SaveAllAsync();
+            try
+            {
+                await productRepository.SaveAllAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }

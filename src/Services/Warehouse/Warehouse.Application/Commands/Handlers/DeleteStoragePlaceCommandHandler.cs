@@ -19,9 +19,6 @@ namespace Warehouse.Application.Commands.Handlers
         {
             var storagePlace = await storagePlaceRepo.GetById(request.StoragePlaceId);
 
-            if (storagePlace == null)
-                throw new StoragePlaceNotFoundException();
-
             storagePlaceRepo.Delete(storagePlace);
 
             await storagePlaceRepo.SaveAllAsync();

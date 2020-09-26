@@ -1,6 +1,7 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using Warehouse.Core.Exceptions;
 using Warehouse.Core.Interfaces;
@@ -21,27 +22,20 @@ namespace Warehouse.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductDeletedEvent> context)
         {
-            var product = await GetProductByReference(context.Message.Reference);
-
-            productRepository.Delete(product);
-
-            await productRepository.SaveAllAsync();
-
-            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
-        }
-
-        private async Task<Product> GetProductByReference(string reference)
-        {
-            var product = await productRepository.GetByConditionFirst(x => x.Reference == reference);
-
-            if (product == null)
+            try
             {
-                var exception = new ProductNotFoundException();
-                logger.LogError(exception.Message);
-                throw exception;
+                var product = await productRepository.GetByConditionFirst(x => x.Reference == context.Message.Reference);
+
+                productRepository.Delete(product);
+
+                await productRepository.SaveAllAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
             }
 
-            return product;
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }

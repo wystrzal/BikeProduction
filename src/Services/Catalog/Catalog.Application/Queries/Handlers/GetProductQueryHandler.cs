@@ -22,17 +22,10 @@ namespace Catalog.Application.Queries.Handlers
 
         public async Task<GetProductDto> Handle(GetProductQuery request, CancellationToken cancellationToken)
         {
-            var product = await GetProduct(request.ProductId);
+            var product = await productRepository
+                .GetByConditionWithIncludeFirst(x => x.Id == request.ProductId, y => y.Brand);
 
             return mapper.Map<GetProductDto>(product);
-        }
-
-        private async Task<Product> GetProduct(int productId)
-        {
-            var product = await productRepository
-                .GetByConditionWithIncludeFirst(x => x.Id == productId, y => y.Brand);
-
-            return product ?? throw new ProductNotFoundException();
         }
     }
 }

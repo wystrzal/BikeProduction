@@ -26,9 +26,6 @@ namespace Production.Application.Commands.Handlers
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue == null)
-                throw new ProductionQueueNotFoundException();
-
             if (productionQueue.ProductionStatus == ProductionStatus.Waiting
                 || productionQueue.ProductionStatus == ProductionStatus.NoParts)
             {

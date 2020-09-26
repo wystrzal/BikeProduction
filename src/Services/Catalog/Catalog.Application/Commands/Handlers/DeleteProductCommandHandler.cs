@@ -22,7 +22,7 @@ namespace Catalog.Application.Commands.Handlers
 
         public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await GetProduct(request.ProductId);
+            var product = await productRepository.GetById(request.ProductId);
 
             string reference = product.Reference;
 
@@ -31,13 +31,6 @@ namespace Catalog.Application.Commands.Handlers
             await bus.Publish(new ProductDeletedEvent(reference));
 
             return Unit.Value;
-        }
-
-        private async Task<Product> GetProduct(int productId)
-        {
-            var product = await productRepository.GetById(productId);
-
-            return product ?? throw new ProductNotFoundException();
         }
     }
 }

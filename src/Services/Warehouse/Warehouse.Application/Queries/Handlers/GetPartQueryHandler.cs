@@ -22,9 +22,6 @@ namespace Warehouse.Application.Queries.Handlers
         {
             var part = await partRepository.GetPart(request.PartId);
 
-            if (part == null)
-                throw new PartNotFoundException();
-
             return mapper.Map<GetPartDto>(part);
         }
     }

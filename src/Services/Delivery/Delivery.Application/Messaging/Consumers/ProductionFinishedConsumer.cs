@@ -3,6 +3,7 @@ using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 using static Delivery.Core.Models.Enums.PackStatusEnum;
 
@@ -24,22 +25,26 @@ namespace Delivery.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionFinishedEvent> context)
         {
-            var packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
-
-            if (packToDelivery == null)
-                await AddNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
-            else
+            PackToDelivery packToDelivery = null;
+            try
+            {
+                packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
                 packToDelivery.ProductsQuantity += context.Message.ProductsQuantity;
-            
+            }
+            catch (NullReferenceException)
+            {
+                packToDelivery = await AddNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
+            }
+                          
             await packToDeliveryRepo.SaveAllAsync();
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 
-        private async Task AddNewPackToDelivery(int orderId, int productsQuantity)
+        private async Task<PackToDelivery> AddNewPackToDelivery(int orderId, int productsQuantity)
         {
             var order = await customerOrderService.GetOrder(orderId);
-            var newPackToDelivery = new PackToDelivery
+            var packToDelivery = new PackToDelivery
             {
                 OrderId = orderId,
                 Address = order.Address,
@@ -48,7 +53,9 @@ namespace Delivery.Application.Messaging.Consumers
                 PackStatus = PackStatus.Waiting
             };
 
-            packToDeliveryRepo.Add(newPackToDelivery);
+            packToDeliveryRepo.Add(packToDelivery);
+
+            return packToDelivery;
         }
     }
 }

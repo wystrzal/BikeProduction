@@ -25,9 +25,6 @@ namespace CustomerOrder.Application.Queries.Handlers
             var order = await orderRepository
                 .GetByConditionWithIncludeFirst(x => x.OrderId == request.OrderId, y => y.OrderItems);
 
-            if (order == null)
-                throw new OrderNotFoundException();
-
             return mapper.Map<GetOrderDto>(order);
         }
     }

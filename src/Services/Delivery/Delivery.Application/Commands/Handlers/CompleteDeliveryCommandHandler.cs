@@ -28,9 +28,6 @@ namespace Delivery.Application.Commands.Handlers
             var loadingPlace = await loadingPlaceRepo
                 .GetByConditionWithIncludeFirst(x => x.Id == request.LoadingPlaceId, y => y.PacksToDelivery);
 
-            if (loadingPlace == null)
-                throw new LoadingPlaceNotFoundException();
-
             foreach (var pack in loadingPlace.PacksToDelivery)
                 await ChangePackStatusToDelivered(pack);
 

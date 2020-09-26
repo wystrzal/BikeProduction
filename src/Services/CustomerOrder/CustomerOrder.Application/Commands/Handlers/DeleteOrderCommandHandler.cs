@@ -29,9 +29,6 @@ namespace CustomerOrder.Application.Commands.Handlers
             var order = await orderRepository
                 .GetByConditionWithIncludeFirst(x => x.OrderId == request.OrderId, y => y.OrderItems);
 
-            if (order == null)
-                throw new OrderNotFoundException();
-
             if (order.OrderStatus == OrderStatus.Waiting_For_Confirm || order.OrderStatus == OrderStatus.Delivered)
             {
                 if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)

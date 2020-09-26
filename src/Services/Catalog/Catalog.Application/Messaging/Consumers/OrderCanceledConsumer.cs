@@ -2,6 +2,7 @@
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Catalog.Application.Messaging.Consumers
@@ -20,8 +21,15 @@ namespace Catalog.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<OrderCanceledEvent> context)
         {
-            if (await changeProductsPopularityService.ChangeProductsPopularity(context.Message.OrderItems, false))
-                logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+            try
+            {
+                if (await changeProductsPopularityService.ChangeProductsPopularity(context.Message.OrderItems, false))
+                    logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
         }
     }
 }

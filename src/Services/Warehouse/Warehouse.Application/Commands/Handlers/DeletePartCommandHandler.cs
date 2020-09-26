@@ -19,9 +19,6 @@ namespace Warehouse.Application.Commands.Handlers
         {
             var part = await partRepository.GetById(request.PartId);
 
-            if (part == null)
-                throw new PartNotFoundException();
-
             partRepository.Delete(part);
 
             await partRepository.SaveAllAsync();

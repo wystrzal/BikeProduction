@@ -22,18 +22,16 @@ namespace CustomerOrder.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ChangeOrderStatusEvent> context)
         {
-            var order = await orderRepository.GetById(context.Message.OrderId);
-
-            if (order == null)
+            try
             {
-                var exception = new OrderNotFoundException();
-                logger.LogError($"{exception.Message} at {this}");
-                throw exception;
+                var order = await orderRepository.GetById(context.Message.OrderId);
+                order.OrderStatus = context.Message.OrderStatus;
+                await orderRepository.SaveAllAsync();
             }
-
-            order.OrderStatus = context.Message.OrderStatus;
-
-            await orderRepository.SaveAllAsync();
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }

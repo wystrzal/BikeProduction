@@ -5,6 +5,7 @@ using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
 using Production.Core.Models.MessagingModels;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
@@ -26,8 +27,15 @@ namespace Production.Application.Messaging.Consumers
         {
             AddOrderedItemsToProductionQueue(context.Message.OrderItems, context.Message.OrderId);
 
-            await productionQueueRepo.SaveAllAsync();
-
+            try
+            {
+                await productionQueueRepo.SaveAllAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+     
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 

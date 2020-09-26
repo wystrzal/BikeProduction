@@ -28,7 +28,7 @@ namespace Catalog.Infrastructure.Services
 
             foreach (var orderItem in orderItems)
             {
-                var product = await productRepository.GetProductByReference(orderItem.Reference);
+                var product = await productRepository.GetByConditionFirst(x => x.Reference == orderItem.Reference);
                 product.Popularity += valueToChangePopularity;
             }
 

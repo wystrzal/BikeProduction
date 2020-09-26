@@ -2,6 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Production.Core.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Production.Application.Messaging.Consumers
@@ -18,13 +19,20 @@ namespace Production.Application.Messaging.Consumers
         }
         public async Task Consume(ConsumeContext<OrderCanceledEvent> context)
         {
-            var productionQueues = await productionQueueRepo.GetByConditionToList(x => x.OrderId == context.Message.OrderId);
+            try
+            {
+                var productionQueues = await productionQueueRepo.GetByConditionToList(x => x.OrderId == context.Message.OrderId);
 
-            foreach (var productionQueue in productionQueues)
-                productionQueueRepo.Delete(productionQueue);
+                foreach (var productionQueue in productionQueues)
+                    productionQueueRepo.Delete(productionQueue);
 
-            await productionQueueRepo.SaveAllAsync();
-
+                await productionQueueRepo.SaveAllAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+            }
+ 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
