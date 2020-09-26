@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AdminMVC.Extensions
+namespace CompanyManagementMVC.Extensions
 {
     public static class AuthorizationExtensions
     {

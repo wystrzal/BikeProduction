@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AdminMVC.Extensions
+namespace CompanyManagementMVC.Extensions
 {
     public static class ApplicationServicesExtensions
     {

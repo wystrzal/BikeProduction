@@ -7,17 +7,17 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src/Webs/AdminMVC/AdminMVC.csproj", "src/Webs/AdminMVC/"]
+COPY ["src/Webs/CompanyManagementMVC/CompanyManagementMVC.csproj", "src/Webs/CompanyManagementMVC/"]
 COPY ["src/Shared/HTTP/HttpClient/BikeHttpClient.csproj", "src/Shared/HTTP/HttpClient/"]
-RUN dotnet restore "src/Webs/AdminMVC/AdminMVC.csproj"
+RUN dotnet restore "src/Webs/CompanyManagementMVC/CompanyManagementMVC.csproj"
 COPY . .
-WORKDIR "/src/src/Webs/AdminMVC"
-RUN dotnet build "AdminMVC.csproj" -c Release -o /app/build
+WORKDIR "/src/src/Webs/CompanyManagementMVC"
+RUN dotnet build "CompanyManagementMVC.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "AdminMVC.csproj" -c Release -o /app/publish
+RUN dotnet publish "CompanyManagementMVC.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AdminMVC.dll"]
+ENTRYPOINT ["dotnet", "CompanyManagementMVC.dll"]

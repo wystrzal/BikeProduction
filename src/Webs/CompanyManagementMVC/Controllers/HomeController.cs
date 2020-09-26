@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using AdminMVC.Models;
+using CompanyManagementMVC.Models;
 
-namespace AdminMVC.Controllers
+namespace CompanyManagementMVC.Controllers
 {
     public class HomeController : Controller
     {

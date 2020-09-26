@@ -138,11 +138,11 @@ services:
       - basket
       - customerorder
 
-  adminmvc:
-    image: ${DOCKER_REGISTRY-}adminmvc
+  companymanagementmvc:
+    image: ${DOCKER_REGISTRY-}companymanagementmvc
     build:
       context: .
-      dockerfile: src/Webs/AdminMVC/Dockerfile
+      dockerfile: src/Webs/CompanyManagementMVC/Dockerfile
     environment: 
       - ASPNETCORE_ENVIRONMENT=Development 
     ports:

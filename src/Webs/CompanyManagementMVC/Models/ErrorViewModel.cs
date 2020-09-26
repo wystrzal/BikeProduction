@@ -1,6 +1,6 @@
 using System;
 
-namespace AdminMVC.Models
+namespace CompanyManagementMVC.Models
 {
     public class ErrorViewModel
     {
