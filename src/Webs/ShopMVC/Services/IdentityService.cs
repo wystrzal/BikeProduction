@@ -18,13 +18,13 @@ namespace ShopMVC.Services
     {
         private readonly string baseUrl;
         private readonly ICustomHttpClient customHttpClient;
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ICookieAuthentication cookieAuthentication;
 
-        public IdentityService(ICustomHttpClient customHttpClient, IHttpContextAccessor httpContextAccessor)
+        public IdentityService(ICustomHttpClient customHttpClient, ICookieAuthentication cookieAuthentication)
         {
             baseUrl = "http://host.docker.internal:5000/api/identity/";
             this.customHttpClient = customHttpClient;
-            this.httpContextAccessor = httpContextAccessor;
+            this.cookieAuthentication = cookieAuthentication;
         }
 
         public async Task<HttpResponseMessage> Login(LoginDto loginDto)
@@ -35,29 +35,10 @@ namespace ShopMVC.Services
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                var tokenModel = JsonConvert
-                    .DeserializeObject<TokenModel>(await response.Content.ReadAsStringAsync());
-
-                AuthenticationProperties options = new AuthenticationProperties();
-
-                options.AllowRefresh = true;
-                options.IsPersistent = true;
-                options.ExpiresUtc = DateTime.Now.AddDays(1);
-
-                var claims = new List<Claim>
-                    {
-                       new Claim("AccessToken", tokenModel.Token),
-                       new Claim(ClaimTypes.NameIdentifier, tokenModel.NameIdentifier)
-                    };
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                await httpContextAccessor.HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(identity),
-                    options);
+                var tokenModel = JsonConvert.DeserializeObject<TokenModel>(await response.Content.ReadAsStringAsync());
+                await cookieAuthentication.SignIn(tokenModel);
             }
-
+                
             return response;
         }
 

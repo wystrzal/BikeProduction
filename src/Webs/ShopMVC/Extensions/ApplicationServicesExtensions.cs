@@ -18,6 +18,7 @@ namespace ShopMVC.Extensions
             services.AddTransient<ICustomHttpClient, CustomHttpClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ModelErrorsResultFilter>();
+            services.AddTransient<ICookieAuthentication, CookieAuthentication>();
         }
     }
 }

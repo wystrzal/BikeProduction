@@ -38,6 +38,15 @@ namespace ShopMVC.Services
         {
             var getProductsUrl = $"{baseUrl}";
 
+            var queryParams = SetQueryParams(filteringData);
+
+            var products = await customHttpClient.GetStringAsync(getProductsUrl, null, queryParams);
+
+            return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);
+        }
+
+        private Dictionary<string, string> SetQueryParams(CatalogFilteringData filteringData)
+        {
             var queryParams = new Dictionary<string, string>
             {
                 ["Take"] = filteringData.Take.ToString(),
@@ -56,9 +65,7 @@ namespace ShopMVC.Services
             if (filteringData.BikeType != 0)
                 queryParams.Add("BikeType", filteringData.BikeType.ToString());
 
-            var products = await customHttpClient.GetStringAsync(getProductsUrl, null, queryParams);
-
-            return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);
+            return queryParams;
         }
 
         public async Task<List<CatalogProduct>> GetHomeProducts(HomeProduct homeProduct)

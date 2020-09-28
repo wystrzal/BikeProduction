@@ -36,6 +36,15 @@ namespace ShopMVC.Services
         {
             var getOrdersUrl = $"{baseUrl}";
 
+            var queryParams = SetQueryParams(filteringData);
+
+            var orders = await customHttpClient.GetStringAsync(getOrdersUrl, token, queryParams);
+
+            return JsonConvert.DeserializeObject<List<Order>>(orders);
+        }
+
+        private Dictionary<string, string> SetQueryParams(OrderFilteringData filteringData)
+        {
             var queryParams = new Dictionary<string, string>();
 
             if (filteringData.OrderStatus != 0)
@@ -44,9 +53,7 @@ namespace ShopMVC.Services
             if (filteringData.UserId != null)
                 queryParams.Add("UserId", userId);
 
-            var orders = await customHttpClient.GetStringAsync(getOrdersUrl, token, queryParams);
-
-            return JsonConvert.DeserializeObject<List<Order>>(orders);
+            return queryParams;
         }
 
         public async Task<OrderDetailViewModel> GetOrderDetail(int id)
