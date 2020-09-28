@@ -13,6 +13,7 @@ namespace CompanyManagementMVC.Extensions
             services.AddTransient<ICustomHttpClient, CustomHttpClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<ICookieAuthentication, CookieAuthentication>();
         }
     }
 }

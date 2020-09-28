@@ -31,7 +31,7 @@ namespace CompanyManagementMVC.Controllers
             }
 
             ModelState.AddModelError("", "Unauthorized.");
-            return RedirectToAction("Index");
+            return View("Index");
         }
 
         public async Task<IActionResult> Logout()
