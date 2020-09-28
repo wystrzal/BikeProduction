@@ -39,14 +39,10 @@ namespace ShopMVC.Services
             var queryParams = new Dictionary<string, string>();
 
             if (filteringData.OrderStatus != 0)
-            {
                 queryParams.Add("OrderStatus", filteringData.OrderStatus.ToString());
-            }
 
             if (filteringData.UserId != null)
-            {
                 queryParams.Add("UserId", userId);
-            }
 
             var orders = await customHttpClient.GetStringAsync(getOrdersUrl, token, queryParams);
 

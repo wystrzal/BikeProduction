@@ -14,15 +14,9 @@ namespace ShopMVC.Filters
             controller.TempData.Add(ErrorsName, new List<string>());
 
             foreach (var obj in context.ModelState.Values)
-            {
                 foreach (var error in obj.Errors)
-                {
                     if (!string.IsNullOrEmpty(error.ErrorMessage))
-                    {
                         ((List<string>)controller.TempData[ErrorsName]).Add(error.ErrorMessage);
-                    }
-                }
-            }
         }
     }
 }
