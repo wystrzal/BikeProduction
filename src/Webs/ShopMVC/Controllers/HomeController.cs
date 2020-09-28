@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Interfaces;
+using ShopMVC.Models;
 using ShopMVC.Models.ViewModels;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using static ShopMVC.Models.Enums.HomeProductEnum;
 
@@ -24,6 +26,12 @@ namespace ShopMVC.Controllers
             };
 
             return View(vm);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
