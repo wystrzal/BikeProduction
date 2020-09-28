@@ -1,4 +1,5 @@
-﻿using Common.Application.Messaging;
+﻿using BikeBaseRepository;
+using Common.Application.Messaging;
 using Delivery.Application.Messaging.Consumers;
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
@@ -28,14 +29,14 @@ namespace Delivery.Test.Messaging
         }
 
         [Fact]
-        public async Task ProductionFinishedConsumer_NullPack_Success()
+        public async Task ProductionFinishedConsumer_NullDataException_Success()
         {
             //Arrange
             var productionFinishedEvent = new ProductionFinishedEvent(1, 1);
             var context = Mock.Of<ConsumeContext<ProductionFinishedEvent>>(x => x.Message == productionFinishedEvent);
 
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
-                .Returns(Task.FromResult((PackToDelivery)null));
+                .Throws<NullDataException>();
 
             customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>())).Returns(Task.FromResult(new Order()));
 
