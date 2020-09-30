@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <header>
-        <partial name="_UpperNav" />
-        <partial name="_SidebarMenu" />
-    </header>
-
+    @if (User.Claims.Any())
+    {
+        <header style="display: unset;">
+            <partial name="_UpperNav" />
+            <partial name="_SidebarMenu" />
+        </header>
+    }
     <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
