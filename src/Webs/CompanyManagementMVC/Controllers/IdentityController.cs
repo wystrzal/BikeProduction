@@ -39,7 +39,7 @@ namespace CompanyManagementMVC.Controllers
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Index()
