@@ -44,6 +44,9 @@ namespace CompanyManagementMVC.Controllers
 
         public IActionResult Index()
         {
+            if (User.Claims.Where(x => x.Value == "admin").Any())
+                return RedirectToAction("Index", "Home");
+
             return View();
         }
     }
