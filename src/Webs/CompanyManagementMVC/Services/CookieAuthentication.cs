@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace CompanyManagementMVC.Services
@@ -20,7 +22,7 @@ namespace CompanyManagementMVC.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task SignIn(TokenModel tokenModel)
+        public async Task<bool> SignIn(TokenModel tokenModel)
         {
             AuthenticationProperties options = new AuthenticationProperties
             {
@@ -29,6 +31,23 @@ namespace CompanyManagementMVC.Services
                 ExpiresUtc = DateTime.Now.AddDays(1)
             };
 
+            var claims = SetClaims(tokenModel);
+
+            if (!claims.Any(x => x.Value == "admin"))
+                return false;
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await httpContextAccessor.HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(identity),
+            options);
+
+            return true;
+        }
+
+        private List<Claim> SetClaims(TokenModel tokenModel)
+        {
             var jwt = tokenModel.Token;
             var handler = new JwtSecurityTokenHandler();
             var token = handler.ReadJwtToken(jwt);
@@ -41,12 +60,7 @@ namespace CompanyManagementMVC.Services
 
             claims.AddRange(token.Claims);
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await httpContextAccessor.HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity),
-                options);
+            return claims;
         }
     }
 }

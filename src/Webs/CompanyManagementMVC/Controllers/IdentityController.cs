@@ -26,7 +26,7 @@ namespace CompanyManagementMVC.Controllers
             {
                 var tryLogin = await identityService.Login(loginDto);
 
-                if (tryLogin.StatusCode == System.Net.HttpStatusCode.OK)
+                if (tryLogin)
                     return RedirectToAction("Index", "Home");           
             }
 
@@ -44,7 +44,7 @@ namespace CompanyManagementMVC.Controllers
 
         public IActionResult Index()
         {
-            if (User.Claims.Where(x => x.Value == "admin").Any())
+            if (User.Claims.Any(x => x.Value == "admin"))
                 return RedirectToAction("Index", "Home");
 
             return View();

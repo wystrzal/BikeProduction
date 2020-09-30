@@ -5,6 +5,6 @@ namespace CompanyManagementMVC.Interfaces
 {
     public interface ICookieAuthentication
     {
-        Task SignIn(TokenModel tokenModel);
+        Task<bool> SignIn(TokenModel tokenModel);
     }
 }

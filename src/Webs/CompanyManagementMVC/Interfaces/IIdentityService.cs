@@ -6,6 +6,6 @@ namespace CompanyManagementMVC.Interfaces
 {
     public interface IIdentityService
     {
-        Task<HttpResponseMessage> Login(LoginDto loginDto);
+        Task<bool> Login(LoginDto loginDto);
     }
 }

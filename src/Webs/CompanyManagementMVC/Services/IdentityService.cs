@@ -21,7 +21,7 @@ namespace CompanyManagementMVC.Services
             this.cookieAuthentication = cookieAuthentication;
         }
 
-        public async Task<HttpResponseMessage> Login(LoginDto loginDto)
+        public async Task<bool> Login(LoginDto loginDto)
         {
             string loginUrl = $"{baseUrl}login";
 
@@ -30,10 +30,13 @@ namespace CompanyManagementMVC.Services
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var tokenModel = JsonConvert.DeserializeObject<TokenModel>(await response.Content.ReadAsStringAsync());
-                await cookieAuthentication.SignIn(tokenModel);
+
+                var tryLogin = await cookieAuthentication.SignIn(tokenModel);
+                if (!tryLogin)
+                    return false;           
             }
                 
-            return response;
+            return true;
         }
     }
 }

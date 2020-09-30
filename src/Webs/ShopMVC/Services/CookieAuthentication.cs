@@ -30,10 +30,22 @@ namespace ShopMVC.Services
                 ExpiresUtc = DateTime.Now.AddDays(1)
             };
 
+            var claims = SetClaims(tokenModel);
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await httpContextAccessor.HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(identity),
+                options);
+        }
+
+        private List<Claim> SetClaims(TokenModel tokenModel)
+        {
             var jwt = tokenModel.Token;
             var handler = new JwtSecurityTokenHandler();
             var token = handler.ReadJwtToken(jwt);
-  
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Authentication, tokenModel.Token),
@@ -42,12 +54,7 @@ namespace ShopMVC.Services
 
             claims.AddRange(token.Claims);
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await httpContextAccessor.HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(identity),
-                options);
+            return claims;
         }
     }
 }
