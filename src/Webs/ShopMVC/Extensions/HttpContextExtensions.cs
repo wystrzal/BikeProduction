@@ -9,7 +9,7 @@ namespace ShopMVC.Extensions
         public static string GetToken(this HttpContext httpContext)
         {
             return httpContext.User.Claims
-                .Where(x => x.Type == "AccessToken").Select(x => x.Value).FirstOrDefault();
+                .Where(x => x.Type == ClaimTypes.Authentication).Select(x => x.Value).FirstOrDefault();
         }
 
         public static string GetNameIdentifier(this HttpContext httpContext)

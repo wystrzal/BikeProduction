@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    @if (User.Claims.Any())
+    @if (User.Claims.Where(x => x.Value == "admin").Any())
     {
         <header style="display: unset;">
             <partial name="_UpperNav" />
