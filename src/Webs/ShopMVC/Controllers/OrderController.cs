@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShopMVC.Controllers
 {
-    [AuthorizeActionFilter]
+    [UserAuthorization]
     public class OrderController : Controller
     {
         private readonly IOrderService orderService;
