@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CompanyManagementMVC.Models;
+using CompanyManagementMVC.Filters;
 
 namespace CompanyManagementMVC.Controllers
 {
+    [AuthorizeActionFilter]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
