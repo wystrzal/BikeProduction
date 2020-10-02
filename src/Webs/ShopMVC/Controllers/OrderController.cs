@@ -5,6 +5,7 @@ using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShopMVC.Controllers
@@ -24,7 +25,7 @@ namespace ShopMVC.Controllers
             var vm = new OrdersViewModel
             {
                 FilteringData = filteringData ??= new OrderFilteringData(),
-                PageSize = 25,
+                PageSize = 50,
                 Orders = await orderService.GetOrders(filteringData),
                 CurrentPage = filteringData.Page
             };

@@ -17,5 +17,10 @@ namespace ShopMVC.Extensions
             return httpContext.User.Claims.Where(x => x.Type == ClaimTypes.NameIdentifier)
                 .Select(x => x.Value).FirstOrDefault();
         }
+
+        public static bool UserIsAdmin(this HttpContext httpContext)
+        {
+            return httpContext.User.Claims.Any(x => x.Value == "admin");
+        }
     }
 }

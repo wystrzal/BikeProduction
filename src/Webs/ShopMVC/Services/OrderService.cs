@@ -36,6 +36,8 @@ namespace ShopMVC.Services
         {
             var getOrdersUrl = $"{baseUrl}";
 
+            filteringData.UserId = userId;
+
             var queryParams = SetQueryParams(filteringData);
 
             var orders = await customHttpClient.GetStringAsync(getOrdersUrl, token, queryParams);
@@ -50,7 +52,7 @@ namespace ShopMVC.Services
             if (filteringData.OrderStatus != 0)
                 queryParams.Add("OrderStatus", filteringData.OrderStatus.ToString());
 
-            if (filteringData.UserId != null)
+            if (filteringData.UserId != null && !filteringData.UserIsAdmin)
                 queryParams.Add("UserId", userId);
 
             return queryParams;
