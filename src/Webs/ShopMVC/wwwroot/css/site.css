@@ -125,6 +125,24 @@ html, body {
     box-shadow: 0 .5rem 1rem rgba(0,0,0, .15) !important;
 }
 
+/***** Product View *****/
+
+.product-list > .row:nth-child(even) {
+    background-color: #d9d9d9
+}
+
+.product-list > .row:nth-child(odd) {
+    background-color: #f0f0f0
+}
+
+.product-shadow {
+    -webkit-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
+    -moz-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
+    box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
+}
+
+/***** Default Area *****/
+
 /***** Home View *****/
 
 .home__bg--1 {
