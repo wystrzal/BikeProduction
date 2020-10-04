@@ -127,14 +127,6 @@ html, body {
 
 /***** Product View *****/
 
-.product-list > .row:nth-child(even) {
-    background-color: #d9d9d9
-}
-
-.product-list > .row:nth-child(odd) {
-    background-color: #f0f0f0
-}
-
 .product-shadow {
     -webkit-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
     -moz-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
@@ -324,7 +316,18 @@ html, body {
     }
 
 /***** Basket View *****/
+
 .basket__quantity {
     cursor: pointer;
     font-size: 30px;
+}
+
+/***** Shared *****/
+
+.product-list, order-items-list > .row:nth-child(even) {
+    background-color: #d9d9d9
+}
+
+.product-list, order-items-list > .row:nth-child(odd) {
+    background-color: #f0f0f0
 }
