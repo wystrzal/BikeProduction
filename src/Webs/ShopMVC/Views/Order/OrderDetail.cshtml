@@ -1,71 +1,91 @@
 ﻿@model ShopMVC.Models.ViewModels.OrderDetailViewModel
-
-    <div class="row text-center">
-        <div class="col-4">Order Date:</div>
-        <div class="col-4">Order Status:</div>
-        <div class="col-4">TotalPrice:</div>
-
-        <div class="col-4 mt-3">
-            <p>@Model.OrderDate</p>
-        </div>
-        <div class="col-4 mt-3">
-            <p>@Model.OrderStatus.ToString().Replace("_", " ")</p>
-        </div>
-        <div class="col-4 mt-3">
-            <p>@Model.TotalPrice$</p>
-        </div>
-
-        <hr class="mt-5" style="width: 100%;" />
-
-        <div class="col-12 mt-5">
-            <h6>Personal Data</h6>
-        </div>
-
-        <div class="col-6 mt-2">
-            <p>First Name: @Model.CustomerFirstName</p>
-        </div>
-        <div class="col-6 mt-2">
-            <p>Last Name: @Model.CustomerLastName</p>
-        </div>
-        <div class="offset-3 col-6 mt-1">
-            <p>Phone Number: @Model.PhoneNumber</p>
-        </div>
-
-        <hr class="mt-5" style="width: 100%;" />
-
-        <div class="col-12 mt-5">
-            <h6>Address</h6>
-        </div>
-
-        <div class="col-6 mt-2">
-            <p>City: @Model.City</p>
-        </div>
-        <div class="col-6 mt-2">
-            <p>Post Code: @Model.PostCode</p>
-        </div>
-        <div class="col-6 mt-1">
-            <p>Street: @Model.Street</p>
-        </div>
-        <div class="col-6 mt-1">
-            <p>House Number: @Model.HouseNumber</p>
-        </div>
-
-        <hr class="mt-5" style="width: 100%;" />
-
-        <div class="col-12 mt-5 mb-4">
-            <h6>Ordered Products</h6>
-        </div>
+@using ShopMVC.Extensions
 
 
+<div class="col-12 text-left">
+    <p style="font-size: 22px; font-weight:400;"><i class="fas fa-box"></i> Order ID: @Model.OrderId</p>
+</div>
+<div class="col-12 text-left">
+    <p style="font-size: 22px; font-weight:400;"><i class="fas fa-calendar-day"></i> Ordered: @Model.OrderDate</p>
+</div>
+
+<div class="col-12 mt-4 order-detail-shadow text-center">
+    <div class="row">
+        <div class="col-6 mt-3">
+            <p>
+                <i class="fas fa-house-user"></i> Customer <br />
+                @Model.CustomerFirstName @Model.CustomerLastName <br />
+                @Model.Street @Model.HouseNumber <br />
+                @Model.PostCode @Model.City <br />
+                @Model.PhoneNumber
+            </p>
+        </div>
+        <div class="col-6 mt-3">
+            <p>
+                <i class="fas fa-industry"></i> Industry <br />
+                BikeProduction <br />
+                Street 12 <br />
+                72-162 City <br />
+                829127201
+            </p>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <ul id="progressbar" class="text-center">
+                    @{
+                        string listItem = "<li class='active step0'></li>";
+
+                        foreach (var orderStatus in Model.OrderStatus.SelectListItem())
+                        {
+                            if (orderStatus.Value == Model.OrderStatus.ToString())
+                            {
+                                @Html.Raw(listItem)
+                                listItem = "<li class='step0'></li>";
+                                continue;
+                            }
+
+                            @Html.Raw(listItem)
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="row pb-4">
+            <div class="mt-3 col-4 col-sm-2 offset-sm-1"><i class="fas fa-pause-circle"></i> Waiting For Confirm</div>
+            <div class="mt-3 col-4 col-sm-2"><i class="fas fa-clipboard-check"></i> Confirmed</div>
+            <div class="mt-3 col-4 col-sm-2"><i class="fas fa-truck-loading"></i> Ready To Send</div>
+            <div class="mt-3 col-6 col-sm-2"><i class="fas fa-truck"></i> Sended</div>
+            <div class="mt-3 col-6 col-sm-2"><i class="fas fa-home"></i> Delivered</div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 col-12 order-detail-items-shadow">
+    <div class="p-3"></div>
+
+    <div class="col-6 offset-3 total-price-shadow text-center" style="background-color: #d4d4d4;">
+        <p class="m-0" style="font-weight: 500; font-size: 20px;">@Model.TotalPrice$</p>
+    </div>
+
+    <div class="product-list p-2 pb-3">
         @foreach (var item in Model.OrderItems)
         {
             var itemPrice = item.Price * item.Quantity;
 
-            <div class="col-4 mb-2">@item.ProductName</div>
-            <div class="col-4 mb-2">@itemPrice$</div>
-            <div class="col-4 mb-2">@item.Quantity</div>
+            <div class="row border-top product-shadow mt-3 align-items-center text-center">
+                <div class="col-12 col-sm-3 border-left border-right p-2">
+                    Photo
+                </div>
+                <div class="col-12 col-sm-3 border-right p-2">@item.ProductName</div>
+                <div class="col-12 col-sm-3 border-right p-2">QTY: @item.Quantity</div>
+                <div class="col-12 col-sm-3 border-right p-2">@itemPrice$</div>
+            </div>
         }
-
-        <br /><br />
-
     </div>
+</div>
+
+

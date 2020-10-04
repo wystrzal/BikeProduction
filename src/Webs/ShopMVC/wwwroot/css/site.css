@@ -239,6 +239,89 @@ html, body {
     background-color: dimgray;
 }
 
+/***** Order View *****/
+.total-price-shadow {
+    -webkit-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.75);
+}
+
+.order-detail-shadow {
+    -webkit-box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
+    -moz-box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
+    box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
+}
+
+.order-detail-items-shadow {
+    -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+}
+
+#progressbar {
+    margin-bottom: 20px;
+    overflow: hidden;
+    color: #455A64;
+    padding-left: 0px;
+    margin-top: 30px
+}
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 13px;
+        width: 20%;
+        display: inline-block;
+        position: relative;
+        font-weight: 400
+    }
+
+    #progressbar .step0:before {
+        font-family: FontAwesome;
+        content: "\f10c";
+        color: #fff
+    }
+
+    #progressbar li:before {
+        width: 40px;
+        height: 40px;
+        line-height: 45px;
+        display: block;
+        font-size: 20px;
+        background: #C5CAE9;
+        border-radius: 50%;
+        margin: auto;
+        padding: 0px
+    }
+
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 12px;
+        background: #C5CAE9;
+        position: absolute;
+        left: 0;
+        top: 16px;
+        z-index: -1
+    }
+
+    #progressbar li:first-child:after {
+        left: 50%
+    }
+
+    #progressbar li:last-child:after {
+        left: -50%;
+        z-index: -5;
+    }
+
+    #progressbar li.active:before,
+    #progressbar li.active:after {
+        background: #651FFF
+    }
+
+    #progressbar li.active:before {
+        font-family: FontAwesome;
+        content: "\f00c"
+    }
 
 /***** Basket View *****/
 .basket__quantity {
