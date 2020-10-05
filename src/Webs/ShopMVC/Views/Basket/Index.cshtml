@@ -25,6 +25,7 @@
             @Html.TextBoxFor(x => x.Products[i].ProductName, new { style = "display: none;", @Value = Model.Products[i].ProductName })
             @Html.TextBoxFor(x => x.Products[i].Quantity, new { style = "display: none;", @Value = Model.Products[i].Quantity })
             @Html.TextBoxFor(x => x.Products[i].Reference, new { style = "display: none;", @Value = Model.Products[i].Reference })
+            @Html.TextBoxFor(x => x.Products[i].PhotoUrl, new { style = "display: none;", @Value = Model.Products[i].PhotoUrl })
         }
 
         <input type="submit" value="Buy" class="btn btn-success">

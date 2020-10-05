@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CustomerOrder.Infrastructure.Migrations
 {
@@ -39,6 +39,7 @@ namespace CustomerOrder.Infrastructure.Migrations
                     ProductName = table.Column<string>(nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Reference = table.Column<string>(nullable: false),
+                    PhotoUrl = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
                     OrderId = table.Column<int>(nullable: true)
                 },

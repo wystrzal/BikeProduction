@@ -17,6 +17,8 @@ namespace Basket.Core.Models
         [Required]
         public string Reference { get; set; }
 
+        public string PhotoUrl { get; set; }
+
         public int Quantity { get; set; }
     }
 }
