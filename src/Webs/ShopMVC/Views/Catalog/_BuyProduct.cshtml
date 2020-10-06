@@ -1,0 +1,32 @@
+﻿@model ShopMVC.Models.CatalogProduct
+
+<script>
+                            $(document).ready(() => {
+                                $("#@Model.Id-buy").click(() => {
+
+                                    const basketProducts = {
+                                        Id: @Model.Id,
+                                        ProductName: '@Model.ProductName',
+                                        Price: @Model.Price,
+                                        Reference: '@Model.Reference',
+                                        PhotoUrl: '@Model.PhotoUrl',
+                                        Quantity: 1
+                                    };
+
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Basket/AddProduct",
+                                        data: JSON.stringify(basketProducts),
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        failure: function (response) {
+                                            console.log(response);
+                                        },
+                                        complete: function (response) {
+                                            $("#basketQuantity").html('(' + response.responseJSON.basketQuantity + ')');
+                                        }
+                                    });
+                                });
+                            });
+</script>

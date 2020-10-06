@@ -40,36 +40,7 @@
                             </div>
                         </div>
 
-                        <script>
-                            $(document).ready(() => {
-                                $("#@product.Id-buy").click(() => {
-
-                                    const basketProducts = {
-                                        Id: @product.Id,
-                                        ProductName: '@product.ProductName',
-                                        Price: @product.Price,
-                                        Reference: '@product.Reference',
-                                        PhotoUrl: '@product.PhotoUrl',
-                                        Quantity: 1
-                                    };
-
-
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "/Basket/AddProduct",
-                                        data: JSON.stringify(basketProducts),
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        failure: function (response) {
-                                            console.log(response);
-                                        },
-                                        complete: function (response) {
-                                            $("#basketQuantity").html('(' + response.responseJSON.basketQuantity + ')');
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
+                        <partial name="_BuyProduct" model="@product" />
                     }
                 }
             </div>

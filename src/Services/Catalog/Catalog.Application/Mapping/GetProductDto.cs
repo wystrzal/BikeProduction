@@ -5,6 +5,8 @@ namespace Catalog.Application.Mapping
 {
     public class GetProductDto
     {
+        public int Id { get; set; }
+        public string Reference { get; set; }
         public string ProductName { get; set; }
         public Colors Colors { get; set; }
         public decimal Price { get; set; }

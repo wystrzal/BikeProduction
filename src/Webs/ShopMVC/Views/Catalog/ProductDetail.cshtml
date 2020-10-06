@@ -16,8 +16,10 @@
                 <p>@Model.Price$</p>
             </div>
             <div class="col-6 mt-3">
-                <button class="btn btn-success">Buy</button>
+                <button id="@Model.Id-buy" class="btn btn-success">Buy</button>
             </div>
+
+            <partial name="_BuyProduct" model="@Model" />
         </div>
     </div>
 </div>
