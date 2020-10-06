@@ -1,19 +1,20 @@
 ﻿@model ShopMVC.Models.ViewModels.OrdersViewModel
 
-    <div class="row text-center mt-5">
-        @{
-            if (Model != null)
+@{
+    if (Model != null && Model.Orders.Count > 0)
+    {
+        <div class="col-12 border text-center">
+            @foreach (var order in Model.PaginatedOrders())
             {
-                foreach (var order in Model.PaginatedOrders())
-                {
-                    <div class="col-8">
-                        <a class="text-dark mt-4" style="text-decoration: none; width: 100%;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
-                            <div class="col-3 d-inline">@order.OrderDate</div>
-                            <div class="col-3 d-inline">@order.OrderStatus.ToString().Replace("_", " ")</div>
-                            <div class="col-3 d-inline">@order.TotalPrice$</div>
+                <div class="row order-shadow border-top align-items-center mb-1">
+                    <div class="col-12 col-md-8 my-2">
+                        <a class="row text-dark" style="text-decoration: none;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
+                            <div class="col-4">@order.OrderDate</div>
+                            <div class="col-4">@order.OrderStatus.ToString().Replace("_", " ")</div>
+                            <div class="col-4">@order.TotalPrice$</div>
                         </a>
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-md-4 my-2">
                         @if (order.OrderStatus == ShopMVC.Models.Enums.OrderStatusEnum.OrderStatus.Waiting_For_Confirm)
                         {
                             @Html.ActionLink("Cancel", "DeleteOrder", "Order", new { id = order.OrderId }, new { @class = "btn btn-warning" })
@@ -23,25 +24,26 @@
                             @Html.ActionLink("Delete", "DeleteOrder", "Order", new { id = order.OrderId }, new { @class = "btn btn-danger" })
                         }
                     </div>
-                }
+                </div>
             }
-        }
+        </div>
+    }
+}
 
-        @if (Model.PageCount() > 1)
+@if (Model.PageCount() > 1)
+{
+    <ul class="pagination">
+        @for (int i = 1; i < Model.PageCount() + 1; i++)
         {
-            <ul class="pagination">
-                @for (int i = 1; i < Model.PageCount() + 1; i++)
-                {
-                    <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
-                        <form asp-action="Index" asp-controller="Order" method="get">
-                            @Html.TextBoxFor(x => x.FilteringData.OrderStatus, new { @type = "hidden"})
-                            <input value="@i" name="filteringData.page" type="hidden" />
-                            <input type="submit" class="page-link" value="@i"/>
-                        </form>
-                    </li>
-                }
-            </ul>
+            <li class="@(i == Model.CurrentPage ? "page-item active" : "page-item")">
+                <form asp-action="Index" asp-controller="Order" method="get">
+                    @Html.TextBoxFor(x => x.FilteringData.OrderStatus, new { @type = "hidden" })
+                    <input value="@i" name="filteringData.page" type="hidden" />
+                    <input type="submit" class="page-link" value="@i" />
+                </form>
+            </li>
         }
+    </ul>
+}
 
-        <partial name="_OrderFilter" model="Model" />
-    </div>
+<partial name="_OrderFilter" model="Model" />
