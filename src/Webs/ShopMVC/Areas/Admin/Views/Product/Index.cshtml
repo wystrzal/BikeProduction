@@ -12,7 +12,9 @@
             {
                 <div class="row border-top product-shadow mt-3 align-items-center">
                     <div class="col-12 col-sm-3 border-left border-right p-2">
-                        <img src="@product.PhotoUrl" style="width: 100px;"/>
+                        <a href="/Catalog/ProductDetail/@product.Id">
+                            <img src="@product.PhotoUrl" style="width: 100px;" />
+                        </a>
                     </div>
                     <div class="col-12 col-sm-3 border-right p-2">@product.ProductName</div>
                     <div class="col-12 col-sm-3 border-right p-2">Ref: @product.Reference</div>
