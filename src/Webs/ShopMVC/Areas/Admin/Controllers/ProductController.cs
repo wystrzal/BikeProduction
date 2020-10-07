@@ -30,5 +30,16 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return View(vm);
         }
+
+        public async Task<IActionResult> CreateProduct()
+        {
+            var vm = new CreateProductViewModel
+            {
+                Brand = await catalogService.GetBrandListItem(),
+                Product = new CatalogProduct()
+            };
+
+            return View(vm);
+        }
     }
 }

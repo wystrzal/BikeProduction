@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using static Catalog.Core.Models.Enums.BikeTypeEnum;
 using static Catalog.Core.Models.Enums.ColorsEnum;
 
 namespace Catalog.Application.Commands
@@ -10,5 +11,7 @@ namespace Catalog.Application.Commands
         public decimal Price { get; set; }
         public string PhotoUrl { get; set; }
         public Colors Colors { get; set; }
+        public BikeType BikeType { get; set; }
+        public int BrandId { get; set; }
     }
 }

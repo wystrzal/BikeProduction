@@ -1,12 +1,14 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.ProductsViewModel
 
-<div class="col-9 offset-3 text-left">
-    <button class="btn btn-success">Add New Product</button>
+<div class="mt-4 mb-2 text-right">
+    <a class="btn btn-success" asp-controller="Product" asp-action="CreateProduct" asp-area="Admin">
+        Add New Product
+    </a>
 </div>
 
 @if (Model != null && Model.Products.Count > 0)
 {
-    <div class="row pt-2 border text-center">
+    <div class="row text-center">
         <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 items-list">
             @foreach (var product in Model.Products)
             {
