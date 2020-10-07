@@ -2,10 +2,12 @@
 
 @foreach (var product in Model)
 {
-    <div id="basketProduct-@product.Id" class="row my-2" style="align-items: center;">
-        <div class="col-4">@product.ProductName</div>
-        <div class="col-3">@product.Price$</div>
-        <div class="col-3">
+    <div id="basketProduct-@product.Id" class="row text-center mt-2 p-2 align-items-center order-shadow border-top">
+        <div class="col-sm-4 p-1 col-12">
+            <a href="/Catalog/ProductDetail/@product.Id" class="text-dark">@product.ProductName</a>
+        </div>
+        <div class="col-sm-3 p-1 col-12">@product.Price$</div>
+        <div class="col-sm-3 p-1 col-12">
             @Html.ActionLink("+", "ChangeProductQuantity", "Basket",
                 new { ChangeQuantityAction = 1, ProductId = product.Id }, new { @class = "text-dark" })
 
@@ -15,7 +17,7 @@
                 new { ChangeQuantityAction = 2, ProductId = product.Id }, new { @class = "text-dark" })
         </div>
 
-        <div class="col-2">
+        <div class="col-sm-2 p-1 col-12">
             @Html.ActionLink("Delete", "RemoveProduct", "Basket", new { productId = product.Id }, new { @class = "btn btn-danger" })
         </div>
     </div>
