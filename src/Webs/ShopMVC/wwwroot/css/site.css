@@ -316,11 +316,11 @@ html, body {
 
 /***** Shared *****/
 
-.product-list, .order-items-list > .row:nth-child(even) {
+.items-list > .row:nth-child(even) {
     background-color: #d9d9d9
 }
 
-.product-list, .order-items-list > .row:nth-child(odd) {
+.items-list > .row:nth-child(odd) {
     background-color: #f0f0f0
 }
 

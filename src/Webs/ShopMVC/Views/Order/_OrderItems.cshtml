@@ -1,6 +1,6 @@
 ﻿@model List<ShopMVC.Models.BasketProduct>
 
-<div class="order-items-list p-2 pb-3">
+<div class="items-list p-2 pb-3">
     @foreach (var item in Model)
     {
         var itemPrice = item.Price * item.Quantity;
