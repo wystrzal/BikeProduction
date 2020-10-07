@@ -41,5 +41,29 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return View(vm);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(CatalogProduct product)
+        {
+            if (product.Price == 0)
+            {
+                ModelState.AddModelError("", "The Price field cannot be zero.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var vm = new CreateProductViewModel
+                {
+                    Brand = await catalogService.GetBrandListItem(),
+                    Product = new CatalogProduct()
+                };
+
+                return View(vm);
+            }
+
+            await catalogService.AddProduct(product);
+
+            return RedirectToAction("Index");
+        }
     }
 }

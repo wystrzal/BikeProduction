@@ -1,6 +1,8 @@
 ﻿using BikeHttpClient;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using ShopMVC.Extensions;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using System.Collections.Generic;
@@ -13,12 +15,14 @@ namespace ShopMVC.Services
     public class CatalogService : ICatalogService
     {
         private readonly string baseUrl;
+        private readonly string token;
         private readonly ICustomHttpClient customHttpClient;
 
-        public CatalogService(ICustomHttpClient customHttpClient)
+        public CatalogService(ICustomHttpClient customHttpClient, IHttpContextAccessor httpContextAccessor)
         {
             baseUrl = "http://host.docker.internal:5101/api/catalog/";
             this.customHttpClient = customHttpClient;
+            token = httpContextAccessor.HttpContext.GetToken();
         }
 
         public async Task<IEnumerable<SelectListItem>> GetBrandListItem()
@@ -84,6 +88,13 @@ namespace ShopMVC.Services
             var product = await customHttpClient.GetStringAsync(getProductUrl);
 
             return JsonConvert.DeserializeObject<CatalogProduct>(product);
+        }
+
+        public async Task AddProduct(CatalogProduct product)
+        {
+            var addProductUrl = $"{baseUrl}";
+
+            await customHttpClient.PostAsync(addProductUrl, product, token);
         }
     }
 }
