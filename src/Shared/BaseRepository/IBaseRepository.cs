@@ -17,5 +17,6 @@ namespace BikeBaseRepository
         Task<List<TEntity>> GetAll();
         Task<TEntity> GetById(int id);
         Task<bool> SaveAllAsync();
+        Task<bool> CheckIfExistByCondition(Func<TEntity, bool> condition);
     }
 }

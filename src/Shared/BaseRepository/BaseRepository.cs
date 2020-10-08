@@ -73,5 +73,11 @@ namespace BikeBaseRepository
         {
             return await dataContext.SaveChangesAsync() > 0 ? true : throw new ChangesNotSavedCorrectlyException(typeof(TEntity));
         }
+
+        public async Task<bool> CheckIfExistByCondition(Func<TEntity, bool> condition)
+        {
+            var data = dataContext.Set<TEntity>().Where(condition).Any();
+            return await Task.FromResult(data);
+        }
     }
 }
