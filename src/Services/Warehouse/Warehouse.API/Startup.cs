@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 using Warehouse.Application.Extensions;
+using Warehouse.Application.Mapping.Profiles;
 using Warehouse.Infrastructure.Data;
 
 namespace Warehouse.API
@@ -42,7 +43,7 @@ namespace Warehouse.API
 
             services.AddCustomAuth(Configuration);
 
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddAutoMapper(typeof(ProductProfile).Assembly);
 
             services.AddMediatR(typeof(ProductionConfirmedEvent).Assembly);
 

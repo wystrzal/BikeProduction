@@ -1,4 +1,5 @@
 using AutoMapper;
+using Common.Application.Messaging;
 using CustomerOrder.API.Extensions;
 using Delivery.Application.Extensions;
 using Delivery.Infrastructure.Data;
@@ -44,7 +45,7 @@ namespace Delivery.API
 
             services.AddAutoMapper(typeof(Startup).Assembly);
 
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddMediatR(typeof(ChangeOrderStatusEvent).Assembly);
 
             services.AddApplicationServices();
 

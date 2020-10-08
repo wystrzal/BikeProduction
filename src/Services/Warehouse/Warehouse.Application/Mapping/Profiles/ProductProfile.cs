@@ -8,7 +8,7 @@ namespace Warehouse.Application.Mapping.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<Product, ProductAddedEvent>();
+            CreateMap<ProductAddedEvent, Product>();
         }
     }
 }

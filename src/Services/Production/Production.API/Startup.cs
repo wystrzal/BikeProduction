@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Production.Application.Commands;
 using Production.Application.Extensions;
+using Production.Application.Mapping.Profiles;
 using Production.Infrastructure.Data;
 using System.Net;
 
@@ -47,7 +48,7 @@ namespace Production.API
 
             services.AddCustomAuth(Configuration);
 
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddAutoMapper(typeof(ProductionQueueProfile).Assembly);
 
             services.AddMediatR(typeof(ConfirmProductionCommand).Assembly);
 

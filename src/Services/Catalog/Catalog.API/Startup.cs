@@ -2,6 +2,7 @@ using AutoMapper;
 using Catalog.Application.Commands;
 using Catalog.Application.Extensions;
 using Catalog.Application.Mapping;
+using Catalog.Application.Mapping.Profiles;
 using Catalog.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,7 @@ namespace Catalog.API
 
             services.AddCustomAuth(Configuration);
 
-            services.AddAutoMapper(typeof(GetProductsDto).Assembly);
+            services.AddAutoMapper(typeof(ProductProfile).Assembly);
 
             services.AddMediatR(typeof(AddProductCommand).Assembly);
 
