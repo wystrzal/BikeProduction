@@ -38,18 +38,21 @@ namespace Catalog.Test.Commands
 
             mapper.Setup(x => x.Map<Product>(command)).Returns(product);
 
+            productRepository.Setup(x => x.CheckIfExistByCondition(It.IsAny<Func<Product, bool>>())).Verifiable();
             productRepository.Setup(x => x.Add(product));
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
             bus.Setup(x => x.Publish(It.IsAny<ProductAddedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
-            var commandHandler = new AddProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);
+            var commandHandler =
+                new AddProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
             Assert.Equal(Unit.Value, action);
+            productRepository.Verify(x => x.CheckIfExistByCondition(It.IsAny<Func<Product, bool>>()), Times.Once);
             bus.Verify(x => x.Publish(It.IsAny<ProductAddedEvent>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }
