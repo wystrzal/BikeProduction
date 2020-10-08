@@ -4,6 +4,7 @@ using Catalog.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,6 +29,7 @@ namespace Catalog.Application.Commands.Handlers
         public async Task<Unit> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
             var productToAdd = mapper.Map<Product>(request);
+            productToAdd.Reference = await GenerateReference(productToAdd.Reference);
 
             var brand = await brandRepository.GetById(request.BrandId);
             productToAdd.Brand = brand;
@@ -39,6 +41,18 @@ namespace Catalog.Application.Commands.Handlers
             await bus.Publish(new ProductAddedEvent(request.ProductName, request.Reference));
 
             return Unit.Value;
+        }
+
+        private async Task<string> GenerateReference(string reference)
+        {
+            var random = new Random();
+
+            while (await productRepository.CheckIfExistByCondition(x => x.Reference == reference))
+            {
+                reference = random.Next(1, 999999).ToString();
+            }
+
+            return reference;
         }
     }
 }
