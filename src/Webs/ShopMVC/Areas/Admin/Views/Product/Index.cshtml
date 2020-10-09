@@ -23,7 +23,7 @@
                     <div class="col-12 col-sm-3 border-right p-2">
                         <div class="btn-group">
                             <button class="btn btn-success">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
+                            @Html.ActionLink("Delete", "DeleteProduct", "Product", new { productId = product.Id}, new { @class = "btn btn-danger"})
                         </div>
                     </div>
                 </div>

@@ -81,9 +81,9 @@ namespace ShopMVC.Services
             return JsonConvert.DeserializeObject<List<CatalogProduct>>(products);
         }
 
-        public async Task<CatalogProduct> GetProduct(int id)
+        public async Task<CatalogProduct> GetProduct(int productId)
         {
-            var getProductUrl = $"{baseUrl}{id}";
+            var getProductUrl = $"{baseUrl}{productId}";
 
             var product = await customHttpClient.GetStringAsync(getProductUrl);
 
@@ -95,6 +95,13 @@ namespace ShopMVC.Services
             var addProductUrl = $"{baseUrl}";
 
             await customHttpClient.PostAsync(addProductUrl, product, token);
+        }
+
+        public async Task DeleteProduct(int productId)
+        {
+            var deleteProductUrl = $"{baseUrl}{productId}";
+
+            await customHttpClient.DeleteAsync(deleteProductUrl, token);
         }
     }
 }

@@ -13,5 +13,6 @@ namespace ShopMVC.Interfaces
         Task<List<CatalogProduct>> GetHomeProducts(HomeProduct homeProduct);
         Task<CatalogProduct> GetProduct(int id);
         Task AddProduct(CatalogProduct product);
+        Task DeleteProduct(int productId);
     }
 }

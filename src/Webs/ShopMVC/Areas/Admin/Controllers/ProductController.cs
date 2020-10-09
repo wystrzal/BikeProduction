@@ -65,5 +65,12 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> DeleteProduct(int productId)
+        {
+            await catalogService.DeleteProduct(productId);
+
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -29,8 +29,10 @@ namespace Catalog.Test.Commands
             //Arrange
             var id = 1;
             var command = new DeleteProductCommand(id);
+            var product = new Product();
 
-            productRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(new Product()));
+            productRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(product));
+            productRepository.Setup(x => x.Delete(product)).Verifiable();
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
             bus.Setup(x => x.Publish(It.IsAny<ProductDeletedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
@@ -42,6 +44,7 @@ namespace Catalog.Test.Commands
 
             //Assert
             Assert.Equal(Unit.Value, action);
+            productRepository.Verify(x => x.Delete(product), Times.Once);
             bus.Verify(x => x.Publish(It.IsAny<ProductDeletedEvent>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

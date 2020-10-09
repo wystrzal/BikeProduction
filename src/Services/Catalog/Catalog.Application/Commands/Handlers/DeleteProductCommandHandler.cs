@@ -24,6 +24,8 @@ namespace Catalog.Application.Commands.Handlers
 
             string reference = product.Reference;
 
+            productRepository.Delete(product);
+
             await productRepository.SaveAllAsync();
 
             await bus.Publish(new ProductDeletedEvent(reference));
