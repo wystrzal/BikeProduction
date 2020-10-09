@@ -16,6 +16,7 @@ namespace Warehouse.Application.Extensions
                 options.AddConsumer<ProductionConfirmedConsumer>();
                 options.AddConsumer<ProductAddedConsumer>();
                 options.AddConsumer<ProductDeletedConsumer>();
+                options.AddConsumer<ProductUpdatedConsumer>();
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -37,6 +38,12 @@ namespace Warehouse.Application.Extensions
                     {
                         ep.Bind<ProductAddedEvent>();
                         ep.ConfigureConsumer<ProductAddedConsumer>(provider);
+                    });
+
+                    cfg.ReceiveEndpoint("product_updated", ep =>
+                    {
+                        ep.Bind<ProductUpdatedEvent>();
+                        ep.ConfigureConsumer<ProductUpdatedConsumer>(provider);
                     });
 
                     cfg.ReceiveEndpoint("product_deleted", ep =>

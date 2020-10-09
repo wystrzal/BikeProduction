@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using BikeBaseRepository;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
+using Common.Application.Messaging;
+using MassTransit;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -14,20 +17,34 @@ namespace Catalog.Application.Commands.Handlers
     {
         private readonly IProductRepository productRepository;
         private readonly IMapper mapper;
+        private readonly IBus bus;
 
-        public UpdateProductCommandHandler(IProductRepository productRepository, IMapper mapper)
+        public UpdateProductCommandHandler(IProductRepository productRepository, IMapper mapper, IBus bus)
         {
             this.productRepository = productRepository;
             this.mapper = mapper;
+            this.bus = bus;
         }
 
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = await productRepository.GetById(request.Id);
 
+            bool productNameChanged = product.ProductName != request.ProductName; 
+
             mapper.Map(request, product);
 
-            await productRepository.SaveAllAsync();
+            try
+            {
+                await productRepository.SaveAllAsync();
+            }
+            catch (ChangesNotSavedCorrectlyException)
+            {
+                return Unit.Value;
+            }
+            
+            if (productNameChanged)
+                await bus.Publish(new ProductUpdatedEvent(product.ProductName, product.Reference));
 
             return Unit.Value;
         }
