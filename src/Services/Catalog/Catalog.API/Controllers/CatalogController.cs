@@ -93,5 +93,21 @@ namespace Catalog.API.Controllers
         {
             return Ok(await mediator.Send(new GetHomeProductsQuery(homeProduct)));
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(UpdateProductCommand command)
+        {
+            try
+            {
+                await mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
