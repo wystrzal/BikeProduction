@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using ShopMVC.Extensions;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
+using ShopMVC.Models.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -95,6 +96,13 @@ namespace ShopMVC.Services
             var addProductUrl = $"{baseUrl}";
 
             await customHttpClient.PostAsync(addProductUrl, product, token);
+        }
+
+        public async Task UpdateProduct(CatalogProduct product)
+        {
+            var updateProductUrl = $"{baseUrl}";
+
+            await customHttpClient.PutAsync(updateProductUrl, product, token);
         }
 
         public async Task DeleteProduct(int productId)

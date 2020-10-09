@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ShopMVC.Areas.Admin.Models.ViewModels
 {
-    public class CreateProductViewModel
+    public class PostPutProductViewModel
     {
         public CatalogProduct Product { get; set; }
         public IEnumerable<SelectListItem> Brand { get; set; }

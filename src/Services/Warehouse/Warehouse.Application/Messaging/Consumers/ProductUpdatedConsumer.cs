@@ -24,9 +24,10 @@ namespace Warehouse.Application.Messaging.Consumers
         {
             try
             {
-                var product = await productRepository.GetByConditionFirst(x => x.Reference == context.Message.Reference);
+                var product = await productRepository.GetByConditionFirst(x => x.Reference == context.Message.OldReference);
 
                 product.ProductName = context.Message.ProductName;
+                product.Reference = context.Message.Reference;
 
                 await productRepository.SaveAllAsync();
             }

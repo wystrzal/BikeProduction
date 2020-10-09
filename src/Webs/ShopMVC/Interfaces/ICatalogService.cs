@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using ShopMVC.Models;
+using ShopMVC.Models.Dtos;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static ShopMVC.Models.Enums.HomeProductEnum;
@@ -14,5 +15,6 @@ namespace ShopMVC.Interfaces
         Task<CatalogProduct> GetProduct(int id);
         Task AddProduct(CatalogProduct product);
         Task DeleteProduct(int productId);
+        Task UpdateProduct(CatalogProduct product);
     }
 }

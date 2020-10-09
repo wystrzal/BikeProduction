@@ -33,7 +33,7 @@ namespace ShopMVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> CreateProduct()
         {
-            var vm = new CreateProductViewModel
+            var vm = new PostPutProductViewModel
             {
                 Brand = await catalogService.GetBrandListItem(),
                 Product = new CatalogProduct()
@@ -45,25 +45,59 @@ namespace ShopMVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CatalogProduct product)
         {
+            var vm = await CreateVMIfAnyError(product);
+
+            if (vm != null)
+                return View(vm);
+
+            await catalogService.AddProduct(product);
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> UpdateProduct(int productId)
+        {
+            var vm = new PostPutProductViewModel
+            {
+                Brand = await catalogService.GetBrandListItem(),
+                Product = await catalogService.GetProduct(productId)
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct(CatalogProduct product)
+        {
+            var vm = await CreateVMIfAnyError(product);
+
+            if (vm != null)
+                return View(vm);
+
+            await catalogService.UpdateProduct(product);
+
+            return RedirectToAction("Index");
+        }
+
+        private async Task<PostPutProductViewModel> CreateVMIfAnyError(CatalogProduct product)
+        {
             if (product.Price == 0)
             {
                 ModelState.AddModelError("", "The Price field cannot be zero.");
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.ErrorCount > 0)
             {
-                var vm = new CreateProductViewModel
+                var vm = new PostPutProductViewModel
                 {
                     Brand = await catalogService.GetBrandListItem(),
-                    Product = new CatalogProduct()
+                    Product = product.Id == 0 ? new CatalogProduct() : await catalogService.GetProduct(product.Id)
                 };
 
-                return View(vm);
+                return vm;
             }
 
-            await catalogService.AddProduct(product);
-
-            return RedirectToAction("Index");
+            return null;
         }
 
         public async Task<IActionResult> DeleteProduct(int productId)

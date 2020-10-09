@@ -10,7 +10,7 @@ namespace ShopMVC.Interfaces
         Task<UserBasketViewModel> GetBasket();
         Task AddProduct(BasketProduct basketProduct);
         Task ClearBasket();
-        Task ChangeProductQuantity(ChangeProductQuantityDto changeProductQuantityDto);
+        Task ChangeProductQuantity(ChangeBasketProductQuantityDto changeProductQuantityDto);
         Task RemoveProduct(int productId);
         Task<int> GetBasketQuantity();
     }

@@ -55,7 +55,7 @@ namespace ShopMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> ChangeProductQuantity(ChangeProductQuantityDto changeProductQuantityDto)
+        public async Task<IActionResult> ChangeProductQuantity(ChangeBasketProductQuantityDto changeProductQuantityDto)
         {
             await basketService.ChangeProductQuantity(changeProductQuantityDto);
 

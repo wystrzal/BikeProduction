@@ -29,8 +29,9 @@ namespace Catalog.Application.Commands.Handlers
         public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = await productRepository.GetById(request.Id);
+            var oldReference = product.Reference;
 
-            bool productNameChanged = product.ProductName != request.ProductName; 
+            bool productChanged = product.ProductName != request.ProductName || oldReference != request.Reference;
 
             mapper.Map(request, product);
 
@@ -43,8 +44,8 @@ namespace Catalog.Application.Commands.Handlers
                 return Unit.Value;
             }
             
-            if (productNameChanged)
-                await bus.Publish(new ProductUpdatedEvent(product.ProductName, product.Reference));
+            if (productChanged)
+                await bus.Publish(new ProductUpdatedEvent(product.ProductName, product.Reference, oldReference));
 
             return Unit.Value;
         }

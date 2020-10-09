@@ -2,7 +2,7 @@
 
 namespace ShopMVC.Models.Dtos
 {
-    public class ChangeProductQuantityDto
+    public class ChangeBasketProductQuantityDto
     {
         public int ProductId { get; set; }
         public string UserId { get; set; }

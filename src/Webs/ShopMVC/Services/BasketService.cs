@@ -59,7 +59,7 @@ namespace ShopMVC.Services
 
         public async Task AddProduct(BasketProduct basketProduct)
         {
-            var addProductDto = new AddProductDto
+            var addProductDto = new AddProductToBasketDto
             {
                 Product = basketProduct,
                 UserId = userId
@@ -70,7 +70,7 @@ namespace ShopMVC.Services
             await customHttpClient.PostAsync(addProductUrl, addProductDto, token);
         }
 
-        public async Task ChangeProductQuantity(ChangeProductQuantityDto changeProductQuantityDto)
+        public async Task ChangeProductQuantity(ChangeBasketProductQuantityDto changeProductQuantityDto)
         {
             changeProductQuantityDto.UserId = userId;
 
