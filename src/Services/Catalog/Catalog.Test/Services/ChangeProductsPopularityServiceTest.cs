@@ -19,6 +19,7 @@ namespace Catalog.Test.Services
         {
             productRepository = new Mock<IProductRepository>();
         }
+
         [Fact]
         public async Task ChangeProductsPopularity_Success()
         {
@@ -27,7 +28,8 @@ namespace Catalog.Test.Services
 
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
                 .Returns(Task.FromResult(new Product()));
-            productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true)).Verifiable();
+
+            productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
             var service = new ChangeProductsPopularityService(productRepository.Object);
 
@@ -36,7 +38,7 @@ namespace Catalog.Test.Services
 
             //Assert
             Assert.True(action);
-            productRepository.Verify(x => x.SaveAllAsync(), Times.Once);
+            
         }
 
         [Fact]

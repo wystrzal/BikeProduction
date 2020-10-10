@@ -94,8 +94,6 @@ namespace Basket.Test.Commands
 
             basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
 
-            basketRedisService.Setup(x => x.SaveBasket(userId, It.IsAny<UserBasketDto>())).Verifiable();
-
             var commandHandler = new ChangeProductQuantityCommandHandler(basketRedisService.Object);
 
             //Act

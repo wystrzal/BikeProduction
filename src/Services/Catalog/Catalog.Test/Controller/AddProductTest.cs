@@ -28,8 +28,6 @@ namespace Catalog.Test.Controller
         public async Task AddProduct_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<AddProductCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new CatalogController(mediator.Object, logger.Object);
 
             //Act

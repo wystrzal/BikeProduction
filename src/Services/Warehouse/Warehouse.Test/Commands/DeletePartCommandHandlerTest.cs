@@ -28,9 +28,6 @@ namespace Warehouse.Test.Commands
 
             partRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(part));
 
-            partRepository.Setup(x => x.Delete(part)).Verifiable();
-            partRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-
             var commandHandler = new DeletePartCommandHandler(partRepository.Object);
 
             //Act

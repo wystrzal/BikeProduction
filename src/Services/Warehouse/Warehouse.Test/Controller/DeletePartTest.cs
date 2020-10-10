@@ -28,8 +28,6 @@ namespace Warehouse.Test.Controller
         public async Task DeletePart_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<DeletePartCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new WarehouseController(mediator.Object, logger.Object);
 
             //Act

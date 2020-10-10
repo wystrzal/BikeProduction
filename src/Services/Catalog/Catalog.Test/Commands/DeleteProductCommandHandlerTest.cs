@@ -32,10 +32,7 @@ namespace Catalog.Test.Commands
             var product = new Product();
 
             productRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(product));
-            productRepository.Setup(x => x.Delete(product)).Verifiable();
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
-
-            bus.Setup(x => x.Publish(It.IsAny<ProductDeletedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
             var commandHandler = new DeleteProductCommandHandler(productRepository.Object, bus.Object);
 

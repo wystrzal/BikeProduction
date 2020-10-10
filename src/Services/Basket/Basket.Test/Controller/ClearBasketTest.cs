@@ -28,8 +28,6 @@ namespace Basket.Test.Controller
         public async Task ClearBasket_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<ClearBasketCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act

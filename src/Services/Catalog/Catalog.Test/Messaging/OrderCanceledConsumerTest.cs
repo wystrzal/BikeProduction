@@ -33,12 +33,7 @@ namespace Catalog.Test.Messaging
 
             var orderCanceledEvent = new OrderCanceledEvent { OrderItems = orderItems };
 
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x =>
-                x.Message == orderCanceledEvent);
-
-            changeProductsPopularityService
-                .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()))
-                .Returns(Task.FromResult(true)).Verifiable();
+            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
 
             var consumer = new OrderCanceledConsumer(changeProductsPopularityService.Object, logger.Object);
 

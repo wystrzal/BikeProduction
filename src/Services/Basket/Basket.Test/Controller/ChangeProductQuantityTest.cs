@@ -28,8 +28,6 @@ namespace Basket.Test.Controller
         public async Task ChangeProductQuantity_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<ChangeProductQuantityCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act

@@ -32,6 +32,7 @@ namespace CustomerOrder.Test.Controller
         {
             //Arrange
             var filteringData = new FilteringData();
+
             IEnumerable<GetOrdersDto> ordersDto
                 = new List<GetOrdersDto> { new GetOrdersDto { OrderId = 1 }, new GetOrdersDto { OrderId = 2 } };
 

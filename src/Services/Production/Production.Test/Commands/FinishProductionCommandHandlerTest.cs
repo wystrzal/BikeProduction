@@ -55,8 +55,7 @@ namespace Production.Test.Commands
             var productionQueueList = new List<ProductionQueue> { new ProductionQueue() };
 
             productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult(productionQueue));
-            productionQueueRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-            bus.Setup(x => x.Publish(It.IsAny<ProductionFinishedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
+
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueueList));
 
@@ -82,11 +81,9 @@ namespace Production.Test.Commands
             var productionQueueList = new List<ProductionQueue>();
 
             productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult(productionQueue));
-            productionQueueRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-            bus.Setup(x => x.Publish(It.IsAny<ProductionFinishedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
+
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueueList));
-            bus.Setup(x => x.Publish(It.IsAny<PackReadyToSendEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
             var command = new FinishProductionCommand(id);
 

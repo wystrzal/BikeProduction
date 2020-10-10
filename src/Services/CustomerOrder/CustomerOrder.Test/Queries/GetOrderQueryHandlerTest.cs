@@ -34,8 +34,7 @@ namespace CustomerOrder.Test.Queries
             var orderDto = new GetOrderDto { OrderId = id };
 
             orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
-                It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
-                .Returns(Task.FromResult(order));
+                It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>())).Returns(Task.FromResult(order));
 
             mapper.Setup(x => x.Map<GetOrderDto>(order)).Returns(orderDto);
 

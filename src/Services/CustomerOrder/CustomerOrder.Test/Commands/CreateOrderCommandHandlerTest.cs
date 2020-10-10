@@ -35,11 +35,7 @@ namespace CustomerOrder.Test.Commands
 
             mapper.Setup(x => x.Map<Order>(command)).Returns(order);
 
-            orderRepository.Setup(x => x.Add(order)).Verifiable();
-
             orderRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
-
-            bus.Setup(x => x.Publish(It.IsAny<OrderCreatedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
             var commandHandler = new CreateOrderCommandHandler(mapper.Object, orderRepository.Object, bus.Object);
 

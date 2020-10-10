@@ -34,7 +34,6 @@ namespace CustomerOrder.Test.Messaging
             var context = Mock.Of<ConsumeContext<ChangeOrderStatusEvent>>(x => x.Message == changeOrderStatusEvent);
 
             orderRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(order));
-            orderRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
 

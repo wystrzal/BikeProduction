@@ -29,10 +29,6 @@ namespace Basket.Test.Commands
             var userId = "1";
             var command = new AddProductCommand { UserId = userId, Product = new Core.Models.BasketProduct() };
 
-            basketRedisService.Setup(x => x.GetBasket(userId)).Verifiable();
-
-            basketRedisService.Setup(x => x.SaveBasket(userId, It.IsAny<UserBasketDto>())).Verifiable();
-
             var commandHandler = new AddProductCommandHandler(basketRedisService.Object);
 
             //Act
@@ -40,9 +36,7 @@ namespace Basket.Test.Commands
 
             //Assert
             Assert.Equal(Unit.Value, action);
-
             basketRedisService.Verify(x => x.GetBasket(userId), Times.Once);
-
             basketRedisService.Verify(x => x.SaveBasket(userId, It.IsAny<UserBasketDto>()), Times.Once);
         }
     }

@@ -37,8 +37,6 @@ namespace Delivery.Test.Messaging
             var pack = new PackToDelivery();
 
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>())).Returns(Task.FromResult(pack));
-            packToDeliveryRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-            bus.Setup(x => x.Publish(It.IsAny<ChangeOrderStatusEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
             var consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
 

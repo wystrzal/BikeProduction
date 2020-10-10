@@ -36,8 +36,6 @@ namespace Warehouse.Test.Messaging
             var context = Mock.Of<ConsumeContext<ProductAddedEvent>>(x => x.Message == productAddedEvent);
 
             mapper.Setup(x => x.Map<Product>(context.Message)).Returns(product);
-            productRepository.Setup(x => x.Add(product)).Verifiable();
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var consumer = new ProductAddedConsumer(productRepository.Object, mapper.Object, logger.Object);
 

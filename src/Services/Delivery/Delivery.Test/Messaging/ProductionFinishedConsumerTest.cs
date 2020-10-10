@@ -40,10 +40,6 @@ namespace Delivery.Test.Messaging
 
             customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>())).Returns(Task.FromResult(new Order()));
 
-            packToDeliveryRepo.Setup(x => x.Add(It.IsAny<PackToDelivery>())).Verifiable();
-
-            packToDeliveryRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-
             var consumer = new ProductionFinishedConsumer(customerOrderService.Object, packToDeliveryRepo.Object, logger.Object);
 
             //Act
@@ -64,8 +60,6 @@ namespace Delivery.Test.Messaging
 
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .Returns(Task.FromResult(packToDelivery));
-
-            packToDeliveryRepo.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var consumer = new ProductionFinishedConsumer(customerOrderService.Object, packToDeliveryRepo.Object, logger.Object);
 

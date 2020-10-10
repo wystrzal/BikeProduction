@@ -40,12 +40,6 @@ namespace CustomerOrder.Test.Commands
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
                 .Returns(Task.FromResult(order));
 
-            bus.Setup(x => x.Publish(It.IsAny<OrderCanceledEvent>(), It.IsAny<CancellationToken>())).Verifiable();
-
-            orderRepository.Setup(x => x.Delete(order)).Verifiable();
-
-            orderRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-
             var commandHandler = new DeleteOrderCommandHandler(orderRepository.Object, bus.Object);
 
             //Act
@@ -69,10 +63,6 @@ namespace CustomerOrder.Test.Commands
             orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
                 .Returns(Task.FromResult(order));
-
-            orderRepository.Setup(x => x.Delete(order)).Verifiable();
-
-            orderRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var commandHandler = new DeleteOrderCommandHandler(orderRepository.Object, bus.Object);
 

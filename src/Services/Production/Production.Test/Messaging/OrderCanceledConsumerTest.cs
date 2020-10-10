@@ -36,8 +36,6 @@ namespace Production.Test.Messaging
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueues));
-            productionQueueRepo.Setup(x => x.Delete(It.IsAny<ProductionQueue>())).Verifiable();
-            productionQueueRepo.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
 

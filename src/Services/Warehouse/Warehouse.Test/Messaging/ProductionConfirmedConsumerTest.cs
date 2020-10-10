@@ -32,10 +32,7 @@ namespace Warehouse.Test.Messaging
             var productionConfirmedEvent = new ProductionConfirmedEvent();
             var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
 
-            productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>()))
-                .Returns(Task.FromResult(parts));
-
-            productPartRepo.Setup(x => x.SaveAllAsync()).Verifiable();
+            productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>())).Returns(Task.FromResult(parts));
 
             var consumer = new ProductionConfirmedConsumer(productPartRepo.Object, logger.Object);
 

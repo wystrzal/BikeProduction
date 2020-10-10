@@ -50,8 +50,6 @@ namespace Production.Test.Commands
             var command = new StartCreatingProductsCommand(id);
 
             productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult(productionQueue));
-            productionQueueRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-
 
             var commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
 

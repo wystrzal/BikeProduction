@@ -28,8 +28,6 @@ namespace Delivery.Test.Controller
         public async Task StartDelivery_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<StartDeliveryCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new DeliveryController(mediator.Object, logger.Object);
 
             //Act

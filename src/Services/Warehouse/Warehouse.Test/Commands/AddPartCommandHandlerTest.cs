@@ -34,9 +34,6 @@ namespace Warehouse.Test.Commands
 
             mapper.Setup(x => x.Map<Part>(command)).Returns(part);
 
-            partRepository.Setup(x => x.Add(part)).Verifiable();
-            partRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-
             var commandHandler = new AddPartCommandHandler(partRepository.Object, mapper.Object);
 
             //Act

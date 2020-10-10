@@ -28,8 +28,6 @@ namespace CustomerOrder.Test.Controller
         public async Task CreateOrder_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<CreateOrderCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act

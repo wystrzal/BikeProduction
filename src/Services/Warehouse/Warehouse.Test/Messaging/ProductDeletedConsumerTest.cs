@@ -30,10 +30,7 @@ namespace Warehouse.Test.Messaging
             var productDeletedEvent = new ProductDeletedEvent(It.IsAny<string>());
             var context = Mock.Of<ConsumeContext<ProductDeletedEvent>>(x => x.Message == productDeletedEvent);
 
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
-                .Returns(Task.FromResult(product));
-            productRepository.Setup(x => x.Delete(product)).Verifiable();
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
 
             var consumer = new ProductDeletedConsumer(productRepository.Object, logger.Object);
 

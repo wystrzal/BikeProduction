@@ -31,9 +31,6 @@ namespace CustomerOrder.Test.Services
             var orders = new List<Order> { new Order { OrderId = 1, UserId = userId }, new Order { OrderId = 2, UserId = userId } };
             var filteringData = new FilteringData { UserId = userId };
 
-            sortFilterService.Setup(x => x.SetConcreteSort<SortByDate, DateTime>()).Verifiable();
-            sortFilterService.Setup(x => x.SetConcreteFilter<FilterByUserId>(filteringData)).Verifiable();
-
             sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), 0, 0)).Returns(Task.FromResult(orders));
 
             var service = new SearchOrderService(sortFilterService.Object);

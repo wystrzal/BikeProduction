@@ -28,9 +28,6 @@ namespace Warehouse.Test.Commands
 
             storagePlaceRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(storagePlace));
 
-            storagePlaceRepo.Setup(x => x.Delete(storagePlace)).Verifiable();
-            storagePlaceRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-
             var commandHandler = new DeleteStoragePlaceCommandHandler(storagePlaceRepo.Object);
 
             //Act

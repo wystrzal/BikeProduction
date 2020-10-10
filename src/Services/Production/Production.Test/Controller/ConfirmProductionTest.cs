@@ -30,8 +30,6 @@ namespace Production.Test.Controller
             //Arrange
             var id = 1;
 
-            mediator.Setup(x => x.Send(It.IsAny<ConfirmProductionCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new ProductionQueueController(mediator.Object, logger.Object);
 
             //Act

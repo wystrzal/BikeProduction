@@ -32,7 +32,6 @@ namespace Production.Test.Messaging
             var orderCreatedEvent = new OrderCreatedEvent(orderItems, id);
             var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
 
-            productionQueueRepo.Setup(x => x.Add(It.IsAny<ProductionQueue>())).Verifiable();
             productionQueueRepo.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
             var consumer = new OrderCreatedConsumer(productionQueueRepo.Object, logger.Object);

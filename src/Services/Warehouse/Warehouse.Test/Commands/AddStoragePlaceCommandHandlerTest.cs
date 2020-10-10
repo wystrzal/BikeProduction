@@ -35,9 +35,6 @@ namespace Warehouse.Test.Commands
 
             mapper.Setup(x => x.Map<StoragePlace>(command)).Returns(storagePlae);
 
-            storagePlaceRepo.Setup(x => x.Add(storagePlae)).Verifiable();
-            storagePlaceRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-
             var commandHandler = new AddStoragePlaceCommandHandler(storagePlaceRepo.Object, mapper.Object);
 
             //Act

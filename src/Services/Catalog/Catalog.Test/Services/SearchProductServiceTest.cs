@@ -35,10 +35,8 @@ namespace Catalog.Test.Services
 
             var filteringData = new FilteringData { Colors = Core.Models.Enums.ColorsEnum.Colors.Black };
 
-            sortFilterService.Setup(x => x.SetConcreteSort<SortByName, string>()).Verifiable();
-            sortFilterService.Setup(x => x.SetConcreteFilter<ColorFilter>(filteringData)).Verifiable();
-
-            sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>())).Returns(Task.FromResult(products));
+            sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(Task.FromResult(products));
 
             var service = new SearchProductService(sortFilterService.Object);
 

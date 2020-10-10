@@ -39,10 +39,6 @@ namespace Delivery.Test.Commands
             loadingPlaceRepo.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<LoadingPlace, bool>>(),
                 It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>())).Returns(Task.FromResult(loadingPlace));
 
-            bus.Setup(x => x.Publish(It.IsAny<ChangeOrderStatusEvent>(), It.IsAny<CancellationToken>())).Verifiable();
-
-            loadingPlaceRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-
             var commandHandler = new CompleteDeliveryCommandHandler(loadingPlaceRepo.Object, bus.Object);
 
             //Act

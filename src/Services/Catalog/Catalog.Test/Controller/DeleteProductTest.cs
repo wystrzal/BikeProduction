@@ -28,8 +28,6 @@ namespace Catalog.Test.Controller
         public async Task DeleteProduct_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<DeleteProductCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new CatalogController(mediator.Object, logger.Object);
 
             //Act

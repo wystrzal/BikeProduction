@@ -2,6 +2,7 @@
 using Basket.Application.Commands.Handlers;
 using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using MediatR;
 using Moq;
 using System;
@@ -49,16 +50,13 @@ namespace Basket.Test.Commands
             var userBasketDto = new UserBasketDto
             {
                 UserId = userId,
-                Products = new List<Core.Models.BasketProduct>()
+                Products = new List<BasketProduct>()
                 {
-                    new Core.Models.BasketProduct {Id = 1}
+                    new BasketProduct {Id = 1}
                 }
             };
 
             basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
-
-            basketRedisService.Setup(x => x.SaveBasket(userId, It.IsAny<UserBasketDto>())).Verifiable();
-
 
             var commandHandler = new RemoveProductCommandHandler(basketRedisService.Object);
 

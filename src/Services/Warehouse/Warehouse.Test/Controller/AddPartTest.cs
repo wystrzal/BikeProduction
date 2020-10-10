@@ -29,8 +29,6 @@ namespace Warehouse.Test.Controller
         public async Task AddPart_OkResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<AddPartCommand>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new WarehouseController(mediator.Object, logger.Object);
 
             //Act

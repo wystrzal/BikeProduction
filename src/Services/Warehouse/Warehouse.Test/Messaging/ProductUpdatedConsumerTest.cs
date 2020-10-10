@@ -34,7 +34,6 @@ namespace Warehouse.Test.Messaging
             var context = Mock.Of<ConsumeContext<ProductUpdatedEvent>>(x => x.Message == productUpdatedEvent);
 
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
 
             var consumer = new ProductUpdatedConsumer(productRepository.Object, logger.Object);
 

@@ -38,11 +38,8 @@ namespace Catalog.Test.Commands
 
             mapper.Setup(x => x.Map<Product>(command)).Returns(product);
 
-            productRepository.Setup(x => x.CheckIfExistByCondition(It.IsAny<Func<Product, bool>>())).Verifiable();
             productRepository.Setup(x => x.Add(product));
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
-
-            bus.Setup(x => x.Publish(It.IsAny<ProductAddedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
             var commandHandler =
                 new AddProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);

@@ -33,8 +33,6 @@ namespace Basket.Test.Messaging
 
             var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
 
-            basketRedisService.Setup(x => x.RemoveBasket(userId)).Verifiable();
-
             var consumer = new OrderCreatedConsumer(basketRedisService.Object, logger.Object);
 
             //Act

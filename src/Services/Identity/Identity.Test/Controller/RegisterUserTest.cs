@@ -61,8 +61,6 @@ namespace Identity.Test.Controller
             //Arrange
             var command = new RegisterCommand { Password = "User123", UserName = "user123" };
 
-            mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Verifiable();
-
             var controller = new IdentityController(mediator.Object);
 
             //Act

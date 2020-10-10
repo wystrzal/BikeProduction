@@ -63,10 +63,6 @@ namespace Delivery.Test.Commands
             loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<LoadingPlace, bool>>()))
                 .Returns(Task.FromResult(loadingPlace));
 
-            loadingPlaceRepo.Setup(x => x.SaveAllAsync()).Verifiable();
-
-            bus.Setup(x => x.Publish(It.IsAny<ChangeOrderStatusEvent>(), It.IsAny<CancellationToken>())).Verifiable();
-
             var commandHandler = new LoadPackCommandHandler(packToDeliveryRepo.Object, loadingPlaceRepo.Object, bus.Object);
 
             //Act

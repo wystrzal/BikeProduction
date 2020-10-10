@@ -42,12 +42,7 @@ namespace Catalog.Test.Messaging
 
             var orderCreatedEvent = new OrderCreatedEvent { OrderItems = orderItems };
 
-            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x =>
-                x.Message == orderCreatedEvent);
-
-            changeProductsPopularityService
-                .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()))
-                .Returns(Task.FromResult(true)).Verifiable();
+            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
 
             var consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
 

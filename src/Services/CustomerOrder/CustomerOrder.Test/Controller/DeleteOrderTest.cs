@@ -30,9 +30,6 @@ namespace CustomerOrder.Test.Controller
             //Arrange
             var orderId = 1;
 
-            mediator.Setup(x => x.Send(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()))
-                .Verifiable();
-
             var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act

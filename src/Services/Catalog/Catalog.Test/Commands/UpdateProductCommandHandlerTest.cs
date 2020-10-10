@@ -38,7 +38,6 @@ namespace Catalog.Test.Commands
             var command = new UpdateProductCommand { Id = 1, Reference = "1", ProductName = "test" };
 
             productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
-            mapper.Setup(x => x.Map(command, product)).Verifiable();
             productRepository.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(Product)));
 
             var commandHandler = new UpdateProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);
@@ -59,9 +58,6 @@ namespace Catalog.Test.Commands
             var command = new UpdateProductCommand { Id = 1, Reference = "1", ProductName = "test" };
 
             productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
-            mapper.Setup(x => x.Map(command, product)).Verifiable();
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-            bus.Setup(x => x.Publish(It.IsAny<ProductUpdatedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
             var commandHandler = new UpdateProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);
 
@@ -83,9 +79,6 @@ namespace Catalog.Test.Commands
             var command = new UpdateProductCommand { Id = 1, Reference = "1", ProductName = "test" };
 
             productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
-            mapper.Setup(x => x.Map(command, product)).Verifiable();
-            productRepository.Setup(x => x.SaveAllAsync()).Verifiable();
-            bus.Setup(x => x.Publish(It.IsAny<ProductUpdatedEvent>(), It.IsAny<CancellationToken>())).Verifiable();
 
             var commandHandler = new UpdateProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);
 

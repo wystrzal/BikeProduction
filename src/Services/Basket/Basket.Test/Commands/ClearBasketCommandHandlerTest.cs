@@ -28,8 +28,6 @@ namespace Basket.Test.Commands
             var userId = "1";
             var command = new ClearBasketCommand(userId);
 
-            basketRedisService.Setup(x => x.RemoveBasket(userId)).Verifiable();
-
             var commandHandler = new ClearBasketCommandHandler(basketRedisService.Object);
 
             //Act
