@@ -16,10 +16,10 @@ namespace Catalog.Infrastructure.Services
             this.productRepository = productRepository;
         }
 
-        public async Task<bool> ChangeProductsPopularity(List<OrderItem> orderItems, bool increasePopularity)
+        public async Task ChangeProductsPopularity(List<OrderItem> orderItems, bool increasePopularity)
         {
             if (orderItems == null || orderItems.Count <= 0)
-                return false;
+                throw new ArgumentNullException();
 
             int valueToChangePopularity = 1;
 
@@ -32,7 +32,7 @@ namespace Catalog.Infrastructure.Services
                 product.Popularity += valueToChangePopularity;
             }
 
-            return await productRepository.SaveAllAsync();
+            await productRepository.SaveAllAsync();
         }
     }
 }

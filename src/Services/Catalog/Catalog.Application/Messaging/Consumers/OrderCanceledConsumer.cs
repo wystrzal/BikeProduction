@@ -23,13 +23,15 @@ namespace Catalog.Application.Messaging.Consumers
         {
             try
             {
-                if (await changeProductsPopularityService.ChangeProductsPopularity(context.Message.OrderItems, false))
-                    logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+                await changeProductsPopularityService.ChangeProductsPopularity(context.Message.OrderItems, false);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
+                throw;
             }
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }

@@ -8,6 +8,6 @@ namespace Catalog.Core.Interfaces
 {
     public interface IChangeProductsPopularityService
     {
-        Task<bool> ChangeProductsPopularity(List<OrderItem> orderItems, bool increasePopularity);
+        Task ChangeProductsPopularity(List<OrderItem> orderItems, bool increasePopularity);
     }
 }
