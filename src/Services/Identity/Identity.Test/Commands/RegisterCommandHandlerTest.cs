@@ -3,6 +3,7 @@ using Identity.Application.Commands;
 using Identity.Application.Commands.Handlers;
 using Identity.Core.Exceptions;
 using Identity.Core.Models;
+using Identity.Test.MockHelpers;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Moq;
@@ -17,25 +18,19 @@ namespace Identity.Test.Commands
 {
     public class RegisterCommandHandlerTest
     {
-        private Mock<UserManager<User>> GetMockUserManager()
-        {
-            var store = new Mock<IUserStore<User>>();
-
-            return new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
-        }
-
         private readonly Mock<IMapper> mapper;
+        private readonly Mock<UserManager<User>> userManager;
 
         public RegisterCommandHandlerTest()
         {
             mapper = new Mock<IMapper>();
+            userManager = CustomMock.GetMockUserManager();
         }
 
         [Fact]
         public async Task RegisterCommandHandler_ThrowsUserAlreadyExistException()
         {
             //Arrange
-            var userManager = GetMockUserManager();
             var user = new User();
             var command = new RegisterCommand { UserName = "user", Password = "User123" };
 
@@ -53,7 +48,6 @@ namespace Identity.Test.Commands
         public async Task RegisterCommandHandler_ThrowsUserNotAddedException()
         {
             //Arrange
-            var userManager = GetMockUserManager();
             var user = new User();
             var command = new RegisterCommand { UserName = "user", Password = "User123" };
 
@@ -73,7 +67,6 @@ namespace Identity.Test.Commands
         public async Task RegisterCommandHandler_Success()
         {
             //Arrange
-            var userManager = GetMockUserManager();
             var user = new User();
             var command = new RegisterCommand { UserName = "user", Password = "User123" };
 

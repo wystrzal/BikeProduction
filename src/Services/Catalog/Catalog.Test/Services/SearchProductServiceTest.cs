@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using static Catalog.Core.Models.Enums.ColorsEnum;
 
 namespace Catalog.Test.Services
 {
@@ -27,13 +28,9 @@ namespace Catalog.Test.Services
         public async Task GetProducts_Success()
         {
             //Arrange
-            var products = new List<Product>
-            {
-                new Product { Id = 1 },
-                new Product { Id = 2 }
-            };
+            var products = new List<Product> { new Product(), new Product() };
 
-            var filteringData = new FilteringData { Colors = Core.Models.Enums.ColorsEnum.Colors.Black };
+            var filteringData = new FilteringData { Colors = Colors.Black };
 
             sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(products));
@@ -47,8 +44,7 @@ namespace Catalog.Test.Services
             sortFilterService.Verify(x => x.SetConcreteSort<SortByName, string>(), Times.Once);
             sortFilterService.Verify(x => x.SetConcreteFilter<ColorFilter>(filteringData), Times.Once);
 
-            Assert.Equal(2, action.Count);
-            Assert.Equal(1, action.Select(x => x.Id).First());
+            Assert.Equal(products.Count, action.Count);
         }
     }
 }

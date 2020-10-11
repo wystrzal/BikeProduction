@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace Warehouse.Test.Controller
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(2, value.Count);
+            Assert.Equal(storagePlacesDto.Count(), value.Count);
         }
     }
 }

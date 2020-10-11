@@ -27,10 +27,9 @@ namespace Basket.Test.Commands
         public async Task RemoveProductCommandHandler_NullBasket_Success()
         {
             //Arrange
-            var userId = "1";
-            var command = new RemoveProductCommand(userId, 1);
+            var command = new RemoveProductCommand(It.IsAny<string>(), It.IsAny<int>());
 
-            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult((UserBasketDto)null));
+            basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult((UserBasketDto)null));
 
             var commandHandler = new RemoveProductCommandHandler(basketRedisService.Object);
 

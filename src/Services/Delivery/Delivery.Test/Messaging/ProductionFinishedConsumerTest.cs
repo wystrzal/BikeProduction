@@ -32,7 +32,7 @@ namespace Delivery.Test.Messaging
         public async Task ProductionFinishedConsumer_NullDataException_Success()
         {
             //Arrange
-            var productionFinishedEvent = new ProductionFinishedEvent(1, 1);
+            var productionFinishedEvent = new ProductionFinishedEvent(It.IsAny<int>(), It.IsAny<int>());
             var context = Mock.Of<ConsumeContext<ProductionFinishedEvent>>(x => x.Message == productionFinishedEvent);
 
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
@@ -54,7 +54,7 @@ namespace Delivery.Test.Messaging
         public async Task ProductionFinishedConsumer_Success()
         {
             //Arrange
-            var productionFinishedEvent = new ProductionFinishedEvent(1, 1);
+            var productionFinishedEvent = new ProductionFinishedEvent(It.IsAny<int>(), It.IsAny<int>());
             var context = Mock.Of<ConsumeContext<ProductionFinishedEvent>>(x => x.Message == productionFinishedEvent);
             var packToDelivery = new PackToDelivery();
 

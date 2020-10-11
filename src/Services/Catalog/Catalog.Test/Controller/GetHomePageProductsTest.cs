@@ -32,10 +32,10 @@ namespace Catalog.Test.Controller
         {
             //Arrange
             var homeProductsDto = new List<GetHomeProductsDto>
-                { new GetHomeProductsDto { Id = 1 }, new GetHomeProductsDto { Id = 2 } };
+                { new GetHomeProductsDto(), new GetHomeProductsDto() };
 
-            mediator.Setup(x => x.Send(It.IsAny<GetHomeProductsQuery>(), It.IsAny<CancellationToken>())).
-                Returns(Task.FromResult(homeProductsDto));
+            mediator.Setup(x => x.Send(It.IsAny<GetHomeProductsQuery>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(homeProductsDto));
 
             var controller = new CatalogController(mediator.Object, logger.Object);
 
@@ -45,8 +45,7 @@ namespace Catalog.Test.Controller
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(2, value.Count);
-            Assert.Equal(1, value.Select(x => x.Id).First());
+            Assert.Equal(homeProductsDto.Count, value.Count);
         }
     }
 }

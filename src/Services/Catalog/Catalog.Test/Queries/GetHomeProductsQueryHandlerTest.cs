@@ -34,8 +34,8 @@ namespace Catalog.Test.Queries
             //Arrange
             var homeProduct = HomeProduct.NewProduct;
 
-            var products = new List<Product>() { new Product { Id = 1 }, new Product { Id = 2 } };
-            var homeProductsDto = new List<GetHomeProductsDto> { new GetHomeProductsDto { Id = 1 }, new GetHomeProductsDto { Id = 2 } };
+            var products = new List<Product>() { new Product(), new Product() };
+            var homeProductsDto = new List<GetHomeProductsDto> { new GetHomeProductsDto(), new GetHomeProductsDto() };
 
             var query = new GetHomeProductsQuery(homeProduct);
 
@@ -49,8 +49,7 @@ namespace Catalog.Test.Queries
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(2, action.Count());
-            Assert.Equal(1, action.Select(x => x.Id).First());
+            Assert.Equal(homeProductsDto.Count, action.Count());
         }
     }
 }

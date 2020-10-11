@@ -31,12 +31,11 @@ namespace CustomerOrder.Test.Queries
         public async Task GetOrdersQueryHandler_Success()
         {
             //Arrange
-            var filteringData = new FilteringData();
-            var query = new GetOrdersQuery(filteringData);
-            var orders = new List<Order> { new Order { OrderId = 1 }, new Order { OrderId = 2 } };
-            var ordersDto = new List<GetOrdersDto> { new GetOrdersDto { OrderId = 1 }, new GetOrdersDto { OrderId = 2 } };
+            var query = new GetOrdersQuery(It.IsAny<FilteringData>());
+            var orders = new List<Order> { new Order(), new Order() };
+            var ordersDto = new List<GetOrdersDto> { new GetOrdersDto(), new GetOrdersDto() };
 
-            searchOrderService.Setup(x => x.GetOrders(filteringData)).Returns(Task.FromResult(orders));
+            searchOrderService.Setup(x => x.GetOrders(It.IsAny<FilteringData>())).Returns(Task.FromResult(orders));
 
             mapper.Setup(x => x.Map<List<GetOrdersDto>>(orders)).Returns(ordersDto);
 
@@ -46,8 +45,7 @@ namespace CustomerOrder.Test.Queries
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(2, action.Count());
-            Assert.Equal(1, action.Select(x => x.OrderId).First());
+            Assert.Equal(ordersDto.Count, action.Count());
         }
     }
 }

@@ -25,8 +25,7 @@ namespace Basket.Test.Commands
         public async Task ClearBasketCommandHandler_Success()
         {
             //Arrange
-            var userId = "1";
-            var command = new ClearBasketCommand(userId);
+            var command = new ClearBasketCommand(It.IsAny<string>());
 
             var commandHandler = new ClearBasketCommandHandler(basketRedisService.Object);
 
@@ -36,7 +35,7 @@ namespace Basket.Test.Commands
             //Assert
             Assert.Equal(Unit.Value, action);
 
-            basketRedisService.Verify(x => x.RemoveBasket(userId), Times.Once);
+            basketRedisService.Verify(x => x.RemoveBasket(It.IsAny<string>()), Times.Once);
         }
     }
 }

@@ -32,9 +32,8 @@ namespace Catalog.Test.Queries
             //Arrange
             var query = new GetBrandsQuery();
 
-            var brands = new List<Brand> { new Brand { Id = 1 }, new Brand { Id = 2 } };
-
-            var brandsDto = new List<GetBrandsDto> { new GetBrandsDto { Id = 1 }, new GetBrandsDto { Id = 2 } };
+            var brands = new List<Brand> { new Brand(), new Brand() };
+            var brandsDto = new List<GetBrandsDto> { new GetBrandsDto(), new GetBrandsDto() };
 
             brandRepository.Setup(x => x.GetAll()).Returns(Task.FromResult(brands));
 
@@ -46,8 +45,7 @@ namespace Catalog.Test.Queries
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(2, action.Count());
-            Assert.Equal(1, action.Select(x => x.Id).First());
+            Assert.Equal(brandsDto.Count, action.Count());
         }
     }
 }

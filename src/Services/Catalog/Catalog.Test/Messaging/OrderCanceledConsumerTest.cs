@@ -29,9 +29,7 @@ namespace Catalog.Test.Messaging
         public async Task OrderCanceledConsumer_Success()
         {
             //Arrange
-            var orderItems = new List<OrderItem> { new OrderItem() };
-
-            var orderCanceledEvent = new OrderCanceledEvent { OrderItems = orderItems };
+            var orderCanceledEvent = new OrderCanceledEvent();
 
             var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
 

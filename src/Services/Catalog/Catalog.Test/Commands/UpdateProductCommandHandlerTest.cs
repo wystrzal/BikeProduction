@@ -34,8 +34,8 @@ namespace Catalog.Test.Commands
         public async Task UpdateProductCommandHandler_ThrowsChangesNotSavedCorrectlyException()
         {
             //Arrange
-            var product = new Product { Id = 1, Reference = "2", ProductName = "test" };
-            var command = new UpdateProductCommand { Id = 1, Reference = "1", ProductName = "test" };
+            var product = new Product();
+            var command = new UpdateProductCommand();
 
             productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
             productRepository.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(Product)));
@@ -54,8 +54,8 @@ namespace Catalog.Test.Commands
         public async Task UpdateProductCommandHandler_Success()
         {
             //Arrange
-            var product = new Product { Id = 1, Reference = "1", ProductName = "test" };
-            var command = new UpdateProductCommand { Id = 1, Reference = "1", ProductName = "test" };
+            var product = new Product();
+            var command = new UpdateProductCommand();
 
             productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
 
@@ -75,8 +75,8 @@ namespace Catalog.Test.Commands
         public async Task UpdateProductCommandHandler_PublishEvent_Success()
         {
             //Arrange
-            var product = new Product { Id = 1, Reference = "2", ProductName = "test" };
-            var command = new UpdateProductCommand { Id = 1, Reference = "1", ProductName = "test" };
+            var product = new Product { Reference = "2" };
+            var command = new UpdateProductCommand { Reference = "1" };
 
             productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
 

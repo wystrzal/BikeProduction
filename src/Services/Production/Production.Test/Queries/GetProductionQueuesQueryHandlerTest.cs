@@ -43,7 +43,7 @@ namespace Production.Test.Queries
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(2, action.Count());
+            Assert.Equal(productionQueuesDto.Count, action.Count());
         }
     }
 }

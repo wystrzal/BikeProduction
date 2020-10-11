@@ -31,10 +31,9 @@ namespace Delivery.Test.Commands
         public async Task StartDeliveryCommandHandler_Success()
         {
             //Arrange
-            var id = 1;
             var packsToDelivery = new List<PackToDelivery> { new PackToDelivery(), new PackToDelivery() };
-            var loadingPlace = new LoadingPlace { Id = id, PacksToDelivery = packsToDelivery };
-            var command = new StartDeliveryCommand(id);
+            var loadingPlace = new LoadingPlace { PacksToDelivery = packsToDelivery };
+            var command = new StartDeliveryCommand(It.IsAny<int>());
 
             loadingPlaceRepo.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<LoadingPlace, bool>>(),
                 It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>())).Returns(Task.FromResult(loadingPlace));

@@ -33,9 +33,12 @@ namespace Delivery.Test.Commands
         public async Task LoadPackCommandHandler_ThrowsLackOfSpaceException()
         {
             //Arrange
+            int productsQuantity = 100;
+            int loadedQuantity = 50;
+
             var command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
-            var packToDelivery = new PackToDelivery { ProductsQuantity = 100 };
-            var loadingPlace = new LoadingPlace { LoadedQuantity = 50, AmountOfSpace = 100 };
+            var packToDelivery = new PackToDelivery { ProductsQuantity = productsQuantity };
+            var loadingPlace = new LoadingPlace { LoadedQuantity = loadedQuantity, AmountOfSpace = productsQuantity };
 
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .Returns(Task.FromResult(packToDelivery));
@@ -53,9 +56,12 @@ namespace Delivery.Test.Commands
         public async Task LoadPackCommandHandler_Success()
         {
             //Arrange
+            int productsQuantity = 50;
+            int loadedQuantity = 0;
+
             var command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
-            var packToDelivery = new PackToDelivery { ProductsQuantity = 50 };
-            var loadingPlace = new LoadingPlace { LoadedQuantity = 50, AmountOfSpace = 100 };
+            var packToDelivery = new PackToDelivery { ProductsQuantity = productsQuantity };
+            var loadingPlace = new LoadingPlace { LoadedQuantity = loadedQuantity, AmountOfSpace = productsQuantity };
 
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .Returns(Task.FromResult(packToDelivery));

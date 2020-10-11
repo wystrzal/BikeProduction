@@ -28,19 +28,7 @@ namespace Catalog.Test.Messaging
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
-            var orderItems = new List<OrderItem>
-            {
-                new OrderItem
-                {
-                    Id = 1,
-                    Price = 1,
-                    ProductName = "Test",
-                    Quantity = 1,
-                    Reference = "1"
-                }
-            };
-
-            var orderCreatedEvent = new OrderCreatedEvent { OrderItems = orderItems };
+            var orderCreatedEvent = new OrderCreatedEvent();
 
             var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
 

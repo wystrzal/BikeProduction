@@ -29,9 +29,8 @@ namespace Production.Test.Messaging
         public async Task OrderCanceledConsumer_Success()
         {
             //Arrange
-            var id = 1;
             var productionQueues = new List<ProductionQueue> { new ProductionQueue() };
-            var orderCanceledEvent = new OrderCanceledEvent(id);
+            var orderCanceledEvent = new OrderCanceledEvent(It.IsAny<int>());
             var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))

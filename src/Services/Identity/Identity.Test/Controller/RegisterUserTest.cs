@@ -41,7 +41,7 @@ namespace Identity.Test.Controller
         public async Task RegisterUser_ThrowException_BadRequestObjectResult()
         {
             //Arrange
-            var command = new RegisterCommand { Password = "User123", UserName = "user123" };
+            var command = new RegisterCommand();
 
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Throws(new Exception());
 
@@ -59,7 +59,9 @@ namespace Identity.Test.Controller
         public async Task RegisterUser_OkObjectResult()
         {
             //Arrange
-            var command = new RegisterCommand { Password = "User123", UserName = "user123" };
+            var password = "User123";
+            var userName = "user123";
+            var command = new RegisterCommand { Password = password, UserName = userName };
 
             var controller = new IdentityController(mediator.Object);
 

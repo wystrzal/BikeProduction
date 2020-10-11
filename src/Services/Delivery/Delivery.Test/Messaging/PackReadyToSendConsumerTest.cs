@@ -32,11 +32,12 @@ namespace Delivery.Test.Messaging
         public async Task PackReadyToSendConsumer_Success()
         {
             //Arrange
-            var packReadyToSendEvent = new PackReadyToSendEvent(1);
+            var packReadyToSendEvent = new PackReadyToSendEvent(It.IsAny<int>());
             var context = Mock.Of<ConsumeContext<PackReadyToSendEvent>>(x => x.Message == packReadyToSendEvent);
             var pack = new PackToDelivery();
 
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>())).Returns(Task.FromResult(pack));
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+                .Returns(Task.FromResult(pack));
 
             var consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
 

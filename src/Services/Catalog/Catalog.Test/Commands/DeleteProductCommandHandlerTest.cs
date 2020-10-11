@@ -27,11 +27,10 @@ namespace Catalog.Test.Commands
         public async Task DeleteProductCommandHandler_Success()
         {
             //Arrange
-            var id = 1;
-            var command = new DeleteProductCommand(id);
+            var command = new DeleteProductCommand(It.IsAny<int>());
             var product = new Product();
 
-            productRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(product));
+            productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
             var commandHandler = new DeleteProductCommandHandler(productRepository.Object, bus.Object);

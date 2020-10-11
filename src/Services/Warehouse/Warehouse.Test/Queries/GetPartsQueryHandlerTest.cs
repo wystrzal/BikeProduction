@@ -42,7 +42,7 @@ namespace Warehouse.Test.Queries
             var action = await queryHandler.Handle(It.IsAny<GetPartsQuery>(), It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(2, action.Count());
+            Assert.Equal(partsDto.Count, action.Count());
         }
     }
 }

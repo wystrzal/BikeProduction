@@ -44,7 +44,7 @@ namespace Warehouse.Test.Queries
             var action = await queryHandler.Handle(It.IsAny<GetStoragePlacesQuery>(), It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(2, action.Count());
+            Assert.Equal(storagePlacesDto.Count, action.Count());
         }
     }
 }

@@ -33,11 +33,9 @@ namespace Production.Test.Commands
         public async Task FinishProductionCommandHandler_ThrowsProductsNotBeingCreatedException()
         {
             //Arrange
-            var id = 1;
+            productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult((ProductionQueue)null));
 
-            productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult((ProductionQueue)null));
-
-            var command = new FinishProductionCommand(id);
+            var command = new FinishProductionCommand(It.IsAny<int>());
 
             var commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
 
@@ -50,16 +48,15 @@ namespace Production.Test.Commands
         public async Task FinishProductionCommandHandler_CheckIfProductionFinishedCountNotEqualZero_Success()
         {
             //Arrange
-            var id = 1;
             var productionQueue = new ProductionQueue { ProductionStatus = ProductionStatus.BeingCreated };
             var productionQueueList = new List<ProductionQueue> { new ProductionQueue() };
 
-            productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult(productionQueue));
+            productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueueList));
 
-            var command = new FinishProductionCommand(id);
+            var command = new FinishProductionCommand(It.IsAny<int>());
 
             var commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
 
@@ -76,16 +73,15 @@ namespace Production.Test.Commands
         public async Task FinishProductionCommandHandler_CheckIfProductionFinishedCountEqualZero_Success()
         {
             //Arrange
-            var id = 1;
             var productionQueue = new ProductionQueue { ProductionStatus = ProductionStatus.BeingCreated };
             var productionQueueList = new List<ProductionQueue>();
 
-            productionQueueRepo.Setup(x => x.GetById(id)).Returns(Task.FromResult(productionQueue));
+            productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueueList));
 
-            var command = new FinishProductionCommand(id);
+            var command = new FinishProductionCommand(It.IsAny<int>());
 
             var commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
 

@@ -2,6 +2,7 @@
 using Basket.Application.Commands.Handlers;
 using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using MediatR;
 using Moq;
 using System;
@@ -26,8 +27,7 @@ namespace Basket.Test.Commands
         public async Task AddProductCommandHandler_Success()
         {
             //Arrange
-            var userId = "1";
-            var command = new AddProductCommand { UserId = userId, Product = new Core.Models.BasketProduct() };
+            var command = new AddProductCommand { UserId = It.IsAny<string>(), Product = new BasketProduct() };
 
             var commandHandler = new AddProductCommandHandler(basketRedisService.Object);
 
@@ -36,8 +36,8 @@ namespace Basket.Test.Commands
 
             //Assert
             Assert.Equal(Unit.Value, action);
-            basketRedisService.Verify(x => x.GetBasket(userId), Times.Once);
-            basketRedisService.Verify(x => x.SaveBasket(userId, It.IsAny<UserBasketDto>()), Times.Once);
+            basketRedisService.Verify(x => x.GetBasket(It.IsAny<string>()), Times.Once);
+            basketRedisService.Verify(x => x.SaveBasket(It.IsAny<string>(), It.IsAny<UserBasketDto>()), Times.Once);
         }
     }
 }

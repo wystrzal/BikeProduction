@@ -28,10 +28,11 @@ namespace CustomerOrder.Test.Services
         {
             //Arrange
             var userId = "1";
-            var orders = new List<Order> { new Order { OrderId = 1, UserId = userId }, new Order { OrderId = 2, UserId = userId } };
+            var orders = new List<Order> { new Order(), new Order() };
             var filteringData = new FilteringData { UserId = userId };
 
-            sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), 0, 0)).Returns(Task.FromResult(orders));
+            sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(Task.FromResult(orders));
 
             var service = new SearchOrderService(sortFilterService.Object);
 
@@ -41,8 +42,7 @@ namespace CustomerOrder.Test.Services
             //Assert
             sortFilterService.Verify(x => x.SetConcreteSort<SortByDate, DateTime>(), Times.Once);
             sortFilterService.Verify(x => x.SetConcreteFilter<FilterByUserId>(filteringData), Times.Once);
-            Assert.Equal(2, action.Count);
-            Assert.Equal(1, action.Select(x => x.OrderId).First());
+            Assert.Equal(orders.Count, action.Count);
         }
     }
 }

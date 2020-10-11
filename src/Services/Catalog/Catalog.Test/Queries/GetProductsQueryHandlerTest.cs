@@ -33,8 +33,8 @@ namespace Catalog.Test.Queries
             //Arrange
             var query = new GetProductsQuery(new FilteringData());
 
-            var products = new List<Product> { new Product { Id = 1 }, new Product { Id = 2 } };
-            var productsDto = new List<GetProductsDto> { new GetProductsDto { Id = 1 }, new GetProductsDto { Id = 2 } };
+            var products = new List<Product> { new Product(), new Product() };
+            var productsDto = new List<GetProductsDto> { new GetProductsDto(), new GetProductsDto() };
 
             searchProductService.Setup(x => x.GetProducts(It.IsAny<FilteringData>())).Returns(Task.FromResult(products));
 
@@ -46,8 +46,7 @@ namespace Catalog.Test.Queries
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(2, action.Count());
-            Assert.Equal(1, action.Select(x => x.Id).First());
+            Assert.Equal(productsDto.Count, action.Count());
         }
     }
 }

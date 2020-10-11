@@ -28,13 +28,12 @@ namespace Catalog.Test.Queries
         public async Task GetProductQueryHandler_Success()
         {
             //Arrange
-            int productId = 1;
-            string productName = "test";
+            var productName = "test";
 
-            var product = new Product { Id = productId, ProductName = productName };
+            var product = new Product { ProductName = productName };
             var productDto = new GetProductDto { ProductName = productName };
 
-            var query = new GetProductQuery(productId);
+            var query = new GetProductQuery(It.IsAny<int>());
 
             productRepository.Setup(x =>
                 x.GetByConditionWithIncludeFirst(It.IsAny<Func<Product, bool>>(), It.IsAny<Expression<Func<Product, Brand>>>()))

@@ -7,6 +7,7 @@ using Production.Application.Mapping;
 using Production.Application.Queries;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace Production.Test.Controller
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(2, value.Count);
+            Assert.Equal(productionQueuesDto.Count(), value.Count);
         }
     }
 }

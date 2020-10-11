@@ -30,9 +30,10 @@ namespace CustomerOrder.Test.Controller
         {
             //Arrange
             int orderId = 1;
+            var orderDto = new GetOrderDto { OrderId = orderId };
 
             mediator.Setup(x => x.Send(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(new GetOrderDto { OrderId = orderId }));
+                .Returns(Task.FromResult(orderDto));
 
             var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
@@ -49,15 +50,13 @@ namespace CustomerOrder.Test.Controller
         public async Task GetOrder_BadRequestObjectResult()
         {
             //Arrange
-            int orderId = 1;
-
             mediator.Setup(x => x.Send(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
 
             var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.GetOrder(orderId) as BadRequestObjectResult;
+            var action = await controller.GetOrder(It.IsAny<int>()) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);

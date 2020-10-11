@@ -4,6 +4,7 @@ using Identity.Application.Commands.Handlers;
 using Identity.Core.Exceptions;
 using Identity.Core.Interfaces;
 using Identity.Core.Models;
+using Identity.Test.MockHelpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Moq;
@@ -18,27 +19,14 @@ namespace Identity.Test.Commands
 {
     public class TryLoginCommandHandlerTest
     {
-        private Mock<UserManager<User>> GetMockUserManager()
-        {
-            var store = new Mock<IUserStore<User>>();
-
-            return new Mock<UserManager<User>>(store.Object, null, null, null, null, null, null, null, null);
-        }
-
-        private Mock<SignInManager<User>> GetMockSignInManager()
-        {
-            var _mockUserManager = new Mock<UserManager<User>>(new Mock<IUserStore<User>>().Object,
-                null, null, null, null, null, null, null, null);
-            var _contextAccessor = new Mock<IHttpContextAccessor>();
-            var _userPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<User>>();
-            return new Mock<SignInManager<User>>(_mockUserManager.Object,
-                           _contextAccessor.Object, _userPrincipalFactory.Object, null, null, null, null);
-        }
-
         private readonly Mock<ITokenService> tokenService;
+        private readonly Mock<UserManager<User>> userManager;
+        private readonly Mock<SignInManager<User>> signInManager;
 
         public TryLoginCommandHandlerTest()
         {
+            userManager = CustomMock.GetMockUserManager();
+            signInManager = CustomMock.GetMockSignInManager();
             tokenService = new Mock<ITokenService>();
         }
 
@@ -46,9 +34,7 @@ namespace Identity.Test.Commands
         public async Task TryLoginCommandHandler_ThrowsUserNotFoundException()
         {
             //Arrange
-            var userManager = GetMockUserManager();
-            var signInManager = GetMockSignInManager();
-            var command = new TryLoginCommand { Username = "user", Password = "User123" };
+            var command = new TryLoginCommand();
 
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult((User)null));
 
@@ -63,9 +49,7 @@ namespace Identity.Test.Commands
         public async Task TryLoginCommandHandler_ThrowsLoginFailedException()
         {
             //Arrange
-            var userManager = GetMockUserManager();
-            var signInManager = GetMockSignInManager();
-            var command = new TryLoginCommand { Username = "user", Password = "User123" };
+            var command = new TryLoginCommand();
             var user = new User();
 
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
@@ -84,18 +68,16 @@ namespace Identity.Test.Commands
         public async Task TryLoginCommandHandler_Success()
         {
             //Arrange
-            var userManager = GetMockUserManager();
-            var signInManager = GetMockSignInManager();
-            var command = new TryLoginCommand { Username = "user", Password = "User123" };
+            var command = new TryLoginCommand();
             var user = new User();
+            var tokenModel = new TokenModel(It.IsAny<string>(), It.IsAny<string>());
 
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
 
             signInManager.Setup(x => x.CheckPasswordSignInAsync(user, It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInResult.Success));
 
-            tokenService.Setup(x => x.GenerateToken(user, userManager.Object))
-                .Returns(Task.FromResult(new TokenModel("test", "test")));
+            tokenService.Setup(x => x.GenerateToken(user, userManager.Object)).Returns(Task.FromResult(tokenModel));
 
             var commandHandler = new TryLoginCommandHandler(userManager.Object, signInManager.Object, tokenService.Object);
 

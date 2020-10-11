@@ -31,10 +31,7 @@ namespace CustomerOrder.Test.Controller
         public async Task GetOrders_OkObjectResult()
         {
             //Arrange
-            var filteringData = new FilteringData();
-
-            IEnumerable<GetOrdersDto> ordersDto
-                = new List<GetOrdersDto> { new GetOrdersDto { OrderId = 1 }, new GetOrdersDto { OrderId = 2 } };
+            IEnumerable<GetOrdersDto> ordersDto = new List<GetOrdersDto> { new GetOrdersDto(), new GetOrdersDto() };
 
             mediator.Setup(x => x.Send(It.IsAny<GetOrdersQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(ordersDto));
@@ -42,13 +39,12 @@ namespace CustomerOrder.Test.Controller
             var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.GetOrders(filteringData) as OkObjectResult;
+            var action = await controller.GetOrders(It.IsAny<FilteringData>()) as OkObjectResult;
             var value = action.Value as List<GetOrdersDto>;
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(2, value.Count);
-            Assert.Equal(1, value.Select(x => x.OrderId).First());
+            Assert.Equal(ordersDto.Count(), value.Count);
         }
     }
 }

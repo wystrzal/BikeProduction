@@ -28,12 +28,10 @@ namespace CustomerOrder.Test.Controller
         public async Task DeleteOrder_OkResult()
         {
             //Arrange
-            var orderId = 1;
-
             var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.DeleteOrder(orderId) as OkResult;
+            var action = await controller.DeleteOrder(It.IsAny<int>()) as OkResult;
 
             //Assert
             Assert.Equal(200, action.StatusCode);
@@ -44,15 +42,13 @@ namespace CustomerOrder.Test.Controller
         public async Task DeleteOrder_BadRequestObjectResult()
         {
             //Arrange
-            var orderId = 1;
-
             mediator.Setup(x => x.Send(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
 
             var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.DeleteOrder(orderId) as BadRequestObjectResult;
+            var action = await controller.DeleteOrder(It.IsAny<int>()) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);

@@ -30,7 +30,7 @@ namespace Catalog.Test.Controller
         public async Task GetBrands_OkObjectResult()
         {
             //Arrange
-            var brandsDto = new List<GetBrandsDto> { new GetBrandsDto { Id = 1 }, new GetBrandsDto { Id = 2 } };
+            var brandsDto = new List<GetBrandsDto> { new GetBrandsDto(), new GetBrandsDto() };
 
             mediator.Setup(x => x.Send(It.IsAny<GetBrandsQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(brandsDto));
@@ -43,8 +43,7 @@ namespace Catalog.Test.Controller
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(2, value.Count);
-            Assert.Equal(1, value.Select(x => x.Id).First());
+            Assert.Equal(brandsDto.Count, value.Count);
         }
     }
 }

@@ -26,14 +26,13 @@ namespace CustomerOrder.Test.Messaging
         public async Task ChangeOrderStatusConsumer_Success()
         {
             //Arrange
-            var id = 1;
             var status = OrderStatus.Confirmed;
-            var order = new Order { OrderId = id };
-            var changeOrderStatusEvent = new ChangeOrderStatusEvent(id, status);
+            var order = new Order();
+            var changeOrderStatusEvent = new ChangeOrderStatusEvent(It.IsAny<int>(), status);
 
             var context = Mock.Of<ConsumeContext<ChangeOrderStatusEvent>>(x => x.Message == changeOrderStatusEvent);
 
-            orderRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(order));
+            orderRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(order));
 
             var consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
 

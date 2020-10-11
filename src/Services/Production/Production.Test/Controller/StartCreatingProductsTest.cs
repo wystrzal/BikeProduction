@@ -28,12 +28,10 @@ namespace Production.Test.Controller
         public async Task StartCreatingProducts_OkResult()
         {
             //Arrange
-            var id = 1;
-
             var controller = new ProductionQueueController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.StartCreatingProducts(id) as OkResult;
+            var action = await controller.StartCreatingProducts(It.IsAny<int>()) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<StartCreatingProductsCommand>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -44,14 +42,12 @@ namespace Production.Test.Controller
         public async Task StartCreatingProducts_BadRequestObjectResult()
         {
             //Arrange
-            var id = 1;
-
             mediator.Setup(x => x.Send(It.IsAny<StartCreatingProductsCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
             var controller = new ProductionQueueController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.StartCreatingProducts(id) as BadRequestObjectResult;
+            var action = await controller.StartCreatingProducts(It.IsAny<int>()) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);

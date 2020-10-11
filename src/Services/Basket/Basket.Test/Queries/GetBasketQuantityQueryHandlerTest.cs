@@ -45,13 +45,12 @@ namespace Basket.Test.Queries
         }
 
         [Fact]
-        public async Task GetBasketQuantityQueryHandler_NullBaset_Success()
+        public async Task GetBasketQuantityQueryHandler_NullBaset()
         {
             //Arrange
-            var userId = "1";
-            var query = new GetBasketQuantityQuery(userId);
+            var query = new GetBasketQuantityQuery(It.IsAny<string>());
 
-            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult((UserBasketDto)null));
+            basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult((UserBasketDto)null));
 
             var queryHandler = new GetBasketQuantityQueryHandler(basketRedisService.Object);
 

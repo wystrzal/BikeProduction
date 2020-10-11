@@ -26,8 +26,11 @@ namespace Identity.Test.Controller
         public async Task Login_OkObjectResult()
         {
             //Arrange
-            var tokenModel = new TokenModel("test", "test");
-            var command = new TryLoginCommand { Username = "test", Password = "test" };
+            var token = "token";
+            var nameIdentifier = "name";
+            var tokenModel = new TokenModel(token, nameIdentifier);
+
+            var command = new TryLoginCommand();
 
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Returns(Task.FromResult(tokenModel));
 
@@ -39,14 +42,14 @@ namespace Identity.Test.Controller
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal("test", value.Token);
+            Assert.Equal(token, value.Token);
         }
 
         [Fact]
         public async Task Login_ThrowException_BadRequestbjectResult()
         {
             //Arrange
-            var command = new TryLoginCommand { Username = "test", Password = "test" };
+            var command = new TryLoginCommand();
 
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Throws(new Exception());
 
