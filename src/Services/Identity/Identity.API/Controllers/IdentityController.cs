@@ -3,6 +3,7 @@ using Identity.Application.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -13,10 +14,12 @@ namespace Identity.API.Controllers
     public class IdentityController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly ILogger<IdentityController> logger;
 
-        public IdentityController(IMediator mediator)
+        public IdentityController(IMediator mediator, ILogger<IdentityController> logger)
         {
             this.mediator = mediator;
+            this.logger = logger;
         }
 
         [AllowAnonymous]
@@ -29,6 +32,8 @@ namespace Identity.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }
@@ -46,6 +51,8 @@ namespace Identity.API.Controllers
             }
             catch (Exception ex)
             {
+                logger.LogError(ex.Message);
+
                 return BadRequest(ex.Message);
             }
         }

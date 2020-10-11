@@ -37,8 +37,16 @@ namespace Identity.API
 
 
         public static IWebHost BuildWebHost(string[] args) =>
-          WebHost.CreateDefaultBuilder(args)
-              .UseStartup<Startup>()
-              .Build();
+      WebHost.CreateDefaultBuilder(args)
+          .ConfigureLogging(logBuilder =>
+          {
+              logBuilder.ClearProviders();
+              logBuilder.AddConsole();
+              logBuilder.AddDebug();
+              logBuilder.AddTraceSource("Information, ActivityTracing");
+              logBuilder.AddFile("Logs/Log-Identity.txt");
+          })
+          .UseStartup<Startup>()
+          .Build();
     }
 }
