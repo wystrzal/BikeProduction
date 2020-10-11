@@ -31,6 +31,7 @@ namespace Warehouse.Application.Messaging.Consumers
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
+                throw;
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");

@@ -23,12 +23,15 @@ namespace CustomerOrder.Application.Messaging.Consumers
             try
             {
                 var order = await orderRepository.GetById(context.Message.OrderId);
+
                 order.OrderStatus = context.Message.OrderStatus;
+
                 await orderRepository.SaveAllAsync();
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
+                throw;
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");

@@ -26,7 +26,8 @@ namespace Delivery.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionFinishedEvent> context)
         {
-            PackToDelivery packToDelivery = null;
+            PackToDelivery packToDelivery;
+
             try
             {
                 packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
@@ -36,15 +37,34 @@ namespace Delivery.Application.Messaging.Consumers
             {
                 packToDelivery = await AddNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
             }
-                          
-            await packToDeliveryRepo.SaveAllAsync();
+
+            try
+            {
+                await packToDeliveryRepo.SaveAllAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                throw;
+            }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 
         private async Task<PackToDelivery> AddNewPackToDelivery(int orderId, int productsQuantity)
         {
-            var order = await customerOrderService.GetOrder(orderId);
+            Order order;
+
+            try
+            {
+                order = await customerOrderService.GetOrder(orderId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                throw;
+            }
+
             var packToDelivery = new PackToDelivery
             {
                 OrderId = orderId,

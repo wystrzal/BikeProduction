@@ -1,6 +1,7 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
@@ -21,20 +22,32 @@ namespace Warehouse.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionConfirmedEvent> context)
         {
-            var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
+            if (context.Message.Reference == null)
+            {
+                logger.LogError("Reference could not be null.");
+                throw new ArgumentNullException();
+            }
+
             int productionQuantity = context.Message.Quantity;
 
-            bool confirmProduction = ConfirmProductionIfPartsAvailable(parts, productionQuantity);
+            try
+            {
+                var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
 
-            if (confirmProduction)
-                await productPartRepo.SaveAllAsync();
+                bool confirmProduction = await ConfirmProductionIfPartsAvailable(parts, productionQuantity);
 
-            await context.RespondAsync<ProductionConfirmedResult>(new { ConfirmProduction = confirmProduction });
+                await context.RespondAsync<ProductionConfirmedResult>(new { ConfirmProduction = confirmProduction });
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                throw;
+            }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 
-        private bool ConfirmProductionIfPartsAvailable(List<Part> parts, int productionQuantity)
+        private async Task<bool> ConfirmProductionIfPartsAvailable(List<Part> parts, int productionQuantity)
         {
             bool confirmProduction = true;
 
@@ -50,6 +63,9 @@ namespace Warehouse.Application.Messaging.Consumers
                     part.Quantity -= (productionQuantity * part.QuantityForProduction);
                 }
             }
+
+            if (confirmProduction)
+                await productPartRepo.SaveAllAsync();
 
             return confirmProduction;
         }
