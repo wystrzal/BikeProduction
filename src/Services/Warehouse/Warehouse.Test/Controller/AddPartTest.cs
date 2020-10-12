@@ -1,4 +1,5 @@
-﻿using Castle.Core.Logging;
+﻿using BikeExtensions;
+using Castle.Core.Logging;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -37,6 +38,23 @@ namespace Warehouse.Test.Controller
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<AddPartCommand>(), It.IsAny<CancellationToken>()), Times.Once);
             Assert.Equal(200, action.StatusCode);
+        }
+
+        [Fact]
+        public async Task AddPart_BadRequestObjectResult()
+        {
+            //Arrange
+            var controller = new WarehouseController(mediator.Object, logger.Object);
+
+            mediator.Setup(x => x.Send(It.IsAny<AddPartCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+
+            //Act
+            var action = await controller.AddPart(It.IsAny<AddPartCommand>()) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }

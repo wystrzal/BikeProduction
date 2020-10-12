@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Extensions\BikeExtensions\BikeExtensions.csproj" />
     <ProjectReference Include="..\Warehouse.API\Warehouse.API.csproj" />
   </ItemGroup>
 

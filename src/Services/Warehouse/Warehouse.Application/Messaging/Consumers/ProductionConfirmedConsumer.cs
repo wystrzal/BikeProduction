@@ -22,21 +22,20 @@ namespace Warehouse.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionConfirmedEvent> context)
         {
-            if (context.Message.Reference == null)
+            if (string.IsNullOrWhiteSpace(context.Message.Reference))
             {
                 logger.LogError("Reference could not be null.");
                 throw new ArgumentNullException();
             }
 
-            int productionQuantity = context.Message.Quantity;
+            var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
 
             try
             {
-                var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
-
-                bool confirmProduction = await ConfirmProductionIfPartsAvailable(parts, productionQuantity);
-
-                await context.RespondAsync<ProductionConfirmedResult>(new { ConfirmProduction = confirmProduction });
+                await context.RespondAsync<ProductionConfirmedResult>(new
+                {
+                    ConfirmProduction = await ConfirmProductionIfPartsAvailable(parts, context.Message.Quantity)
+                });
             }
             catch (Exception ex)
             {

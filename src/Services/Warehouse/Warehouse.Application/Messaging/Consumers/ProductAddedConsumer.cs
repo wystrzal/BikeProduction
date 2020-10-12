@@ -24,12 +24,12 @@ namespace Warehouse.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductAddedEvent> context)
         {
+            var productToAdd = mapper.Map<Product>(context.Message);
+
+            productRepository.Add(productToAdd);
+
             try
             {
-                var productToAdd = mapper.Map<Product>(context.Message);
-
-                productRepository.Add(productToAdd);
-
                 await productRepository.SaveAllAsync();
             }
             catch (Exception ex)

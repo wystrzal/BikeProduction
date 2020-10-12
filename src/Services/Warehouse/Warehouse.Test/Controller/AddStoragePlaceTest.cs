@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BikeExtensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -36,6 +37,23 @@ namespace Warehouse.Test.Controller
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<AddStoragePlaceCommand>(), It.IsAny<CancellationToken>()), Times.Once);
             Assert.Equal(200, action.StatusCode);
+        }
+
+        [Fact]
+        public async Task AddStoragePlace_BadRequestObjectResult()
+        {
+            //Arrange
+            var controller = new WarehouseController(mediator.Object, logger.Object);
+
+            mediator.Setup(x => x.Send(It.IsAny<AddStoragePlaceCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+
+            //Act
+            var action = await controller.AddStoragePlace(It.IsAny<AddStoragePlaceCommand>()) as BadRequestObjectResult;
+
+            //Assert
+            Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }
