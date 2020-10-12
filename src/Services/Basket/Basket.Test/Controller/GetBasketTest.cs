@@ -1,6 +1,7 @@
 ﻿using Basket.API.Controllers;
 using Basket.Application.Queries;
 using Basket.Core.Dtos;
+using BikeExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -62,6 +63,7 @@ namespace Basket.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }
