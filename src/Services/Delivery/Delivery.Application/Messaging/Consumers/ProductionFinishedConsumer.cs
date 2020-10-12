@@ -26,18 +26,23 @@ namespace Delivery.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionFinishedEvent> context)
         {
-            PackToDelivery packToDelivery;
-
             try
             {
-                packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
+                var packToDelivery = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
                 packToDelivery.ProductsQuantity += context.Message.ProductsQuantity;
             }
             catch (NullDataException)
             {
-                packToDelivery = await AddNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
+                await CreateNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
             }
 
+            await SaveChanges();
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private async Task SaveChanges()
+        {
             try
             {
                 await packToDeliveryRepo.SaveAllAsync();
@@ -47,23 +52,11 @@ namespace Delivery.Application.Messaging.Consumers
                 logger.LogError(ex.Message);
                 throw;
             }
-
-            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 
-        private async Task<PackToDelivery> AddNewPackToDelivery(int orderId, int productsQuantity)
+        private async Task CreateNewPackToDelivery(int orderId, int productsQuantity)
         {
-            Order order;
-
-            try
-            {
-                order = await customerOrderService.GetOrder(orderId);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                throw;
-            }
+            var order = await GetOrder(orderId);
 
             var packToDelivery = new PackToDelivery
             {
@@ -75,8 +68,19 @@ namespace Delivery.Application.Messaging.Consumers
             };
 
             packToDeliveryRepo.Add(packToDelivery);
+        }
 
-            return packToDelivery;
+        private async Task<Order> GetOrder(int orderId)
+        {
+            try
+            {
+                return await customerOrderService.GetOrder(orderId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                throw;
+            }
         }
     }
 }
