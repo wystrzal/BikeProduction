@@ -111,6 +111,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeBaseRepository", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Warehouse.Test", "src\Services\Warehouse\Warehouse.Test\Warehouse.Test.csproj", "{44818A0D-DFAD-4183-B330-CB345557E2BA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeExtensions", "src\Shared\Extensions\BikeExtensions\BikeExtensions.csproj", "{B6249955-A3E6-42A2-AA4C-BF4B2602C4A1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{802DEA82-1460-41D0-A1C5-395DDECD3D4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -277,6 +281,10 @@ Global
 		{44818A0D-DFAD-4183-B330-CB345557E2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44818A0D-DFAD-4183-B330-CB345557E2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44818A0D-DFAD-4183-B330-CB345557E2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6249955-A3E6-42A2-AA4C-BF4B2602C4A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6249955-A3E6-42A2-AA4C-BF4B2602C4A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6249955-A3E6-42A2-AA4C-BF4B2602C4A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6249955-A3E6-42A2-AA4C-BF4B2602C4A1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -334,6 +342,8 @@ Global
 		{09CC3777-0B8D-435C-86A6-39CFA07B516A} = {C5CE3412-F9E7-4168-BA1E-DEE36C507B4E}
 		{E8F2C4F6-B590-4887-A707-F0C1036FFEDD} = {BCCBFADF-75B9-487E-BCE6-218C6C479552}
 		{44818A0D-DFAD-4183-B330-CB345557E2BA} = {85B2DBE9-215B-4069-B30F-5B9EE07AFCD2}
+		{B6249955-A3E6-42A2-AA4C-BF4B2602C4A1} = {802DEA82-1460-41D0-A1C5-395DDECD3D4F}
+		{802DEA82-1460-41D0-A1C5-395DDECD3D4F} = {A0A4A31D-8FD5-49AA-8B62-C35F7D5F8660}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1302E2C5-6D1D-40F1-AD1F-52ECA36DBC2E}
