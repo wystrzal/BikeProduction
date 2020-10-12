@@ -32,14 +32,14 @@ namespace Delivery.Application.Messaging.Consumers
                 pack.PackStatus = PackStatus.ReadyToSend;
 
                 await packToDeliveryRepo.SaveAllAsync();
-
-                await bus.Publish(new ChangeOrderStatusEvent(context.Message.OrderId, OrderStatus.ReadyToSend));
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 throw;
             }
+
+            await bus.Publish(new ChangeOrderStatusEvent(context.Message.OrderId, OrderStatus.ReadyToSend));
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }

@@ -1,4 +1,6 @@
-﻿using Common.Application.Commands;
+﻿using BikeBaseRepository;
+using BikeExtensions;
+using Common.Application.Commands;
 using Common.Application.Messaging;
 using Delivery.Application.Messaging.Consumers;
 using Delivery.Core.Interfaces;
@@ -47,6 +49,44 @@ namespace Delivery.Test.Messaging
             //Assert
             packToDeliveryRepo.Verify(x => x.SaveAllAsync(), Times.Once);
             bus.Verify(x => x.Publish(It.IsAny<ChangeOrderStatusEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+            logger.VerifyLogging(LogLevel.Information);
+        }
+
+        [Fact]
+        public async Task PackReadyToSendConsumer_ThrowsNullDataException()
+        {
+            //Arrange
+            var packReadyToSendEvent = new PackReadyToSendEvent(It.IsAny<int>());
+            var context = Mock.Of<ConsumeContext<PackReadyToSendEvent>>(x => x.Message == packReadyToSendEvent);
+
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+                .ThrowsAsync(new NullDataException());
+
+            var consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
+
+            //Assert
+            await Assert.ThrowsAsync<NullDataException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task PackReadyToSendConsumer_ThrowsChangesNotSavedCorrectlyException()
+        {
+            //Arrange
+            var packReadyToSendEvent = new PackReadyToSendEvent(It.IsAny<int>());
+            var context = Mock.Of<ConsumeContext<PackReadyToSendEvent>>(x => x.Message == packReadyToSendEvent);
+            var pack = new PackToDelivery();
+
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+                .Returns(Task.FromResult(pack));
+
+            packToDeliveryRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(PackToDelivery)));
+
+            var consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
+
+            //Assert
+            await Assert.ThrowsAsync<ChangesNotSavedCorrectlyException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }

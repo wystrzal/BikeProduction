@@ -1,4 +1,5 @@
-﻿using Delivery.API.Controllers;
+﻿using BikeExtensions;
+using Delivery.API.Controllers;
 using Delivery.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,7 @@ namespace Delivery.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }
