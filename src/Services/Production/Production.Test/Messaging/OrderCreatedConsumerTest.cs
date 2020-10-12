@@ -1,4 +1,6 @@
-﻿using Common.Application.Messaging;
+﻿using BikeBaseRepository;
+using BikeExtensions;
+using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -27,7 +29,7 @@ namespace Production.Test.Messaging
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
-            var orderItems = new List<OrderItem> { new OrderItem() };
+            var orderItems = new List<OrderItem> { new OrderItem(), new OrderItem() };
             var orderCreatedEvent = new OrderCreatedEvent(orderItems, It.IsAny<int>());
             var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
 
@@ -39,7 +41,26 @@ namespace Production.Test.Messaging
             await consumer.Consume(context);
 
             //Assert
-            productionQueueRepo.Verify(x => x.Add(It.IsAny<ProductionQueue>()), Times.Once);
+            productionQueueRepo.Verify(x => x.Add(It.IsAny<ProductionQueue>()), Times.Exactly(orderItems.Count));
+            logger.VerifyLogging(LogLevel.Information);
+        }
+
+        [Fact]
+        public async Task OrderCreatedConsumer_ThrowsChangesNotSavedCorrectlyException()
+        {
+            //Arrange
+            var orderItems = new List<OrderItem> { new OrderItem(), new OrderItem() };
+            var orderCreatedEvent = new OrderCreatedEvent(orderItems, It.IsAny<int>());
+            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
+
+            productionQueueRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(ProductionQueue)));
+
+            var consumer = new OrderCreatedConsumer(productionQueueRepo.Object, logger.Object);
+
+            //Assert
+            await Assert.ThrowsAsync<ChangesNotSavedCorrectlyException>(() => consumer.Consume(context));
+            productionQueueRepo.Verify(x => x.Add(It.IsAny<ProductionQueue>()), Times.Exactly(orderItems.Count));
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }

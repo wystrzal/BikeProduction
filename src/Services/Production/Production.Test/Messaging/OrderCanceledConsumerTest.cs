@@ -1,4 +1,6 @@
-﻿using Castle.Core.Logging;
+﻿using BikeBaseRepository;
+using BikeExtensions;
+using Castle.Core.Logging;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -29,7 +31,7 @@ namespace Production.Test.Messaging
         public async Task OrderCanceledConsumer_Success()
         {
             //Arrange
-            var productionQueues = new List<ProductionQueue> { new ProductionQueue() };
+            var productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
             var orderCanceledEvent = new OrderCanceledEvent(It.IsAny<int>());
             var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
 
@@ -42,8 +44,30 @@ namespace Production.Test.Messaging
             await consumer.Consume(context);
 
             //Assert
-            productionQueueRepo.Verify(x => x.Delete(It.IsAny<ProductionQueue>()), Times.Once);
+            productionQueueRepo.Verify(x => x.Delete(It.IsAny<ProductionQueue>()), Times.Exactly(productionQueues.Count));
             productionQueueRepo.Verify(x => x.SaveAllAsync(), Times.Once);
+            logger.VerifyLogging(LogLevel.Information);
+        }
+
+        [Fact]
+        public async Task OrderCanceledConsumer_ThrowsChangesNotSavedCorrectlyException()
+        {
+            //Arrange
+            var productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
+            var orderCanceledEvent = new OrderCanceledEvent(It.IsAny<int>());
+            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
+
+            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
+                .Returns(Task.FromResult(productionQueues));
+
+            productionQueueRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(ProductionQueue)));
+
+            var consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
+
+            //Assert
+            await Assert.ThrowsAsync<ChangesNotSavedCorrectlyException>(() => consumer.Consume(context));
+            productionQueueRepo.Verify(x => x.Delete(It.IsAny<ProductionQueue>()), Times.Exactly(productionQueues.Count));
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }

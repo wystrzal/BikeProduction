@@ -19,13 +19,13 @@ namespace Production.Application.Messaging.Consumers
         }
         public async Task Consume(ConsumeContext<OrderCanceledEvent> context)
         {
+            var productionQueues = await productionQueueRepo.GetByConditionToList(x => x.OrderId == context.Message.OrderId);
+
+            foreach (var productionQueue in productionQueues)
+                productionQueueRepo.Delete(productionQueue);
+
             try
             {
-                var productionQueues = await productionQueueRepo.GetByConditionToList(x => x.OrderId == context.Message.OrderId);
-
-                foreach (var productionQueue in productionQueues)
-                    productionQueueRepo.Delete(productionQueue);
-
                 await productionQueueRepo.SaveAllAsync();
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BikeExtensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -52,6 +53,7 @@ namespace Production.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }

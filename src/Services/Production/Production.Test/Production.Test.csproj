@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Extensions\BikeExtensions\BikeExtensions.csproj" />
     <ProjectReference Include="..\Production.API\Production.API.csproj" />
     <ProjectReference Include="..\Production.Application\Production.Application.csproj" />
     <ProjectReference Include="..\Production.Core\Production.Core.csproj" />
