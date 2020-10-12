@@ -1,4 +1,5 @@
-﻿using CustomerOrder.API.Controllers;
+﻿using BikeExtensions;
+using CustomerOrder.API.Controllers;
 using CustomerOrder.Application.Mapping;
 using CustomerOrder.Application.Queries;
 using MediatR;
@@ -61,6 +62,7 @@ namespace CustomerOrder.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }
