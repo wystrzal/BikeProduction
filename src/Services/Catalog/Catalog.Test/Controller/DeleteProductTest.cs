@@ -1,4 +1,5 @@
-﻿using Catalog.API.Controllers;
+﻿using BikeExtensions;
+using Catalog.API.Controllers;
 using Catalog.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,7 @@ namespace Catalog.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }

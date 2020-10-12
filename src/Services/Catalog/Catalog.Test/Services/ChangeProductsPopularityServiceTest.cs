@@ -29,31 +29,24 @@ namespace Catalog.Test.Services
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
                 .Returns(Task.FromResult(new Product()));
 
-            productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
-
             var service = new ChangeProductsPopularityService(productRepository.Object);
 
             //Act
-            var action = await service.ChangeProductsPopularity(orderItems, It.IsAny<bool>());
+            await service.ChangeProductsPopularity(orderItems, It.IsAny<bool>());
 
             //Assert
-            Assert.True(action);
-            
+            productRepository.Verify(x => x.SaveAllAsync(), Times.Once);
         }
 
         [Fact]
-        public async Task ChangeProductsPopularity_Failed()
+        public async Task ChangeProductsPopularity_ThrowsArgumentNullException()
         {
             //Arrange
-            var orderItems = new List<OrderItem>();
-
             var service = new ChangeProductsPopularityService(productRepository.Object);
 
-            //Act
-            var action = await service.ChangeProductsPopularity(orderItems, It.IsAny<bool>());
-
             //Assert
-            Assert.False(action);
+            await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                service.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()));   
         }
     }
 }

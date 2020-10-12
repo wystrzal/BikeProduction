@@ -1,4 +1,5 @@
-﻿using Catalog.API.Controllers;
+﻿using BikeExtensions;
+using Catalog.API.Controllers;
 using Catalog.Application.Mapping;
 using Catalog.Application.Queries;
 using MediatR;
@@ -61,6 +62,7 @@ namespace Catalog.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }

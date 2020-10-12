@@ -1,4 +1,5 @@
-﻿using Catalog.Application.Messaging.Consumers;
+﻿using BikeExtensions;
+using Catalog.Application.Messaging.Consumers;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Catalog.Core.Models.MessagingModels;
@@ -40,6 +41,26 @@ namespace Catalog.Test.Messaging
             //Assert
             changeProductsPopularityService
                 .Verify(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()), Times.Once);
+            logger.VerifyLogging(LogLevel.Information);
         }
+
+        [Fact]
+        public async Task OrderCreatedConsumer_ThrowsException()
+        {
+            //Arrange
+            var orderCreatedEvent = new OrderCreatedEvent();
+
+            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
+
+            changeProductsPopularityService
+                .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>())).ThrowsAsync(new Exception());
+
+            var consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
+
+            //Assert
+            await Assert.ThrowsAsync<Exception>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
     }
 }
