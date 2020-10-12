@@ -1,7 +1,10 @@
-﻿using Identity.API.Controllers;
+﻿using BikeExtensions;
+using Castle.Core.Logging;
+using Identity.API.Controllers;
 using Identity.Application.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -15,10 +18,12 @@ namespace Identity.Test.Controller
     public class RegisterUserTest
     {
         private readonly Mock<IMediator> mediator;
+        private readonly Mock<ILogger<IdentityController>> logger;
 
         public RegisterUserTest()
         {
             mediator = new Mock<IMediator>();
+            logger = new Mock<ILogger<IdentityController>>();
         }
 
         [Fact]
@@ -27,7 +32,7 @@ namespace Identity.Test.Controller
             //Arrange
             var command = new RegisterCommand();
 
-            var controller = new IdentityController(mediator.Object);
+            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.RegisterUser(command) as BadRequestObjectResult;
@@ -38,14 +43,14 @@ namespace Identity.Test.Controller
         }
 
         [Fact]
-        public async Task RegisterUser_ThrowException_BadRequestObjectResult()
+        public async Task RegisterUser_ThrowsException_BadRequestObjectResult()
         {
             //Arrange
             var command = new RegisterCommand();
 
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Throws(new Exception());
 
-            var controller = new IdentityController(mediator.Object);
+            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.RegisterUser(command) as BadRequestObjectResult;
@@ -53,6 +58,7 @@ namespace Identity.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
 
         [Fact]
@@ -63,7 +69,7 @@ namespace Identity.Test.Controller
             var userName = "user123";
             var command = new RegisterCommand { Password = password, UserName = userName };
 
-            var controller = new IdentityController(mediator.Object);
+            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.RegisterUser(command) as OkObjectResult;

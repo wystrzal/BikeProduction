@@ -1,11 +1,15 @@
-﻿using Identity.API.Controllers;
+﻿using BikeExtensions;
+using Castle.Core.Logging;
+using Identity.API.Controllers;
 using Identity.Application.Commands;
 using Identity.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,10 +20,12 @@ namespace Identity.Test.Controller
     public class LoginTest
     {
         private readonly Mock<IMediator> mediator;
+        private readonly Mock<ILogger<IdentityController>> logger;
 
         public LoginTest()
         {
             mediator = new Mock<IMediator>();
+            logger = new Mock<ILogger<IdentityController>>();
         }
 
         [Fact]
@@ -34,7 +40,7 @@ namespace Identity.Test.Controller
 
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Returns(Task.FromResult(tokenModel));
 
-            var controller = new IdentityController(mediator.Object);
+            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.Login(command) as OkObjectResult;
@@ -46,14 +52,14 @@ namespace Identity.Test.Controller
         }
 
         [Fact]
-        public async Task Login_ThrowException_BadRequestbjectResult()
+        public async Task Login_ThrowsException_BadRequestbjectResult()
         {
             //Arrange
             var command = new TryLoginCommand();
 
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Throws(new Exception());
 
-            var controller = new IdentityController(mediator.Object);
+            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.Login(command) as BadRequestObjectResult;
@@ -61,6 +67,7 @@ namespace Identity.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
+            logger.VerifyLogging(LogLevel.Error);
         }
     }
 }
