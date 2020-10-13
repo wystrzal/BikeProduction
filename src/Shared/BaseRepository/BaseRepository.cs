@@ -41,13 +41,14 @@ namespace BikeBaseRepository
 
         public async Task<List<TEntity>> GetByConditionToList(Func<TEntity, bool> condition)
         {
-            return await dataContext.Set<TEntity>().Where(condition).AsQueryable().ToListAsync();
+            var data = dataContext.Set<TEntity>().Where(condition).ToList();
+            return await Task.FromResult(data);
         }
 
         public async Task<TEntity> GetByConditionFirst(Func<TEntity, bool> condition)
         {
-            return await dataContext.Set<TEntity>().Where(condition)
-                .AsQueryable().FirstOrDefaultAsync() ?? throw new NullDataException();
+            var data = dataContext.Set<TEntity>().Where(condition).FirstOrDefault();
+            return data == null ? throw new NullDataException() : await Task.FromResult(data);
         }
 
         public async Task<TEntity> GetById(int id)
@@ -58,14 +59,14 @@ namespace BikeBaseRepository
         public async Task<TEntity> GetByConditionWithIncludeFirst<TProp>(Func<TEntity, bool> condition,
             Expression<Func<TEntity, TProp>> include)
         {
-            return await dataContext.Set<TEntity>().Include(include).Where(condition)
-                .AsQueryable().FirstOrDefaultAsync() ?? throw new NullDataException();
+            var data = dataContext.Set<TEntity>().Include(include).Where(condition).FirstOrDefault();
+            return data == null ? throw new NullDataException() : await Task.FromResult(data);
         }
 
-        public async Task<List<TEntity>> GetByConditionWithIncludeToList<TProp>(Func<TEntity, bool> condition,
-            Expression<Func<TEntity, TProp>> include)
+        public async Task<List<TEntity>> GetByConditionWithIncludeToList<TProp>(Func<TEntity, bool> condition, Expression<Func<TEntity, TProp>> include)
         {
-            return await dataContext.Set<TEntity>().Include(include).Where(condition).AsQueryable().ToListAsync();
+            var data = dataContext.Set<TEntity>().Include(include).Where(condition).ToList();
+            return await Task.FromResult(data);
         }
 
         public async Task<bool> SaveAllAsync()
@@ -75,7 +76,8 @@ namespace BikeBaseRepository
 
         public async Task<bool> CheckIfExistByCondition(Func<TEntity, bool> condition)
         {
-            return await dataContext.Set<TEntity>().Where(condition).AsQueryable().AnyAsync();
+            var data = dataContext.Set<TEntity>().Where(condition).Any();
+            return await Task.FromResult(data);
         }
     }
 }

@@ -22,12 +22,12 @@ namespace BikeSortFilter
         {
             if (!orderDesc)
             {
-                return await dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy)
-                    .AsQueryable().ToListAsync();
+                return await Task.FromResult(
+                    dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).ToList());
             }
 
-            return await dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderByDescending(sortBy)
-                .AsQueryable().ToListAsync();
+            return await Task.FromResult(
+                dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderByDescending(sortBy).ToList());
         }
 
         public async Task<List<TEntity>> GetSortedFilteredData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
@@ -40,22 +40,26 @@ namespace BikeSortFilter
 
             if (!orderDesc)
             {
-                return await dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).Skip(skip).Take(take)
-                    .AsQueryable().ToListAsync();
+                return await Task.FromResult(
+                    dataContext.Set<TEntity>().AsNoTracking().Where(filterBy)
+                    .OrderBy(sortBy).Skip(skip).Take(take).ToList());
             }
 
-            return await dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderByDescending(sortBy).Skip(skip).Take(take)
-                .AsQueryable().ToListAsync();   
+            return await Task.FromResult(
+                dataContext.Set<TEntity>().AsNoTracking().Where(filterBy)
+                .OrderByDescending(sortBy).Skip(skip).Take(take).ToList());   
         }
 
         public async Task<List<TEntity>> GetFilteredData(Func<TEntity, bool> filterBy, int skip, int take)
         {
             if (take == 0)
             {
-                return await dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).AsQueryable().ToListAsync();
+                return await Task.FromResult(
+                    dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).ToList());
             }
 
-            return await dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).Skip(skip).Take(take).AsQueryable().ToListAsync();
+            return await Task.FromResult(
+                dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).Skip(skip).Take(take).ToList());
         }
     }
 }
