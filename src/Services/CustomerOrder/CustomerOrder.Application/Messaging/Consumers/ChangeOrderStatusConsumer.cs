@@ -1,5 +1,6 @@
 ﻿using Common.Application.Messaging;
 using CustomerOrder.Core.Interfaces;
+using CustomerOrder.Core.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,10 +24,7 @@ namespace CustomerOrder.Application.Messaging.Consumers
             try
             {
                 var order = await orderRepository.GetById(context.Message.OrderId);
-
-                order.OrderStatus = context.Message.OrderStatus;
-
-                await orderRepository.SaveAllAsync();
+                await ChangeOrderStatus(context, order);
             }
             catch (Exception ex)
             {
@@ -35,6 +33,12 @@ namespace CustomerOrder.Application.Messaging.Consumers
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private async Task ChangeOrderStatus(ConsumeContext<ChangeOrderStatusEvent> context, Order order)
+        {
+            order.OrderStatus = context.Message.OrderStatus;
+            await orderRepository.SaveAllAsync();
         }
     }
 }
