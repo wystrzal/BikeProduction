@@ -29,9 +29,7 @@ namespace Catalog.Application.Commands.Handlers
 
             productToAdd.Reference = await GenerateReference(productToAdd.Reference);
 
-            await AddProduct(productToAdd);
-
-            await bus.Publish(new ProductAddedEvent(request.ProductName, request.Reference));
+            await AddProduct(productToAdd, request);
 
             return Unit.Value;
         }
@@ -48,10 +46,11 @@ namespace Catalog.Application.Commands.Handlers
             return reference;
         }
 
-        private async Task AddProduct(Product productToAdd)
+        private async Task AddProduct(Product productToAdd, AddProductCommand request)
         {
             productRepository.Add(productToAdd);
             await productRepository.SaveAllAsync();
+            await bus.Publish(new ProductAddedEvent(request.ProductName, request.Reference));
         }
     }
 }

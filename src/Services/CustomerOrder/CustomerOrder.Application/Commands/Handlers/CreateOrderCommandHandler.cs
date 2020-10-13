@@ -29,17 +29,16 @@ namespace CustomerOrder.Application.Commands.Handlers
 
             orderForAdd.OrderStatus = OrderStatus.Waiting_For_Confirm;
 
-            await AddOrder(orderForAdd);
-
-            await bus.Publish(new OrderCreatedEvent(orderForAdd.OrderItems as List<OrderItem>, orderForAdd.OrderId, request.UserId));
+            await AddOrder(orderForAdd, request.UserId);
 
             return Unit.Value;
         }
 
-        private async Task AddOrder(Order orderForAdd)
+        private async Task AddOrder(Order orderForAdd, string userId)
         {
             orderRepository.Add(orderForAdd);
             await orderRepository.SaveAllAsync();
+            await bus.Publish(new OrderCreatedEvent(orderForAdd.OrderItems as List<OrderItem>, orderForAdd.OrderId, userId));
         }
     }
 }

@@ -25,8 +25,6 @@ namespace Catalog.Application.Commands.Handlers
 
             await DeleteProduct(product);
 
-            await bus.Publish(new ProductDeletedEvent(product.Reference));
-
             return Unit.Value;
         }
 
@@ -34,6 +32,7 @@ namespace Catalog.Application.Commands.Handlers
         {
             productRepository.Delete(product);
             await productRepository.SaveAllAsync();
+            await bus.Publish(new ProductDeletedEvent(product.Reference));
         }
     }
 }
