@@ -41,19 +41,6 @@ namespace Delivery.Application.Messaging.Consumers
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 
-        private async Task SaveChanges()
-        {
-            try
-            {
-                await packToDeliveryRepo.SaveAllAsync();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                throw;
-            }
-        }
-
         private async Task CreateNewPackToDelivery(int orderId, int productsQuantity)
         {
             var order = await GetOrder(orderId);
@@ -75,6 +62,19 @@ namespace Delivery.Application.Messaging.Consumers
             try
             {
                 return await customerOrderService.GetOrder(orderId);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                throw;
+            }
+        }
+
+        private async Task SaveChanges()
+        {
+            try
+            {
+                await packToDeliveryRepo.SaveAllAsync();
             }
             catch (Exception ex)
             {

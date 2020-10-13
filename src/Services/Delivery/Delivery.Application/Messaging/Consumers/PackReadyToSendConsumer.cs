@@ -1,6 +1,7 @@
 ﻿using Common.Application.Commands;
 using Common.Application.Messaging;
 using Delivery.Core.Interfaces;
+using Delivery.Core.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
@@ -28,20 +29,22 @@ namespace Delivery.Application.Messaging.Consumers
             try
             {
                 var pack = await packToDeliveryRepo.GetByConditionFirst(x => x.OrderId == context.Message.OrderId);
-
-                pack.PackStatus = PackStatus.ReadyToSend;
-
-                await packToDeliveryRepo.SaveAllAsync();
+                await ChangePackStatusToReadyToSend(pack, context.Message.OrderId);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 throw;
-            }
-
-            await bus.Publish(new ChangeOrderStatusEvent(context.Message.OrderId, OrderStatus.ReadyToSend));
+            }      
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private async Task ChangePackStatusToReadyToSend(PackToDelivery pack, int orderId)
+        {
+            pack.PackStatus = PackStatus.ReadyToSend;
+            await packToDeliveryRepo.SaveAllAsync();
+            await bus.Publish(new ChangeOrderStatusEvent(orderId, OrderStatus.ReadyToSend));
         }
     }
 }
