@@ -18,11 +18,23 @@ namespace Catalog.Infrastructure.Services
 
         public async Task ChangeProductsPopularity(List<OrderItem> orderItems, bool increasePopularity)
         {
+            ValidateOrderItems(orderItems);
+
+            int valueToChangePopularity = SetValueToChangePopularity(increasePopularity);
+
+            await ChangeProductPopularity(orderItems, valueToChangePopularity);
+        }
+
+        private void ValidateOrderItems(List<OrderItem> orderItems)
+        {
             if (orderItems == null || orderItems.Count <= 0)
             {
                 throw new ArgumentNullException();
             }
+        }
 
+        private int SetValueToChangePopularity(bool increasePopularity)
+        {
             int valueToChangePopularity = 1;
 
             if (!increasePopularity)
@@ -30,6 +42,11 @@ namespace Catalog.Infrastructure.Services
                 valueToChangePopularity *= -1;
             }
 
+            return valueToChangePopularity;
+        }
+
+        private async Task ChangeProductPopularity(List<OrderItem> orderItems, int valueToChangePopularity)
+        {
             foreach (var orderItem in orderItems)
             {
                 var product = await productRepository.GetByConditionFirst(x => x.Reference == orderItem.Reference);
