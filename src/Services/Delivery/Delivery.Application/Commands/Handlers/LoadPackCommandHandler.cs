@@ -1,6 +1,7 @@
 ﻿using Common.Application.Messaging;
 using Delivery.Core.Exceptions;
 using Delivery.Core.Interfaces;
+using Delivery.Core.Models;
 using MassTransit;
 using MediatR;
 using System.Threading;
@@ -27,19 +28,12 @@ namespace Delivery.Application.Commands.Handlers
         public async Task<Unit> Handle(LoadPackCommand request, CancellationToken cancellationToken)
         {
             var pack = await packToDeliveryRepo.GetByConditionFirst(x => x.Id == request.PackId);
-
             var loadingPlace = await loadingPlaceRepo.GetByConditionFirst(x => x.Id == request.LoadingPlaceId);
 
-            if (pack.ProductsQuantity > (loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity))
-            {
-                throw new LackOfSpaceException();
-            }
+            ValidateLoadingPlaceAmountOfSpace(pack, loadingPlace);
 
-            pack.LoadingPlace = loadingPlace;
-            pack.PackStatus = PackStatus.ReadyToSend;
-
-            loadingPlace.LoadedQuantity += pack.ProductsQuantity;
-            loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Loading;
+            SetPackLoadingPlace(pack, loadingPlace);
+            IncreaseLoadingPlaceLoadedQuantity(pack, loadingPlace);
 
             await loadingPlaceRepo.SaveAllAsync();
 
@@ -47,5 +41,26 @@ namespace Delivery.Application.Commands.Handlers
 
             return Unit.Value;
         }
+
+        private void ValidateLoadingPlaceAmountOfSpace(PackToDelivery pack, LoadingPlace loadingPlace)
+        {
+            if (pack.ProductsQuantity > (loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity))
+            {
+                throw new LackOfSpaceException();
+            }
+        }
+
+        private void SetPackLoadingPlace(PackToDelivery pack, LoadingPlace loadingPlace)
+        {
+            pack.LoadingPlace = loadingPlace;
+            pack.PackStatus = PackStatus.ReadyToSend;
+        }
+
+        private void IncreaseLoadingPlaceLoadedQuantity(PackToDelivery pack, LoadingPlace loadingPlace)
+        {
+            loadingPlace.LoadedQuantity += pack.ProductsQuantity;
+            loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Loading;
+        }
+
     }
 }

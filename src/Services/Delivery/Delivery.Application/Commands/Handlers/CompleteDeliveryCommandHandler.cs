@@ -28,25 +28,30 @@ namespace Delivery.Application.Commands.Handlers
             var loadingPlace = await loadingPlaceRepo
                 .GetByConditionWithIncludeFirst(x => x.Id == request.LoadingPlaceId, y => y.PacksToDelivery);
 
-            foreach (var pack in loadingPlace.PacksToDelivery)
-            {
-                await ChangePackStatusToDelivered(pack);
-            }
+            await ChangePacksStatusToDelivered(loadingPlace);
 
-            loadingPlace.LoadedQuantity = 0;
-            loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.WaitingForLoading;
+            ClearLoadedQuantityFromLoadingPlace(loadingPlace);
 
             await loadingPlaceRepo.SaveAllAsync();
 
             return Unit.Value;
         }
 
-        private async Task ChangePackStatusToDelivered(PackToDelivery pack)
+        private async Task ChangePacksStatusToDelivered(LoadingPlace loadingPlace)
         {
-            pack.LoadingPlace = null;
-            pack.PackStatus = PackStatus.Delivered;
+            foreach (var pack in loadingPlace.PacksToDelivery)
+            {
+                pack.LoadingPlace = null;
+                pack.PackStatus = PackStatus.Delivered;
 
-            await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.Delivered));
+                await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.Delivered));
+            }
+        }
+
+        private void ClearLoadedQuantityFromLoadingPlace(LoadingPlace loadingPlace)
+        {
+            loadingPlace.LoadedQuantity = 0;
+            loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.WaitingForLoading;
         }
     }
 }

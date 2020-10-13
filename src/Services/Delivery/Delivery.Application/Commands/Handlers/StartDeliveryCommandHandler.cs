@@ -28,8 +28,7 @@ namespace Delivery.Application.Commands.Handlers
             var loadingPlace = await loadingPlaceRepo
                 .GetByConditionWithIncludeFirst(x => x.Id == request.LoadingPlaceId, y => y.PacksToDelivery);
 
-            foreach (var pack in loadingPlace.PacksToDelivery)
-                await ChangePackStatusToSended(pack);
+            await ChangePacksStatusToSended(loadingPlace);
 
             loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Sended;
 
@@ -38,10 +37,13 @@ namespace Delivery.Application.Commands.Handlers
             return Unit.Value;
         }
 
-        private async Task ChangePackStatusToSended(PackToDelivery pack)
+        private async Task ChangePacksStatusToSended(LoadingPlace loadingPlace)
         {
-            pack.PackStatus = PackStatus.Sended;
-            await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.Sended));
+            foreach (var pack in loadingPlace.PacksToDelivery)
+            {
+                pack.PackStatus = PackStatus.Sended;
+                await bus.Publish(new ChangeOrderStatusEvent(pack.OrderId, OrderStatus.Sended));
+            }
         }
     }
 }
