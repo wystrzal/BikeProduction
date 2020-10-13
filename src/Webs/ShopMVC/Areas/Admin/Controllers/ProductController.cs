@@ -45,10 +45,12 @@ namespace ShopMVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CatalogProduct product)
         {
-            var vm = await CreateVMIfAnyError(product);
+            var vm = await CreatePostPutProductViewModelIfAnyError(product);
 
             if (vm != null)
+            {
                 return View(vm);
+            }
 
             await catalogService.AddProduct(product);
 
@@ -69,17 +71,19 @@ namespace ShopMVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(CatalogProduct product)
         {
-            var vm = await CreateVMIfAnyError(product);
+            var vm = await CreatePostPutProductViewModelIfAnyError(product);
 
             if (vm != null)
+            {
                 return View(vm);
+            }
 
             await catalogService.UpdateProduct(product);
 
             return RedirectToAction("Index");
         }
 
-        private async Task<PostPutProductViewModel> CreateVMIfAnyError(CatalogProduct product)
+        private async Task<PostPutProductViewModel> CreatePostPutProductViewModelIfAnyError(CatalogProduct product)
         {
             if (product.Price == 0)
             {

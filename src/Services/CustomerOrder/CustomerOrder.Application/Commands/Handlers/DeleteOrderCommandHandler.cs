@@ -29,7 +29,9 @@ namespace CustomerOrder.Application.Commands.Handlers
             if (order.OrderStatus == OrderStatus.Waiting_For_Confirm || order.OrderStatus == OrderStatus.Delivered)
             {
                 if (order.OrderStatus == OrderStatus.Waiting_For_Confirm)
+                {
                     await bus.Publish(new OrderCanceledEvent(order.OrderItems.Cast<OrderItem>().ToList(), order.OrderId));
+                }
 
                 orderRepository.Delete(order);
                 await orderRepository.SaveAllAsync();

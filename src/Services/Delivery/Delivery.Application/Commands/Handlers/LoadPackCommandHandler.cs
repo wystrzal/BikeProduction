@@ -31,7 +31,9 @@ namespace Delivery.Application.Commands.Handlers
             var loadingPlace = await loadingPlaceRepo.GetByConditionFirst(x => x.Id == request.LoadingPlaceId);
 
             if (pack.ProductsQuantity > (loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity))
+            {
                 throw new LackOfSpaceException();
+            }
 
             pack.LoadingPlace = loadingPlace;
             pack.PackStatus = PackStatus.ReadyToSend;

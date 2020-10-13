@@ -40,10 +40,14 @@ namespace CustomerOrder.Infrastructure.Services
         private void SetFiltering(FilteringData filteringData)
         {
             if (filteringData.OrderStatus != 0)
+            {
                 sortFilterService.SetConcreteFilter<FilterByOrderStatus>(filteringData);
-            
+            }
+
             if (filteringData.UserId != null)
+            {
                 sortFilterService.SetConcreteFilter<FilterByUserId>(filteringData);
+            }
         }
     }
 }

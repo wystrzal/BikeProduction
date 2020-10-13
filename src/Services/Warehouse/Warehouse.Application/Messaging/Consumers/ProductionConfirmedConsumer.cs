@@ -64,7 +64,9 @@ namespace Warehouse.Application.Messaging.Consumers
             }
 
             if (confirmProduction)
+            {
                 await productPartRepo.SaveAllAsync();
+            }
 
             return confirmProduction;
         }

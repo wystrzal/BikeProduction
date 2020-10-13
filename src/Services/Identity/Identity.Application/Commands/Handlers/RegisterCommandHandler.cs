@@ -25,12 +25,16 @@ namespace Identity.Application.Commands.Handlers
             var user = await userManager.FindByNameAsync(userToCreate.UserName);
 
             if (user != null)
+            {
                 throw new UserAlreadyExistException(user.UserName);
+            }
 
             var result = await userManager.CreateAsync(userToCreate, request.Password);
 
             if (!result.Succeeded)
-                throw new UserNotAddedException();         
+            {
+                throw new UserNotAddedException();
+            }
 
             return Unit.Value;
         }

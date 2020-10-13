@@ -14,7 +14,9 @@ namespace ShopMVC.Filters
             Controller controller = context.Controller as Controller;
 
             if (!controller.User.Claims.Any())
+            {
                 context.Result = controller.RedirectToAction("Index", "Home");
+            }
         }
     }
 }

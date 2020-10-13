@@ -11,7 +11,9 @@ namespace ShopMVC.Filters
             Controller controller = context.Controller as Controller;
 
             if (!controller.User.Claims.Any(x => x.Value == "admin"))
+            {
                 context.Result = controller.RedirectToAction("Index", "Home", new { area = ""});
+            }
         }
     }
 }

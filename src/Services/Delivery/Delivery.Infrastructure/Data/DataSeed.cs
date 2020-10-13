@@ -15,11 +15,11 @@ namespace Delivery.Infrastructure.Data
                 var loadingPlaces = new List<LoadingPlace>()
                 {
                     new LoadingPlace { LoadingPlaceNumber = 1, LoadingPlaceStatus = LoadingPlaceStatus.WaitingForLoading,
-                     LoadedQuantity = 0, AmountOfSpace = 30 },
+                        LoadedQuantity = 0, AmountOfSpace = 30 },
                     new LoadingPlace { LoadingPlaceNumber = 2, LoadingPlaceStatus = LoadingPlaceStatus.WaitingForLoading,
-                     LoadedQuantity = 0, AmountOfSpace = 20 },
+                        LoadedQuantity = 0, AmountOfSpace = 20 },
                     new LoadingPlace { LoadingPlaceNumber = 3, LoadingPlaceStatus = LoadingPlaceStatus.WaitingForLoading,
-                     LoadedQuantity = 0, AmountOfSpace = 30 }
+                        LoadedQuantity = 0, AmountOfSpace = 30 }
                 };
 
                 await dataContext.LoadingPlaces.AddRangeAsync(loadingPlaces);

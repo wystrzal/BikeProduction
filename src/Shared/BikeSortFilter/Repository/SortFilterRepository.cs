@@ -34,7 +34,9 @@ namespace BikeSortFilter
             bool orderDesc, int skip, int take)
         {
             if (take == 0)
+            {
                 return await GetAllSortedFilteredData(filterBy, sortBy, orderDesc);
+            }
 
             if (!orderDesc)
             {

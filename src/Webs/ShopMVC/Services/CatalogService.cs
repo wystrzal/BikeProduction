@@ -59,16 +59,24 @@ namespace ShopMVC.Services
             };
 
             if (filteringData.Sort != 0)
+            {
                 queryParams.Add("Sort", filteringData.Sort.ToString());
+            }
 
             if (filteringData.Colors != 0)
+            {
                 queryParams.Add("Colors", filteringData.Colors.ToString());
+            }
 
             if (filteringData.BrandId != 0)
+            {
                 queryParams.Add("BrandId", filteringData.BrandId.ToString());
+            }
 
             if (filteringData.BikeType != 0)
+            {
                 queryParams.Add("BikeType", filteringData.BikeType.ToString());
+            }
 
             return queryParams;
         }

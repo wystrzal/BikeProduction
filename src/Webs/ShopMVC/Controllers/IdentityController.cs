@@ -27,7 +27,9 @@ namespace ShopMVC.Controllers
                 var tryLogin = await identityService.Login(loginDto);
 
                 if (tryLogin.StatusCode == System.Net.HttpStatusCode.OK)
+                {
                     return RedirectToAction("Index", "Home");
+                }
 
                 ModelState.AddModelError("", "Unauthorized.");
             }
@@ -52,18 +54,26 @@ namespace ShopMVC.Controllers
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(registerDto.UserName))
+                {
                     ModelState.AddModelError("", "The Password field is required.");
+                }
 
                 if (!registerDto.Password.ContainsUpper())
+                {
                     ModelState.AddModelError("", "The Password field must have uppercase letters.");
+                }
 
                 if (!registerDto.Password.ContainsDigit())
+                {
                     ModelState.AddModelError("", "The Password field must have digits.");
+                }
 
                 var response = await identityService.Register(registerDto);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
                     return RedirectToAction("Index", "Home");
+                }
 
                 ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
             }

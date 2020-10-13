@@ -22,10 +22,14 @@ namespace Basket.Application.Commands.Handlers
             var basket = await basketRedisService.GetBasket(request.UserId);
 
             if (basket == null)
+            {
                 return Unit.Value;
+            }
 
             if (basket.Products.Count > 0)
+            {
                 await RemoveProductAndDecreaseBasketTotalPrice(basket, request);
+            }
 
             return Unit.Value;
         }
@@ -35,7 +39,9 @@ namespace Basket.Application.Commands.Handlers
             var productToRemove = basket.Products.Where(x => x.Id == request.ProductId).FirstOrDefault();
 
             if (productToRemove == null)
+            {
                 return;
+            }
 
             basket.Products.Remove(productToRemove);
             basket.TotalPrice -= (productToRemove.Price * productToRemove.Quantity);

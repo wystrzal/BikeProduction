@@ -22,12 +22,16 @@ namespace BikeHttpClient
             Dictionary<string, string> queryParams = null)
         {
             if (queryParams != null)
+            {
                 uri = SetQueryParams(uri, queryParams);
+            }
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
 
             if (authorizationToken != null)
+            {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
+            }
 
             var response = await client.SendAsync(requestMessage);
 
@@ -41,7 +45,9 @@ namespace BikeHttpClient
             var query = HttpUtility.ParseQueryString(builder.Query);
 
             foreach (var queryParam in queryParams)
+            {
                 query[queryParam.Key] = queryParam.Value;
+            }
 
             builder.Query = query.ToString();
 
@@ -52,7 +58,9 @@ namespace BikeHttpClient
             string authorizationToken = null)
         {
             if (method != HttpMethod.Post && method != HttpMethod.Put)
+            {
                 throw new ArgumentException("Value must be either post or put.", nameof(method));
+            }
 
             var requestMessage = new HttpRequestMessage(method, uri)
             {
@@ -60,12 +68,16 @@ namespace BikeHttpClient
             };
 
             if (authorizationToken != null)
+            {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
+            }
 
             var response = await client.SendAsync(requestMessage);
 
             if (response.StatusCode == HttpStatusCode.InternalServerError)
+            {
                 throw new HttpRequestException();
+            }
 
             return response;
         }
@@ -85,7 +97,9 @@ namespace BikeHttpClient
             var requestMessage = new HttpRequestMessage(HttpMethod.Delete, uri);
 
             if (authorizationToken != null)
+            {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authorizationToken);
+            }
 
             return await client.SendAsync(requestMessage);
         }

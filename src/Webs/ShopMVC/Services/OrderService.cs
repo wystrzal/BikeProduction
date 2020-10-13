@@ -50,10 +50,14 @@ namespace ShopMVC.Services
             var queryParams = new Dictionary<string, string>();
 
             if (filteringData.OrderStatus != 0)
+            {
                 queryParams.Add("OrderStatus", filteringData.OrderStatus.ToString());
+            }
 
             if (filteringData.UserId != null && !filteringData.UserIsAdmin)
+            {
                 queryParams.Add("UserId", userId);
+            }
 
             return queryParams;
         }

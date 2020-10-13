@@ -45,7 +45,9 @@ namespace Catalog.Application.Commands.Handlers
             }
             
             if (productChanged)
+            {
                 await bus.Publish(new ProductUpdatedEvent(product.ProductName, product.Reference, oldReference));
+            }
 
             return Unit.Value;
         }

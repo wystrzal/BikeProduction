@@ -49,8 +49,12 @@ namespace Identity.Infrastructure.Services
             };
 
             if (roles.Count() > 0 && roles != null)
+            {
                 foreach (var role in roles)
+                {
                     claims.Add(new Claim(ClaimTypes.Role, role.Value));
+                }
+            }
 
             return claims;
         }

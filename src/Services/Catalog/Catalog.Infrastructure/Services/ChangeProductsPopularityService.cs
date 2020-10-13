@@ -19,12 +19,16 @@ namespace Catalog.Infrastructure.Services
         public async Task ChangeProductsPopularity(List<OrderItem> orderItems, bool increasePopularity)
         {
             if (orderItems == null || orderItems.Count <= 0)
+            {
                 throw new ArgumentNullException();
+            }
 
             int valueToChangePopularity = 1;
 
             if (!increasePopularity)
+            {
                 valueToChangePopularity *= -1;
+            }
 
             foreach (var orderItem in orderItems)
             {

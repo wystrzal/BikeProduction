@@ -29,7 +29,9 @@ namespace Delivery.Application.Commands.Handlers
                 .GetByConditionWithIncludeFirst(x => x.Id == request.LoadingPlaceId, y => y.PacksToDelivery);
 
             foreach (var pack in loadingPlace.PacksToDelivery)
+            {
                 await ChangePackStatusToDelivered(pack);
+            }
 
             loadingPlace.LoadedQuantity = 0;
             loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.WaitingForLoading;

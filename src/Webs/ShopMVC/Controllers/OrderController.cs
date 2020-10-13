@@ -49,16 +49,24 @@ namespace ShopMVC.Controllers
         public async Task<IActionResult> CreateOrder([FromBody]Order order)
         {
             if (order.OrderItems == null || order.OrderItems.Count == 0 )
+            {
                 ModelState.AddModelError("", "You don't have any products in basket.");
+            }
 
             if (ModelState.ErrorCount > 0 || !ModelState.IsValid)
             {
                 List<string> errors = new List<string>();
 
                 foreach (var obj in ModelState.Values)
+                {
                     foreach (var error in obj.Errors)
+                    {
                         if (!string.IsNullOrEmpty(error.ErrorMessage))
+                        {
                             errors.Add(error.ErrorMessage);
+                        }
+                    }
+                }
 
                 return Json(new { status = "error", errors });
             }
