@@ -25,17 +25,12 @@ namespace Identity.Infrastructure.Services
         public async Task<TokenModel> GenerateToken(User user, UserManager<User> userManager)
         {
             var currentUser = await userManager.FindByIdAsync(user.Id);
-
             var userClaims = await userManager.GetClaimsAsync(currentUser);
             var claims = CreateClaims(userClaims, user);
 
             var tokenDescriptor = CreateSecurityTokenDescriptor(claims);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return new TokenModel(tokenHandler.WriteToken(token), user.Id);
+            return CreateTokenModel(user, tokenDescriptor);
         }
 
         private List<Claim> CreateClaims(IList<Claim> userClaims, User user)
@@ -72,6 +67,13 @@ namespace Identity.Infrastructure.Services
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = creds
             };
+        }
+
+        private TokenModel CreateTokenModel(User user, SecurityTokenDescriptor tokenDescriptor)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return new TokenModel(tokenHandler.WriteToken(token), user.Id);
         }
     }
 }
