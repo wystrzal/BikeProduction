@@ -22,21 +22,31 @@ namespace Identity.Application.Commands.Handlers
         {
             var userToCreate = mapper.Map<User>(request);
 
+            await CheckIfUserAlreadyExist(userToCreate);
+
+            await CreateUserAccount(request, userToCreate);
+
+            return Unit.Value;
+        }
+
+        private async Task CheckIfUserAlreadyExist(User userToCreate)
+        {
             var user = await userManager.FindByNameAsync(userToCreate.UserName);
 
             if (user != null)
             {
                 throw new UserAlreadyExistException(user.UserName);
             }
+        }
 
+        private async Task CreateUserAccount(RegisterCommand request, User userToCreate)
+        {
             var result = await userManager.CreateAsync(userToCreate, request.Password);
 
             if (!result.Succeeded)
             {
                 throw new UserNotAddedException();
             }
-
-            return Unit.Value;
         }
     }
 }

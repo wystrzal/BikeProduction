@@ -23,6 +23,13 @@ namespace Identity.Application.Commands.Handlers
 
         public async Task<TokenModel> Handle(TryLoginCommand request, CancellationToken cancellationToken)
         {
+            User dbUser = await GetUser(request);
+
+            return await GenerateTokenIfLoginSuccessful(request, dbUser);
+        }
+
+        private async Task<User> GetUser(TryLoginCommand request)
+        {
             var dbUser = await userManager.FindByNameAsync(request.Username);
 
             if (dbUser == null)
@@ -30,6 +37,11 @@ namespace Identity.Application.Commands.Handlers
                 throw new UserNotFoundException();
             }
 
+            return dbUser;
+        }
+
+        private async Task<TokenModel> GenerateTokenIfLoginSuccessful(TryLoginCommand request, User dbUser)
+        {
             var result = await signInManager.CheckPasswordSignInAsync(dbUser, request.Password, false);
 
             if (result.Succeeded)
