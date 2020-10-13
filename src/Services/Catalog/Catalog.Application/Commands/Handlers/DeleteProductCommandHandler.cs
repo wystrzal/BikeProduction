@@ -1,4 +1,5 @@
 ﻿using Catalog.Core.Interfaces;
+using Catalog.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
@@ -22,15 +23,17 @@ namespace Catalog.Application.Commands.Handlers
         {
             var product = await productRepository.GetById(request.ProductId);
 
-            string reference = product.Reference;
+            await DeleteProduct(product);
 
-            productRepository.Delete(product);
-
-            await productRepository.SaveAllAsync();
-
-            await bus.Publish(new ProductDeletedEvent(reference));
+            await bus.Publish(new ProductDeletedEvent(product.Reference));
 
             return Unit.Value;
+        }
+
+        private async Task DeleteProduct(Product product)
+        {
+            productRepository.Delete(product);
+            await productRepository.SaveAllAsync();
         }
     }
 }

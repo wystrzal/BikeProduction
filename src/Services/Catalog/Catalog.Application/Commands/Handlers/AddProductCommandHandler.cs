@@ -26,11 +26,10 @@ namespace Catalog.Application.Commands.Handlers
         public async Task<Unit> Handle(AddProductCommand request, CancellationToken cancellationToken)
         {
             var productToAdd = mapper.Map<Product>(request);
+
             productToAdd.Reference = await GenerateReference(productToAdd.Reference);
 
-            productRepository.Add(productToAdd);
-
-            await productRepository.SaveAllAsync();
+            await AddProduct(productToAdd);
 
             await bus.Publish(new ProductAddedEvent(request.ProductName, request.Reference));
 
@@ -47,6 +46,12 @@ namespace Catalog.Application.Commands.Handlers
             }
 
             return reference;
+        }
+
+        private async Task AddProduct(Product productToAdd)
+        {
+            productRepository.Add(productToAdd);
+            await productRepository.SaveAllAsync();
         }
     }
 }

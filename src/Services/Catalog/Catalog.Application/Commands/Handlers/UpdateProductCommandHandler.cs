@@ -43,13 +43,18 @@ namespace Catalog.Application.Commands.Handlers
             {
                 return Unit.Value;
             }
-            
+
+            await PublishEventIfProductChanged(product, oldReference, productChanged);
+
+            return Unit.Value;
+        }
+
+        private async Task PublishEventIfProductChanged(Product product, string oldReference, bool productChanged)
+        {
             if (productChanged)
             {
                 await bus.Publish(new ProductUpdatedEvent(product.ProductName, product.Reference, oldReference));
             }
-
-            return Unit.Value;
         }
     }
 }
