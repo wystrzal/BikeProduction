@@ -29,7 +29,8 @@ namespace Production.Application.Commands.Handlers
 
             if (ProductionWaitingOrDontHaveParts(productionQueue))
             {
-                await RequestForConfirmProduction(productionQueue);
+                var response = await RequestForConfirmProduction(productionQueue);
+                await ChangeProductionStatusDependingOnResponse(productionQueue, response);
             }
 
             return Unit.Value;
@@ -41,14 +42,13 @@ namespace Production.Application.Commands.Handlers
                 || productionQueue.ProductionStatus == ProductionStatus.NoParts;
         }
 
-        private async Task RequestForConfirmProduction(ProductionQueue productionQueue)
+        private async Task<Response<ProductionConfirmedResult>> RequestForConfirmProduction(ProductionQueue productionQueue)
         {
             var serviceAddress = new Uri("rabbitmq://host.docker.internal/production_confirmed");
             var client = bus.CreateRequestClient<ProductionConfirmedEvent>(serviceAddress);
-            var response = await client.GetResponse<ProductionConfirmedResult>(
-                new { productionQueue.Reference, productionQueue.Quantity });
 
-            await ChangeProductionStatusDependingOnResponse(productionQueue, response);
+            return await client.GetResponse<ProductionConfirmedResult>(
+                new { productionQueue.Reference, productionQueue.Quantity });          
         }
 
         private async Task ChangeProductionStatusDependingOnResponse(ProductionQueue productionQueue,
@@ -61,6 +61,11 @@ namespace Production.Application.Commands.Handlers
             }
             else
             {
+                if (productionQueue.ProductionStatus == ProductionStatus.NoParts)
+                {
+                    return;
+                }
+
                 productionQueue.ProductionStatus = ProductionStatus.NoParts;
             }
 
