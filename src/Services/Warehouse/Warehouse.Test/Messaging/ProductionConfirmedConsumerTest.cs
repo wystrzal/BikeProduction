@@ -31,8 +31,9 @@ namespace Warehouse.Test.Messaging
         {
             //Arrange
             var reference = "test";
+            var quantity = 1;
             var parts = new List<Part> { new Part() };
-            var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference };
+            var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference, Quantity = quantity };
             var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
 
             productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>())).Returns(Task.FromResult(parts));
@@ -52,7 +53,8 @@ namespace Warehouse.Test.Messaging
         public async Task ProductionConfirmedConsumer_ThrowsArgumentNullException()
         {
             //Arrange
-            var productionConfirmedEvent = new ProductionConfirmedEvent();
+            var quantity = 1;
+            var productionConfirmedEvent = new ProductionConfirmedEvent { Quantity = quantity };
             var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
 
             var consumer = new ProductionConfirmedConsumer(productPartRepo.Object, logger.Object);
@@ -63,12 +65,47 @@ namespace Warehouse.Test.Messaging
         }
 
         [Fact]
-        public async Task ProductionConfirmedConsumer_ThrowsChangesNotSavedCorrectlyException()
+        public async Task ProductionConfirmedConsumer_ThrowsArgumentException()
         {
             //Arrange
             var reference = "test";
-            var parts = new List<Part> { new Part() };
             var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference };
+            var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
+
+            var consumer = new ProductionConfirmedConsumer(productPartRepo.Object, logger.Object);
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ProductionConfirmedConsumer_ThrowsNullDataException()
+        {
+            //Arrange
+            var reference = "test";
+            var quantity = 1;
+            var parts = new List<Part>();
+            var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference, Quantity = quantity };
+            var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
+
+            productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>())).Returns(Task.FromResult(parts));
+
+            var consumer = new ProductionConfirmedConsumer(productPartRepo.Object, logger.Object);
+
+            //Assert
+            await Assert.ThrowsAsync<NullDataException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ProductionConfirmedConsumer_ThrowsChangesNotSavedCorrectlyException()
+        {
+            //Arrange
+            var quantity = 1;
+            var reference = "test";
+            var parts = new List<Part> { new Part() };
+            var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference, Quantity = quantity };
             var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
 
             productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>())).Returns(Task.FromResult(parts));

@@ -1,4 +1,5 @@
-﻿using Common.Application.Messaging;
+﻿using BikeBaseRepository;
+using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,16 +23,12 @@ namespace Warehouse.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductionConfirmedEvent> context)
         {
-            if (string.IsNullOrWhiteSpace(context.Message.Reference))
-            {
-                logger.LogError("Reference could not be null.");
-                throw new ArgumentNullException();
-            }
-
-            var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
-
             try
             {
+                ValidateContext(context);
+
+                var parts = await GetParts(context);
+
                 await context.RespondAsync<ProductionConfirmedResult>(new
                 {
                     ConfirmProduction = await ConfirmProductionIfPartsAvailable(parts, context.Message.Quantity)
@@ -44,6 +41,31 @@ namespace Warehouse.Application.Messaging.Consumers
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ValidateContext(ConsumeContext<ProductionConfirmedEvent> context)
+        {
+            if (string.IsNullOrWhiteSpace(context.Message.Reference))
+            {
+                throw new ArgumentNullException("Reference could not be null.");
+            }
+
+            if (context.Message.Quantity <= 0)
+            {
+                throw new ArgumentException("Production quantity must be greater than zero.");
+            }
+        }
+
+        private async Task<List<Part>> GetParts(ConsumeContext<ProductionConfirmedEvent> context)
+        {
+            var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
+
+            if (parts.Count <= 0)
+            {
+                throw new NullDataException();
+            }
+
+            return parts;
         }
 
         private async Task<bool> ConfirmProductionIfPartsAvailable(List<Part> parts, int productionQuantity)
