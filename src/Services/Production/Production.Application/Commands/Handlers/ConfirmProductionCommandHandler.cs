@@ -22,17 +22,23 @@ namespace Production.Application.Commands.Handlers
             this.bus = bus;
             this.productionQueueRepo = productionQueueRepo;
         }
+
         public async Task<Unit> Handle(ConfirmProductionCommand request, CancellationToken cancellationToken)
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue.ProductionStatus == ProductionStatus.Waiting
-                || productionQueue.ProductionStatus == ProductionStatus.NoParts)
+            if (ProductionWaitingOrDontHaveParts(productionQueue))
             {
                 await RequestForConfirmProduction(productionQueue);
             }
 
             return Unit.Value;
+        }
+
+        private bool ProductionWaitingOrDontHaveParts(ProductionQueue productionQueue)
+        {
+            return productionQueue.ProductionStatus == ProductionStatus.Waiting
+                || productionQueue.ProductionStatus == ProductionStatus.NoParts;
         }
 
         private async Task RequestForConfirmProduction(ProductionQueue productionQueue)
@@ -42,6 +48,12 @@ namespace Production.Application.Commands.Handlers
             var response = await client.GetResponse<ProductionConfirmedResult>(
                 new { productionQueue.Reference, productionQueue.Quantity });
 
+            await ChangeProductionStatusDependingOnResponse(productionQueue, response);
+        }
+
+        private async Task ChangeProductionStatusDependingOnResponse(ProductionQueue productionQueue,
+            Response<ProductionConfirmedResult> response)
+        {
             if (response.Message.ConfirmProduction)
             {
                 productionQueue.ProductionStatus = ProductionStatus.Confirmed;

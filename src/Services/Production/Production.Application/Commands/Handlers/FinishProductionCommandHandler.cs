@@ -4,6 +4,7 @@ using MassTransit;
 using MediatR;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
+using Production.Core.Models;
 using System.Threading;
 using System.Threading.Tasks;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
@@ -25,23 +26,31 @@ namespace Production.Application.Commands.Handlers
         {
             var productionQueue = await productionQueueRepo.GetById(request.ProductionQueueId);
 
-            if (productionQueue.ProductionStatus != ProductionStatus.BeingCreated)
-            {
-                throw new ProductsNotBeingCreatedException();
-            }
+            CheckIfProductionBeingCreated(productionQueue);
 
-            productionQueue.ProductionStatus = ProductionStatus.Finished;
+            await ChangeProductionStatusToFinished(productionQueue);
 
-            await productionQueueRepo.SaveAllAsync();
-
-            await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
-
-            await PublishPackReadyToSendEventIfOrderedProductsFinished(productionQueue.OrderId);
+            await PublishEventIfOrderedProductsFinished(productionQueue.OrderId);
 
             return Unit.Value;
         }
 
-        private async Task PublishPackReadyToSendEventIfOrderedProductsFinished(int orderId)
+        private static void CheckIfProductionBeingCreated(ProductionQueue productionQueue)
+        {
+            if (productionQueue.ProductionStatus != ProductionStatus.BeingCreated)
+            {
+                throw new ProductsNotBeingCreatedException();
+            }
+        }
+
+        private async Task ChangeProductionStatusToFinished(ProductionQueue productionQueue)
+        {
+            productionQueue.ProductionStatus = ProductionStatus.Finished;
+            await productionQueueRepo.SaveAllAsync();
+            await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
+        }
+
+        private async Task PublishEventIfOrderedProductsFinished(int orderId)
         {
             var orderedProducts = await productionQueueRepo
                 .GetByConditionToList(x => x.OrderId == orderId && x.ProductionStatus != ProductionStatus.Finished);
