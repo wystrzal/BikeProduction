@@ -33,7 +33,8 @@ namespace Production.Test.Commands
         public async Task FinishProductionCommandHandler_ThrowsProductsNotBeingCreatedException()
         {
             //Arrange
-            productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult((ProductionQueue)null));
+            var productionQueue = new ProductionQueue();
+            productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
 
             var command = new FinishProductionCommand(It.IsAny<int>());
 

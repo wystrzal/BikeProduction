@@ -25,22 +25,35 @@ namespace Production.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
-            AddOrderedItemsToProductionQueue(context.Message.OrderItems, context.Message.OrderId);
-
             try
             {
-                await productionQueueRepo.SaveAllAsync();
+                ValidateContext(context);
+
+                await AddOrderedItemsToProductionQueue(context.Message.OrderItems, context.Message.OrderId);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex.Message);
                 throw;
             }
-     
+
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 
-        private void AddOrderedItemsToProductionQueue(List<OrderItem> orderItems, int orderId)
+        private void ValidateContext(ConsumeContext<OrderCreatedEvent> context)
+        {
+            if (context.Message.OrderItems == null || context.Message.OrderItems.Count <= 0)
+            {
+                throw new ArgumentNullException("The list of order items cannot be empty and must contain any elements.");
+            }
+            
+            if (context.Message.OrderId <= 0)
+            {
+                throw new ArgumentException("OrderID must be greater than zero.");
+            }
+        }
+
+        private async Task AddOrderedItemsToProductionQueue(List<OrderItem> orderItems, int orderId)
         {
             foreach (var orderItem in orderItems)
             {
@@ -52,6 +65,8 @@ namespace Production.Application.Messaging.Consumers
                     OrderId = orderId
                 });
             };
+
+            await productionQueueRepo.SaveAllAsync();
         }
     }
 }

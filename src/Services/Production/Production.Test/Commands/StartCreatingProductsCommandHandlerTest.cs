@@ -29,9 +29,11 @@ namespace Production.Test.Commands
         public async Task StartCreatingProductsCommandHandler_ThrowsProductionQueueNotConfirmedException()
         {
             //Arrange
+            var productionQueue = new ProductionQueue();
+
             var command = new StartCreatingProductsCommand(It.IsAny<int>());
 
-            productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult((ProductionQueue)null));
+            productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
 
             var commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
 
