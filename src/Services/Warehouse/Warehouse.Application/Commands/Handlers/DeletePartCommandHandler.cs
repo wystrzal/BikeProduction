@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
+using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Commands.Handlers
 {
@@ -18,11 +19,15 @@ namespace Warehouse.Application.Commands.Handlers
         {
             var part = await partRepository.GetById(request.PartId);
 
-            partRepository.Delete(part);
-
-            await partRepository.SaveAllAsync();
+            await DeletePart(part);
 
             return Unit.Value;
+        }
+
+        private async Task DeletePart(Part part)
+        {
+            partRepository.Delete(part);
+            await partRepository.SaveAllAsync();
         }
     }
 }

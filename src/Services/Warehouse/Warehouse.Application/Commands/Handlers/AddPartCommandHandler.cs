@@ -22,11 +22,15 @@ namespace Warehouse.Application.Commands.Handlers
         {
             var partToAdd = mapper.Map<Part>(request);
 
-            partRepository.Add(partToAdd);
-
-            await partRepository.SaveAllAsync();
+            await AddPart(partToAdd);
 
             return Unit.Value;
+        }
+
+        private async Task AddPart(Part partToAdd)
+        {
+            partRepository.Add(partToAdd);
+            await partRepository.SaveAllAsync();
         }
     }
 }

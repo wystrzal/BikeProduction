@@ -22,11 +22,15 @@ namespace Warehouse.Application.Commands.Handlers
         {
             var storagePlaceToAdd = mapper.Map<StoragePlace>(request);
 
-            storagePlaceRepo.Add(storagePlaceToAdd);
-
-            await storagePlaceRepo.SaveAllAsync();
+            await AddStoragePlace(storagePlaceToAdd);
 
             return Unit.Value;
+        }
+
+        private async Task AddStoragePlace(StoragePlace storagePlaceToAdd)
+        {
+            storagePlaceRepo.Add(storagePlaceToAdd);
+            await storagePlaceRepo.SaveAllAsync();
         }
     }
 }
