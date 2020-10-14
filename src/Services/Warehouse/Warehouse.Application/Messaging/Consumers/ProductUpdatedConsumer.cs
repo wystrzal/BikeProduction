@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
+using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Messaging.Consumers
 {
@@ -24,12 +25,11 @@ namespace Warehouse.Application.Messaging.Consumers
         {
             try
             {
+                ValidateContext(context);
+
                 var product = await productRepository.GetByConditionFirst(x => x.Reference == context.Message.OldReference);
 
-                product.ProductName = context.Message.ProductName;
-                product.Reference = context.Message.Reference;
-
-                await productRepository.SaveAllAsync();
+                await ChangeProductNameAndReference(context, product);
             }
             catch (Exception ex)
             {
@@ -38,6 +38,31 @@ namespace Warehouse.Application.Messaging.Consumers
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ValidateContext(ConsumeContext<ProductUpdatedEvent> context)
+        {
+            if (string.IsNullOrWhiteSpace(context.Message.OldReference))
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (string.IsNullOrWhiteSpace(context.Message.Reference))
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (string.IsNullOrWhiteSpace(context.Message.ProductName))
+            {
+                throw new ArgumentNullException();
+            }
+        }
+
+        private async Task ChangeProductNameAndReference(ConsumeContext<ProductUpdatedEvent> context, Product product)
+        {
+            product.ProductName = context.Message.ProductName;
+            product.Reference = context.Message.Reference;
+            await productRepository.SaveAllAsync();
         }
     }
 }

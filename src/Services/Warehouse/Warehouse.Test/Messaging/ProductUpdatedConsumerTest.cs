@@ -18,26 +18,30 @@ namespace Warehouse.Test.Messaging
 {
     public class ProductUpdatedConsumerTest
     {
+        const string productName = "test";
+        const string reference = "test";
+        const string oldReference = "test";
+
         private readonly Mock<IProductRepository> productRepository;
         private readonly Mock<ILogger<ProductUpdatedConsumer>> logger;
+        private readonly Product product;
+        private readonly ProductUpdatedConsumer consumer;
 
         public ProductUpdatedConsumerTest()
         {
             productRepository = new Mock<IProductRepository>();
             logger = new Mock<ILogger<ProductUpdatedConsumer>>();
+            product = new Product();
+            consumer = new ProductUpdatedConsumer(productRepository.Object, logger.Object);
         }
 
         [Fact]
         public async Task ProductUpdatedConsumer_Success()
         {
             //Arrange
-            var product = new Product();
-            var productUpdatedEvent = new ProductUpdatedEvent();
-            var context = Mock.Of<ConsumeContext<ProductUpdatedEvent>>(x => x.Message == productUpdatedEvent);
+            var context = GetContext(productName, reference, oldReference);
 
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
-
-            var consumer = new ProductUpdatedConsumer(productRepository.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);
@@ -48,15 +52,45 @@ namespace Warehouse.Test.Messaging
         }
 
         [Fact]
+        public async Task ProductUpdatedConsumer_NullProductName_ThrowsArgumentNullException()
+        {
+            //Arrange
+            var context = GetContext("", reference, oldReference);
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ProductUpdatedConsumer_NullReference_ThrowsArgumentNullException()
+        {
+            //Arrange
+            var context = GetContext(productName, "", oldReference);
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ProductUpdatedConsumer_NullOldReference_ThrowsArgumentNullException()
+        {
+            //Arrange
+            var context = GetContext(productName, reference, "");
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
         public async Task ProductUpdatedConsumer_ThrowsNullDataException()
         {
             //Arrange
-            var productUpdatedEvent = new ProductUpdatedEvent();
-            var context = Mock.Of<ConsumeContext<ProductUpdatedEvent>>(x => x.Message == productUpdatedEvent);
+            var context = GetContext(productName, reference, oldReference);
 
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).ThrowsAsync(new NullDataException());
-
-            var consumer = new ProductUpdatedConsumer(productRepository.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<NullDataException>(() => consumer.Consume(context));
@@ -67,19 +101,22 @@ namespace Warehouse.Test.Messaging
         public async Task ProductUpdatedConsumer_ThrowsChangesNotSavedCorrectlyException()
         {
             //Arrange
-            var product = new Product();
-            var productUpdatedEvent = new ProductUpdatedEvent();
-            var context = Mock.Of<ConsumeContext<ProductUpdatedEvent>>(x => x.Message == productUpdatedEvent);
+            var context = GetContext(productName, reference, oldReference);
 
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
-
             productRepository.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(Product)));
-
-            var consumer = new ProductUpdatedConsumer(productRepository.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<ChangesNotSavedCorrectlyException>(() => consumer.Consume(context));
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        private ConsumeContext<ProductUpdatedEvent> GetContext(string productName, string reference, string oldReference)
+        {
+            var productUpdatedEvent
+                = new ProductUpdatedEvent { ProductName = productName, Reference = reference, OldReference = oldReference };
+
+            return Mock.Of<ConsumeContext<ProductUpdatedEvent>>(x => x.Message == productUpdatedEvent);
         }
     }
 }
