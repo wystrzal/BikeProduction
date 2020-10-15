@@ -22,27 +22,28 @@ namespace Catalog.Test.Commands
         private readonly Mock<IBus> bus;
         private readonly Mock<IMapper> mapper;
 
+        private readonly AddProductCommand command;
+        private readonly AddProductCommandHandler commandHandler;
+        private readonly Product product;
+
         public AddProductCommandHandlerTest()
         {
             productRepository = new Mock<IProductRepository>();
             bus = new Mock<IBus>();
             mapper = new Mock<IMapper>();
+            command = new AddProductCommand();
+            commandHandler = new AddProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);
+            product = new Product();
         }
 
         [Fact]
         public async Task AddProductCommandHandler_Success()
         {
             //Arrange
-            var command = new AddProductCommand();
-            var product = new Product();
-
             mapper.Setup(x => x.Map<Product>(command)).Returns(product);
 
             productRepository.Setup(x => x.Add(product));
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
-
-            var commandHandler =
-                new AddProductCommandHandler(productRepository.Object, mapper.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

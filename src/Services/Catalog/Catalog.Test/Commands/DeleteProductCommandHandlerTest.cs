@@ -17,23 +17,25 @@ namespace Catalog.Test.Commands
         private readonly Mock<IProductRepository> productRepository;
         private readonly Mock<IBus> bus;
 
+        private readonly DeleteProductCommand command;
+        private readonly DeleteProductCommandHandler commandHandler;
+        private readonly Product product;
+
         public DeleteProductCommandHandlerTest()
         {
             productRepository = new Mock<IProductRepository>();
             bus = new Mock<IBus>();
+            command = new DeleteProductCommand(It.IsAny<int>());
+            product = new Product();
+            commandHandler = new DeleteProductCommandHandler(productRepository.Object, bus.Object);
         }
 
         [Fact]
         public async Task DeleteProductCommandHandler_Success()
         {
             //Arrange
-            var command = new DeleteProductCommand(It.IsAny<int>());
-            var product = new Product();
-
             productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
-
-            var commandHandler = new DeleteProductCommandHandler(productRepository.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

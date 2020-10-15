@@ -15,21 +15,22 @@ namespace Catalog.Test.Services
     {
         private readonly Mock<IProductRepository> productRepository;
 
+        private readonly ChangeProductsPopularityService service;
+        private readonly List<OrderItem> orderItems;
+
         public ChangeProductsPopularityServiceTest()
         {
             productRepository = new Mock<IProductRepository>();
+            service = new ChangeProductsPopularityService(productRepository.Object);
+            orderItems = new List<OrderItem> { new OrderItem() };
         }
 
         [Fact]
         public async Task ChangeProductsPopularity_Success()
         {
             //Arrange
-            var orderItems = new List<OrderItem> { new OrderItem() };
-
             productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
                 .Returns(Task.FromResult(new Product()));
-
-            var service = new ChangeProductsPopularityService(productRepository.Object);
 
             //Act
             await service.ChangeProductsPopularity(orderItems, It.IsAny<bool>());
@@ -41,9 +42,6 @@ namespace Catalog.Test.Services
         [Fact]
         public async Task ChangeProductsPopularity_ThrowsArgumentNullException()
         {
-            //Arrange
-            var service = new ChangeProductsPopularityService(productRepository.Object);
-
             //Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
                 service.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()));   

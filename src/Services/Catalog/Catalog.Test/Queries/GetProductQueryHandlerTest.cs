@@ -15,33 +15,35 @@ namespace Catalog.Test.Queries
 {
     public class GetProductQueryHandlerTest
     {
+        private const string productName = "test";
+
         private readonly Mock<IMapper> mapper;
         private readonly Mock<IProductRepository> productRepository;
+
+        private readonly GetProductQuery query;
+        private readonly GetProductQueryHandler queryHandler;
+        private readonly Product product;
+        private readonly GetProductDto productDto;
 
         public GetProductQueryHandlerTest()
         {
             mapper = new Mock<IMapper>();
             productRepository = new Mock<IProductRepository>();
+            query = new GetProductQuery(It.IsAny<int>());
+            queryHandler = new GetProductQueryHandler(productRepository.Object, mapper.Object);
+            product = new Product { ProductName = productName };
+            productDto = new GetProductDto { ProductName = productName };
         }
 
         [Fact]
         public async Task GetProductQueryHandler_Success()
         {
             //Arrange
-            var productName = "test";
-
-            var product = new Product { ProductName = productName };
-            var productDto = new GetProductDto { ProductName = productName };
-
-            var query = new GetProductQuery(It.IsAny<int>());
-
             productRepository.Setup(x =>
                 x.GetByConditionWithIncludeFirst(It.IsAny<Func<Product, bool>>(), It.IsAny<Expression<Func<Product, Brand>>>()))
                 .Returns(Task.FromResult(product));
 
             mapper.Setup(x => x.Map<GetProductDto>(product)).Returns(productDto);
-
-            var queryHandler = new GetProductQueryHandler(productRepository.Object, mapper.Object);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());

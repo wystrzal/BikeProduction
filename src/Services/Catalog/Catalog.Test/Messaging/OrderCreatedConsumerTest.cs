@@ -19,21 +19,20 @@ namespace Catalog.Test.Messaging
         private readonly Mock<IChangeProductsPopularityService> changeProductsPopularityService;
         private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
 
+        private readonly OrderCreatedConsumer consumer;
+
         public OrderCreatedConsumerTest()
         {
             changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCreatedConsumer>>();
+            consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
         }
 
         [Fact]
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
-            var orderCreatedEvent = new OrderCreatedEvent();
-
-            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
-
-            var consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
+            var context = GetContext();
 
             //Act
             await consumer.Consume(context);
@@ -48,19 +47,21 @@ namespace Catalog.Test.Messaging
         public async Task OrderCreatedConsumer_ThrowsException()
         {
             //Arrange
-            var orderCreatedEvent = new OrderCreatedEvent();
-
-            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
+            var context = GetContext();
 
             changeProductsPopularityService
                 .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>())).ThrowsAsync(new Exception());
-
-            var consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<Exception>(() => consumer.Consume(context));
             logger.VerifyLogging(LogLevel.Error);
         }
 
+        private ConsumeContext<OrderCreatedEvent> GetContext()
+        {
+            var orderCreatedEvent = new OrderCreatedEvent();
+
+            return Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
+        }
     }
 }

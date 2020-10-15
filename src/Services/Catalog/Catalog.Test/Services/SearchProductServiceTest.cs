@@ -17,25 +17,28 @@ namespace Catalog.Test.Services
 {
     public class SearchProductServiceTest
     {
+        private const Colors color = Colors.Black;
+
         private readonly Mock<ISearchSortFilterService<Product, FilteringData>> sortFilterService;
+
+        private readonly SearchProductService service;
+        private readonly List<Product> products;
+        private readonly FilteringData filteringData;
 
         public SearchProductServiceTest()
         {
             sortFilterService = new Mock<ISearchSortFilterService<Product, FilteringData>>();
+            service = new SearchProductService(sortFilterService.Object);
+            products = new List<Product> { new Product(), new Product() };
+            filteringData = new FilteringData { Colors = color };
         }
 
         [Fact]
         public async Task GetProducts_Success()
         {
             //Arrange
-            var products = new List<Product> { new Product(), new Product() };
-
-            var filteringData = new FilteringData { Colors = Colors.Black };
-
             sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(products));
-
-            var service = new SearchProductService(sortFilterService.Object);
 
             //Act
             var action = await service.GetProducts(filteringData);

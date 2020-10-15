@@ -19,18 +19,18 @@ namespace Catalog.Test.Controller
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<CatalogController>> logger;
 
+        private readonly CatalogController controller;
+
         public AddProductTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<CatalogController>>();
+            controller = new CatalogController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task AddProduct_OkResult()
         {
-            //Arrange
-            var controller = new CatalogController(mediator.Object, logger.Object);
-
             //Act
             var action = await controller.AddProduct(It.IsAny<AddProductCommand>()) as OkResult;
 
@@ -43,8 +43,6 @@ namespace Catalog.Test.Controller
         public async Task AddProduct_BadRequestObjectResult()
         {
             //Arrange
-            var controller = new CatalogController(mediator.Object, logger.Object);
-
             mediator.Setup(x => x.Send(It.IsAny<AddProductCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
             //Act

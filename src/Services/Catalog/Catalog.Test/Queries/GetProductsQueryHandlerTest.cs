@@ -21,27 +21,28 @@ namespace Catalog.Test.Queries
         private readonly Mock<IMapper> mapper;
         private readonly Mock<ISearchProductService> searchProductService;
 
+        private readonly GetProductsQuery query;
+        private readonly GetProductsQueryHandler queryHandler;
+        private readonly List<Product> products;
+        private readonly List<GetProductsDto> productsDto;
+
         public GetProductsQueryHandlerTest()
         {
             mapper = new Mock<IMapper>();
             searchProductService = new Mock<ISearchProductService>();
+            query = new GetProductsQuery(new FilteringData());
+            queryHandler = new GetProductsQueryHandler(mapper.Object, searchProductService.Object);
+            products = new List<Product> { new Product(), new Product() };
+            productsDto = new List<GetProductsDto> { new GetProductsDto(), new GetProductsDto() };
         }
 
         [Fact]
         public async Task GetProductsQueryHandler_Success()
         {
             //Arrange
-            var query = new GetProductsQuery(new FilteringData());
-
-            var products = new List<Product> { new Product(), new Product() };
-            var productsDto = new List<GetProductsDto> { new GetProductsDto(), new GetProductsDto() };
-
             searchProductService.Setup(x => x.GetProducts(It.IsAny<FilteringData>())).Returns(Task.FromResult(products));
 
             mapper.Setup(x => x.Map<List<GetProductsDto>>(products)).Returns(productsDto);
-
-            var queryHandler = new GetProductsQueryHandler(mapper.Object, searchProductService.Object);
-
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 

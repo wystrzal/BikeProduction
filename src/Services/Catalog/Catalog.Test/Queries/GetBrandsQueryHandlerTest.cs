@@ -20,26 +20,28 @@ namespace Catalog.Test.Queries
         private readonly Mock<IMapper> mapper;
         private readonly Mock<IBrandRepository> brandRepository;
 
+        private readonly GetBrandsQuery query;
+        private readonly GetBrandsQueryHandler queryHandler;
+        private readonly List<Brand> brands;
+        private readonly List<GetBrandsDto> brandsDto;
+
         public GetBrandsQueryHandlerTest()
         {
             mapper = new Mock<IMapper>();
             brandRepository = new Mock<IBrandRepository>();
+            query = new GetBrandsQuery();
+            queryHandler = new GetBrandsQueryHandler(brandRepository.Object, mapper.Object);
+            brands = new List<Brand> { new Brand(), new Brand() };
+            brandsDto = new List<GetBrandsDto> { new GetBrandsDto(), new GetBrandsDto() };
         }
 
         [Fact]
         public async Task GetBrandsQueryHandler_Success()
         {
-            //Arrange
-            var query = new GetBrandsQuery();
-
-            var brands = new List<Brand> { new Brand(), new Brand() };
-            var brandsDto = new List<GetBrandsDto> { new GetBrandsDto(), new GetBrandsDto() };
-
+            //Arrange         
             brandRepository.Setup(x => x.GetAll()).Returns(Task.FromResult(brands));
 
             mapper.Setup(x => x.Map<List<GetBrandsDto>>(brands)).Returns(brandsDto);
-
-            var queryHandler = new GetBrandsQueryHandler(brandRepository.Object, mapper.Object);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());

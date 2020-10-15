@@ -21,23 +21,23 @@ namespace Catalog.Test.Controller
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<CatalogController>> logger;
 
+        private readonly CatalogController controller;
+        private readonly IEnumerable<GetProductsDto> productsDto;
+
         public GetProductsTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<CatalogController>>();
+            controller = new CatalogController(mediator.Object, logger.Object);
+            productsDto = new List<GetProductsDto> { new GetProductsDto(), new GetProductsDto() };
         }
 
         [Fact]
         public async Task GetProducts_OkObjectResult()
         {
             //Arrange
-            IEnumerable<GetProductsDto> productsDto = new List<GetProductsDto> 
-                { new GetProductsDto(), new GetProductsDto() };
-
             mediator.Setup(x => x.Send(It.IsAny<GetProductsQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(productsDto));
-
-            var controller = new CatalogController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetProducts(It.IsAny<FilteringData>()) as OkObjectResult;

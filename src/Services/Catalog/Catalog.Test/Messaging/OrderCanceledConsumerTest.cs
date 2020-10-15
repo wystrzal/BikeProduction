@@ -20,21 +20,20 @@ namespace Catalog.Test.Messaging
         private readonly Mock<IChangeProductsPopularityService> changeProductsPopularityService;
         private readonly Mock<ILogger<OrderCanceledConsumer>> logger;
 
+        private readonly OrderCanceledConsumer consumer;
+
         public OrderCanceledConsumerTest()
         {
             changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCanceledConsumer>>();
+            consumer = new OrderCanceledConsumer(changeProductsPopularityService.Object, logger.Object);
         }
 
         [Fact]
         public async Task OrderCanceledConsumer_Success()
         {
             //Arrange
-            var orderCanceledEvent = new OrderCanceledEvent();
-
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
-
-            var consumer = new OrderCanceledConsumer(changeProductsPopularityService.Object, logger.Object);
+            var context = GetContext();
 
             //Act
             await consumer.Consume(context);
@@ -50,18 +49,21 @@ namespace Catalog.Test.Messaging
         public async Task OrderCanceledConsumer_ThrowsException()
         {
             //Arrange
-            var orderCanceledEvent = new OrderCanceledEvent();
-
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
+            var context = GetContext();
 
             changeProductsPopularityService
                 .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>())).ThrowsAsync(new Exception());
 
-            var consumer = new OrderCanceledConsumer(changeProductsPopularityService.Object, logger.Object);
-
             //Assert
             await Assert.ThrowsAsync<Exception>(() => consumer.Consume(context));
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        private ConsumeContext<OrderCanceledEvent> GetContext()
+        {
+            var orderCanceledEvent = new OrderCanceledEvent();
+
+            return Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
         }
     }
 }
