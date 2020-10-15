@@ -21,25 +21,28 @@ namespace CustomerOrder.Test.Queries
         private readonly Mock<IMapper> mapper;
         private readonly Mock<ISearchOrderService> searchOrderService;
 
+        private readonly GetOrdersQuery query;
+        private readonly GetOrdersQueryHandler queryHandler;
+        private readonly List<Order> orders;
+        private readonly List<GetOrdersDto> ordersDto;
+
         public GetOrdersQueryHandlerTest()
         {
             mapper = new Mock<IMapper>();
             searchOrderService = new Mock<ISearchOrderService>();
+            query = new GetOrdersQuery(It.IsAny<FilteringData>());
+            queryHandler = new GetOrdersQueryHandler(searchOrderService.Object, mapper.Object);
+            orders = new List<Order> { new Order(), new Order() };
+            ordersDto = new List<GetOrdersDto> { new GetOrdersDto(), new GetOrdersDto() };
         }
 
         [Fact]
         public async Task GetOrdersQueryHandler_Success()
         {
             //Arrange
-            var query = new GetOrdersQuery(It.IsAny<FilteringData>());
-            var orders = new List<Order> { new Order(), new Order() };
-            var ordersDto = new List<GetOrdersDto> { new GetOrdersDto(), new GetOrdersDto() };
-
             searchOrderService.Setup(x => x.GetOrders(It.IsAny<FilteringData>())).Returns(Task.FromResult(orders));
 
             mapper.Setup(x => x.Map<List<GetOrdersDto>>(orders)).Returns(ordersDto);
-
-            var queryHandler = new GetOrdersQueryHandler(searchOrderService.Object, mapper.Object);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());

@@ -19,25 +19,27 @@ namespace CustomerOrder.Test.Commands
         private readonly Mock<IBus> bus;
         private readonly Mock<IMapper> mapper;
 
+        private readonly CreateOrderCommand command;
+        private readonly CreateOrderCommandHandler commandHandler;
+        private readonly Order order;
+
         public CreateOrderCommandHandlerTest()
         {
             orderRepository = new Mock<IOrderRepository>();
             bus = new Mock<IBus>();
             mapper = new Mock<IMapper>();
+            command = new CreateOrderCommand();
+            commandHandler = new CreateOrderCommandHandler(mapper.Object, orderRepository.Object, bus.Object);
+            order = new Order();
         }
 
         [Fact]
         public async Task CreateOrderCommandHandler_Success()
         {
             //Arrange
-            var command = new CreateOrderCommand();
-            var order = new Order();
-
             mapper.Setup(x => x.Map<Order>(command)).Returns(order);
 
             orderRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
-
-            var commandHandler = new CreateOrderCommandHandler(mapper.Object, orderRepository.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

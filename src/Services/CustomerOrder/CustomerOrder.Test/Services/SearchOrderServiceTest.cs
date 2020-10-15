@@ -16,25 +16,28 @@ namespace CustomerOrder.Test.Services
 {
     public class ServicesTest
     {
+        private const string userId = "1";
+
         private readonly Mock<ISearchSortFilterService<Order, FilteringData>> sortFilterService;
+
+        private readonly SearchOrderService service;
+        private readonly List<Order> orders;
+        private readonly FilteringData filteringData;
 
         public ServicesTest()
         {
             sortFilterService = new Mock<ISearchSortFilterService<Order, FilteringData>>();
+            service = new SearchOrderService(sortFilterService.Object);
+            orders = new List<Order> { new Order(), new Order() };
+            filteringData = new FilteringData { UserId = userId };
         }
 
         [Fact]
         public async Task GetOrders_Success()
         {
             //Arrange
-            var userId = "1";
-            var orders = new List<Order> { new Order(), new Order() };
-            var filteringData = new FilteringData { UserId = userId };
-
             sortFilterService.Setup(x => x.Search(It.IsAny<bool>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(Task.FromResult(orders));
-
-            var service = new SearchOrderService(sortFilterService.Object);
 
             //Act
             var action = await service.GetOrders(filteringData);

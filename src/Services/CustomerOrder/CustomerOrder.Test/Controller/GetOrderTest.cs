@@ -17,26 +17,28 @@ namespace CustomerOrder.Test.Controller
 {
     public class GetOrderTest
     {
+        private const int orderId = 1;
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<CustomerOrderController>> logger;
+
+        private readonly CustomerOrderController controller;
+        private readonly GetOrderDto orderDto;
 
         public GetOrderTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<CustomerOrderController>>();
+            controller = new CustomerOrderController(mediator.Object, logger.Object);
+            orderDto = new GetOrderDto { OrderId = orderId };
         }
 
         [Fact]
         public async Task GetOrder_OkObjectResult()
         {
             //Arrange
-            int orderId = 1;
-            var orderDto = new GetOrderDto { OrderId = orderId };
-
             mediator.Setup(x => x.Send(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(orderDto));
-
-            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetOrder(orderId) as OkObjectResult;
@@ -53,8 +55,6 @@ namespace CustomerOrder.Test.Controller
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
-
-            var controller = new CustomerOrderController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetOrder(It.IsAny<int>()) as BadRequestObjectResult;

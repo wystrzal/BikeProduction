@@ -15,34 +15,35 @@ namespace CustomerOrder.Test.Messaging
 {
     public class ChangeOrderStatusConsumerTest
     {
+        private const OrderStatus orderStatus = OrderStatus.Confirmed;
+
         private readonly Mock<IOrderRepository> orderRepository;
         private readonly Mock<ILogger<ChangeOrderStatusConsumer>> logger;
+
+        private readonly ChangeOrderStatusConsumer consumer;
+        private readonly Order order;
 
         public ChangeOrderStatusConsumerTest()
         {
             orderRepository = new Mock<IOrderRepository>();
             logger = new Mock<ILogger<ChangeOrderStatusConsumer>>();
+            consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
+            order = new Order();
         }
 
         [Fact]
         public async Task ChangeOrderStatusConsumer_Success()
         {
             //Arrange
-            var status = OrderStatus.Confirmed;
-            var order = new Order();
-            var changeOrderStatusEvent = new ChangeOrderStatusEvent(It.IsAny<int>(), status);
-
-            var context = Mock.Of<ConsumeContext<ChangeOrderStatusEvent>>(x => x.Message == changeOrderStatusEvent);
+            var context = GetContext();
 
             orderRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(order));
-
-            var consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
-
+            
             //Act
             await consumer.Consume(context);
 
             //Assert
-            Assert.Equal(status, order.OrderStatus);
+            Assert.Equal(orderStatus, order.OrderStatus);
             orderRepository.Verify(x => x.SaveAllAsync(), Times.Once);
             logger.VerifyLogging(LogLevel.Information);
         }
@@ -51,13 +52,9 @@ namespace CustomerOrder.Test.Messaging
         public async Task ChangeOrderStatusConsumer_ThrowsNullDataException()
         {
             //Arrange
-            var changeOrderStatusEvent = new ChangeOrderStatusEvent(It.IsAny<int>(), It.IsAny<OrderStatus>());
-
-            var context = Mock.Of<ConsumeContext<ChangeOrderStatusEvent>>(x => x.Message == changeOrderStatusEvent);
+            var context = GetContext();
 
             orderRepository.Setup(x => x.GetById(It.IsAny<int>())).ThrowsAsync(new NullDataException());
-
-            var consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<NullDataException>(() => consumer.Consume(context));
@@ -69,20 +66,20 @@ namespace CustomerOrder.Test.Messaging
         public async Task ChangeOrderStatusConsumer_ThrowsChangesNotSavedCorrectlyException()
         {
             //Arrange
-            var status = OrderStatus.Confirmed;
-            var order = new Order();
-            var changeOrderStatusEvent = new ChangeOrderStatusEvent(It.IsAny<int>(), status);
-
-            var context = Mock.Of<ConsumeContext<ChangeOrderStatusEvent>>(x => x.Message == changeOrderStatusEvent);
+            var context = GetContext();
 
             orderRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(order));
             orderRepository.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(Order)));
 
-            var consumer = new ChangeOrderStatusConsumer(orderRepository.Object, logger.Object);
-
             //Assert
             await Assert.ThrowsAsync<ChangesNotSavedCorrectlyException>(() => consumer.Consume(context));
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        private ConsumeContext<ChangeOrderStatusEvent> GetContext()
+        {
+            var changeOrderStatusEvent = new ChangeOrderStatusEvent(It.IsAny<int>(), orderStatus);
+            return Mock.Of<ConsumeContext<ChangeOrderStatusEvent>>(x => x.Message == changeOrderStatusEvent);
         }
     }
 }

@@ -16,35 +16,40 @@ namespace CustomerOrder.Test.Queries
 {
     public class GetOrderQueryHandlerTest
     {
+        private const int orderId = 1;
+
         private readonly Mock<IOrderRepository> orderRepository;
         private readonly Mock<IMapper> mapper;
+
+        private readonly GetOrderQuery query;
+        private readonly GetOrderQueryHandler queryHandler;
+        private readonly Order order;
+        private readonly GetOrderDto orderDto;
 
         public GetOrderQueryHandlerTest()
         {
             orderRepository = new Mock<IOrderRepository>();
             mapper = new Mock<IMapper>();
+            query = new GetOrderQuery(orderId);
+            queryHandler = new GetOrderQueryHandler(orderRepository.Object, mapper.Object);
+            order = new Order { OrderId = orderId };
+            orderDto = new GetOrderDto { OrderId = orderId };
         }
 
         [Fact]
         public async Task GetOrderQueryHandler_Success()
         {
             //Arrange
-            var id = 1;
-            var order = new Order { OrderId = id };
-            var orderDto = new GetOrderDto { OrderId = id };
-
             orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>())).Returns(Task.FromResult(order));
 
             mapper.Setup(x => x.Map<GetOrderDto>(order)).Returns(orderDto);
 
-            var queryHandler = new GetOrderQueryHandler(orderRepository.Object, mapper.Object);
-
             //Act
-            var action = await queryHandler.Handle(It.IsAny<GetOrderQuery>(), It.IsAny<CancellationToken>());
+            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(id, action.OrderId);
+            Assert.Equal(orderId, action.OrderId);
         }
     }
 }

@@ -21,27 +21,31 @@ namespace CustomerOrder.Test.Commands
         private readonly Mock<IOrderRepository> orderRepository;
         private readonly Mock<IBus> bus;
 
+        private readonly DeleteOrderCommand command;
+        private readonly DeleteOrderCommandHandler commandHandler;
+        private readonly List<OrderItem> orderItems;
+
         public DeleteOrderCommandHandlerTest()
         {
             orderRepository = new Mock<IOrderRepository>();
             bus = new Mock<IBus>();
+            command = new DeleteOrderCommand(It.IsAny<int>());
+            commandHandler = new DeleteOrderCommandHandler(orderRepository.Object, bus.Object);
+            orderItems = new List<OrderItem> { new OrderItem(), new OrderItem() };
         }
 
         [Fact]
         public async Task DeleteOrderCommandHandler_WaitingForConfirmStatus()
         {
             //Arrange
-            var orderItems = new List<OrderItem> { new OrderItem(), new OrderItem() };
             var order = new Order { OrderStatus = OrderStatus.Waiting_For_Confirm, OrderItems = orderItems };
 
             orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
                 .Returns(Task.FromResult(order));
 
-            var commandHandler = new DeleteOrderCommandHandler(orderRepository.Object, bus.Object);
-
             //Act
-            var action = await commandHandler.Handle(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>());
+            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
             bus.Verify(x => x.Publish(It.IsAny<OrderCanceledEvent>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -54,16 +58,14 @@ namespace CustomerOrder.Test.Commands
         public async Task DeleteOrderCommandHandler_DeliveredStatus()
         {
             //Arrange
-            var order = new Order { OrderStatus = OrderStatus.Delivered};
+            var order = new Order { OrderStatus = OrderStatus.Delivered };
 
             orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
                 .Returns(Task.FromResult(order));
 
-            var commandHandler = new DeleteOrderCommandHandler(orderRepository.Object, bus.Object);
-
             //Act
-            var action = await commandHandler.Handle(It.IsAny<DeleteOrderCommand>(), It.IsAny<CancellationToken>());
+            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
             orderRepository.Verify(x => x.Delete(order), Times.Once);
