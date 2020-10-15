@@ -14,28 +14,32 @@ using Xunit;
 namespace Basket.Test.Queries
 {
     public class GetBasketQuantityQueryHandlerTest
-    {
+    {      
+        private const string userId = "1";
+        private const int nullBasketQuantity = 0;
+        
         private readonly Mock<IBasketRedisService> basketRedisService;
+        
+        private readonly GetBasketQuantityQuery query;
+        private readonly GetBasketQuantityQueryHandler queryHandler;    
 
         public GetBasketQuantityQueryHandlerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
+            query = new GetBasketQuantityQuery(userId);
+            queryHandler = new GetBasketQuantityQueryHandler(basketRedisService.Object);
         }
 
         [Fact]
         public async Task GetBasketQuantityQueryHandler_Success()
         {
-            //Arrange
-            var userId = "1";
-            var query = new GetBasketQuantityQuery(userId);
+            //Arrange         
             var userBasketDto = new UserBasketDto
             {
                 Products = new List<BasketProduct> { new BasketProduct(), new BasketProduct() }
             };
 
             basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
-
-            var queryHandler = new GetBasketQuantityQueryHandler(basketRedisService.Object);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
@@ -45,20 +49,16 @@ namespace Basket.Test.Queries
         }
 
         [Fact]
-        public async Task GetBasketQuantityQueryHandler_NullBaset()
+        public async Task GetBasketQuantityQueryHandler_NullBasket()
         {
             //Arrange
-            var query = new GetBasketQuantityQuery(It.IsAny<string>());
-
             basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult((UserBasketDto)null));
-
-            var queryHandler = new GetBasketQuantityQueryHandler(basketRedisService.Object);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(0, action);
+            Assert.Equal(nullBasketQuantity, action);
         }
     }
 }

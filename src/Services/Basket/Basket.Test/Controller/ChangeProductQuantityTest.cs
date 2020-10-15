@@ -19,18 +19,18 @@ namespace Basket.Test.Controller
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
 
+        private readonly BasketController controller;
+  
         public ChangeProductQuantityTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<BasketController>>();
+            controller = new BasketController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task ChangeProductQuantity_OkResult()
         {
-            //Arrange
-            var controller = new BasketController(mediator.Object, logger.Object);
-
             //Act
             var action = await controller.ChangeProductQuantity(It.IsAny<ChangeProductQuantityCommand>()) as OkResult;
 
@@ -45,8 +45,6 @@ namespace Basket.Test.Controller
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<ChangeProductQuantityCommand>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
-
-            var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.ChangeProductQuantity(It.IsAny<ChangeProductQuantityCommand>()) as BadRequestObjectResult;

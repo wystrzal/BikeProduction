@@ -15,26 +15,26 @@ using Xunit;
 namespace Basket.Test.Messaging
 {
     public class OrderCreatedConsumerTest
-    {
+    {     
+        private const string userId = "1";
+      
         private readonly Mock<IBasketRedisService> basketRedisService;
         private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
-
+      
+        private readonly OrderCreatedConsumer consumer;
+   
         public OrderCreatedConsumerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
             logger = new Mock<ILogger<OrderCreatedConsumer>>();
+            consumer = new OrderCreatedConsumer(basketRedisService.Object, logger.Object);
         }
 
         [Fact]
         public async Task OrderCreatedConsumer_Success()
         {
             //Arrange
-            var userId = "1";
-            var orderCreatedEvent = new OrderCreatedEvent { UserId = userId };
-
-            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
-
-            var consumer = new OrderCreatedConsumer(basketRedisService.Object, logger.Object);
+            var context = GetContext();
 
             //Act
             await consumer.Consume(context);
@@ -48,18 +48,20 @@ namespace Basket.Test.Messaging
         public async Task OrderCreatedConsumer_ThrowsException()
         {
             //Arrange
-            var userId = "1";
-            var orderCreatedEvent = new OrderCreatedEvent { UserId = userId };
+            var context = GetContext();
 
             basketRedisService.Setup(x => x.RemoveBasket(userId)).ThrowsAsync(new Exception());
-
-            var context = Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
-
-            var consumer = new OrderCreatedConsumer(basketRedisService.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<Exception>(() => consumer.Consume(context));
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        private ConsumeContext<OrderCreatedEvent> GetContext()
+        {
+            var orderCreatedEvent = new OrderCreatedEvent { UserId = userId };
+
+            return Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
         }
     }
 }

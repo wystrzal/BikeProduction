@@ -15,22 +15,22 @@ using Xunit;
 namespace Basket.Test.Controller
 {
     public class ClearBasketTest
-    {
+    { 
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
 
+        private readonly BasketController controller;
+ 
         public ClearBasketTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<BasketController>>();
+            controller = new BasketController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task ClearBasket_OkResult()
         {
-            //Arrange
-            var controller = new BasketController(mediator.Object, logger.Object);
-
             //Act
             var action = await controller.ClearBasket(It.IsAny<string>()) as OkResult;
 
@@ -45,8 +45,6 @@ namespace Basket.Test.Controller
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<ClearBasketCommand>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
-
-            var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.ClearBasket(It.IsAny<string>()) as BadRequestObjectResult;

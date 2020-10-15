@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,25 +17,26 @@ namespace Basket.Test.Controller
 {
     public class GetBasketQuantityTest
     {
+        private const int quantity = 1;
+      
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
-
+     
+        private readonly BasketController controller;
+      
         public GetBasketQuantityTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<BasketController>>();
+            controller = new BasketController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task GetBasketQuantity_OkObjectResult()
         {
             //Arrange
-            int quantity = 1;
-
             mediator.Setup(x => x.Send(It.IsAny<GetBasketQuantityQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(quantity));
-
-            var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetBasketQuantity(It.IsAny<string>()) as OkObjectResult;
@@ -50,8 +52,6 @@ namespace Basket.Test.Controller
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<GetBasketQuantityQuery>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
-
-            var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetBasketQuantity(It.IsAny<string>()) as BadRequestObjectResult;

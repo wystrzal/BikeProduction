@@ -17,27 +17,29 @@ using Xunit;
 namespace Basket.Test.Controller
 {
     public class GetBasketTest
-    {
+    {    
+        private const string userId = "1";
+       
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
+       
+        private readonly BasketController controller;
 
         public GetBasketTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<BasketController>>();
+            controller = new BasketController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task GetBasket_OkObjectResult()
         {
             //Arrange
-            var userId = "1";
             var userBasketDto = new UserBasketDto { UserId = userId };
 
             mediator.Setup(x => x.Send(It.IsAny<GetBasketQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(userBasketDto));
-
-            var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetBasket(It.IsAny<string>()) as OkObjectResult;
@@ -54,8 +56,6 @@ namespace Basket.Test.Controller
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<GetBasketQuery>(), It.IsAny<CancellationToken>()))
                 .Throws(new Exception());
-
-            var controller = new BasketController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetBasket(It.IsAny<string>()) as BadRequestObjectResult;

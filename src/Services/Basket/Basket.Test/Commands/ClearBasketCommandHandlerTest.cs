@@ -16,25 +16,24 @@ namespace Basket.Test.Commands
     {
         private readonly Mock<IBasketRedisService> basketRedisService;
 
+        private readonly ClearBasketCommand command;
+        private readonly ClearBasketCommandHandler commandHandler;
+
         public ClearBasketCommandHandlerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
+            command = new ClearBasketCommand(It.IsAny<string>());
+            commandHandler = new ClearBasketCommandHandler(basketRedisService.Object);
         }
 
         [Fact]
         public async Task ClearBasketCommandHandler_Success()
         {
-            //Arrange
-            var command = new ClearBasketCommand(It.IsAny<string>());
-
-            var commandHandler = new ClearBasketCommandHandler(basketRedisService.Object);
-
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
             Assert.Equal(Unit.Value, action);
-
             basketRedisService.Verify(x => x.RemoveBasket(It.IsAny<string>()), Times.Once);
         }
     }
