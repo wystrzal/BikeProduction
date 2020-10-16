@@ -20,22 +20,21 @@ namespace Basket.Test.Messaging
       
         private readonly Mock<IBasketRedisService> basketRedisService;
         private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
-      
+        
         private readonly OrderCreatedConsumer consumer;
-   
+        private readonly ConsumeContext<OrderCreatedEvent> context;
+
         public OrderCreatedConsumerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
             logger = new Mock<ILogger<OrderCreatedConsumer>>();
             consumer = new OrderCreatedConsumer(basketRedisService.Object, logger.Object);
+            context = GetContext();
         }
 
         [Fact]
         public async Task OrderCreatedConsumer_Success()
         {
-            //Arrange
-            var context = GetContext();
-
             //Act
             await consumer.Consume(context);
 
@@ -48,8 +47,6 @@ namespace Basket.Test.Messaging
         public async Task OrderCreatedConsumer_ThrowsException()
         {
             //Arrange
-            var context = GetContext();
-
             basketRedisService.Setup(x => x.RemoveBasket(userId)).ThrowsAsync(new Exception());
 
             //Assert

@@ -19,18 +19,18 @@ namespace Delivery.Test.Controller
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<DeliveryController>> logger;
 
+        private readonly DeliveryController controller;
+
         public CompleteDeliveryTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<DeliveryController>>();
+            controller = new DeliveryController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task CompleteDelivery_OkResult()
         {
-            //Arrange
-            var controller = new DeliveryController(mediator.Object, logger.Object);
-
             //Act
             var action = await controller.CompleteDelivery(It.IsAny<int>()) as OkResult;
 
@@ -44,8 +44,6 @@ namespace Delivery.Test.Controller
         {
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<CompleteDeliveryCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
-
-            var controller = new DeliveryController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.CompleteDelivery(It.IsAny<int>()) as BadRequestObjectResult;

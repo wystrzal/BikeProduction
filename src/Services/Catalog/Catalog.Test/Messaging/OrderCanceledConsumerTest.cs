@@ -21,20 +21,19 @@ namespace Catalog.Test.Messaging
         private readonly Mock<ILogger<OrderCanceledConsumer>> logger;
 
         private readonly OrderCanceledConsumer consumer;
+        private readonly ConsumeContext<OrderCanceledEvent> context;
 
         public OrderCanceledConsumerTest()
         {
             changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCanceledConsumer>>();
             consumer = new OrderCanceledConsumer(changeProductsPopularityService.Object, logger.Object);
+            context = GetContext();
         }
 
         [Fact]
         public async Task OrderCanceledConsumer_Success()
         {
-            //Arrange
-            var context = GetContext();
-
             //Act
             await consumer.Consume(context);
 
@@ -49,8 +48,6 @@ namespace Catalog.Test.Messaging
         public async Task OrderCanceledConsumer_ThrowsException()
         {
             //Arrange
-            var context = GetContext();
-
             changeProductsPopularityService
                 .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>())).ThrowsAsync(new Exception());
 
@@ -62,7 +59,6 @@ namespace Catalog.Test.Messaging
         private ConsumeContext<OrderCanceledEvent> GetContext()
         {
             var orderCanceledEvent = new OrderCanceledEvent();
-
             return Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
         }
     }

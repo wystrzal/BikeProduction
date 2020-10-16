@@ -23,25 +23,26 @@ namespace Delivery.Test.Messaging
         private readonly Mock<IBus> bus;
         private readonly Mock<ILogger<PackReadyToSendConsumer>> logger;
 
+        private readonly PackReadyToSendConsumer consumer;
+        private readonly ConsumeContext<PackReadyToSendEvent> context;
+        private readonly PackToDelivery pack;
+
         public PackReadyToSendConsumerTest()
         {
             packToDeliveryRepo = new Mock<IPackToDeliveryRepo>();
             bus = new Mock<IBus>();
             logger = new Mock<ILogger<PackReadyToSendConsumer>>();
+            consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
+            context = GetContext();
+            pack = new PackToDelivery();
         }
 
         [Fact]
         public async Task PackReadyToSendConsumer_Success()
         {
             //Arrange
-            var packReadyToSendEvent = new PackReadyToSendEvent(It.IsAny<int>());
-            var context = Mock.Of<ConsumeContext<PackReadyToSendEvent>>(x => x.Message == packReadyToSendEvent);
-            var pack = new PackToDelivery();
-
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .Returns(Task.FromResult(pack));
-
-            var consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);
@@ -56,13 +57,8 @@ namespace Delivery.Test.Messaging
         public async Task PackReadyToSendConsumer_ThrowsNullDataException()
         {
             //Arrange
-            var packReadyToSendEvent = new PackReadyToSendEvent(It.IsAny<int>());
-            var context = Mock.Of<ConsumeContext<PackReadyToSendEvent>>(x => x.Message == packReadyToSendEvent);
-
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .ThrowsAsync(new NullDataException());
-
-            var consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<NullDataException>(() => consumer.Consume(context));
@@ -72,21 +68,21 @@ namespace Delivery.Test.Messaging
         [Fact]
         public async Task PackReadyToSendConsumer_ThrowsChangesNotSavedCorrectlyException()
         {
-            //Arrange
-            var packReadyToSendEvent = new PackReadyToSendEvent(It.IsAny<int>());
-            var context = Mock.Of<ConsumeContext<PackReadyToSendEvent>>(x => x.Message == packReadyToSendEvent);
-            var pack = new PackToDelivery();
-
+            //Arrange          
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .Returns(Task.FromResult(pack));
 
             packToDeliveryRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(PackToDelivery)));
 
-            var consumer = new PackReadyToSendConsumer(packToDeliveryRepo.Object, bus.Object, logger.Object);
-
             //Assert
             await Assert.ThrowsAsync<ChangesNotSavedCorrectlyException>(() => consumer.Consume(context));
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        private ConsumeContext<PackReadyToSendEvent> GetContext()
+        {
+            var packReadyToSendEvent = new PackReadyToSendEvent(It.IsAny<int>());
+            return Mock.Of<ConsumeContext<PackReadyToSendEvent>>(x => x.Message == packReadyToSendEvent);
         }
     }
 }

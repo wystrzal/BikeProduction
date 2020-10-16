@@ -22,11 +22,16 @@ namespace Delivery.Test.Commands
         private readonly Mock<IPackToDeliveryRepo> packToDeliveryRepo;
         private readonly Mock<IBus> bus;
 
+        private readonly LoadPackCommand command;
+        private readonly LoadPackCommandHandler commandHandler;
+
         public LoadPackCommandHandlerTest()
         {
             loadingPlaceRepo = new Mock<ILoadingPlaceRepo>();
             packToDeliveryRepo = new Mock<IPackToDeliveryRepo>();
             bus = new Mock<IBus>();
+            command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
+            commandHandler = new LoadPackCommandHandler(packToDeliveryRepo.Object, loadingPlaceRepo.Object, bus.Object);
         }
 
         [Fact]
@@ -35,8 +40,7 @@ namespace Delivery.Test.Commands
             //Arrange
             int productsQuantity = 100;
             int loadedQuantity = 50;
-
-            var command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
+           
             var packToDelivery = new PackToDelivery { ProductsQuantity = productsQuantity };
             var loadingPlace = new LoadingPlace { LoadedQuantity = loadedQuantity, AmountOfSpace = productsQuantity };
 
@@ -45,8 +49,6 @@ namespace Delivery.Test.Commands
 
             loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<LoadingPlace, bool>>()))
                 .Returns(Task.FromResult(loadingPlace));
-
-            var commandHandler = new LoadPackCommandHandler(packToDeliveryRepo.Object, loadingPlaceRepo.Object, bus.Object);
 
             //Assert
             await Assert.ThrowsAsync<LackOfSpaceException>(() => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
@@ -59,7 +61,6 @@ namespace Delivery.Test.Commands
             int productsQuantity = 50;
             int loadedQuantity = 0;
 
-            var command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
             var packToDelivery = new PackToDelivery { ProductsQuantity = productsQuantity };
             var loadingPlace = new LoadingPlace { LoadedQuantity = loadedQuantity, AmountOfSpace = productsQuantity };
 
@@ -68,8 +69,6 @@ namespace Delivery.Test.Commands
 
             loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<LoadingPlace, bool>>()))
                 .Returns(Task.FromResult(loadingPlace));
-
-            var commandHandler = new LoadPackCommandHandler(packToDeliveryRepo.Object, loadingPlaceRepo.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

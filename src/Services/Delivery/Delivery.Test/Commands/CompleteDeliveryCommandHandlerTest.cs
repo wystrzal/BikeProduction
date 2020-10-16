@@ -21,24 +21,27 @@ namespace Delivery.Test.Commands
         private readonly Mock<ILoadingPlaceRepo> loadingPlaceRepo;
         private readonly Mock<IBus> bus;
 
+        private readonly CompleteDeliveryCommand command;
+        private readonly CompleteDeliveryCommandHandler commandHandler;
+        private readonly List<PackToDelivery> packsToDelivery;
+        private readonly LoadingPlace loadingPlace;
+
         public CompleteDeliveryCommandHandlerTest()
         {
             loadingPlaceRepo = new Mock<ILoadingPlaceRepo>();
             bus = new Mock<IBus>();
+            command = new CompleteDeliveryCommand(It.IsAny<int>());
+            commandHandler = new CompleteDeliveryCommandHandler(loadingPlaceRepo.Object, bus.Object);
+            packsToDelivery = new List<PackToDelivery> { new PackToDelivery(), new PackToDelivery() };
+            loadingPlace = new LoadingPlace { PacksToDelivery = packsToDelivery };
         }
 
         [Fact]
         public async Task CompleteDeliveryCommandHandler_Success()
         {
-            //Arrange
-            var packsToDelivery = new List<PackToDelivery> { new PackToDelivery(), new PackToDelivery() };
-            var loadingPlace = new LoadingPlace { PacksToDelivery = packsToDelivery };
-            var command = new CompleteDeliveryCommand(It.IsAny<int>());
-
+            //Arrange            
             loadingPlaceRepo.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<LoadingPlace, bool>>(),
                 It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>())).Returns(Task.FromResult(loadingPlace));
-
-            var commandHandler = new CompleteDeliveryCommandHandler(loadingPlaceRepo.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

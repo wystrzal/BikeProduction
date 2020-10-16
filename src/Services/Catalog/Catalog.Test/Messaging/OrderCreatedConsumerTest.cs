@@ -20,20 +20,19 @@ namespace Catalog.Test.Messaging
         private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
 
         private readonly OrderCreatedConsumer consumer;
+        private readonly ConsumeContext<OrderCreatedEvent> context;
 
         public OrderCreatedConsumerTest()
         {
             changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCreatedConsumer>>();
             consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
+            context = GetContext();
         }
 
         [Fact]
         public async Task OrderCreatedConsumer_Success()
         {
-            //Arrange
-            var context = GetContext();
-
             //Act
             await consumer.Consume(context);
 
@@ -47,8 +46,6 @@ namespace Catalog.Test.Messaging
         public async Task OrderCreatedConsumer_ThrowsException()
         {
             //Arrange
-            var context = GetContext();
-
             changeProductsPopularityService
                 .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>())).ThrowsAsync(new Exception());
 
