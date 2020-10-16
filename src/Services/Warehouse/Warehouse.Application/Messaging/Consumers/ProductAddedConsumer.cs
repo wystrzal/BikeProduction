@@ -24,13 +24,10 @@ namespace Warehouse.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<ProductAddedEvent> context)
         {
-            var productToAdd = mapper.Map<Product>(context.Message);
-
-            productRepository.Add(productToAdd);
-
             try
             {
-                await productRepository.SaveAllAsync();
+                ValidateContext(context);
+                await AddProduct(context);
             }
             catch (Exception ex)
             {
@@ -39,6 +36,26 @@ namespace Warehouse.Application.Messaging.Consumers
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ValidateContext(ConsumeContext<ProductAddedEvent> context)
+        {
+            if (string.IsNullOrWhiteSpace(context.Message.ProductName))
+            {
+                throw new ArgumentNullException("ProductName");
+            }
+
+            if (string.IsNullOrWhiteSpace(context.Message.Reference))
+            {
+                throw new ArgumentNullException("Reference");
+            }
+        }
+
+        private async Task AddProduct(ConsumeContext<ProductAddedEvent> context)
+        {
+            var productToAdd = mapper.Map<Product>(context.Message);
+            productRepository.Add(productToAdd);
+            await productRepository.SaveAllAsync();
         }
     }
 }
