@@ -23,10 +23,15 @@ namespace Production.Test.Commands
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
         private readonly Mock<IBus> bus;
 
+        private readonly FinishProductionCommand command;
+        private readonly FinishProductionCommandHandler commandHandler;
+
         public FinishProductionCommandHandlerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
             bus = new Mock<IBus>();
+            command = new FinishProductionCommand(It.IsAny<int>());
+            commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
         }
 
         [Fact]
@@ -34,11 +39,8 @@ namespace Production.Test.Commands
         {
             //Arrange
             var productionQueue = new ProductionQueue();
+
             productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
-
-            var command = new FinishProductionCommand(It.IsAny<int>());
-
-            var commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
 
             //Assert
             await Assert.ThrowsAsync<ProductsNotBeingCreatedException>(()
@@ -56,10 +58,6 @@ namespace Production.Test.Commands
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueueList));
-
-            var command = new FinishProductionCommand(It.IsAny<int>());
-
-            var commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -81,10 +79,6 @@ namespace Production.Test.Commands
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueueList));
-
-            var command = new FinishProductionCommand(It.IsAny<int>());
-
-            var commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

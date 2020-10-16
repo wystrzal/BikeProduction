@@ -20,9 +20,14 @@ namespace Production.Test.Commands
     {
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
 
+        private readonly StartCreatingProductsCommand command;
+        private readonly StartCreatingProductsCommandHandler commandHandler;
+
         public StartCreatingProductsCommandHandlerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
+            command = new StartCreatingProductsCommand(It.IsAny<int>());
+            commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
         }
 
         [Fact]
@@ -31,11 +36,7 @@ namespace Production.Test.Commands
             //Arrange
             var productionQueue = new ProductionQueue();
 
-            var command = new StartCreatingProductsCommand(It.IsAny<int>());
-
             productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
-
-            var commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
 
             //Assert
             await Assert.ThrowsAsync<ProductionQueueNotConfirmedException>(()
@@ -47,11 +48,8 @@ namespace Production.Test.Commands
         {
             //Arrange
             var productionQueue = new ProductionQueue { ProductionStatus = ProductionStatus.Confirmed };
-            var command = new StartCreatingProductsCommand(It.IsAny<int>());
 
             productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
-
-            var commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

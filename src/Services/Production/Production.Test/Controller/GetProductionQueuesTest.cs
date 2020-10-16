@@ -20,23 +20,23 @@ namespace Production.Test.Controller
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<ProductionQueueController>> logger;
 
+        private readonly ProductionQueueController controller;
+        private readonly IEnumerable<GetProductionQueuesDto> productionQueuesDto;
+
         public GetProductionQueuesTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<ProductionQueueController>>();
+            controller = new ProductionQueueController(mediator.Object, logger.Object);
+            productionQueuesDto = new List<GetProductionQueuesDto> { new GetProductionQueuesDto(), new GetProductionQueuesDto() };
         }
 
         [Fact]
         public async Task GetProductionQueues_OkObjectResult()
         {
             //Arrange
-            IEnumerable<GetProductionQueuesDto> productionQueuesDto
-                = new List<GetProductionQueuesDto> { new GetProductionQueuesDto(), new GetProductionQueuesDto() };
-
             mediator.Setup(x => x.Send(It.IsAny<GetProductionQueuesQuery>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.FromResult(productionQueuesDto));
-
-            var controller = new ProductionQueueController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetProductionQueues() as OkObjectResult;

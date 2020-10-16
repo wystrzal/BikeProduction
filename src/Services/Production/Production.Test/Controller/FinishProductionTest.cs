@@ -19,18 +19,18 @@ namespace Production.Test.Controller
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<ProductionQueueController>> logger;
 
+        private readonly ProductionQueueController controller;
+
         public FinishProductionTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<ProductionQueueController>>();
+            controller = new ProductionQueueController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task FinishProduction_OkResult()
         {
-            //Arrange
-            var controller = new ProductionQueueController(mediator.Object, logger.Object);
-
             //Act
             var action = await controller.FinishProduction(It.IsAny<int>()) as OkResult;
 
@@ -44,8 +44,6 @@ namespace Production.Test.Controller
         {
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<FinishProductionCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
-
-            var controller = new ProductionQueueController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.FinishProduction(It.IsAny<int>()) as BadRequestObjectResult;

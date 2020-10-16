@@ -18,28 +18,30 @@ namespace Production.Test.Messaging
 {
     public class OrderCanceledConsumerTest
     {
+        private const int id = 1;
+
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
         private readonly Mock<ILogger<OrderCanceledConsumer>> logger;
+
+        private readonly OrderCanceledConsumer consumer;
+        private readonly List<ProductionQueue> productionQueues;
 
         public OrderCanceledConsumerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
             logger = new Mock<ILogger<OrderCanceledConsumer>>();
+            consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
+            productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
         }
 
         [Fact]
         public async Task OrderCanceledConsumer_Success()
         {
             //Arrange
-            var id = 1;
-            var productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
-            var orderCanceledEvent = new OrderCanceledEvent(id);
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
+            var context = GetContext();
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueues));
-
-            var consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
 
             //Act
             await consumer.Consume(context);
@@ -54,15 +56,11 @@ namespace Production.Test.Messaging
         public async Task OrderCanceledConsumer_ThrowsNullDataException()
         {
             //Arrange
-            var id = 1;
             var productionQueues = new List<ProductionQueue>();
-            var orderCanceledEvent = new OrderCanceledEvent(id);
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
+            var context = GetContext();
 
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueues));
-
-            var consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
 
             //Assert
             await Assert.ThrowsAsync<NullDataException>(() => consumer.Consume(context));
@@ -73,10 +71,7 @@ namespace Production.Test.Messaging
         public async Task OrderCanceledConsumer_ThrowsArgumentException()
         {
             //Arrange
-            var orderCanceledEvent = new OrderCanceledEvent(It.IsAny<int>());
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
-
-            var consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
+            var context = GetContext(It.IsAny<int>());
 
             //Assert
             await Assert.ThrowsAsync<ArgumentException>(() => consumer.Consume(context));
@@ -87,22 +82,23 @@ namespace Production.Test.Messaging
         public async Task OrderCanceledConsumer_ThrowsChangesNotSavedCorrectlyException()
         {
             //Arrange
-            var id = 1;
-            var productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
-            var orderCanceledEvent = new OrderCanceledEvent(id);
-            var context = Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
-
+            var context = GetContext();
+            
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueues));
 
             productionQueueRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(ProductionQueue)));
 
-            var consumer = new OrderCanceledConsumer(productionQueueRepo.Object, logger.Object);
-
             //Assert
             await Assert.ThrowsAsync<ChangesNotSavedCorrectlyException>(() => consumer.Consume(context));
             productionQueueRepo.Verify(x => x.Delete(It.IsAny<ProductionQueue>()), Times.Exactly(productionQueues.Count));
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        private ConsumeContext<OrderCanceledEvent> GetContext(int id = id)
+        {
+            var orderCanceledEvent = new OrderCanceledEvent(id);
+            return Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
         }
     }
 }

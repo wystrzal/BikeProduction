@@ -20,24 +20,27 @@ namespace Production.Test.Queries
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
         private readonly Mock<IMapper> mapper;
 
+        private readonly GetProductionQueuesQuery query;
+        private readonly GetProductionQueuesQueryHandler queryHandler;
+        private readonly List<ProductionQueue> productionQueues;
+        private readonly List<GetProductionQueuesDto> productionQueuesDto;
+
         public GetProductionQueuesQueryHandlerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
             mapper = new Mock<IMapper>();
+            query = new GetProductionQueuesQuery();
+            queryHandler = new GetProductionQueuesQueryHandler(productionQueueRepo.Object, mapper.Object);
+            productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
+            productionQueuesDto = new List<GetProductionQueuesDto> { new GetProductionQueuesDto(), new GetProductionQueuesDto() };
         }
 
         [Fact]
         public async Task GetProductionQueuesQueryHandler_Success()
         {
             //Arrange
-            var productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
-            var productionQueuesDto = new List<GetProductionQueuesDto> { new GetProductionQueuesDto(), new GetProductionQueuesDto() };
-            var query = new GetProductionQueuesQuery();
-
             productionQueueRepo.Setup(x => x.GetAll()).Returns(Task.FromResult(productionQueues));
             mapper.Setup(x => x.Map<IEnumerable<GetProductionQueuesDto>>(productionQueues)).Returns(productionQueuesDto);
-
-            var queryHandler = new GetProductionQueuesQueryHandler(productionQueueRepo.Object, mapper.Object);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
