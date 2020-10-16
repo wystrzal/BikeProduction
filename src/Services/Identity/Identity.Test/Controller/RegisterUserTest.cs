@@ -17,23 +17,26 @@ namespace Identity.Test.Controller
 {
     public class RegisterUserTest
     {
+        private const string userName = "user123";
+        private const string password = "User123";
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<IdentityController>> logger;
+
+        private readonly RegisterCommand command;
+        private readonly IdentityController controller;
 
         public RegisterUserTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<IdentityController>>();
+            command = new RegisterCommand();
+            controller = new IdentityController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task RegisterUser_ModelIsNotValid_BadRequestObjectResult()
         {
-            //Arrange
-            var command = new RegisterCommand();
-
-            var controller = new IdentityController(mediator.Object, logger.Object);
-
             //Act
             var action = await controller.RegisterUser(command) as BadRequestObjectResult;
 
@@ -46,11 +49,7 @@ namespace Identity.Test.Controller
         public async Task RegisterUser_ThrowsException_BadRequestObjectResult()
         {
             //Arrange
-            var command = new RegisterCommand();
-
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Throws(new Exception());
-
-            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.RegisterUser(command) as BadRequestObjectResult;
@@ -65,11 +64,7 @@ namespace Identity.Test.Controller
         public async Task RegisterUser_OkObjectResult()
         {
             //Arrange
-            var password = "User123";
-            var userName = "user123";
             var command = new RegisterCommand { Password = password, UserName = userName };
-
-            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.RegisterUser(command) as OkObjectResult;

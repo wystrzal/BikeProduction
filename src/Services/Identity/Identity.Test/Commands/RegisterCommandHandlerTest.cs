@@ -18,27 +18,32 @@ namespace Identity.Test.Commands
 {
     public class RegisterCommandHandlerTest
     {
+        private const string userName = "user";
+        private const string password = "User123";
+
         private readonly Mock<IMapper> mapper;
         private readonly Mock<UserManager<User>> userManager;
+
+        private readonly RegisterCommand command;
+        private readonly RegisterCommandHandler commandHandler;
+        private readonly User user;
 
         public RegisterCommandHandlerTest()
         {
             mapper = new Mock<IMapper>();
             userManager = CustomMock.GetMockUserManager();
+            command = new RegisterCommand { UserName = userName, Password = password };
+            commandHandler = new RegisterCommandHandler(mapper.Object, userManager.Object);
+            user = new User();
         }
 
         [Fact]
         public async Task RegisterCommandHandler_ThrowsUserAlreadyExistException()
         {
             //Arrange
-            var user = new User();
-            var command = new RegisterCommand { UserName = "user", Password = "User123" };
-
             mapper.Setup(x => x.Map<User>(command)).Returns(user);
 
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
-
-            var commandHandler = new RegisterCommandHandler(mapper.Object, userManager.Object);
 
             //Assert
             await Assert.ThrowsAsync<UserAlreadyExistException>(() => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
@@ -48,16 +53,11 @@ namespace Identity.Test.Commands
         public async Task RegisterCommandHandler_ThrowsUserNotAddedException()
         {
             //Arrange
-            var user = new User();
-            var command = new RegisterCommand { UserName = "user", Password = "User123" };
-
             mapper.Setup(x => x.Map<User>(command)).Returns(user);
 
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult((User)null));
 
             userManager.Setup(x => x.CreateAsync(user, It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Failed()));
-
-            var commandHandler = new RegisterCommandHandler(mapper.Object, userManager.Object);
 
             //Assert
             await Assert.ThrowsAsync<UserNotAddedException>(() => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
@@ -67,16 +67,11 @@ namespace Identity.Test.Commands
         public async Task RegisterCommandHandler_Success()
         {
             //Arrange
-            var user = new User();
-            var command = new RegisterCommand { UserName = "user", Password = "User123" };
-
             mapper.Setup(x => x.Map<User>(command)).Returns(user);
 
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult((User)null));
 
             userManager.Setup(x => x.CreateAsync(user, It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
-
-            var commandHandler = new RegisterCommandHandler(mapper.Object, userManager.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

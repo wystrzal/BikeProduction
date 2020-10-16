@@ -19,28 +19,30 @@ namespace Identity.Test.Controller
 {
     public class LoginTest
     {
+        private const string token = "token";
+        private const string nameIdentifier = "name";
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<IdentityController>> logger;
+
+        private readonly TryLoginCommand command;
+        private readonly IdentityController controller;
+        private readonly TokenModel tokenModel;
 
         public LoginTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<IdentityController>>();
+            command = new TryLoginCommand();
+            controller = new IdentityController(mediator.Object, logger.Object);
+            tokenModel = new TokenModel(token, nameIdentifier);
         }
 
         [Fact]
         public async Task Login_OkObjectResult()
         {
             //Arrange
-            var token = "token";
-            var nameIdentifier = "name";
-            var tokenModel = new TokenModel(token, nameIdentifier);
-
-            var command = new TryLoginCommand();
-
-            mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Returns(Task.FromResult(tokenModel));
-
-            var controller = new IdentityController(mediator.Object, logger.Object);
+            mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Returns(Task.FromResult(tokenModel));        
 
             //Act
             var action = await controller.Login(command) as OkObjectResult;
@@ -55,11 +57,7 @@ namespace Identity.Test.Controller
         public async Task Login_ThrowsException_BadRequestbjectResult()
         {
             //Arrange
-            var command = new TryLoginCommand();
-
             mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Throws(new Exception());
-
-            var controller = new IdentityController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.Login(command) as BadRequestObjectResult;

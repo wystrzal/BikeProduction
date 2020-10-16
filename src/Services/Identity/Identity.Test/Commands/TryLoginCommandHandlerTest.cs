@@ -23,22 +23,27 @@ namespace Identity.Test.Commands
         private readonly Mock<UserManager<User>> userManager;
         private readonly Mock<SignInManager<User>> signInManager;
 
+        private readonly TryLoginCommand command;
+        private readonly TryLoginCommandHandler commandHandler;
+        private readonly User user;
+        private readonly TokenModel tokenModel;
+
         public TryLoginCommandHandlerTest()
         {
             userManager = CustomMock.GetMockUserManager();
             signInManager = CustomMock.GetMockSignInManager();
             tokenService = new Mock<ITokenService>();
+            command = new TryLoginCommand();
+            commandHandler = new TryLoginCommandHandler(userManager.Object, signInManager.Object, tokenService.Object);
+            user = new User();
+            tokenModel = new TokenModel(It.IsAny<string>(), It.IsAny<string>());
         }
 
         [Fact]
         public async Task TryLoginCommandHandler_ThrowsUserNotFoundException()
         {
             //Arrange
-            var command = new TryLoginCommand();
-
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult((User)null));
-
-            var commandHandler = new TryLoginCommandHandler(userManager.Object, signInManager.Object, tokenService.Object);
 
             //Assert
             await Assert.ThrowsAsync<UserNotFoundException>(
@@ -49,15 +54,10 @@ namespace Identity.Test.Commands
         public async Task TryLoginCommandHandler_ThrowsLoginFailedException()
         {
             //Arrange
-            var command = new TryLoginCommand();
-            var user = new User();
-
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
 
             signInManager.Setup(x => x.CheckPasswordSignInAsync(user, It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInResult.Failed));
-
-            var commandHandler = new TryLoginCommandHandler(userManager.Object, signInManager.Object, tokenService.Object);
 
             //Assert
             await Assert.ThrowsAsync<LoginFailedException>(
@@ -68,18 +68,12 @@ namespace Identity.Test.Commands
         public async Task TryLoginCommandHandler_Success()
         {
             //Arrange
-            var command = new TryLoginCommand();
-            var user = new User();
-            var tokenModel = new TokenModel(It.IsAny<string>(), It.IsAny<string>());
-
             userManager.Setup(x => x.FindByNameAsync(It.IsAny<string>())).Returns(Task.FromResult(user));
 
             signInManager.Setup(x => x.CheckPasswordSignInAsync(user, It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult(SignInResult.Success));
 
             tokenService.Setup(x => x.GenerateToken(user, userManager.Object)).Returns(Task.FromResult(tokenModel));
-
-            var commandHandler = new TryLoginCommandHandler(userManager.Object, signInManager.Object, tokenService.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

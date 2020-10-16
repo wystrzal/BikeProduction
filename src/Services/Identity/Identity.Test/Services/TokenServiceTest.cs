@@ -13,29 +13,31 @@ namespace Identity.Test.Services
 {
     public class TokenServiceTest
     {
+        private const string section = "AppSettings:Token";
+        private const string key = "VeryLongKeyForTest";
+
         private readonly Mock<IConfigurationSection> configurationSection;
         private readonly Mock<IConfiguration> configuration;
         private readonly Mock<UserManager<User>> userManager;
+
+        private readonly TokenService service;
+        private readonly User user;
 
         public TokenServiceTest()
         {
             configurationSection = new Mock<IConfigurationSection>();
             configuration = new Mock<IConfiguration>();
             userManager = CustomMock.GetMockUserManager();
+            service = new TokenService(configuration.Object);
+            user = new User();
         }
 
         [Fact]
         public void GenerateToken_Success()
         {
             //Arrange
-            var user = new User();
-            var section = "AppSettings:Token";
-            var key = "VeryLongKeyForTest";
-
             configurationSection.Setup(a => a.Value).Returns(key);
-            configuration.Setup(a => a.GetSection(section)).Returns(configurationSection.Object);
-
-            var service = new TokenService(configuration.Object);
+            configuration.Setup(a => a.GetSection(section)).Returns(configurationSection.Object);           
 
             //Act
             var action = service.GenerateToken(user, userManager.Object);
