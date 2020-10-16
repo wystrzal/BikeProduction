@@ -22,11 +22,8 @@ namespace Warehouse.Application.Messaging.Consumers
         {
             try
             {
-                var product = await productRepository.GetByConditionFirst(x => x.Reference == context.Message.Reference);
-
-                productRepository.Delete(product);
-
-                await productRepository.SaveAllAsync();
+                ValidateReference(context.Message.Reference);
+                await DeleteProduct(context.Message.Reference);
             }
             catch (Exception ex)
             {
@@ -35,6 +32,21 @@ namespace Warehouse.Application.Messaging.Consumers
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ValidateReference(string reference)
+        {
+            if (string.IsNullOrWhiteSpace(reference))
+            {
+                throw new ArgumentNullException("Reference");
+            }
+        }
+
+        private async Task DeleteProduct(string reference)
+        {
+            var product = await productRepository.GetByConditionFirst(x => x.Reference == reference);
+            productRepository.Delete(product);
+            await productRepository.SaveAllAsync();
         }
     }
 }
