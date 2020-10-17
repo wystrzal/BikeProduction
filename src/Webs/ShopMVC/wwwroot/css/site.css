@@ -324,7 +324,7 @@ html, body {
     background-color: #f0f0f0
 }
 
-.product-shadow, .order-shadow {
+.custom-shadow {
     -webkit-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
     -moz-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
     box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);

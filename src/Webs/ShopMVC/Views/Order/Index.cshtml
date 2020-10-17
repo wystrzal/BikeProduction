@@ -6,7 +6,7 @@
         <div class="col-12 border text-center">
             @foreach (var order in Model.PaginatedOrders())
             {
-                <div class="row order-shadow border-top align-items-center mb-1">
+                <div class="row custom-shadow border-top align-items-center mb-1">
                     <div class="col-12 col-md-8 my-2">
                         <a class="row text-dark" style="text-decoration: none;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
                             <div class="col-4">@order.OrderDate</div>

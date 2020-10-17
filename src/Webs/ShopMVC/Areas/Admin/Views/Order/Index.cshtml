@@ -6,7 +6,7 @@
         {
             foreach (var order in Model.PaginatedOrders())
             {
-                <div class="col-12 mt-2 p-3 order-shadow border-top align-items-center">
+                <div class="col-12 mt-2 p-3 custom-shadow border-top align-items-center">
                     <a class="text-dark mt-4" style="text-decoration: none; width: 100%;" asp-controller="Order" asp-action="OrderDetail" asp-area="" asp-route-id="@order.OrderId">
                         <div class="col-3 d-inline">@order.OrderDate</div>
                         <div class="col-3 d-inline">@order.OrderStatus.ToString().Replace("_", " ")</div>

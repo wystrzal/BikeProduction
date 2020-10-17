@@ -2,7 +2,7 @@
 
 @foreach (var product in Model)
 {
-    <div id="basketProduct-@product.Id" class="row text-center mt-2 p-2 align-items-center order-shadow border-top">
+    <div id="basketProduct-@product.Id" class="row text-center mt-2 p-2 align-items-center custom-shadow border-top">
         <div class="col-sm-4 p-1 col-12">
             <a href="/Catalog/ProductDetail/@product.Id" class="text-dark">@product.ProductName</a>
         </div>
