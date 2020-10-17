@@ -1,19 +1,17 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.DeliveryViewModel
 
-<h2> Basic View </h2>
 
-<h6>Packs</h6>
-@{
-    <div class="row text-center">
-        <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 items-list">
-            @foreach (var pack in Model.Packs)
-            {
-                <div class="row border-top custom-shadow mt-3 align-items-center">
-                    <div class="col-12 col-sm-3 border-left border-right p-2">@pack.Id</div>
-                    <div class="col-12 col-sm-3 border-right p-2">@pack.Address</div>
-                    <div class="col-12 col-sm-3 border-right p-2">Ref: @pack.PackStatus</div>
-                </div>
-            }
-        </div>
+<div class="row text-center pt-4">
+    <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
+        @foreach (var pack in Model.Packs)
+        {
+            <div class="custom-shadow border-top p-2 mb-1">
+                    <a class="row text-dark" style="text-decoration: none;">
+                        <div class="col-12 col-sm-3">@pack.Id</div>
+                        <div class="col-12 col-sm-3">@pack.Address</div>
+                        <div class="col-12 col-sm-3">Ref: @pack.PackStatus</div>
+                    </a>
+            </div>
+        }
     </div>
-}
+</div>
