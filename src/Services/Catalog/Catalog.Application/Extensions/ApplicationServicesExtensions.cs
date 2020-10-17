@@ -1,5 +1,6 @@
 ﻿using BikeBaseRepository;
 using BikeSortFilter;
+using BikeSortFilter.Extensions;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Catalog.Core.SearchSpecification;
@@ -14,11 +15,10 @@ namespace Catalog.Application.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
+            services.AddTransientSortFilter<Product, DataContext, FilteringData>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IBrandRepository, BrandRepository>();
             services.AddTransient<ISearchProductService, SearchProductService>();
-            services.AddTransient<ISortFilterRepository<Product>, SortFilterRepository<Product, DataContext>>();
-            services.AddTransient<ISearchSortFilterService<Product, FilteringData>, SearchSortFilterService<Product, FilteringData>>();
             services.AddTransient<IChangeProductsPopularityService, ChangeProductsPopularityService>();
         }
     }

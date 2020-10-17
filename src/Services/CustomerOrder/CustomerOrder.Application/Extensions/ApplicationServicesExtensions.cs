@@ -1,5 +1,6 @@
 ﻿using BikeBaseRepository;
 using BikeSortFilter;
+using BikeSortFilter.Extensions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using CustomerOrder.Core.SearchSpecification;
@@ -14,10 +15,9 @@ namespace CustomerOrder.API.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
+            services.AddTransientSortFilter<Order, DataContext, FilteringData>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<ISearchOrderService, SearchOrderService>();
-            services.AddTransient<ISortFilterRepository<Order>, SortFilterRepository<Order, DataContext>>();
-            services.AddTransient<ISearchSortFilterService<Order, FilteringData>, SearchSortFilterService<Order, FilteringData>>();
         }
     }
 }
