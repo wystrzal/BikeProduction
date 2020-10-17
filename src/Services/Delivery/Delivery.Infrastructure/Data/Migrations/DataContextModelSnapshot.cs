@@ -53,6 +53,9 @@ namespace Delivery.Infrastructure.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("LoadingPlaceId")
                         .HasColumnType("int");
 

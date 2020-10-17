@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Delivery.Infrastructure.Migrations
 {
@@ -33,7 +34,8 @@ namespace Delivery.Infrastructure.Migrations
                     OrderId = table.Column<int>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
                     Address = table.Column<string>(nullable: true),
-                    LoadingPlaceId = table.Column<int>(nullable: true)
+                    LoadingPlaceId = table.Column<int>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,4 +1,6 @@
 ﻿using Delivery.Application.Commands;
+using Delivery.Application.Queries;
+using Delivery.Core.SearchSpecification;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -18,6 +20,12 @@ namespace Delivery.API.Controllers
         {
             this.mediator = mediator;
             this.logger = logger;
+        }
+
+        [HttpGet("packs")]
+        public async Task<IActionResult> GetPacks([FromQuery] FilteringData filteringData)
+        {
+            return Ok(await mediator.Send(new GetPacksQuery(filteringData)));
         }
 
         [HttpPost("loading/{loadingPlaceId}/pack/{packId})")]

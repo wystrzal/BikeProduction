@@ -5,12 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Mapping\**" />
-    <EmbeddedResource Remove="Mapping\**" />
-    <None Remove="Mapping\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
     <PackageReference Include="MassTransit" Version="7.0.0" />
     <PackageReference Include="MassTransit.AspNetCore" Version="7.0.0" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.0" />

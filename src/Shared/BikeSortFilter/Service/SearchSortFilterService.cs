@@ -41,16 +41,16 @@ namespace BikeSortFilter
             filtersToUse.Add(selectedFilter.GetFilteringCondition());
         }
 
-        public void SetConcreteSort<TSort, TKey>() where TSort : class
+        public void SetConcreteSort<TSort, TReturned>() where TSort : class
         {
             var typeOfSort = typeof(TSort);
 
-            var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSort<TEntity, TKey>;
+            var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSort<TEntity, TReturned>;
 
             sortToUse = sort.GetSortCondition();
         }
 
-        public async Task<List<TEntity>> Search(bool orderDesc, int skip = 0, int take = 0)
+        public async Task<List<TEntity>> Search(bool orderDesc = false, int skip = 0, int take = 0)
         {
             dynamic data;
 

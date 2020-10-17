@@ -2,9 +2,9 @@
 
 namespace BikeSortFilter
 {
-    public interface IConcreteSort<TEntity, TKey>
+    public interface IConcreteSort<TEntity, TReturned>
         where TEntity : class
     {
-        Func<TEntity, TKey> GetSortCondition();
+        Func<TEntity, TReturned> GetSortCondition();
     }
 }

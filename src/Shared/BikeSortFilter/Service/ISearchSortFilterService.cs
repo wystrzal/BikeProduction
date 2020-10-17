@@ -8,7 +8,7 @@ namespace BikeSortFilter
         where TFilteringData : class
     {
         void SetConcreteFilter<TFilter>(TFilteringData filteringData) where TFilter : class;
-        void SetConcreteSort<TSort, TKey>() where TSort : class;
-        Task<List<TEntity>> Search(bool orderDesc, int skip = 0, int take = 0);
+        void SetConcreteSort<TSort, TReturned>() where TSort : class;
+        Task<List<TEntity>> Search(bool orderDesc = false, int skip = 0, int take = 0);
     }
 }

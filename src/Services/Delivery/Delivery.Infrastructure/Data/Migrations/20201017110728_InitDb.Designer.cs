@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Delivery.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200713212316_InitDb")]
+    [Migration("20201017110728_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,9 @@ namespace Delivery.Infrastructure.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("LoadingPlaceId")
                         .HasColumnType("int");

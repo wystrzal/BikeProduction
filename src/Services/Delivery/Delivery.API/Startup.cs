@@ -2,6 +2,7 @@ using AutoMapper;
 using Common.Application.Messaging;
 using CustomerOrder.API.Extensions;
 using Delivery.Application.Extensions;
+using Delivery.Application.Mapping;
 using Delivery.Infrastructure.Data;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,7 @@ namespace Delivery.API
 
             services.AddCustomAuth(Configuration);
 
-            services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddAutoMapper(typeof(GetPacksDto).Assembly);
 
             services.AddMediatR(typeof(ChangeOrderStatusEvent).Assembly);
 

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using static Delivery.Core.Models.Enums.PackStatusEnum;
 
-namespace Delivery.Core.Models
+namespace Delivery.Application.Mapping
 {
-    public class PackToDelivery
+    public class GetPacksDto
     {
         public int Id { get; set; }
         public int ProductsQuantity { get; set; }
@@ -11,7 +13,6 @@ namespace Delivery.Core.Models
         public int OrderId { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
-        public LoadingPlace LoadingPlace { get; set; }
-        public DateTime Date { get; set; } = new DateTime();
+        public int LoadingPlaceId { get; set; }
     }
 }
