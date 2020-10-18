@@ -30,5 +30,15 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return View(vm);
         }
+
+        public async Task<IActionResult> PackDetail(int id)
+        {
+            var vm = new PackDetailViewModel
+            {
+                PackToDelivery = await deliveryService.GetPack(id)
+            };
+
+            return View(vm);
+        }
     }
 }

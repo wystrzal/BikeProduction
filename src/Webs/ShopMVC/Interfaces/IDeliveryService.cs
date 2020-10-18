@@ -9,5 +9,6 @@ namespace ShopMVC.Interfaces
     public interface IDeliveryService
     {
         Task<List<PackToDelivery>> GetPacks(PackFilteringData filteringData);
+        Task<PackToDelivery> GetPack(int packId);
     }
 }

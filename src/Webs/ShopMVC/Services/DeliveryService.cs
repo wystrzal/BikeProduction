@@ -46,5 +46,14 @@ namespace ShopMVC.Services
 
             return queryParams;
         }
+
+        public async Task<PackToDelivery> GetPack(int packId)
+        {
+            var getPackUrl = $"{baseUrl}pack/{packId}";
+
+            var pack = await customHttpClient.GetStringAsync(getPackUrl, token);
+
+            return JsonConvert.DeserializeObject<PackToDelivery>(pack);
+        }
     }
 }
