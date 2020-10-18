@@ -5,13 +5,13 @@
     <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
         @foreach (var pack in Model.Packs)
         {
-            <div class="custom-shadow border-top p-2 mb-1">
-                    <a class="row text-dark" style="text-decoration: none;">
-                        <div class="col-12 col-sm-3">@pack.Id</div>
-                        <div class="col-12 col-sm-3">@pack.Address</div>
-                        <div class="col-12 col-sm-3">Ref: @pack.PackStatus</div>
-                    </a>
-            </div>
+        <div class="custom-shadow border-top p-2 mb-1">
+            <a class="row text-dark" style="text-decoration: none;">
+                <div class="col-12 col-sm-4">@pack.Date</div>
+                <div class="col-12 col-sm-4">Qty: @pack.ProductsQuantity</div>
+                <div class="col-12 col-sm-4">@pack.PackStatus</div>
+            </a>
+        </div>
         }
     </div>
 </div>

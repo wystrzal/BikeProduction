@@ -22,6 +22,20 @@ namespace Delivery.API.Controllers
             this.logger = logger;
         }
 
+        [HttpGet("pack/{packId}")]
+        public async Task<IActionResult> GetPack(int packId)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new GetPackQuery(packId)));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("packs")]
         public async Task<IActionResult> GetPacks([FromQuery] FilteringData filteringData)
         {
@@ -75,7 +89,5 @@ namespace Delivery.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
     }
 }

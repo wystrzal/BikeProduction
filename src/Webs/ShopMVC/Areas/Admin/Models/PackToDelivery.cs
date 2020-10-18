@@ -15,6 +15,6 @@ namespace ShopMVC.Areas.Admin.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public int LoadingPlaceId { get; set; }
-        public DateTime Date { get; set; } = new DateTime();
+        public DateTime Date { get; set; }
     }
 }
