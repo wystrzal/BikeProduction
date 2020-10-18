@@ -1,6 +1,33 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.PackDetailViewModel
 
-<div class="row">
-    <h2> @Model.PackToDelivery.Address</h2>
-    <h2>@Model.PackToDelivery.PhoneNumber</h2>
-</div>
+
+    <div class="row mt-3 col-12 col-md-9 offset-md-3 col-lg-10 offset-lg-2">
+        <div class="col-12 text-left">
+            <p style="font-size: 22px; font-weight:400;"><i class="fas fa-box"></i> Pack ID: @Model.PackToDelivery.Id</p>
+        </div>
+        <div class="col-12 text-left">
+            <p style="font-size: 22px; font-weight:400;"><i class="fas fa-calculator"></i> Pack Quantity: @Model.PackToDelivery.ProductsQuantity</p>
+        </div>
+        <div class="col-12 text-left">
+            <p style="font-size: 22px; font-weight:400;"><i class="fas fa-calendar-day"></i> Created: @Model.PackToDelivery.Date</p>
+        </div>
+
+        <div class="col-12 mt-4 detail-shadow text-center admin-detail">
+            <div class="row">
+                <div class="col-12 mt-3">
+                    <p>
+                        @Model.PackToDelivery.Address <br />
+                        @Model.PackToDelivery.PhoneNumber <br />
+                    </p>
+                </div>
+            </div>
+
+            @await Html.PartialAsync("~/Areas/Admin/Views/Delivery/_PackProgressbar.cshtml", Model.PackToDelivery.PackStatus)
+        </div>
+
+        <div class="mt-4 col-12 detail-items-shadow admin-detail">
+            <div class="p-3"></div>
+
+            <h4>TODO</h4>
+        </div>
+    </div>

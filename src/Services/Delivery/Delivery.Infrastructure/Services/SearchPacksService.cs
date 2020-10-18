@@ -36,7 +36,7 @@ namespace Delivery.Infrastructure.Services
 
         private void SetFiltering(FilteringData filteringData)
         {
-            if (filteringData.PackStatus != PackStatus.All)
+            if (filteringData.PackStatus != 0)
             {
                 sortFilterService.SetConcreteFilter<FilterByPackStatus>(filteringData);
             }

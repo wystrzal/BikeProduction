@@ -230,18 +230,6 @@ html, body {
     box-shadow: 0px 5px 25px 0px rgba(0,0,0,0.75);
 }
 
-.order-detail-shadow {
-    -webkit-box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
-    -moz-box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
-    box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
-}
-
-.order-detail-items-shadow {
-    -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
-}
-
 #progressbar {
     margin-bottom: 20px;
     overflow: hidden;
@@ -316,6 +304,18 @@ html, body {
 
 /***** Shared *****/
 
+.detail-shadow {
+    -webkit-box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
+    -moz-box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
+    box-shadow: inset 0px 0px 40px 15px rgba(235,235,235,1);
+}
+
+.detail-items-shadow {
+    -webkit-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.75);
+}
+
 .items-list > .row:nth-child(even) {
     background-color: #d9d9d9
 }
@@ -328,4 +328,10 @@ html, body {
     -webkit-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
     -moz-box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
     box-shadow: 2px 5px 5px 0px rgba(133,133,133,0.75);
+}
+
+@media (max-width: 767px) {
+    .admin-detail {
+        margin-left: 1rem !important;
+    }
 }

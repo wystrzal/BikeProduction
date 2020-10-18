@@ -1,0 +1,33 @@
+﻿@model ShopMVC.Areas.Admin.Models.Enums.PackStatusEnum.PackStatus
+@using ShopMVC.Extensions
+
+<div class="col-12">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12">
+            <ul id="progressbar" class="text-center">
+                @{
+                    string listItem = "<li class='active step0'></li>";
+
+                    foreach (var orderStatus in Model.SelectListItem())
+                    {
+                        if (orderStatus.Value == Model.ToString())
+                        {
+                            @Html.Raw(listItem)
+                            listItem = "<li class='step0'></li>";
+                            continue;
+                        }
+
+                        @Html.Raw(listItem)
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="row pb-4">
+        <div class="mt-3 col-6 col-sm-3"><i class="fas fa-pause-circle"></i> Waiting</div>
+        <div class="mt-3 col-6 col-sm-3"><i class="fas fa-truck-loading"></i> Ready To Send</div>
+        <div class="mt-3 col-6 col-sm-3"><i class="fas fa-truck"></i> Sended</div>
+        <div class="mt-3 col-6 col-sm-3"><i class="fas fa-home"></i> Delivered</div>
+    </div>
+</div>
