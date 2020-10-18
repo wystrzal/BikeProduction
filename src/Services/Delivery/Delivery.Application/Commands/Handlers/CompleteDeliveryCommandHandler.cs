@@ -51,7 +51,7 @@ namespace Delivery.Application.Commands.Handlers
         private void ClearLoadedQuantityFromLoadingPlace(LoadingPlace loadingPlace)
         {
             loadingPlace.LoadedQuantity = 0;
-            loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.WaitingForLoading;
+            loadingPlace.LoadingPlaceStatus = LoadingPlaceStatus.Waiting_For_Loading;
         }
     }
 }

@@ -10,7 +10,7 @@
                    asp-controller="Delivery" asp-action="PackDetail" asp-area="Admin" asp-route-id="@pack.Id">
 
                     <div class="col-12 col-sm-4">@pack.Date</div>
-                    <div class="col-12 col-sm-4">@pack.PackStatus</div>
+                    <div class="col-12 col-sm-4">@pack.PackStatus.ToString().Replace("_", " ")</div>
                     <div class="col-12 col-sm-4">Qty: @pack.ProductsQuantity</div>
                 </a>
             </div>

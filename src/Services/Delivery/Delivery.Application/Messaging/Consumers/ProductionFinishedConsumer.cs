@@ -48,7 +48,10 @@ namespace Delivery.Application.Messaging.Consumers
             var packToDelivery = new PackToDelivery
             {
                 OrderId = orderId,
-                Address = order.Address,
+                PostCode = order.PostCode,
+                City = order.City,
+                Street = order.Street,
+                HouseNumber = order.HouseNumber,
                 PhoneNumber = order.PhoneNumber,
                 ProductsQuantity = productsQuantity,
                 PackStatus = PackStatus.Waiting

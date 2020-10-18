@@ -53,7 +53,7 @@ namespace Delivery.Application.Commands.Handlers
         private void SetPackLoadingPlace(PackToDelivery pack, LoadingPlace loadingPlace)
         {
             pack.LoadingPlace = loadingPlace;
-            pack.PackStatus = PackStatus.ReadyToSend;
+            pack.PackStatus = PackStatus.Ready_To_Send;
         }
 
         private void IncreaseLoadingPlaceLoadedQuantity(PackToDelivery pack, LoadingPlace loadingPlace)

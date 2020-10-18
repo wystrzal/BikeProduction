@@ -4,7 +4,7 @@
     {
         public enum LoadingPlaceStatus
         {
-            WaitingForLoading = 1,
+            Waiting_For_Loading = 1,
             Loading = 2,
             Sended = 3
         }

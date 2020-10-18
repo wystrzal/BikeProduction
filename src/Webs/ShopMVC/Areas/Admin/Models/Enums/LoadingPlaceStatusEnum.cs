@@ -9,8 +9,7 @@ namespace ShopMVC.Areas.Admin.Models.Enums
     {
         public enum LoadingPlaceStatus
         {
-            All = 0,
-            WaitingForLoading = 1,
+            Waiting_For_Loading = 1,
             Loading = 2,
             Sended = 3
         }

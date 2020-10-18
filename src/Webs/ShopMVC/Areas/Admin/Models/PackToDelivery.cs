@@ -13,7 +13,10 @@ namespace ShopMVC.Areas.Admin.Models
         public PackStatus PackStatus { get; set; }
         public int OrderId { get; set; }
         public string PhoneNumber { get; set; }
-        public string Address { get; set; }
+        public string City { get; set; }
+        public string PostCode { get; set; }
+        public string Street { get; set; }
+        public string HouseNumber { get; set; }
         public int LoadingPlaceId { get; set; }
         public DateTime Date { get; set; }
     }

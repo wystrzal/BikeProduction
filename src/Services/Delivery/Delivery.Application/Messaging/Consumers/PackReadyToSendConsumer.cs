@@ -42,7 +42,7 @@ namespace Delivery.Application.Messaging.Consumers
 
         private async Task ChangePackStatusToReadyToSend(PackToDelivery pack, int orderId)
         {
-            pack.PackStatus = PackStatus.ReadyToSend;
+            pack.PackStatus = PackStatus.Ready_To_Send;
             await packToDeliveryRepo.SaveAllAsync();
             await bus.Publish(new ChangeOrderStatusEvent(orderId, OrderStatus.ReadyToSend));
         }

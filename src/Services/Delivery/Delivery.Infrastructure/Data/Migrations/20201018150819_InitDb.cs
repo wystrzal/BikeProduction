@@ -33,7 +33,10 @@ namespace Delivery.Infrastructure.Migrations
                     PackStatus = table.Column<int>(nullable: false),
                     OrderId = table.Column<int>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    Address = table.Column<string>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    PostCode = table.Column<string>(nullable: true),
+                    Street = table.Column<string>(nullable: true),
+                    HouseNumber = table.Column<string>(nullable: true),
                     LoadingPlaceId = table.Column<int>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false)
                 },
