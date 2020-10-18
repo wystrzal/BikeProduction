@@ -13,10 +13,10 @@ namespace Delivery.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    LoadingPlaceName = table.Column<string>(nullable: true),
                     LoadedQuantity = table.Column<int>(nullable: false),
                     AmountOfSpace = table.Column<int>(nullable: false),
-                    LoadingPlaceStatus = table.Column<int>(nullable: false),
-                    LoadingPlaceNumber = table.Column<int>(nullable: false)
+                    LoadingPlaceStatus = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

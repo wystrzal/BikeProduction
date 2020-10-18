@@ -14,11 +14,11 @@ namespace Delivery.Infrastructure.Data
             {
                 var loadingPlaces = new List<LoadingPlace>()
                 {
-                    new LoadingPlace { LoadingPlaceNumber = 1, LoadingPlaceStatus = LoadingPlaceStatus.Waiting_For_Loading,
+                    new LoadingPlace { LoadingPlaceName = "Dock-1", LoadingPlaceStatus = LoadingPlaceStatus.Waiting_For_Loading,
                         LoadedQuantity = 0, AmountOfSpace = 30 },
-                    new LoadingPlace { LoadingPlaceNumber = 2, LoadingPlaceStatus = LoadingPlaceStatus.Waiting_For_Loading,
+                    new LoadingPlace { LoadingPlaceName = "Dock-2", LoadingPlaceStatus = LoadingPlaceStatus.Waiting_For_Loading,
                         LoadedQuantity = 0, AmountOfSpace = 20 },
-                    new LoadingPlace { LoadingPlaceNumber = 3, LoadingPlaceStatus = LoadingPlaceStatus.Waiting_For_Loading,
+                    new LoadingPlace { LoadingPlaceName = "Dock-3", LoadingPlaceStatus = LoadingPlaceStatus.Waiting_For_Loading,
                         LoadedQuantity = 0, AmountOfSpace = 30 }
                 };
 

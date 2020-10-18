@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Delivery.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20201018150819_InitDb")]
+    [Migration("20201018163042_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,8 +34,8 @@ namespace Delivery.Infrastructure.Migrations
                     b.Property<int>("LoadedQuantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("LoadingPlaceNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("LoadingPlaceName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LoadingPlaceStatus")
                         .HasColumnType("int");

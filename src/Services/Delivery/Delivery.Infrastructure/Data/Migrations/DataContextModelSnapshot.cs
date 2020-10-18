@@ -32,8 +32,8 @@ namespace Delivery.Infrastructure.Migrations
                     b.Property<int>("LoadedQuantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("LoadingPlaceNumber")
-                        .HasColumnType("int");
+                    b.Property<string>("LoadingPlaceName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("LoadingPlaceStatus")
                         .HasColumnType("int");
