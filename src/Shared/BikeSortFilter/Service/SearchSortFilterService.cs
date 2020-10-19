@@ -22,32 +22,14 @@ namespace BikeSortFilter
             this.repository = repository;
         }
 
-        public void SetConcreteFilter<TFilter>(TFilteringData filteringData)
-            where TFilter : class
+        public void SetConcreteFilter(Predicate<TEntity> predicate)
         {
-            var typeOfFilter = typeof(TFilter);
-
-            var concreteFilters = new Hashtable();
-
-            if (!concreteFilters.ContainsKey(typeOfFilter))
-            {
-                var concreteFilter = Activator.CreateInstance(typeOfFilter, filteringData);
-
-                concreteFilters.Add(typeOfFilter, concreteFilter);
-            }
-
-            var selectedFilter = concreteFilters[typeOfFilter] as ConcreteFilter<TEntity, TFilteringData>;
-
-            filtersToUse.Add(selectedFilter.GetFilteringCondition());
+            filtersToUse.Add(predicate);
         }
 
-        public void SetConcreteSort<TSort, TReturned>() where TSort : class
+        public void SetConcreteSort<TKey>(Func<TEntity, TKey> func)
         {
-            var typeOfSort = typeof(TSort);
-
-            var sort = Activator.CreateInstance(typeOfSort) as IConcreteSort<TEntity, TReturned>;
-
-            sortToUse = sort.GetSortCondition();
+            sortToUse = func;
         }
 
         public async Task<List<TEntity>> Search(bool orderDesc = false, int skip = 0, int take = 0)
@@ -55,16 +37,15 @@ namespace BikeSortFilter
             dynamic data;
 
             Expression<Func<TEntity, bool>> expression = x => filtersToUse.All(all => all(x));
-
-            var compiledFilterBy = expression.Compile();
+            var compiledFilters = expression.Compile();
 
             if (sortToUse == null)
             {
-                data = await repository.GetFilteredData(compiledFilterBy, skip, take);
+                data = await repository.GetFilteredData(compiledFilters, skip, take);
             } 
             else
             {
-                data = await repository.GetSortedFilteredData(compiledFilterBy, sortToUse, orderDesc, skip, take);
+                data = await repository.GetSortedFilteredData(compiledFilters, sortToUse, orderDesc, skip, take);
             }
             
             sortToUse = null;

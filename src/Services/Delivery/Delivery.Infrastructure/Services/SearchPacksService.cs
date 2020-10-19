@@ -2,13 +2,8 @@
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using Delivery.Core.SearchSpecification;
-using Delivery.Core.SearchSpecification.FilterClasses;
-using Delivery.Core.SearchSpecification.SortClasses;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using static Delivery.Core.Models.Enums.PackStatusEnum;
 
 namespace Delivery.Infrastructure.Services
 {
@@ -31,14 +26,14 @@ namespace Delivery.Infrastructure.Services
 
         private void SetSorting()
         {
-            sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+            sortFilterService.SetConcreteSort(x => x.Date);
         }
 
         private void SetFiltering(OrderFilteringData filteringData)
         {
             if (filteringData.PackStatus != 0)
             {
-                sortFilterService.SetConcreteFilter<FilterByPackStatus>(filteringData);
+                sortFilterService.SetConcreteFilter(x => x.PackStatus == filteringData.PackStatus);
             }
         }
     }

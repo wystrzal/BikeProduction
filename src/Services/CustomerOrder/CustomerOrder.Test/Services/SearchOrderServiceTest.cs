@@ -1,14 +1,10 @@
 ﻿using BikeSortFilter;
 using CustomerOrder.Core.Models;
 using CustomerOrder.Core.SearchSpecification;
-using CustomerOrder.Core.SearchSpecification.FilterClasses;
-using CustomerOrder.Core.SearchSpecification.SortClasses;
 using CustomerOrder.Infrastructure.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -43,8 +39,8 @@ namespace CustomerOrder.Test.Services
             var action = await service.GetOrders(filteringData);
 
             //Assert
-            sortFilterService.Verify(x => x.SetConcreteSort<SortByDate, DateTime>(), Times.Once);
-            sortFilterService.Verify(x => x.SetConcreteFilter<FilterByUserId>(filteringData), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteSort(It.IsAny<Func<Order, DateTime>>()), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteFilter(It.IsAny<Predicate<Order>>()), Times.Once);
             Assert.Equal(orders.Count, action.Count);
         }
     }

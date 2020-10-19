@@ -2,12 +2,7 @@
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using CustomerOrder.Core.SearchSpecification;
-using CustomerOrder.Core.SearchSpecification.FilterClasses;
-using CustomerOrder.Core.SearchSpecification.SortClasses;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CustomerOrder.Infrastructure.Services
@@ -34,19 +29,19 @@ namespace CustomerOrder.Infrastructure.Services
 
         private void SetSorting()
         {
-            sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+            sortFilterService.SetConcreteSort(x => x.OrderDate);
         }
 
         private void SetFiltering(FilteringData filteringData)
         {
             if (filteringData.OrderStatus != 0)
             {
-                sortFilterService.SetConcreteFilter<FilterByOrderStatus>(filteringData);
+                sortFilterService.SetConcreteFilter(x => x.OrderStatus == filteringData.OrderStatus);
             }
 
             if (filteringData.UserId != null)
             {
-                sortFilterService.SetConcreteFilter<FilterByUserId>(filteringData);
+                sortFilterService.SetConcreteFilter(x => x.UserId == filteringData.UserId);
             }
         }
     }

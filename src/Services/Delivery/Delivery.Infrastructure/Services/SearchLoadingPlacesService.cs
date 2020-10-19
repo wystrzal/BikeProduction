@@ -2,10 +2,7 @@
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using Delivery.Core.SearchSpecification;
-using Delivery.Core.SearchSpecification.FilterClasses;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Delivery.Infrastructure.Services
@@ -30,7 +27,7 @@ namespace Delivery.Infrastructure.Services
         {
             if (filteringData.LoadingPlaceStatus != 0)
             {
-                sortFilterService.SetConcreteFilter<FilterByLoadingPlaceStatus>(filteringData);
+                sortFilterService.SetConcreteFilter(x => x.LoadingPlaceStatus == filteringData.LoadingPlaceStatus);
             }
         }
     }

@@ -1,11 +1,7 @@
 ﻿using BikeSortFilter;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
-using Catalog.Core.Models.Enums;
 using Catalog.Core.SearchSpecification;
-using Catalog.Core.SearchSpecification.FilterClasses;
-using Catalog.Core.SearchSpecification.SortClasses;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static Catalog.Core.Models.Enums.BikeTypeEnum;
@@ -38,28 +34,28 @@ namespace Catalog.Infrastructure.Services
             switch (sort)
             {
                 case Sort.Price_Ascending:
-                    sortFilterService.SetConcreteSort<SortByPrice, decimal>();
+                    sortFilterService.SetConcreteSort(x => x.Price);
                     break;
                 case Sort.Price_Descending:
-                    sortFilterService.SetConcreteSort<SortByPrice, decimal>();
+                    sortFilterService.SetConcreteSort(x => x.Price);
                     orderDesc = true;
                     break;
                 case Sort.Oldest_Added:
-                    sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+                    sortFilterService.SetConcreteSort(x => x.DateAdded);
                     break;
                 case Sort.Latest_Added:
-                    sortFilterService.SetConcreteSort<SortByDate, DateTime>();
+                    sortFilterService.SetConcreteSort(x => x.DateAdded);
                     orderDesc = true;
                     break;
                 case Sort.The_Most_Popular:
-                    sortFilterService.SetConcreteSort<SortByPopularity, int>();
+                    sortFilterService.SetConcreteSort(x => x.Popularity);
                     orderDesc = true;
                     break;
                 case Sort.The_Least_Popular:
-                    sortFilterService.SetConcreteSort<SortByPopularity, int>();
+                    sortFilterService.SetConcreteSort(x => x.Popularity);
                     break;
                 default:
-                    sortFilterService.SetConcreteSort<SortByName, string>();
+                    sortFilterService.SetConcreteSort(x => x.ProductName);
                     break;
             }
 
@@ -70,17 +66,17 @@ namespace Catalog.Infrastructure.Services
         {
             if (filteringData.Colors != Colors.All)
             {
-                sortFilterService.SetConcreteFilter<ColorFilter>(filteringData);
+                sortFilterService.SetConcreteFilter(x => x.Colors == filteringData.Colors);
             }
 
             if (filteringData.BrandId != 0)
             {
-                sortFilterService.SetConcreteFilter<BrandFilter>(filteringData);
+                sortFilterService.SetConcreteFilter(x => x.BrandId == filteringData.BrandId);
             }
 
             if (filteringData.BikeType != BikeType.All)
             {
-                sortFilterService.SetConcreteFilter<TypeFilter>(filteringData);
+                sortFilterService.SetConcreteFilter(x => x.BikeType == filteringData.BikeType);
             }
         }
     }

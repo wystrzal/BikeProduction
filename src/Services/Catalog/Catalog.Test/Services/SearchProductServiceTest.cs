@@ -1,14 +1,10 @@
 ﻿using BikeSortFilter;
 using Catalog.Core.Models;
 using Catalog.Core.SearchSpecification;
-using Catalog.Core.SearchSpecification.FilterClasses;
-using Catalog.Core.SearchSpecification.SortClasses;
 using Catalog.Infrastructure.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using static Catalog.Core.Models.Enums.ColorsEnum;
@@ -44,8 +40,8 @@ namespace Catalog.Test.Services
             var action = await service.GetProducts(filteringData);
 
             //Assert
-            sortFilterService.Verify(x => x.SetConcreteSort<SortByName, string>(), Times.Once);
-            sortFilterService.Verify(x => x.SetConcreteFilter<ColorFilter>(filteringData), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteSort(It.IsAny<Func<Product, string>>()), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteFilter(It.IsAny<Predicate<Product>>()), Times.Once);
 
             Assert.Equal(products.Count, action.Count);
         }

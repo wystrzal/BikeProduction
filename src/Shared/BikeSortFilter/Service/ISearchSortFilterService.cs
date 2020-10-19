@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BikeSortFilter
@@ -7,8 +8,8 @@ namespace BikeSortFilter
         where TEntity : class
         where TFilteringData : class
     {
-        void SetConcreteFilter<TFilter>(TFilteringData filteringData) where TFilter : class;
-        void SetConcreteSort<TSort, TReturned>() where TSort : class;
+        void SetConcreteFilter(Predicate<TEntity> predicate);
+        void SetConcreteSort<TKey>(Func<TEntity, TKey> func);
         Task<List<TEntity>> Search(bool orderDesc = false, int skip = 0, int take = 0);
     }
 }
