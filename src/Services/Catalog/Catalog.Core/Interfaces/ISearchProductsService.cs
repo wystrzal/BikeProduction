@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.Core.Interfaces
 {
-    public interface ISearchProductService
+    public interface ISearchProductsService
     {
         Task<List<Product>> GetProducts(FilteringData filteringData);
     }

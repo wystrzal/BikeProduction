@@ -14,11 +14,11 @@ using static Catalog.Core.Models.Enums.SortEnum;
 
 namespace Catalog.Infrastructure.Services
 {
-    public class SearchProductService : ISearchProductService
+    public class SearchProductsService : ISearchProductsService
     {
         private readonly ISearchSortFilterService<Product, FilteringData> sortFilterService;
 
-        public SearchProductService(ISearchSortFilterService<Product, FilteringData> sortFilterService)
+        public SearchProductsService(ISearchSortFilterService<Product, FilteringData> sortFilterService)
         {
             this.sortFilterService = sortFilterService;
         }

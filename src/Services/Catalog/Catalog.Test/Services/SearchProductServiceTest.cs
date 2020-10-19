@@ -21,14 +21,14 @@ namespace Catalog.Test.Services
 
         private readonly Mock<ISearchSortFilterService<Product, FilteringData>> sortFilterService;
 
-        private readonly SearchProductService service;
+        private readonly SearchProductsService service;
         private readonly List<Product> products;
         private readonly FilteringData filteringData;
 
         public SearchProductServiceTest()
         {
             sortFilterService = new Mock<ISearchSortFilterService<Product, FilteringData>>();
-            service = new SearchProductService(sortFilterService.Object);
+            service = new SearchProductsService(sortFilterService.Object);
             products = new List<Product> { new Product(), new Product() };
             filteringData = new FilteringData { Colors = color };
         }

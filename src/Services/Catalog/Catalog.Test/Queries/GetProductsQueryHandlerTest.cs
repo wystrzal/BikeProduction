@@ -19,7 +19,7 @@ namespace Catalog.Test.Queries
     public class GetProductsQueryHandlerTest
     {
         private readonly Mock<IMapper> mapper;
-        private readonly Mock<ISearchProductService> searchProductService;
+        private readonly Mock<ISearchProductsService> searchProductService;
 
         private readonly GetProductsQuery query;
         private readonly GetProductsQueryHandler queryHandler;
@@ -29,7 +29,7 @@ namespace Catalog.Test.Queries
         public GetProductsQueryHandlerTest()
         {
             mapper = new Mock<IMapper>();
-            searchProductService = new Mock<ISearchProductService>();
+            searchProductService = new Mock<ISearchProductsService>();
             query = new GetProductsQuery(new FilteringData());
             queryHandler = new GetProductsQueryHandler(mapper.Object, searchProductService.Object);
             products = new List<Product> { new Product(), new Product() };

@@ -31,7 +31,7 @@ namespace BikeSortFilter
 
             if (!concreteFilters.ContainsKey(typeOfFilter))
             {
-                var concreteFilter = Activator.CreateInstance(typeOfFilter as Type, filteringData);
+                var concreteFilter = Activator.CreateInstance(typeOfFilter, filteringData);
 
                 concreteFilters.Add(typeOfFilter, concreteFilter);
             }
@@ -45,7 +45,7 @@ namespace BikeSortFilter
         {
             var typeOfSort = typeof(TSort);
 
-            var sort = Activator.CreateInstance(typeOfSort as Type) as IConcreteSort<TEntity, TReturned>;
+            var sort = Activator.CreateInstance(typeOfSort) as IConcreteSort<TEntity, TReturned>;
 
             sortToUse = sort.GetSortCondition();
         }

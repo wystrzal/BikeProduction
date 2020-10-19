@@ -11,9 +11,9 @@ namespace Catalog.Application.Queries.Handlers
     public class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, IEnumerable<GetProductsDto>>
     {
         private readonly IMapper mapper;
-        private readonly ISearchProductService searchProductService;
+        private readonly ISearchProductsService searchProductService;
 
-        public GetProductsQueryHandler(IMapper mapper, ISearchProductService searchProductService)
+        public GetProductsQueryHandler(IMapper mapper, ISearchProductsService searchProductService)
         {
             this.mapper = mapper;
             this.searchProductService = searchProductService;
