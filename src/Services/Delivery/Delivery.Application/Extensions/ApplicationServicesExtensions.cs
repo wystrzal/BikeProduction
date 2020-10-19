@@ -16,12 +16,14 @@ namespace Delivery.Application.Extensions
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            services.AddTransientSortFilter<PackToDelivery, DataContext, FilteringData>();
+            services.AddTransientSortFilter<PackToDelivery, DataContext, OrderFilteringData>();
+            services.AddTransient<ISearchPacksService, SearchPacksService>();
             services.AddTransient<ICustomHttpClient, CustomHttpClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICustomerOrderService, CustomerOrderService>();
             services.AddTransient<IPackToDeliveryRepo, PackToDeliveryRepo>();
-            services.AddTransient<ISearchPacksService, SearchPacksService>();
+            services.AddTransientSortFilter<LoadingPlace, DataContext, LoadingPlaceFilteringData>();
+            services.AddTransient<ISearchLoadingPlacesService, SearchLoadingPlacesService>();
         }
     }
 }

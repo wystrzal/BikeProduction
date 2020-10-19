@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Delivery.Application.Queries
 {
-    public class GetPacksQuery : IRequest<List<GetPacksDto>>
+    public class GetLoadingPlacesQuery : IRequest<List<GetLoadingPlacesDto>>
     {
-        public OrderFilteringData FilteringData { get; set; }
+        public LoadingPlaceFilteringData FilteringData { get; set; }
 
-        public GetPacksQuery(OrderFilteringData filteringData)
+        public GetLoadingPlacesQuery(LoadingPlaceFilteringData filteringData)
         {
             FilteringData = filteringData;
         }

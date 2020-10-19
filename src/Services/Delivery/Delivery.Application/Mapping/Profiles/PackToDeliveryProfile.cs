@@ -16,6 +16,8 @@ namespace Delivery.Application.Mapping.Profiles
             CreateMap<PackToDelivery, GetPackDto>()
                 .ForMember(dest => dest.LoadingPlaceId,
                 opt => opt.MapFrom(src => src.LoadingPlace.Id));
+
+            CreateMap<LoadingPlace, GetLoadingPlacesDto>();
         }
     }
 }

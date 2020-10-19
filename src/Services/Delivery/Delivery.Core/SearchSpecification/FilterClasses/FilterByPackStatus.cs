@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Delivery.Core.SearchSpecification.FilterClasses
 {
-    public class FilterByPackStatus : ConcreteFilter<PackToDelivery, FilteringData>
+    public class FilterByPackStatus : ConcreteFilter<PackToDelivery, OrderFilteringData>
     {
-        public FilterByPackStatus(FilteringData filteringData) : base(filteringData)
+        public FilterByPackStatus(OrderFilteringData filteringData) : base(filteringData)
         {
         }
 

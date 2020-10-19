@@ -14,14 +14,14 @@ namespace Delivery.Infrastructure.Services
 {
     public class SearchPacksService : ISearchPacksService
     {
-        private readonly ISearchSortFilterService<PackToDelivery, FilteringData> sortFilterService;
+        private readonly ISearchSortFilterService<PackToDelivery, OrderFilteringData> sortFilterService;
 
-        public SearchPacksService(ISearchSortFilterService<PackToDelivery, FilteringData> searchSortFilterService)
+        public SearchPacksService(ISearchSortFilterService<PackToDelivery, OrderFilteringData> searchSortFilterService)
         {
             this.sortFilterService = searchSortFilterService;
         }
 
-        public async Task<List<PackToDelivery>> SearchPacks(FilteringData filteringData)
+        public async Task<List<PackToDelivery>> SearchPacks(OrderFilteringData filteringData)
         {
             SetSorting();
             SetFiltering(filteringData);
@@ -34,7 +34,7 @@ namespace Delivery.Infrastructure.Services
             sortFilterService.SetConcreteSort<SortByDate, DateTime>();
         }
 
-        private void SetFiltering(FilteringData filteringData)
+        private void SetFiltering(OrderFilteringData filteringData)
         {
             if (filteringData.PackStatus != 0)
             {

@@ -21,8 +21,6 @@ namespace Delivery.Application.Queries.Handlers
             this.mapper = mapper;
         }
 
-        public IMapper Mapper { get; }
-
         public async Task<List<GetPacksDto>> Handle(GetPacksQuery request, CancellationToken cancellationToken)
         {
             var packs = await searchPacksService.SearchPacks(request.FilteringData);

@@ -37,9 +37,15 @@ namespace Delivery.API.Controllers
         }
 
         [HttpGet("packs")]
-        public async Task<IActionResult> GetPacks([FromQuery] FilteringData filteringData)
+        public async Task<IActionResult> GetPacks([FromQuery] OrderFilteringData filteringData)
         {
             return Ok(await mediator.Send(new GetPacksQuery(filteringData)));
+        }
+
+        [HttpGet("loadingPlaces")]
+        public async Task<IActionResult> GetLoadingPlaces([FromQuery] LoadingPlaceFilteringData filteringData)
+        {
+            return Ok(await mediator.Send(new GetLoadingPlacesQuery(filteringData)));
         }
 
         [HttpPost("loading/{loadingPlaceId}/pack/{packId})")]

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Delivery.Core.Interfaces
 {
-    public interface ISearchPacksService
+    public interface ISearchLoadingPlacesService
     {
-        Task<List<PackToDelivery>> SearchPacks(OrderFilteringData filteringData);
+        Task<List<LoadingPlace>> SearchLoadingPlaces(LoadingPlaceFilteringData filteringData);
     }
 }
