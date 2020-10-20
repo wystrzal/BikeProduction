@@ -21,11 +21,21 @@ namespace ShopMVC.Areas.Admin.Controllers
             this.deliveryService = deliveryService;
         }
 
-        public async Task<IActionResult> Index(PackFilteringData filteringData)
+        public async Task<IActionResult> IndexPack(PackFilteringData filteringData)
         {
-            var vm = new DeliveryViewModel
+            var vm = new PacksViewModel
             {
                 Packs = await deliveryService.GetPacks(filteringData ?? new PackFilteringData())
+            };
+
+            return View(vm);
+        }
+
+        public async Task<IActionResult> IndexLoadingPlace(LoadingPlaceFilteringData filteringData)
+        {
+            var vm = new LoadingPlacesViewModel
+            {
+                LoadingPlaces = await deliveryService.GetLoadingPlaces(filteringData ?? new LoadingPlaceFilteringData())
             };
 
             return View(vm);

@@ -1,0 +1,52 @@
+﻿@model ShopMVC.Areas.Admin.Models.ViewModels.LoadingPlacesViewModel
+@using ShopMVC.Extensions
+
+<div class="sortFilter__button">
+    <div class="btn-group">
+        <button id="loadingPlace-filter-button" class="btn btn-secondary px-4" type="button">
+            Filter
+        </button>
+    </div>
+</div>
+
+<div class="sortFilter text-center">
+    <div class="text-right">
+        <span id="loadingPlace-filter-close" class="text-danger mt-2 mr-4" style="font-size: 50px; cursor: pointer;">&#9746</span>
+    </div>
+
+    <form asp-action="IndexLoadingPlace" asp-controller="Delivery">
+        <div id="loadingPlace-filter" style="display: none;">
+            <h2 class="text-white">Filter</h2>
+
+            <h4 class="text-white mt-5">Loading Place Status</h4>
+            @foreach (var item in Model.LoadingPlaceStatus.SelectListItem())
+            {
+                <div class="form-check mt-4">
+                    @Html.RadioButtonFor(x => x.LoadingPlaceStatus, item.Value,
+                    new { @class = "form-check-input", @id = $"loadingPlace-filterRadio-{item.Value}" })
+                    <label class="form-check-label text-white" for="loadingPlace-filterRadio-@item.Value">
+                        @item.Text
+                    </label>
+                </div>
+            }
+
+            <div class="mt-5">
+                <button type="submit" class="btn btn-light">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $("#loadingPlace-filter-button").click(() => {
+        $(".sortFilter").animate({ height: '100%' }, 500);
+        $("#loadingPlace-filter").css("display", "block");
+    });
+
+    $("#loadingPlace-filter-close").click(() => {
+        $(".sortFilter").animate({ height: '0%' }, 500);
+        $("#loadingPlace-filter").css("display", "none");
+    });
+
+</script>

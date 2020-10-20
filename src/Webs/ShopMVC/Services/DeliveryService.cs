@@ -24,18 +24,41 @@ namespace ShopMVC.Services
             baseUrl = "http://host.docker.internal:5104/api/delivery/";
         }
 
+        public async Task<List<LoadingPlace>> GetLoadingPlaces(LoadingPlaceFilteringData filteringData)
+        {
+            var getLoadingPlaces = $"{baseUrl}loadingPlaces";
+
+            var queryParams = SetLoadingPlaceQueryParams(filteringData);
+
+            var loadingPlaces = await customHttpClient.GetStringAsync(getLoadingPlaces, token, queryParams);
+
+            return JsonConvert.DeserializeObject<List<LoadingPlace>>(loadingPlaces);
+        }
+
+        private Dictionary<string, string> SetLoadingPlaceQueryParams(LoadingPlaceFilteringData filteringData)
+        {
+            var queryParams = new Dictionary<string, string>();
+
+            if (filteringData.LoadingPlaceStatus != 0)
+            {
+                queryParams.Add("LoadingPlaceStatus", filteringData.LoadingPlaceStatus.ToString());
+            }
+
+            return queryParams;
+        }
+
         public async Task<List<PackToDelivery>> GetPacks(PackFilteringData filteringData)
         {
             var getPacksUrl = $"{baseUrl}packs";
 
-            var queryParams = SetQueryParams(filteringData);
+            var queryParams = SetPackQueryParams(filteringData);
 
             var packs = await customHttpClient.GetStringAsync(getPacksUrl, token, queryParams);
 
             return JsonConvert.DeserializeObject<List<PackToDelivery>>(packs);
         }
 
-        private Dictionary<string, string> SetQueryParams(PackFilteringData filteringData)
+        private Dictionary<string, string> SetPackQueryParams(PackFilteringData filteringData)
         {
             var queryParams = new Dictionary<string, string>();
 

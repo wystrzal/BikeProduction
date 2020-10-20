@@ -1,4 +1,4 @@
-﻿@model ShopMVC.Areas.Admin.Models.ViewModels.DeliveryViewModel
+﻿@model ShopMVC.Areas.Admin.Models.ViewModels.PacksViewModel
 @using ShopMVC.Extensions
 
 <div class="sortFilter__button">
@@ -14,7 +14,7 @@
         <span id="pack-filter-close" class="text-danger mt-2 mr-4" style="font-size: 50px; cursor: pointer;">&#9746</span>
     </div>
 
-    <form asp-action="Index" asp-controller="Delivery">
+    <form asp-action="IndexPack" asp-controller="Delivery">
         <div id="pack-filter" style="display: none;">
             <h2 class="text-white">Filter</h2>
 

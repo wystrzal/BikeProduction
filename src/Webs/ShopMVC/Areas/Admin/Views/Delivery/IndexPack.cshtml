@@ -1,8 +1,13 @@
-﻿@model ShopMVC.Areas.Admin.Models.ViewModels.DeliveryViewModel
+﻿@model ShopMVC.Areas.Admin.Models.ViewModels.PacksViewModel
 
 
 <div class="row text-center pt-4">
     <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
+
+        <a class="btn btn-success mb-3" asp-controller="Delivery" asp-action="IndexLoadingPlace" asp-area="Admin">
+            <i class="fas fa-people-carry"></i> &nbsp;Loading Places
+        </a>
+
         @foreach (var pack in Model.Packs)
         {
             <div class="custom-shadow border-top p-2 mb-1">
