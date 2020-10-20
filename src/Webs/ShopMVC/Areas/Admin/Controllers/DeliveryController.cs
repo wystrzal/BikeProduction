@@ -50,5 +50,15 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return View(vm);
         }
+
+        public async Task<IActionResult> LoadingPlaceDetail(int id)
+        {
+            var vm = new LoadingPlaceDetailViewModel
+            {
+                LoadingPlace = await deliveryService.GetLoadingPlace(id)
+            };
+
+            return View(vm);
+        }
     }
 }

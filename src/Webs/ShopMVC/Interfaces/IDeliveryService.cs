@@ -11,5 +11,6 @@ namespace ShopMVC.Interfaces
         Task<List<PackToDelivery>> GetPacks(PackFilteringData filteringData);
         Task<PackToDelivery> GetPack(int packId);
         Task<List<LoadingPlace>> GetLoadingPlaces(LoadingPlaceFilteringData filteringData);
+        Task<LoadingPlace> GetLoadingPlace(int loadingPlaceId);
     }
 }

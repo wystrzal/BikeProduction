@@ -78,5 +78,14 @@ namespace ShopMVC.Services
 
             return JsonConvert.DeserializeObject<PackToDelivery>(pack);
         }
+
+        public async Task<LoadingPlace> GetLoadingPlace(int loadingPlaceId)
+        {
+            var getLoadingPlaceUrl = $"{baseUrl}loadingPlace/{loadingPlaceId}";
+
+            var loadingPlace = await customHttpClient.GetStringAsync(getLoadingPlaceUrl, token);
+
+            return JsonConvert.DeserializeObject<LoadingPlace>(loadingPlace);
+        }
     }
 }

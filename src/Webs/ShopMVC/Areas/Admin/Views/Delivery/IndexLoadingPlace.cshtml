@@ -1,6 +1,4 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.LoadingPlacesViewModel
-@using System
-
 
 <div class="row text-center pt-4">
     <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
@@ -9,15 +7,15 @@
             <i class="fas fa-cubes"></i> &nbsp;Packs
         </a>
 
-        @foreach (var pack in Model.LoadingPlaces)
+        @foreach (var loadingPlace in Model.LoadingPlaces)
         {
             <div class="custom-shadow border-top p-2 mb-1">
                 <a class="row text-dark" style="text-decoration: none;"
-                   asp-controller="Delivery" asp-action="PackDetail" asp-area="Admin" asp-route-id="@pack.Id">
+                   asp-controller="Delivery" asp-action="LoadingPlaceDetail" asp-area="Admin" asp-route-id="@loadingPlace.Id">
 
-                    <div class="col-12 col-sm-4">@pack.LoadingPlaceName</div>
-                    <div class="col-12 col-sm-4">@pack.LoadingPlaceStatus.ToString().Replace("_", " ")</div>
-                    <div class="col-12 col-sm-4">Qty Left: @(pack.AmountOfSpace - pack.LoadedQuantity)</div>
+                    <div class="col-12 col-sm-4">@loadingPlace.LoadingPlaceName</div>
+                    <div class="col-12 col-sm-4">@loadingPlace.LoadingPlaceStatus.ToString().Replace("_", " ")</div>
+                    <div class="col-12 col-sm-4">Qty Left: @(loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity)</div>
                 </a>
             </div>
         }
