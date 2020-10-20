@@ -21,8 +21,6 @@ namespace Delivery.Application.Queries.Handlers
             this.mapper = mapper;
         }
 
-        public IMapper Mapper { get; }
-
         public async Task<GetPackDto> Handle(GetPackQuery request, CancellationToken cancellationToken)
         {
             var pack = await packToDeliveryRepo.GetByConditionWithIncludeFirst(x => x.Id == request.PackId, y => y.LoadingPlace);

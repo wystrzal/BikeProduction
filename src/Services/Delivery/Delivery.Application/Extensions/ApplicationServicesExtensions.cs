@@ -22,6 +22,7 @@ namespace Delivery.Application.Extensions
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICustomerOrderService, CustomerOrderService>();
             services.AddTransient<IPackToDeliveryRepo, PackToDeliveryRepo>();
+            services.AddTransient<ILoadingPlaceRepo, LoadingPlaceRepo>();
             services.AddTransientSortFilter<LoadingPlace, DataContext, LoadingPlaceFilteringData>();
             services.AddTransient<ISearchLoadingPlacesService, SearchLoadingPlacesService>();
         }

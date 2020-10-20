@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using static Delivery.Core.Models.Enums.PackStatusEnum;
 
 namespace Delivery.Core.Models
@@ -14,6 +15,8 @@ namespace Delivery.Core.Models
         public string PostCode { get; set; }
         public string Street { get; set; }
         public string HouseNumber { get; set; }
+
+        [JsonIgnore]
         public LoadingPlace LoadingPlace { get; set; }
         public DateTime Date { get; set; } = new DateTime();
     }

@@ -48,6 +48,20 @@ namespace Delivery.API.Controllers
             return Ok(await mediator.Send(new GetLoadingPlacesQuery(filteringData)));
         }
 
+        [HttpGet("loadingPlace/{loadingPlaceId}")]
+        public async Task<IActionResult> GetLoadingPlace(int loadingPlaceId)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new GetLoadingPlaceQuery(loadingPlaceId)));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("loading/{loadingPlaceId}/pack/{packId})")]
         public async Task<IActionResult> LoadPack(int loadingPlaceId, int packId)
         {

@@ -1,4 +1,5 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.LoadingPlacesViewModel
+@using System
 
 
 <div class="row text-center pt-4">
@@ -16,7 +17,7 @@
 
                     <div class="col-12 col-sm-4">@pack.LoadingPlaceName</div>
                     <div class="col-12 col-sm-4">@pack.LoadingPlaceStatus.ToString().Replace("_", " ")</div>
-                    <div class="col-12 col-sm-4">Qty Left: @pack.AmountOfSpace - @pack.LoadedQuantity</div>
+                    <div class="col-12 col-sm-4">Qty Left: @(pack.AmountOfSpace - pack.LoadedQuantity)</div>
                 </a>
             </div>
         }
