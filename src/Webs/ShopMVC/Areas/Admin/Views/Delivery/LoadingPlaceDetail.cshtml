@@ -21,9 +21,5 @@
         @await Html.PartialAsync("~/Areas/Admin/Views/Delivery/_LoadingPlaceProgressbar.cshtml", Model.LoadingPlace.LoadingPlaceStatus)
     </div>
 
-    <div class="mt-4 col-12 detail-items-shadow admin-detail">
-        <div class="p-3"></div>
-
-        <h4>TODO</h4>
-    </div>
+    @await Html.PartialAsync("~/Areas/Admin/Views/Delivery/_PackItems.cshtml", Model.LoadingPlace)
 </div>

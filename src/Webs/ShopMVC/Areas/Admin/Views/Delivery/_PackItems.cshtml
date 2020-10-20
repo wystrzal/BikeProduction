@@ -1,0 +1,19 @@
+﻿@model ShopMVC.Areas.Admin.Models.LoadingPlace
+
+@if (Model.PacksToDelivery != null || Model.PacksToDelivery.Count <= 0)
+{
+    <div class="mt-5 col-12 detail-items-shadow admin-detail">
+
+        <div class="items-list p-2 pb-3">
+            @foreach (var pack in Model.PacksToDelivery)
+            {
+                <div class="row border-top custom-shadow mt-3 align-items-center text-center">
+                    <div class="col-12 col-sm-3 border-right p-2">Id: @pack.Id</div>
+                    <div class="col-12 col-sm-3 border-right p-2">@pack.Date</div>
+                    <div class="col-12 col-sm-3 border-right p-2">@pack.PackStatus.ToString().Replace("_", " ")</div>
+                    <div class="col-12 col-sm-3 border-right p-2">QTY: @pack.ProductsQuantity</div>
+                </div>
+            }
+        </div>
+    </div>
+}
