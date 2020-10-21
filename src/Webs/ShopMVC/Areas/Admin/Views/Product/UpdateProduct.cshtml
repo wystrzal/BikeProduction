@@ -6,7 +6,7 @@
     <h4>Update Product</h4>
 </div>
 
-@using (Html.BeginForm("UpdateProduct", "Product", FormMethod.Post, new { area = "Admin" }))
+@using (Html.BeginForm("UpdateProduct", "Product", FormMethod.Post))
 {
     @Html.TextBoxFor(x => x.Product.Id, new { style = "display: none;" })
 

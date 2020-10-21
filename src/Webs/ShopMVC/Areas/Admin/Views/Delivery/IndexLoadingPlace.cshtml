@@ -3,7 +3,7 @@
 <div class="row text-center pt-4">
     <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
 
-        <a class="btn btn-success mb-3" asp-controller="Delivery" asp-action="IndexPack" asp-area="Admin">
+        <a class="btn btn-success mb-3" asp-controller="Delivery" asp-action="IndexPack">
             <i class="fas fa-cubes"></i> &nbsp;Packs
         </a>
 
@@ -11,7 +11,7 @@
         {
             <div class="custom-shadow border-top p-2 mb-1">
                 <a class="row text-dark" style="text-decoration: none;"
-                   asp-controller="Delivery" asp-action="LoadingPlaceDetail" asp-area="Admin" asp-route-id="@loadingPlace.Id">
+                   asp-controller="Delivery" asp-action="LoadingPlaceDetail" asp-route-id="@loadingPlace.Id">
 
                     <div class="col-12 col-sm-4">@loadingPlace.LoadingPlaceName</div>
                     <div class="col-12 col-sm-4">@loadingPlace.LoadingPlaceStatus.ToString().Replace("_", " ")</div>
