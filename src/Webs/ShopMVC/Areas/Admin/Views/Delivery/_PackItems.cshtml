@@ -1,6 +1,6 @@
 ﻿@model ShopMVC.Areas.Admin.Models.LoadingPlace
 
-@if (Model.PacksToDelivery != null || Model.PacksToDelivery.Count <= 0)
+@if (Model.PacksToDelivery != null && Model.PacksToDelivery.Count > 0)
 {
     <div class="mt-5 col-12 detail-items-shadow admin-detail">
 
