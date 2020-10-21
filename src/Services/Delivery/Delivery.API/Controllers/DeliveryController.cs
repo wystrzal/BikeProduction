@@ -127,6 +127,21 @@ namespace Delivery.API.Controllers
             }
         }
 
+        [HttpPut("update/loadingPlace")]
+        public async Task<IActionResult> UpdateLoadingPlace(UpdateLoadingPlaceCommand command)
+        {
+            try
+            {
+                await mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpDelete("loadingPlace/{id}")]
         public async Task<IActionResult> DeleteLoadingPlace(int id)
         {

@@ -14,6 +14,8 @@ namespace Delivery.Application.Mapping.Profiles
             CreateMap<LoadingPlace, GetLoadingPlaceDto>();
 
             CreateMap<AddLoadingPlaceCommand, LoadingPlace>();
+
+            CreateMap<UpdateLoadingPlaceCommand, LoadingPlace>();
         }
     }
 }
