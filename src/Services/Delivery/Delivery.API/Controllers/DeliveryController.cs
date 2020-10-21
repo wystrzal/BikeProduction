@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Delivery.API.Controllers
 {
+    [Authorize(Policy = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class DeliveryController : ControllerBase
