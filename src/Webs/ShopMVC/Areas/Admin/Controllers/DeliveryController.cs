@@ -60,5 +60,15 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return View(vm);
         }
+
+        public IActionResult CreateLoadingPlace()
+        {
+            var vm = new PostPutLoadingPlaceViewModel
+            {
+                LoadingPlace = new LoadingPlace()
+            };
+
+            return View(vm);
+        }
     }
 }

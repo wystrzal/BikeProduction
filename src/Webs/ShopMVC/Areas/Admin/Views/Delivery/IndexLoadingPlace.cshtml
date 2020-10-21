@@ -2,10 +2,20 @@
 
 <div class="row text-center pt-4">
     <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
-
         <a class="btn btn-success mb-3" asp-controller="Delivery" asp-action="IndexPack">
             <i class="fas fa-cubes"></i> &nbsp;Packs
         </a>
+
+        <div class="row mb-2">
+            <div class="text-left col-6">
+                <h4>Loading Places</h4>
+            </div>
+            <div class="text-right col-6">
+                <a class="btn btn-success" asp-controller="Delivery" asp-action="CreateLoadingPlace">
+                    Add New Loading Place
+                </a>
+            </div>
+        </div>
 
         @foreach (var loadingPlace in Model.LoadingPlaces)
         {
