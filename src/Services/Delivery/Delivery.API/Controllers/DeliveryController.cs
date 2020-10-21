@@ -126,5 +126,20 @@ namespace Delivery.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("loadingPlace/{id}")]
+        public async Task<IActionResult> DeleteLoadingPlace(int id)
+        {
+            try
+            {
+                await mediator.Send(new DeleteLoadingPlaceCommand(id));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
