@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Delivery.Application.Commands;
 using Delivery.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace Delivery.Application.Mapping.Profiles
         public LoadingPlaceProfile()
         {
             CreateMap<LoadingPlace, GetLoadingPlaceDto>();
+
+            CreateMap<AddLoadingPlaceCommand, LoadingPlace>();
         }
     }
 }

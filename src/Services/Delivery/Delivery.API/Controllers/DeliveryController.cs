@@ -2,6 +2,7 @@
 using Delivery.Application.Queries;
 using Delivery.Core.SearchSpecification;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -106,6 +107,21 @@ namespace Delivery.API.Controllers
             {
                 logger.LogError(ex.Message);
 
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpPost("add/loadingPlace")]
+        public async Task<IActionResult> AddLoadingPlace(AddLoadingPlaceCommand command)
+        {
+            try
+            {
+                await mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
             }
         }
