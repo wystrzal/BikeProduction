@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Warehouse.Core.Interfaces;
+using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Messaging.Consumers
 {
@@ -23,7 +24,8 @@ namespace Warehouse.Application.Messaging.Consumers
             try
             {
                 ValidateReference(context.Message.Reference);
-                await DeleteProduct(context.Message.Reference);
+                var product = await productRepository.GetByConditionFirst(x => x.Reference == context.Message.Reference);
+                await DeleteProduct(product);
             }
             catch (Exception ex)
             {
@@ -42,9 +44,8 @@ namespace Warehouse.Application.Messaging.Consumers
             }
         }
 
-        private async Task DeleteProduct(string reference)
+        private async Task DeleteProduct(Product product)
         {
-            var product = await productRepository.GetByConditionFirst(x => x.Reference == reference);
             productRepository.Delete(product);
             await productRepository.SaveAllAsync();
         }

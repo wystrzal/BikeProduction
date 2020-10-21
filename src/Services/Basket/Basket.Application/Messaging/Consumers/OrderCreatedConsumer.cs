@@ -19,6 +19,13 @@ namespace Basket.Application.Messaging.Consumers
         }
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
+            await RemoveBasket(context);
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private async Task RemoveBasket(ConsumeContext<OrderCreatedEvent> context)
+        {
             try
             {
                 await basketService.RemoveBasket(context.Message.UserId);
@@ -28,8 +35,6 @@ namespace Basket.Application.Messaging.Consumers
                 logger.LogError(ex.Message);
                 throw;
             }
-            
-            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }

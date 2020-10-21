@@ -27,7 +27,8 @@ namespace Warehouse.Application.Messaging.Consumers
             try
             {
                 ValidateContext(context);
-                await AddProduct(context);
+                var productToAdd = mapper.Map<Product>(context.Message);
+                await AddProduct(productToAdd);
             }
             catch (Exception ex)
             {
@@ -51,10 +52,9 @@ namespace Warehouse.Application.Messaging.Consumers
             }
         }
 
-        private async Task AddProduct(ConsumeContext<ProductAddedEvent> context)
-        {
-            var productToAdd = mapper.Map<Product>(context.Message);
-            productRepository.Add(productToAdd);
+        private async Task AddProduct(Product product)
+        {          
+            productRepository.Add(product);
             await productRepository.SaveAllAsync();
         }
     }

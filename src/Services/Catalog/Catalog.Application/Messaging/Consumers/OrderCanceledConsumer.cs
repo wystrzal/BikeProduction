@@ -21,6 +21,13 @@ namespace Catalog.Application.Messaging.Consumers
 
         public async Task Consume(ConsumeContext<OrderCanceledEvent> context)
         {
+            await ChangeProductsPopularity(context);
+
+            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private async Task ChangeProductsPopularity(ConsumeContext<OrderCanceledEvent> context)
+        {
             try
             {
                 await changeProductsPopularityService.ChangeProductsPopularity(context.Message.OrderItems, false);
@@ -30,8 +37,6 @@ namespace Catalog.Application.Messaging.Consumers
                 logger.LogError(ex.Message);
                 throw;
             }
-
-            logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
     }
 }
