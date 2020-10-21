@@ -70,5 +70,40 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return View(vm);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateLoadingPlace(LoadingPlace loadingPlace)
+        {
+            var vm = CreatePostPutLoadingPlaceViewModelIfAnyError(loadingPlace);
+
+            if (vm != null)
+            {
+                return View(vm);
+            }
+
+            await deliveryService.AddLoadingPlace(loadingPlace);
+
+            return RedirectToAction("IndexLoadingPlace");
+        }
+
+        private PostPutLoadingPlaceViewModel CreatePostPutLoadingPlaceViewModelIfAnyError(LoadingPlace loadingPlace)
+        {
+            if (loadingPlace.AmountOfSpace == 0)
+            {
+                ModelState.AddModelError("", "The Amount of space field cannot be zero.");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                var vm = new PostPutLoadingPlaceViewModel
+                {
+                    LoadingPlace = new LoadingPlace()
+                };
+
+                return vm;
+            }
+
+            return null;
+        }
     }
 }
