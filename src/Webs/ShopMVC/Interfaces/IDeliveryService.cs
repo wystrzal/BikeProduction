@@ -13,5 +13,6 @@ namespace ShopMVC.Interfaces
         Task<List<LoadingPlace>> GetLoadingPlaces(LoadingPlaceFilteringData filteringData);
         Task<LoadingPlace> GetLoadingPlace(int loadingPlaceId);
         Task AddLoadingPlace(LoadingPlace loadingPlace);
+        Task UpdateLoadingPlace(LoadingPlace loadingPlace);
     }
 }

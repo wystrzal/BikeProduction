@@ -86,11 +86,41 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("IndexLoadingPlace");
         }
 
+        public async Task<IActionResult> UpdateLoadingPlace(int loadingPlaceId)
+        {
+            var vm = new PostPutLoadingPlaceViewModel
+            {
+                LoadingPlace = await deliveryService.GetLoadingPlace(loadingPlaceId)
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateLoadingPlace(LoadingPlace loadingPlace)
+        {
+            var vm = CreatePostPutLoadingPlaceViewModelIfAnyError(loadingPlace);
+
+            if (vm != null)
+            {
+                return View(vm);
+            }
+
+            await deliveryService.UpdateLoadingPlace(loadingPlace);
+
+            return RedirectToAction("IndexLoadingPlace");
+        }
+
         private PostPutLoadingPlaceViewModel CreatePostPutLoadingPlaceViewModelIfAnyError(LoadingPlace loadingPlace)
         {
             if (loadingPlace.AmountOfSpace == 0)
             {
                 ModelState.AddModelError("", "The Amount of space field cannot be zero.");
+            }
+
+            if (loadingPlace.AmountOfSpace < loadingPlace.LoadedQuantity)
+            {
+                ModelState.AddModelError("", "Amount of space must be greater than loaded quantity.");
             }
 
             if (ModelState.ErrorCount > 0)

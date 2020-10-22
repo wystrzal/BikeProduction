@@ -94,5 +94,12 @@ namespace ShopMVC.Services
 
             await customHttpClient.PostAsync(addLoadingPlaceUrl, loadingPlace, token);
         }
+
+        public async Task UpdateLoadingPlace(LoadingPlace loadingPlace)
+        {
+            var updateLoadingPlaceUrl = $"{baseUrl}update/loadingPlace";
+
+            await customHttpClient.PutAsync(updateLoadingPlaceUrl, loadingPlace, token);
+        }
     }
 }
