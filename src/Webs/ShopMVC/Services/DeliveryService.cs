@@ -122,5 +122,12 @@ namespace ShopMVC.Services
 
             await customHttpClient.PostAsync(startDeliveryUrl, (LoadingPlace)null, token);
         }
+
+        public async Task CompleteDelivery(int loadingPlaceId)
+        {
+            var completeDeliveryUrl = $"{baseUrl}complete/{loadingPlaceId}";
+
+            await customHttpClient.PostAsync(completeDeliveryUrl, (LoadingPlace)null, token);
+        }
     }
 }

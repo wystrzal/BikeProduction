@@ -19,6 +19,12 @@
                     @Html.ActionLink("Start Delivery", "StartDelivery", "Delivery", new { loadingPlaceId = Model.LoadingPlace.Id }, new { @class = "btn btn-success" })
                 </div>
             }
+            @if (Model.LoadingPlace.LoadingPlaceStatus == LoadingPlaceStatus.Sended)
+            {
+                <div class="text-right col-6">
+                    @Html.ActionLink("Complete Delivery", "CompleteDelivery", "Delivery", new { loadingPlaceId = Model.LoadingPlace.Id }, new { @class = "btn btn-success" })
+                </div>
+            }
         </div>
     </div>
 
