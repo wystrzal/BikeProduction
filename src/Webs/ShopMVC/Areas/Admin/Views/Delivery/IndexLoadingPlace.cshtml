@@ -20,20 +20,20 @@
         @foreach (var loadingPlace in Model.LoadingPlaces)
         {
             <div class="custom-shadow border-top p-2 mb-1 row align-items-center">
-                <div class="col-12 col-sm-3">
-                    <a class="text-dark" style="text-decoration: none;" 
-                       asp-controller="Delivery" asp-action="LoadingPlaceDetail" asp-route-id="@loadingPlace.Id">
-                        @loadingPlace.LoadingPlaceName
-                    </a>
-                </div>
+
+                <a class="text-dark col-12 col-sm-3" style="text-decoration: none;"
+                   asp-controller="Delivery" asp-action="LoadingPlaceDetail" asp-route-id="@loadingPlace.Id">
+                    @loadingPlace.LoadingPlaceName
+                </a>
+
                 <div class="col-12 col-sm-3">
                     @loadingPlace.LoadingPlaceStatus.ToString().Replace("_", " ")
                 </div>
                 <div class="col-12 col-sm-3">
                     Qty Left: @(loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity)
                 </div>
-                <div class="col-12 col-sm-3">             
-                        @Html.ActionLink("Edit", "UpdateLoadingPlace", "Delivery", new { loadingPlaceId = loadingPlace.Id }, new { @class = "btn btn-success" })
+                <div class="col-12 col-sm-3">
+                    @Html.ActionLink("Edit", "UpdateLoadingPlace", "Delivery", new { loadingPlaceId = loadingPlace.Id }, new { @class = "btn btn-success" })
                 </div>
             </div>
         }

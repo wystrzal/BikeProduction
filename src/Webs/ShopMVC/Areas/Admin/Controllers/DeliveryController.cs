@@ -61,6 +61,13 @@ namespace ShopMVC.Areas.Admin.Controllers
             return View(vm);
         }
 
+        public async Task<IActionResult> DeleteLoadingPlace(int id)
+        {
+            await deliveryService.DeleteLoadingPlace(id);
+
+            return RedirectToAction("IndexLoadingPlace");
+        }
+
         public IActionResult CreateLoadingPlace()
         {
             var vm = new PostPutLoadingPlaceViewModel
