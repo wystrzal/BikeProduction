@@ -45,7 +45,8 @@ namespace ShopMVC.Areas.Admin.Controllers
         {
             var vm = new PackDetailViewModel
             {
-                PackToDelivery = await deliveryService.GetPack(id)
+                PackToDelivery = await deliveryService.GetPack(id),
+                LoadingPlaces = await deliveryService.GetLoadingPlaces(new LoadingPlaceFilteringData())
             };
 
             return View(vm);
@@ -141,6 +142,13 @@ namespace ShopMVC.Areas.Admin.Controllers
             }
 
             return null;
+        }
+
+        public async Task<IActionResult> LoadPack(int loadingPlaceId, int packId)
+        {
+            await deliveryService.LoadPack(loadingPlaceId, packId);
+
+            return RedirectToAction("PackDetail", new { id = packId });
         }
     }
 }

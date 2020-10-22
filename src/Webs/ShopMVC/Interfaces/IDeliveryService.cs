@@ -15,5 +15,6 @@ namespace ShopMVC.Interfaces
         Task AddLoadingPlace(LoadingPlace loadingPlace);
         Task UpdateLoadingPlace(LoadingPlace loadingPlace);
         Task DeleteLoadingPlace(int loadingPlaceId);
+        Task LoadPack(int loadingPlaceId, int packId);
     }
 }

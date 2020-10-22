@@ -108,5 +108,12 @@ namespace ShopMVC.Services
 
             await customHttpClient.DeleteAsync(deleteLoadingPlaceUrl, token);
         }
+
+        public async Task LoadPack(int loadingPlaceId, int packId)
+        {
+            var loadPackUrl = $"{baseUrl}loading/{loadingPlaceId}/pack/{packId}";
+
+            await customHttpClient.PostAsync(loadPackUrl, (PackToDelivery)null, token);
+        }
     }
 }

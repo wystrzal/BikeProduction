@@ -64,7 +64,7 @@ namespace Delivery.API.Controllers
             }
         }
 
-        [HttpPost("loading/{loadingPlaceId}/pack/{packId})")]
+        [HttpPost("loading/{loadingPlaceId}/pack/{packId}")]
         public async Task<IActionResult> LoadPack(int loadingPlaceId, int packId)
         {
             try
