@@ -41,30 +41,30 @@ namespace ShopMVC.Areas.Admin.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> PackDetail(int id)
+        public async Task<IActionResult> PackDetail(int packId)
         {
             var vm = new PackDetailViewModel
             {
-                PackToDelivery = await deliveryService.GetPack(id),
+                PackToDelivery = await deliveryService.GetPack(packId),
                 LoadingPlaces = await deliveryService.GetLoadingPlaces(new LoadingPlaceFilteringData())
             };
 
             return View(vm);
         }
 
-        public async Task<IActionResult> LoadingPlaceDetail(int id)
+        public async Task<IActionResult> LoadingPlaceDetail(int loadingPlaceId)
         {
             var vm = new LoadingPlaceDetailViewModel
             {
-                LoadingPlace = await deliveryService.GetLoadingPlace(id)
+                LoadingPlace = await deliveryService.GetLoadingPlace(loadingPlaceId)
             };
 
             return View(vm);
         }
 
-        public async Task<IActionResult> DeleteLoadingPlace(int id)
+        public async Task<IActionResult> DeleteLoadingPlace(int loadingPlaceId)
         {
-            await deliveryService.DeleteLoadingPlace(id);
+            await deliveryService.DeleteLoadingPlace(loadingPlaceId);
 
             return RedirectToAction("IndexLoadingPlace");
         }
@@ -148,21 +148,21 @@ namespace ShopMVC.Areas.Admin.Controllers
         {
             await deliveryService.LoadPack(loadingPlaceId, packId);
 
-            return RedirectToAction("PackDetail", new { id = packId });
+            return RedirectToAction("PackDetail", new { packId });
         }
 
         public async Task<IActionResult> StartDelivery(int loadingPlaceId)
         {
             await deliveryService.StartDelivery(loadingPlaceId);
 
-            return RedirectToAction("LoadingPlaceDetail", new { id = loadingPlaceId });
+            return RedirectToAction("LoadingPlaceDetail", new { loadingPlaceId });
         }
 
         public async Task<IActionResult> CompleteDelivery(int loadingPlaceId)
         {
             await deliveryService.CompleteDelivery(loadingPlaceId);
 
-            return RedirectToAction("LoadingPlaceDetail", new { id = loadingPlaceId });
+            return RedirectToAction("LoadingPlaceDetail", new { loadingPlaceId });
         }
     }
 }

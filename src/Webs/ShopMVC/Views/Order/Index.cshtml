@@ -8,7 +8,7 @@
             {
                 <div class="row custom-shadow border-top align-items-center mb-1">
                     <div class="col-12 col-md-8 my-2">
-                        <a class="row text-dark" style="text-decoration: none;" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId">
+                        <a class="row text-dark" style="text-decoration: none;" asp-controller="Order" asp-action="OrderDetail" asp-route-orderId="@order.OrderId">
                             <div class="col-4">@order.OrderDate</div>
                             <div class="col-4">@order.OrderStatus.ToString().Replace("_", " ")</div>
                             <div class="col-4">@order.TotalPrice$</div>
@@ -17,11 +17,11 @@
                     <div class="col-12 col-md-4 my-2">
                         @if (order.OrderStatus == ShopMVC.Models.Enums.OrderStatusEnum.OrderStatus.Waiting_For_Confirm)
                         {
-                            @Html.ActionLink("Cancel", "DeleteOrder", "Order", new { id = order.OrderId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Cancel", "DeleteOrder", "Order", new { orderId = order.OrderId }, new { @class = "btn btn-warning" })
                         }
                         else if (order.OrderStatus == ShopMVC.Models.Enums.OrderStatusEnum.OrderStatus.Delivered)
                         {
-                            @Html.ActionLink("Delete", "DeleteOrder", "Order", new { id = order.OrderId }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Delete", "DeleteOrder", "Order", new { orderId = order.OrderId }, new { @class = "btn btn-danger" })
                         }
                     </div>
                 </div>

@@ -14,7 +14,7 @@
             {
                 <div class="row border-top custom-shadow mt-3 align-items-center">
                     <div class="col-12 col-sm-3 border-left border-right p-2">
-                        <a href="/Catalog/ProductDetail/@product.Id">
+                        <a asp-controller="Catalog" asp-action="ProductDetail" asp-area="" asp-route-productId="@product.Id">
                             <img src="@product.PhotoUrl" style="width: 100px;" />
                         </a>
                     </div>

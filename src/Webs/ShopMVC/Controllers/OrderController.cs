@@ -33,9 +33,9 @@ namespace ShopMVC.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> OrderDetail(int id)
+        public async Task<IActionResult> OrderDetail(int orderId)
         {
-            var order = await orderService.GetOrderDetail(id);
+            var order = await orderService.GetOrderDetail(orderId);
 
             return View(order);
         }
@@ -76,9 +76,9 @@ namespace ShopMVC.Controllers
             return Json(new { status = "success", url = Url.Action("Index", "Home") });
         }
 
-        public async Task<IActionResult> DeleteOrder(int id)
+        public async Task<IActionResult> DeleteOrder(int orderId)
         {
-            await orderService.DeleteOrder(id);
+            await orderService.DeleteOrder(orderId);
 
             return RedirectToAction("Index");
         }

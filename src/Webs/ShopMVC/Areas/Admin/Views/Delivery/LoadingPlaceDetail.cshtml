@@ -10,7 +10,7 @@
             @if (Model.LoadingPlace.PacksToDelivery.Count <= 0)
             {
                 <div class="text-right col-6">
-                    @Html.ActionLink("Delete", "DeleteLoadingPlace", "Delivery", new { id = Model.LoadingPlace.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Delete", "DeleteLoadingPlace", "Delivery", new { loadingPlaceId = Model.LoadingPlace.Id }, new { @class = "btn btn-danger" })
                 </div>
             }
             @if (Model.LoadingPlace.LoadingPlaceStatus == LoadingPlaceStatus.Loading)

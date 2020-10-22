@@ -16,7 +16,7 @@
         {
             <div class="custom-shadow border-top py-3 p-2 mb-1">
                 <a class="row text-dark" style="text-decoration: none;"
-                   asp-controller="Delivery" asp-action="PackDetail" asp-route-id="@pack.Id">
+                   asp-controller="Delivery" asp-action="PackDetail" asp-route-packId="@pack.Id">
 
                     <div class="col-12 col-sm-4">@pack.Date</div>
                     <div class="col-12 col-sm-4">@pack.PackStatus.ToString().Replace("_", " ")</div>

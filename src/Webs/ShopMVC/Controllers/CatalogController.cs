@@ -32,9 +32,9 @@ namespace ShopMVC.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> ProductDetail(int id)
+        public async Task<IActionResult> ProductDetail(int productId)
         {
-            var product = await catalogService.GetProduct(id);
+            var product = await catalogService.GetProduct(productId);
 
             return View(product);
         }
