@@ -1,0 +1,24 @@
+﻿@model ShopMVC.Areas.Admin.Models.ViewModels.PackDetailViewModel
+@using static ShopMVC.Areas.Admin.Models.Enums.PackStatusEnum
+
+@if (Model.PackToDelivery.PackStatus == PackStatus.Waiting)
+{
+    <div class="mt-5 col-12 detail-items-shadow admin-detail">
+        <div class="items-list p-2 pb-3">
+            @foreach (var loadingPlace in Model.LoadingPlaces)
+            {
+                if ((loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity) >= Model.PackToDelivery.ProductsQuantity)
+                {
+                    <div class="row border-top custom-shadow mt-3 align-items-center text-center">
+                        <div class="col-12 col-sm-4 border-right p-2">Id: @loadingPlace.LoadingPlaceName</div>
+                        <div class="col-12 col-sm-4 border-right p-2">Qty Left: @(loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity)</div>
+                        <div class="col-12 col-sm-4 border-right p-2">
+                            @Html.ActionLink("Load Pack", "LoadPack", "Delivery",
+                                new { loadingPlaceId = loadingPlace.Id, packId = Model.PackToDelivery.Id }, new { @class = "btn btn-success" })
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+}
