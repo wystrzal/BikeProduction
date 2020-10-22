@@ -12,12 +12,15 @@
                     <p style="font-size: 22px; font-weight:400;"><i class="fas fa-box"></i> Order ID: @Model.PackToDelivery.OrderId</p>
                 </a>
             </div>
-            <div class="col-lg-4 col-md-12">
-                <a class="text-dark" style="text-decoration: none;"
-                   asp-controller="Delivery" asp-action="LoadingPlaceDetail" asp-route-id="@Model.PackToDelivery.LoadingPlaceId">
-                    <p style="font-size: 22px; font-weight:400;"><i class="fas fa-truck-loading"></i> LoadingPlace ID: @Model.PackToDelivery.LoadingPlaceId</p>
-                </a>
-            </div>
+            @if (Model.PackToDelivery.LoadingPlaceId != 0)
+            {
+                <div class="col-lg-4 col-md-12">
+                    <a class="text-dark" style="text-decoration: none;"
+                       asp-controller="Delivery" asp-action="LoadingPlaceDetail" asp-route-id="@Model.PackToDelivery.LoadingPlaceId">
+                        <p style="font-size: 22px; font-weight:400;"><i class="fas fa-truck-loading"></i> LoadingPlace ID: @Model.PackToDelivery.LoadingPlaceId</p>
+                    </a>
+                </div>
+            }
         </div>
 
     </div>

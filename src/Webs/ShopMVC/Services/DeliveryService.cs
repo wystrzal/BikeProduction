@@ -115,5 +115,12 @@ namespace ShopMVC.Services
 
             await customHttpClient.PostAsync(loadPackUrl, (PackToDelivery)null, token);
         }
+
+        public async Task StartDelivery(int loadingPlaceId)
+        {
+            var startDeliveryUrl = $"{baseUrl}start/{loadingPlaceId}";
+
+            await customHttpClient.PostAsync(startDeliveryUrl, (LoadingPlace)null, token);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.PackDetailViewModel
 @using static ShopMVC.Areas.Admin.Models.Enums.PackStatusEnum
+@using static ShopMVC.Areas.Admin.Models.Enums.LoadingPlaceStatusEnum
 
 @if (Model.PackToDelivery.PackStatus == PackStatus.Waiting)
 {
@@ -7,7 +8,8 @@
         <div class="items-list p-2 pb-3">
             @foreach (var loadingPlace in Model.LoadingPlaces)
             {
-                if ((loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity) >= Model.PackToDelivery.ProductsQuantity)
+                if ((loadingPlace.AmountOfSpace - loadingPlace.LoadedQuantity) >= Model.PackToDelivery.ProductsQuantity 
+                    && loadingPlace.LoadingPlaceStatus != LoadingPlaceStatus.Sended)
                 {
                     <div class="row border-top custom-shadow mt-3 align-items-center text-center">
                         <div class="col-12 col-sm-4 border-right p-2">Id: @loadingPlace.LoadingPlaceName</div>

@@ -150,5 +150,12 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return RedirectToAction("PackDetail", new { id = packId });
         }
+
+        public async Task<IActionResult> StartDelivery(int loadingPlaceId)
+        {
+            await deliveryService.StartDelivery(loadingPlaceId);
+
+            return RedirectToAction("LoadingPlaceDetail", new { id = loadingPlaceId });
+        }
     }
 }
