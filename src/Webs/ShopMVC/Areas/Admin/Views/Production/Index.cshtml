@@ -1,7 +1,26 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.ProductionQueuesViewModel
 
 
-@foreach (var item in Model.ProductionQueues)
-{
-    <h2>@item.Reference</h2>
-}
+<div class="row text-center pt-4">
+    <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
+
+        <div class="text-left">
+            <h4>Production Queues</h4>
+        </div>
+
+        @foreach (var productionQueue in Model.ProductionQueues)
+        {
+            <div class="custom-shadow border-top py-3 p-2 mb-1">
+                <a class="row text-dark" style="text-decoration: none;">
+
+                    <div class="col-12 col-sm-3">Reference: @productionQueue.Reference</div>
+                    <div class="col-12 col-sm-3">@productionQueue.ProductionStatus.ToString().Replace("_", " ")</div>
+                    <div class="col-12 col-sm-3">Qty: @productionQueue.Quantity</div>
+                    <div class="col-12 col-sm-3">Action</div>
+                </a>
+            </div>
+        }
+    </div>
+
+
+</div>

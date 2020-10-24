@@ -8,9 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{9D76CF62-67FA-448D-A420-A9B049D8EA80}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{24E2D9C1-7E9B-450B-A159-3E1323DB70CF}"
-	ProjectSection(SolutionItems) = preProject
-		src\Webs\ShopMVC\Areas\Admin\Controllers\ProductionController.cs = src\Webs\ShopMVC\Areas\Admin\Controllers\ProductionController.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity.API", "src\Services\Identity\Identity.API\Identity.API.csproj", "{CD38A6F8-157D-4300-94FE-997581967B6E}"
 EndProject
