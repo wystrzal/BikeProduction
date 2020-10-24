@@ -10,12 +10,12 @@ namespace Production.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductionQueueController : ControllerBase
+    public class ProductionController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<ProductionQueueController> logger;
+        private readonly ILogger<ProductionController> logger;
 
-        public ProductionQueueController(IMediator mediator, ILogger<ProductionQueueController> logger)
+        public ProductionController(IMediator mediator, ILogger<ProductionController> logger)
         {
             this.mediator = mediator;
             this.logger = logger;

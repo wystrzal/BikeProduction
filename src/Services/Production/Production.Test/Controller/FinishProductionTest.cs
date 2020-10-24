@@ -17,15 +17,15 @@ namespace Production.Test.Controller
     public class FinishProductionTest
     {
         private readonly Mock<IMediator> mediator;
-        private readonly Mock<ILogger<ProductionQueueController>> logger;
+        private readonly Mock<ILogger<ProductionController>> logger;
 
-        private readonly ProductionQueueController controller;
+        private readonly ProductionController controller;
 
         public FinishProductionTest()
         {
             mediator = new Mock<IMediator>();
-            logger = new Mock<ILogger<ProductionQueueController>>();
-            controller = new ProductionQueueController(mediator.Object, logger.Object);
+            logger = new Mock<ILogger<ProductionController>>();
+            controller = new ProductionController(mediator.Object, logger.Object);
         }
 
         [Fact]
