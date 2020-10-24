@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Production.Application.Commands;
 using Production.Application.Queries;
+using Production.Core.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -70,9 +71,9 @@ namespace Production.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductionQueues()
+        public async Task<IActionResult> GetProductionQueues([FromQuery] ProductionQueueFilteringData filteringData)
         {
-            return Ok(await mediator.Send(new GetProductionQueuesQuery()));
+            return Ok(await mediator.Send(new GetProductionQueuesQuery(filteringData)));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BikeHttpClient;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Production.Core.Models;
 using ShopMVC.Areas.Admin.Models;
 using ShopMVC.Extensions;
 using ShopMVC.Interfaces;
@@ -24,13 +25,27 @@ namespace ShopMVC.Services
             this.customHttpClient = customHttpClient;
         }
 
-        public async Task<List<ProductionQueue>> GetProductionQueues()
+        public async Task<List<ProductionQueue>> GetProductionQueues(ProductionQueueFilteringData filteringData)
         {
             var getProductionQueuesUrl = $"{baseUrl}";
 
-            var productionQueues = await customHttpClient.GetStringAsync(getProductionQueuesUrl, token);
+            var queryParams = SetQueryParams(filteringData);
+
+            var productionQueues = await customHttpClient.GetStringAsync(getProductionQueuesUrl, token, queryParams);
 
             return JsonConvert.DeserializeObject<List<ProductionQueue>>(productionQueues);
+        }
+
+        private Dictionary<string, string> SetQueryParams(ProductionQueueFilteringData filteringData)
+        {
+            var queryParams = new Dictionary<string, string>();
+
+            if (filteringData.ProductionStatus != 0)
+            {
+                queryParams.Add("ProductionStatus", filteringData.ProductionStatus.ToString());
+            }
+
+            return queryParams;
         }
     }
 }

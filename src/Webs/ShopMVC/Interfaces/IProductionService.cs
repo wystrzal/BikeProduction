@@ -1,4 +1,5 @@
-﻿using ShopMVC.Areas.Admin.Models;
+﻿using Production.Core.Models;
+using ShopMVC.Areas.Admin.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace ShopMVC.Interfaces
 {
     public interface IProductionService
     {
-        Task<List<ProductionQueue>> GetProductionQueues();
+        Task<List<ProductionQueue>> GetProductionQueues(ProductionQueueFilteringData filteringData);
     }
 }

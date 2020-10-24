@@ -10,17 +10,17 @@ namespace Production.Application.Queries.Handlers
 {
     public class GetProductionQueuesQueryHandler : IRequestHandler<GetProductionQueuesQuery, IEnumerable<GetProductionQueuesDto>>
     {
-        private readonly IProductionQueueRepo productionQueueRepo;
+        private readonly ISearchProductionQueuesService searchProductionQueuesService;
         private readonly IMapper mapper;
 
-        public GetProductionQueuesQueryHandler(IProductionQueueRepo productionQueueRepo, IMapper mapper)
+        public GetProductionQueuesQueryHandler(ISearchProductionQueuesService searchProductionQueuesService, IMapper mapper)
         {
-            this.productionQueueRepo = productionQueueRepo;
+            this.searchProductionQueuesService = searchProductionQueuesService;
             this.mapper = mapper;
         }
         public async Task<IEnumerable<GetProductionQueuesDto>> Handle(GetProductionQueuesQuery request, CancellationToken cancellationToken)
         {
-            var productionQueues = await productionQueueRepo.GetAll();
+            var productionQueues = await searchProductionQueuesService.SearchProductionQueues(request.FilteringData);
 
             return mapper.Map<IEnumerable<GetProductionQueuesDto>>(productionQueues);
         }
