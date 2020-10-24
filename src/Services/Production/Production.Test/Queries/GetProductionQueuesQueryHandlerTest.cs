@@ -17,9 +17,10 @@ namespace Production.Test.Queries
 {
     public class GetProductionQueuesQueryHandlerTest
     {
-        private readonly Mock<IProductionQueueRepo> productionQueueRepo;
+        private readonly Mock<ISearchProductionQueuesService> searchProductionQueuesService;
         private readonly Mock<IMapper> mapper;
 
+        private readonly ProductionQueueFilteringData filteringData;
         private readonly GetProductionQueuesQuery query;
         private readonly GetProductionQueuesQueryHandler queryHandler;
         private readonly List<ProductionQueue> productionQueues;
@@ -27,10 +28,10 @@ namespace Production.Test.Queries
 
         public GetProductionQueuesQueryHandlerTest()
         {
-            productionQueueRepo = new Mock<IProductionQueueRepo>();
+            searchProductionQueuesService = new Mock<ISearchProductionQueuesService>();
             mapper = new Mock<IMapper>();
-            query = new GetProductionQueuesQuery();
-            queryHandler = new GetProductionQueuesQueryHandler(productionQueueRepo.Object, mapper.Object);
+            query = new GetProductionQueuesQuery(filteringData);
+            queryHandler = new GetProductionQueuesQueryHandler(searchProductionQueuesService.Object, mapper.Object);
             productionQueues = new List<ProductionQueue> { new ProductionQueue(), new ProductionQueue() };
             productionQueuesDto = new List<GetProductionQueuesDto> { new GetProductionQueuesDto(), new GetProductionQueuesDto() };
         }
@@ -39,7 +40,7 @@ namespace Production.Test.Queries
         public async Task GetProductionQueuesQueryHandler_Success()
         {
             //Arrange
-            productionQueueRepo.Setup(x => x.GetAll()).Returns(Task.FromResult(productionQueues));
+            searchProductionQueuesService.Setup(x => x.SearchProductionQueues(filteringData)).Returns(Task.FromResult(productionQueues));
             mapper.Setup(x => x.Map<IEnumerable<GetProductionQueuesDto>>(productionQueues)).Returns(productionQueuesDto);
 
             //Act

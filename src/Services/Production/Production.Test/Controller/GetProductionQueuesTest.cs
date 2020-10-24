@@ -5,6 +5,7 @@ using Moq;
 using Production.API.Controllers;
 using Production.Application.Mapping;
 using Production.Application.Queries;
+using Production.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace Production.Test.Controller
 
         private readonly ProductionController controller;
         private readonly IEnumerable<GetProductionQueuesDto> productionQueuesDto;
+        private readonly ProductionQueueFilteringData filteringData;
 
         public GetProductionQueuesTest()
         {
@@ -29,6 +31,7 @@ namespace Production.Test.Controller
             logger = new Mock<ILogger<ProductionController>>();
             controller = new ProductionController(mediator.Object, logger.Object);
             productionQueuesDto = new List<GetProductionQueuesDto> { new GetProductionQueuesDto(), new GetProductionQueuesDto() };
+            filteringData = new ProductionQueueFilteringData();
         }
 
         [Fact]
@@ -39,7 +42,7 @@ namespace Production.Test.Controller
                 .Returns(Task.FromResult(productionQueuesDto));
 
             //Act
-            var action = await controller.GetProductionQueues() as OkObjectResult;
+            var action = await controller.GetProductionQueues(filteringData) as OkObjectResult;
             var value = action.Value as List<GetProductionQueuesDto>;
 
             //Assert
