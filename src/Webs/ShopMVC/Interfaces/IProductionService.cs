@@ -10,5 +10,6 @@ namespace ShopMVC.Interfaces
     public interface IProductionService
     {
         Task<List<ProductionQueue>> GetProductionQueues(ProductionQueueFilteringData filteringData);
+        Task ConfirmProduction(int productionId);
     }
 }

@@ -47,5 +47,12 @@ namespace ShopMVC.Services
 
             return queryParams;
         }
+
+        public async Task ConfirmProduction(int productionId)
+        {
+            var confirmProductionUrl = $"{baseUrl}confirm/{productionId}";
+
+            await customHttpClient.PostAsync(confirmProductionUrl, (ProductionQueue)null, token);
+        }
     }
 }

@@ -29,5 +29,12 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return View(vm);
         }
+
+        public async Task<IActionResult> ConfirmProduction(int productionId)
+        {
+            await productionService.ConfirmProduction(productionId);
+
+            return RedirectToAction("Index");
+        }
     }
 }
