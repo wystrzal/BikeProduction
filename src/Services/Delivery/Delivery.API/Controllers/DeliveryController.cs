@@ -112,7 +112,7 @@ namespace Delivery.API.Controllers
             }
         }
         
-        [HttpPost("add/loadingPlace")]
+        [HttpPost("loadingPlace")]
         public async Task<IActionResult> AddLoadingPlace(AddLoadingPlaceCommand command)
         {
             try
@@ -127,7 +127,7 @@ namespace Delivery.API.Controllers
             }
         }
 
-        [HttpPut("update/loadingPlace")]
+        [HttpPut("loadingPlace")]
         public async Task<IActionResult> UpdateLoadingPlace(UpdateLoadingPlaceCommand command)
         {
             try
