@@ -5,6 +5,6 @@ namespace Delivery.Core.Interfaces
 {
     public interface ICustomerOrderService
     {
-        Task<Order> GetOrder(int id);
+        Task<Order> GetOrder(int id, string token);
     }
 }

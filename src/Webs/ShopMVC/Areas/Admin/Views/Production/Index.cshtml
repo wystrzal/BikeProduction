@@ -27,6 +27,12 @@
                         @Html.ActionLink("Start Creation", "StartCreatingProducts", "Production", new { productionId = productionQueue.Id }, new { @class = "btn btn-primary" })
                     </div>
                 }
+                @if (productionQueue.ProductionStatus == ProductionStatus.BeingCreated)
+                {
+                    <div class="col-12 col-sm-3">
+                        @Html.ActionLink("Finish", "FinishProduction", "Production", new { productionId = productionQueue.Id }, new { @class = "btn btn-success" })
+                    </div>
+                }
             </div>
         }
     </div>

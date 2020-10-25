@@ -43,5 +43,12 @@ namespace ShopMVC.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> FinishProduction(int productionId)
+        {
+            await productionService.FinishProduction(productionId);
+
+            return RedirectToAction("Index");
+        }
     }
 }

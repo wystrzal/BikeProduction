@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 using Production.Application.Commands;
 using Production.Application.Queries;
 using Production.Core.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Production.API.Controllers
@@ -59,7 +61,8 @@ namespace Production.API.Controllers
         {
             try
             {
-                await mediator.Send(new FinishProductionCommand(id));
+                var token = Request.Headers[HeaderNames.Authorization].ToString().Substring(7);
+                await mediator.Send(new FinishProductionCommand(id, token));
                 return Ok();
             }
             catch (Exception ex)

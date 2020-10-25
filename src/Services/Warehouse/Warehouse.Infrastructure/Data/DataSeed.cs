@@ -34,11 +34,11 @@ namespace Warehouse.Infrastructure.Data
             {
                 var parts = new List<Part>()
                 {
-                    new Part {Reference = "9000", PartName = "Frame", Quantity = 5, QuantityForProduction = 1 },
-                    new Part {Reference = "9001", PartName = "Saddle", Quantity = 5, QuantityForProduction = 1 },
-                    new Part {Reference = "9002", PartName = "Wheel", Quantity = 5, QuantityForProduction = 2 },
-                    new Part {Reference = "9003", PartName = "Chain", Quantity = 5, QuantityForProduction = 1 },
-                    new Part {Reference = "9004", PartName = "Pedal", Quantity = 5, QuantityForProduction = 2 },
+                    new Part {Reference = "9000", PartName = "Frame", Quantity = 50, QuantityForProduction = 1 },
+                    new Part {Reference = "9001", PartName = "Saddle", Quantity = 50, QuantityForProduction = 1 },
+                    new Part {Reference = "9002", PartName = "Wheel", Quantity = 50, QuantityForProduction = 2 },
+                    new Part {Reference = "9003", PartName = "Chain", Quantity = 50, QuantityForProduction = 1 },
+                    new Part {Reference = "9004", PartName = "Pedal", Quantity = 50, QuantityForProduction = 2 },
                 };
 
                 await dataContext.Parts.AddRangeAsync(parts);

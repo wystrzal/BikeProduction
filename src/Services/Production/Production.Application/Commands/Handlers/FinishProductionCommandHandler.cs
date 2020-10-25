@@ -28,7 +28,7 @@ namespace Production.Application.Commands.Handlers
 
             CheckIfProductionBeingCreated(productionQueue);
 
-            await ChangeProductionStatusToFinished(productionQueue);
+            await ChangeProductionStatusToFinished(productionQueue, request.Token);
 
             await PublishEventIfOrderedProductsFinished(productionQueue.OrderId);
 
@@ -43,11 +43,11 @@ namespace Production.Application.Commands.Handlers
             }
         }
 
-        private async Task ChangeProductionStatusToFinished(ProductionQueue productionQueue)
+        private async Task ChangeProductionStatusToFinished(ProductionQueue productionQueue, string token)
         {
             productionQueue.ProductionStatus = ProductionStatus.Finished;
             await productionQueueRepo.SaveAllAsync();
-            await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity));
+            await bus.Publish(new ProductionFinishedEvent(productionQueue.OrderId, productionQueue.Quantity, token));
         }
 
         private async Task PublishEventIfOrderedProductsFinished(int orderId)

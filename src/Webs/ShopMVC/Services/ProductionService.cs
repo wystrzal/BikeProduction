@@ -61,5 +61,12 @@ namespace ShopMVC.Services
 
             await customHttpClient.PostAsync(startCreatingProductsUrl, (ProductionQueue)null, token);
         }
+
+        public async Task FinishProduction(int productionId)
+        {
+            var finishProductionUrl = $"{baseUrl}finish/{productionId}";
+
+            await customHttpClient.PostAsync(finishProductionUrl, (ProductionQueue)null, token);
+        }
     }
 }

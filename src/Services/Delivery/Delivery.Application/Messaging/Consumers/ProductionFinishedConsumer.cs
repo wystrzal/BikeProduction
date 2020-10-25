@@ -33,7 +33,7 @@ namespace Delivery.Application.Messaging.Consumers
             }
             catch (NullDataException)
             {
-                await CreateNewPackToDelivery(context.Message.OrderId, context.Message.ProductsQuantity);
+                await CreateNewPackToDelivery(context);
             }
 
             await SaveChanges();
@@ -41,30 +41,30 @@ namespace Delivery.Application.Messaging.Consumers
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }
 
-        private async Task CreateNewPackToDelivery(int orderId, int productsQuantity)
+        private async Task CreateNewPackToDelivery(ConsumeContext<ProductionFinishedEvent> context)
         {
-            var order = await GetOrder(orderId);
+            var order = await GetOrder(context.Message.OrderId, context.Message.Token);
 
             var packToDelivery = new PackToDelivery
             {
-                OrderId = orderId,
+                OrderId = context.Message.OrderId,
                 PostCode = order.PostCode,
                 City = order.City,
                 Street = order.Street,
                 HouseNumber = order.HouseNumber,
                 PhoneNumber = order.PhoneNumber,
-                ProductsQuantity = productsQuantity,
+                ProductsQuantity = context.Message.ProductsQuantity,
                 PackStatus = PackStatus.Waiting
             };
 
             packToDeliveryRepo.Add(packToDelivery);
         }
 
-        private async Task<Order> GetOrder(int orderId)
+        private async Task<Order> GetOrder(int orderId, string token)
         {
             try
             {
-                return await customerOrderService.GetOrder(orderId);
+                return await customerOrderService.GetOrder(orderId, token);
             }
             catch (Exception ex)
             {
