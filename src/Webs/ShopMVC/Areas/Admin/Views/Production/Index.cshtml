@@ -10,15 +10,21 @@
 
         @foreach (var productionQueue in Model.ProductionQueues)
         {
-            <div class="custom-shadow border-top py-3 p-2 mb-1 row">
+            <div class="custom-shadow border-top py-3 p-2 mb-1 align-items-center row">
                 <div class="col-12 col-sm-3">Reference: @productionQueue.Reference</div>
                 <div class="col-12 col-sm-3">@productionQueue.ProductionStatus.ToString().Replace("_", " ")</div>
                 <div class="col-12 col-sm-3">Qty: @productionQueue.Quantity</div>
                 @if (productionQueue.ProductionStatus == ProductionStatus.Waiting
-                  || productionQueue.ProductionStatus == ProductionStatus.NoParts)
+                 || productionQueue.ProductionStatus == ProductionStatus.NoParts)
                 {
                     <div class="col-12 col-sm-3">
-                        @Html.ActionLink("Confirm", "ConfirmProduction", "Production", new { productionId = productionQueue.Id }, new { @class = "btn btn-success" })
+                        @Html.ActionLink("Confirm", "ConfirmProduction", "Production", new { productionId = productionQueue.Id }, new { @class = "btn btn-info" })
+                    </div>
+                }
+                @if (productionQueue.ProductionStatus == ProductionStatus.Confirmed)
+                {
+                    <div class="col-12 col-sm-3">
+                        @Html.ActionLink("Start Creation", "StartCreatingProducts", "Production", new { productionId = productionQueue.Id }, new { @class = "btn btn-primary" })
                     </div>
                 }
             </div>

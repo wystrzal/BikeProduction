@@ -11,5 +11,6 @@ namespace ShopMVC.Interfaces
     {
         Task<List<ProductionQueue>> GetProductionQueues(ProductionQueueFilteringData filteringData);
         Task ConfirmProduction(int productionId);
+        Task StartCreatingProducts(int productionId);
     }
 }
