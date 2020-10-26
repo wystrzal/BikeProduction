@@ -16,6 +16,8 @@ namespace CustomerOrder.Test.Controller
 {
     public class DeleteOrderTest
     {
+        private const int orderId = 1;
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<CustomerOrderController>> logger;
 
@@ -32,7 +34,7 @@ namespace CustomerOrder.Test.Controller
         public async Task DeleteOrder_OkResult()
         {
             //Act
-            var action = await controller.DeleteOrder(It.IsAny<int>()) as OkResult;
+            var action = await controller.DeleteOrder(orderId) as OkResult;
 
             //Assert
             Assert.Equal(200, action.StatusCode);

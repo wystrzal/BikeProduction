@@ -16,6 +16,9 @@ namespace Basket.Test.Controller
 {
     public class DeleteProductTest
     {
+        private const string userId = "1";
+        private const int productId = 1;
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
         
@@ -32,7 +35,7 @@ namespace Basket.Test.Controller
         public async Task DeleteProduct_OkResult()
         {
             //Act
-            var action = await controller.DeleteProduct(It.IsAny<string>(), It.IsAny<int>()) as OkResult;
+            var action = await controller.DeleteProduct(userId, productId) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<RemoveProductCommand>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -47,7 +50,7 @@ namespace Basket.Test.Controller
                 .Throws(new Exception());
 
             //Act
-            var action = await controller.DeleteProduct(It.IsAny<string>(), It.IsAny<int>()) as BadRequestObjectResult;
+            var action = await controller.DeleteProduct(userId, productId) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);

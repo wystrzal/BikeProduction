@@ -18,6 +18,8 @@ namespace CustomerOrder.Test.Commands
 {
     public class DeleteOrderCommandHandlerTest
     {
+        private const int orderId = 1;
+
         private readonly Mock<IOrderRepository> orderRepository;
         private readonly Mock<IBus> bus;
 
@@ -29,7 +31,7 @@ namespace CustomerOrder.Test.Commands
         {
             orderRepository = new Mock<IOrderRepository>();
             bus = new Mock<IBus>();
-            command = new DeleteOrderCommand(It.IsAny<int>());
+            command = new DeleteOrderCommand(orderId);
             commandHandler = new DeleteOrderCommandHandler(orderRepository.Object, bus.Object);
             orderItems = new List<OrderItem> { new OrderItem(), new OrderItem() };
         }

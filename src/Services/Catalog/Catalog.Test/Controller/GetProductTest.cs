@@ -18,6 +18,7 @@ namespace Catalog.Test.Controller
     public class GetProductTest
     {
         private const string productName = "test";
+        private const int productId = 1;
 
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<CatalogController>> logger;
@@ -41,7 +42,7 @@ namespace Catalog.Test.Controller
                 .Returns(Task.FromResult(productDto));
 
             //Act
-            var action = await controller.GetProduct(It.IsAny<int>()) as OkObjectResult;
+            var action = await controller.GetProduct(productId) as OkObjectResult;
             var value = action.Value as GetProductDto;
 
             //Assert
@@ -57,7 +58,7 @@ namespace Catalog.Test.Controller
                 .Throws(new Exception());
 
             //Act
-            var action = await controller.GetProduct(It.IsAny<int>()) as BadRequestObjectResult;
+            var action = await controller.GetProduct(productId) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);

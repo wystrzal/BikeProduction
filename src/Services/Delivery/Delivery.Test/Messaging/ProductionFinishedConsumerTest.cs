@@ -44,7 +44,7 @@ namespace Delivery.Test.Messaging
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .Throws<NullDataException>();
 
-            customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>())).Returns(Task.FromResult(new Order()));
+            customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>(), It.IsAny<string>())).Returns(Task.FromResult(new Order()));
 
             //Act
             await consumer.Consume(context);
@@ -62,7 +62,7 @@ namespace Delivery.Test.Messaging
             packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
                 .Throws<NullDataException>();
 
-            customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>())).ThrowsAsync(new Exception());
+            customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(new Exception());
 
             //Assert
             await Assert.ThrowsAsync<Exception>(() => consumer.Consume(context));
@@ -100,7 +100,7 @@ namespace Delivery.Test.Messaging
 
         private ConsumeContext<ProductionFinishedEvent> GetContext()
         {
-            var productionFinishedEvent = new ProductionFinishedEvent(It.IsAny<int>(), It.IsAny<int>());
+            var productionFinishedEvent = new ProductionFinishedEvent(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>());
             return Mock.Of<ConsumeContext<ProductionFinishedEvent>>(x => x.Message == productionFinishedEvent);
         }
     }

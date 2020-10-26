@@ -30,7 +30,7 @@ namespace Production.Test.Commands
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
             bus = new Mock<IBus>();
-            command = new FinishProductionCommand(It.IsAny<int>());
+            command = new FinishProductionCommand(It.IsAny<int>(), It.IsAny<string>());
             commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
         }
 

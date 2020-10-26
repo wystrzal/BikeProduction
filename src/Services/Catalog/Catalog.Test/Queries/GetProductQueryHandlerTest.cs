@@ -16,6 +16,7 @@ namespace Catalog.Test.Queries
     public class GetProductQueryHandlerTest
     {
         private const string productName = "test";
+        private const int productId = 1;
 
         private readonly Mock<IMapper> mapper;
         private readonly Mock<IProductRepository> productRepository;
@@ -29,7 +30,7 @@ namespace Catalog.Test.Queries
         {
             mapper = new Mock<IMapper>();
             productRepository = new Mock<IProductRepository>();
-            query = new GetProductQuery(It.IsAny<int>());
+            query = new GetProductQuery(productId);
             queryHandler = new GetProductQueryHandler(productRepository.Object, mapper.Object);
             product = new Product { ProductName = productName };
             productDto = new GetProductDto { ProductName = productName };

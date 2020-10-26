@@ -21,12 +21,14 @@ namespace Catalog.Test.Messaging
 
         private readonly OrderCreatedConsumer consumer;
         private readonly ConsumeContext<OrderCreatedEvent> context;
+        private readonly List<OrderItem> orderItems;
 
         public OrderCreatedConsumerTest()
         {
             changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCreatedConsumer>>();
             consumer = new OrderCreatedConsumer(changeProductsPopularityService.Object, logger.Object);
+            orderItems = new List<OrderItem> { new OrderItem() };
             context = GetContext();
         }
 
@@ -56,7 +58,7 @@ namespace Catalog.Test.Messaging
 
         private ConsumeContext<OrderCreatedEvent> GetContext()
         {
-            var orderCreatedEvent = new OrderCreatedEvent();
+            var orderCreatedEvent = new OrderCreatedEvent { OrderItems = orderItems };
 
             return Mock.Of<ConsumeContext<OrderCreatedEvent>>(x => x.Message == orderCreatedEvent);
         }

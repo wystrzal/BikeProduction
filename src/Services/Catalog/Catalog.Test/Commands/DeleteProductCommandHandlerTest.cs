@@ -14,6 +14,8 @@ namespace Catalog.Test.Commands
 {
     public class DeleteProductCommandHandlerTest
     {
+        private const int productId = 1;
+
         private readonly Mock<IProductRepository> productRepository;
         private readonly Mock<IBus> bus;
 
@@ -25,7 +27,7 @@ namespace Catalog.Test.Commands
         {
             productRepository = new Mock<IProductRepository>();
             bus = new Mock<IBus>();
-            command = new DeleteProductCommand(It.IsAny<int>());
+            command = new DeleteProductCommand(productId);
             product = new Product();
             commandHandler = new DeleteProductCommandHandler(productRepository.Object, bus.Object);
         }
@@ -34,7 +36,7 @@ namespace Catalog.Test.Commands
         public async Task DeleteProductCommandHandler_Success()
         {
             //Arrange
-            productRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(product));
+            productRepository.Setup(x => x.GetById(productId)).Returns(Task.FromResult(product));
             productRepository.Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
             //Act

@@ -22,12 +22,14 @@ namespace Catalog.Test.Messaging
 
         private readonly OrderCanceledConsumer consumer;
         private readonly ConsumeContext<OrderCanceledEvent> context;
+        private readonly List<OrderItem> orderItems;
 
         public OrderCanceledConsumerTest()
         {
             changeProductsPopularityService = new Mock<IChangeProductsPopularityService>();
             logger = new Mock<ILogger<OrderCanceledConsumer>>();
             consumer = new OrderCanceledConsumer(changeProductsPopularityService.Object, logger.Object);
+            orderItems = new List<OrderItem> { new OrderItem() };
             context = GetContext();
         }
 
@@ -39,7 +41,7 @@ namespace Catalog.Test.Messaging
 
             //Assert
             changeProductsPopularityService
-                .Verify(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()), Times.Once);
+                .Verify(x => x.ChangeProductsPopularity(orderItems, It.IsAny<bool>()), Times.Once);
 
             logger.VerifyLogging(LogLevel.Information);
         }
@@ -49,7 +51,7 @@ namespace Catalog.Test.Messaging
         {
             //Arrange
             changeProductsPopularityService
-                .Setup(x => x.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>())).ThrowsAsync(new Exception());
+                .Setup(x => x.ChangeProductsPopularity(orderItems, It.IsAny<bool>())).ThrowsAsync(new Exception());
 
             //Assert
             await Assert.ThrowsAsync<Exception>(() => consumer.Consume(context));
@@ -58,7 +60,7 @@ namespace Catalog.Test.Messaging
 
         private ConsumeContext<OrderCanceledEvent> GetContext()
         {
-            var orderCanceledEvent = new OrderCanceledEvent();
+            var orderCanceledEvent = new OrderCanceledEvent { OrderItems = orderItems };
             return Mock.Of<ConsumeContext<OrderCanceledEvent>>(x => x.Message == orderCanceledEvent);
         }
     }

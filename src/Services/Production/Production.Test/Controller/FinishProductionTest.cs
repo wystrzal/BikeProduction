@@ -1,5 +1,6 @@
 ﻿using BikeExtensions;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -7,6 +8,7 @@ using Production.API.Controllers;
 using Production.Application.Commands;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,6 +28,9 @@ namespace Production.Test.Controller
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<ProductionController>>();
             controller = new ProductionController(mediator.Object, logger.Object);
+            controller.ControllerContext = new ControllerContext();
+            controller.ControllerContext.HttpContext = new DefaultHttpContext();
+            controller.ControllerContext.HttpContext.Request.Headers["Authorization"] = "VeryLongToken";
         }
 
         [Fact]
