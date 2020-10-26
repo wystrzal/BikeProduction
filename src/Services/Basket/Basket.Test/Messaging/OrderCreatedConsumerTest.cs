@@ -44,6 +44,18 @@ namespace Basket.Test.Messaging
         }
 
         [Fact]
+        public async Task OrderCreatedConsumer_ThrowsArgumentNullException()
+        {
+            //Arrange
+            var context = GetContext(null);
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(() => consumer.Consume(context));
+            
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
         public async Task OrderCreatedConsumer_ThrowsException()
         {
             //Arrange
@@ -54,7 +66,7 @@ namespace Basket.Test.Messaging
             logger.VerifyLogging(LogLevel.Error);
         }
 
-        private ConsumeContext<OrderCreatedEvent> GetContext()
+        private ConsumeContext<OrderCreatedEvent> GetContext(string userId = userId)
         {
             var orderCreatedEvent = new OrderCreatedEvent { UserId = userId };
 

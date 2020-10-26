@@ -19,9 +19,20 @@ namespace Basket.Application.Messaging.Consumers
         }
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
+            ValidateUserId(context);
+
             await RemoveBasket(context);
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ValidateUserId(ConsumeContext<OrderCreatedEvent> context)
+        {
+            if (string.IsNullOrWhiteSpace(context.Message.UserId))
+            {
+                logger.LogError("UserId could not be null.");
+                throw new ArgumentNullException();
+            }
         }
 
         private async Task RemoveBasket(ConsumeContext<OrderCreatedEvent> context)
