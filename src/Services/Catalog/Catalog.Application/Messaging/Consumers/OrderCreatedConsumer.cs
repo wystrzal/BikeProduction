@@ -22,9 +22,19 @@ namespace Catalog.Application.Messaging.Consumers
         }
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
+            ValidateOrderItems(context.Message.OrderItems);
+
             await ChangeProductsPopularity(context);
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ValidateOrderItems(List<OrderItem> orderItems)
+        {
+            if (orderItems == null || orderItems.Count <= 0)
+            {
+                throw new ArgumentNullException();
+            }
         }
 
         private async Task ChangeProductsPopularity(ConsumeContext<OrderCreatedEvent> context)

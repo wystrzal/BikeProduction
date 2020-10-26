@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System.ComponentModel.DataAnnotations;
 using static Catalog.Core.Models.Enums.BikeTypeEnum;
 using static Catalog.Core.Models.Enums.ColorsEnum;
 
@@ -6,12 +7,25 @@ namespace Catalog.Application.Commands
 {
     public class AddProductCommand : IRequest
     {
+        [Required]
         public string ProductName { get; set; }
+
+        [Required]
         public string Reference { get; set; }
+
+        [Range(1, int.MaxValue)]
         public decimal Price { get; set; }
+
+        [Required]
         public string PhotoUrl { get; set; }
+
+        [Required]
         public Colors Colors { get; set; }
+
+        [Required]
         public BikeType BikeType { get; set; }
+
+        [Range(1, int.MaxValue)]
         public int BrandId { get; set; }
     }
 }

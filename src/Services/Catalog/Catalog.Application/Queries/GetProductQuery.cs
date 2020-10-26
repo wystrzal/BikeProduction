@@ -1,5 +1,7 @@
 ﻿using Catalog.Application.Mapping;
 using MediatR;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Catalog.Application.Queries
 {
@@ -9,6 +11,11 @@ namespace Catalog.Application.Queries
 
         public GetProductQuery(int productId)
         {
+            if (productId <= 0)
+            {
+                throw new ArgumentException("ProductId must be greater than zero.");
+            }
+
             ProductId = productId;
         }
     }

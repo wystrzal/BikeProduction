@@ -1,4 +1,6 @@
 ﻿using MediatR;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Catalog.Application.Commands
 {
@@ -8,6 +10,11 @@ namespace Catalog.Application.Commands
 
         public DeleteProductCommand(int productId)
         {
+            if (productId <= 0)
+            {
+                throw new ArgumentException("ProductId must be greater than zero.");
+            }
+
             ProductId = productId;
         }
     }

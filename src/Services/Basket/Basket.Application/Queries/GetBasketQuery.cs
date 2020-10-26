@@ -6,7 +6,6 @@ namespace Basket.Application.Queries
 {
     public class GetBasketQuery : IRequest<UserBasketDto>
     {
-        [Required]
         public string UserId { get; set; }
 
         public GetBasketQuery(string userId)

@@ -1,6 +1,7 @@
 ﻿using Catalog.Application.Mapping;
 using MediatR;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using static Catalog.Core.Models.Enums.HomeProductEnum;
 
 namespace Catalog.Application.Queries
