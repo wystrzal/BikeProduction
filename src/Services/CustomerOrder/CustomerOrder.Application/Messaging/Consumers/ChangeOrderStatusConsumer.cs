@@ -23,6 +23,7 @@ namespace CustomerOrder.Application.Messaging.Consumers
         {
             try
             {
+                ValidateContext(context);
                 var order = await orderRepository.GetById(context.Message.OrderId);
                 await ChangeOrderStatus(context, order);
             }
@@ -33,6 +34,18 @@ namespace CustomerOrder.Application.Messaging.Consumers
             }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
+        }
+
+        private void ValidateContext(ConsumeContext<ChangeOrderStatusEvent> context)
+        {
+            if (context.Message.OrderId <= 0)
+            {
+                throw new ArgumentException("OrderId must be greater than zero.");
+            }
+            if (context.Message.OrderStatus == 0)
+            {
+                throw new ArgumentException("Order status must be greater than zero.");
+            }
         }
 
         private async Task ChangeOrderStatus(ConsumeContext<ChangeOrderStatusEvent> context, Order order)

@@ -7,6 +7,7 @@ using CustomerOrder.Core.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
@@ -16,6 +17,7 @@ namespace CustomerOrder.Test.Messaging
     public class ChangeOrderStatusConsumerTest
     {
         private const OrderStatus orderStatus = OrderStatus.Confirmed;
+        private const int orderId = 1;
 
         private readonly Mock<IOrderRepository> orderRepository;
         private readonly Mock<ILogger<ChangeOrderStatusConsumer>> logger;
@@ -49,6 +51,30 @@ namespace CustomerOrder.Test.Messaging
         }
 
         [Fact]
+        public async Task ChangeOrderStatusConsumer_OrderIdEqualZero_ThrowsArgumentException()
+        {
+            //Arrange
+            var context = GetContext(It.IsAny<int>());
+            orderRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(order));
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public async Task ChangeOrderStatusConsumer_OrderStatusEqualZero_ThrowsArgumentException()
+        {
+            //Arrange
+            var context = GetContext(orderStatus: It.IsAny<OrderStatus>());
+            orderRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(order));
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentException>(() => consumer.Consume(context));
+            logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
         public async Task ChangeOrderStatusConsumer_ThrowsNullDataException()
         {
             //Arrange
@@ -72,9 +98,9 @@ namespace CustomerOrder.Test.Messaging
             logger.VerifyLogging(LogLevel.Error);
         }
 
-        private ConsumeContext<ChangeOrderStatusEvent> GetContext()
+        private ConsumeContext<ChangeOrderStatusEvent> GetContext(int orderId = orderId, OrderStatus orderStatus = orderStatus)
         {
-            var changeOrderStatusEvent = new ChangeOrderStatusEvent(It.IsAny<int>(), orderStatus);
+            var changeOrderStatusEvent = new ChangeOrderStatusEvent(orderId, orderStatus);
             return Mock.Of<ConsumeContext<ChangeOrderStatusEvent>>(x => x.Message == changeOrderStatusEvent);
         }
     }
