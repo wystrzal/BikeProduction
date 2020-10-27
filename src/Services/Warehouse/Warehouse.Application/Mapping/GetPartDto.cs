@@ -10,7 +10,5 @@ namespace Warehouse.Application.Mapping
         public string Reference { get; set; }
         public int Quantity { get; set; }
         public ICollection<ProductsParts> ProductsParts { get; set; }
-        public int StoragePlaceId { get; set; }
-        public string StoragePlaceName { get; set; }
     }
 }

@@ -6,6 +6,5 @@ namespace Warehouse.Core.Interfaces
 {
     public interface IPartRepository : IBaseRepository<Part>
     {
-        Task<Part> GetPart(int id);
     }
 }

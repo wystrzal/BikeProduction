@@ -10,9 +10,9 @@ namespace Warehouse.Application.Mapping
         {
             CreateMap<AddPartCommand, Part>();
 
-            CreateMap<Part, GetPartDto>()
-                .ForMember(dest => dest.StoragePlaceName, opt =>
-                opt.MapFrom(src => src.StoragePlace.Name));
+            CreateMap<Part, GetPartDto>();
+
+            CreateMap<Part, GetPartsDto>();
         }
     }
 }

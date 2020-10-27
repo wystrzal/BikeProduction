@@ -16,11 +16,5 @@ namespace Warehouse.Infrastructure.Repositories
         {
             this.dataContext = dataContext;
         }
-
-        public async Task<Part> GetPart(int id)
-        {
-            return await dataContext.Parts.AsNoTracking().Include(x => x.ProductsParts).Include(x => x.StoragePlace)
-                .Where(x => x.Id == id).FirstOrDefaultAsync();
-        }
     }
 }

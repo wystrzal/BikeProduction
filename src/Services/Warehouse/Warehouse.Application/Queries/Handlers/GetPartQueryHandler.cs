@@ -19,7 +19,7 @@ namespace Warehouse.Application.Queries.Handlers
         }
         public async Task<GetPartDto> Handle(GetPartQuery request, CancellationToken cancellationToken)
         {
-            var part = await partRepository.GetPart(request.PartId);
+            var part = await partRepository.GetByConditionWithIncludeFirst(x => x.Id == request.PartId, y => y.ProductsParts);
 
             return mapper.Map<GetPartDto>(part);
         }

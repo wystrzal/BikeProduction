@@ -44,6 +44,5 @@ namespace Warehouse.Infrastructure.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Part> Parts { get; set; }
         public DbSet<ProductsParts> ProductsParts { get; set; }
-        public DbSet<StoragePlace> StoragePlaces { get; set; }
     }
 }

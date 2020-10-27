@@ -16,6 +16,7 @@ namespace ShopMVC.Extensions
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IDeliveryService, DeliveryService>();
+            services.AddTransient<IWarehouseService, WarehouseService>();
             services.AddTransient<IProductionService, ProductionService>();
             services.AddTransient<ICustomHttpClient, CustomHttpClient>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
