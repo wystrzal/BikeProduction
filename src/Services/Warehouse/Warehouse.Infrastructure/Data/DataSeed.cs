@@ -13,18 +13,18 @@ namespace Warehouse.Infrastructure.Data
             {
                 var products = new List<Product>()
                 {
-                    new Product {Reference = "1", Quantity = 5, ProductName = "Sigwe"},
-                    new Product {Reference = "2", Quantity = 5, ProductName = "Hidse"},
-                    new Product {Reference = "3", Quantity = 5, ProductName = "Mgise"},
-                    new Product {Reference = "4", Quantity = 5, ProductName = "G-Sier"},
-                    new Product {Reference = "5", Quantity = 5, ProductName = "Siget"},
-                    new Product {Reference = "6", Quantity = 5, ProductName = "Xuder"},
-                    new Product {Reference = "7", Quantity = 5, ProductName = "X-Biser"},
-                    new Product {Reference = "8", Quantity = 5, ProductName = "Dihier"},
-                    new Product {Reference = "9", Quantity = 5, ProductName = "Kisge"},
-                    new Product {Reference = "10", Quantity = 5, ProductName = "Losige"},
-                    new Product {Reference = "11", Quantity = 5, ProductName = "Bisue"},
-                    new Product {Reference = "12", Quantity = 5, ProductName = "Dilis"}
+                    new Product {Reference = "1", ProductName = "Sigwe"},
+                    new Product {Reference = "2", ProductName = "Hidse"},
+                    new Product {Reference = "3", ProductName = "Mgise"},
+                    new Product {Reference = "4", ProductName = "G-Sier"},
+                    new Product {Reference = "5", ProductName = "Siget"},
+                    new Product {Reference = "6", ProductName = "Xuder"},
+                    new Product {Reference = "7", ProductName = "X-Biser"},
+                    new Product {Reference = "8", ProductName = "Dihier"},
+                    new Product {Reference = "9", ProductName = "Kisge"},
+                    new Product {Reference = "10", ProductName = "Losige"},
+                    new Product {Reference = "11", ProductName = "Bisue"},
+                    new Product {Reference = "12", ProductName = "Dilis"}
                 };
 
                 await dataContext.Products.AddRangeAsync(products);
@@ -122,20 +122,6 @@ namespace Warehouse.Infrastructure.Data
                 };
 
                 await dataContext.ProductsParts.AddRangeAsync(productsParts);
-            }
-
-            if (!dataContext.StoragePlaces.Any())
-            {
-                var storagePlaces = new List<StoragePlace>
-                {
-                    new StoragePlace { Name = "A-0-0", PartId = 1 },
-                    new StoragePlace { Name = "A-0-1", PartId = 2 },
-                    new StoragePlace { Name = "A-0-2", PartId = 3 },
-                    new StoragePlace { Name = "B-0-1", PartId = 4 },
-                    new StoragePlace { Name = "B-0-2", PartId = 5 },
-                };
-
-                await dataContext.StoragePlaces.AddRangeAsync(storagePlaces);
             }
 
             await dataContext.SaveChangesAsync();

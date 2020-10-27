@@ -72,43 +72,5 @@ namespace Warehouse.API.Controllers
         {
             return Ok(await mediator.Send(new GetPartsQuery()));
         }
-
-        [HttpPost("storage-place")]
-        public async Task<IActionResult> AddStoragePlace(AddStoragePlaceCommand command)
-        {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
-
-        }
-
-        [HttpDelete("storage-place/{id}")]
-        public async Task<IActionResult> DeleteStoragePlace(int id)
-        {
-            try
-            {
-                await mediator.Send(new DeleteStoragePlaceCommand(id));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("storage-places")]
-        public async Task<IActionResult> GetStoragePlaces()
-        {
-            return Ok(await mediator.Send(new GetStoragePlacesQuery()));
-        }
     }
 }

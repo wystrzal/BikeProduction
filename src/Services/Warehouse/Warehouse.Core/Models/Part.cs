@@ -8,8 +8,7 @@ namespace Warehouse.Core.Models
         public string PartName { get; set; }
         public string Reference { get; set; }
         public int QuantityForProduction { get; set; }
-        public int Quantity { get; set; } = 0;
+        public int Quantity { get; set; }
         public virtual ICollection<ProductsParts> ProductsParts { get; set; }
-        public StoragePlace StoragePlace { get; set; }
     }
 }
