@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Warehouse.Application.Mapping;
@@ -31,7 +34,10 @@ namespace Warehouse.Test.Queries
             var part = new Part { Id = id };
             var partDto = new GetPartDto { Id = id };
 
-            partRepository.Setup(x => x.GetPart(id)).Returns(Task.FromResult(part));
+            partRepository.Setup(x 
+                => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Part, bool>>(), It.IsAny<Expression<Func<Part, ICollection<ProductsParts>>>>()))
+                .Returns(Task.FromResult(part));
+
             mapper.Setup(x => x.Map<GetPartDto>(part)).Returns(partDto);
 
             var queryHandler = new GetPartQueryHandler(partRepository.Object, mapper.Object);
