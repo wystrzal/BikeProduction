@@ -41,5 +41,12 @@ namespace ShopMVC.Services
 
             return JsonConvert.DeserializeObject<Part>(part);
         }
+
+        public async Task AddPart(Part part)
+        {
+            var addPartUrl = $"{baseUrl}part";
+
+            await customHttpClient.PostAsync(addPartUrl, part, token);
+        }
     }
 }

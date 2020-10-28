@@ -29,32 +29,11 @@ namespace Warehouse.Infrastructure.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductName = table.Column<string>(nullable: true),
-                    Reference = table.Column<string>(nullable: true),
-                    Quantity = table.Column<int>(nullable: false)
+                    Reference = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StoragePlaces",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    PartId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StoragePlaces", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StoragePlaces_Parts_PartId",
-                        column: x => x.PartId,
-                        principalTable: "Parts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,12 +64,6 @@ namespace Warehouse.Infrastructure.Migrations
                 name: "IX_ProductsParts_ProductId",
                 table: "ProductsParts",
                 column: "ProductId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StoragePlaces_PartId",
-                table: "StoragePlaces",
-                column: "PartId",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -99,13 +72,10 @@ namespace Warehouse.Infrastructure.Migrations
                 name: "ProductsParts");
 
             migrationBuilder.DropTable(
-                name: "StoragePlaces");
+                name: "Parts");
 
             migrationBuilder.DropTable(
                 name: "Products");
-
-            migrationBuilder.DropTable(
-                name: "Parts");
         }
     }
 }

@@ -52,9 +52,6 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
                     b.Property<string>("Reference")
                         .HasColumnType("nvarchar(max)");
 
@@ -78,27 +75,6 @@ namespace Warehouse.Infrastructure.Migrations
                     b.ToTable("ProductsParts");
                 });
 
-            modelBuilder.Entity("Warehouse.Core.Models.StoragePlace", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PartId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PartId")
-                        .IsUnique();
-
-                    b.ToTable("StoragePlaces");
-                });
-
             modelBuilder.Entity("Warehouse.Core.Models.ProductsParts", b =>
                 {
                     b.HasOne("Warehouse.Core.Models.Part", "Part")
@@ -110,15 +86,6 @@ namespace Warehouse.Infrastructure.Migrations
                     b.HasOne("Warehouse.Core.Models.Product", "Product")
                         .WithMany("ProductsParts")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Warehouse.Core.Models.StoragePlace", b =>
-                {
-                    b.HasOne("Warehouse.Core.Models.Part", "Part")
-                        .WithOne("StoragePlace")
-                        .HasForeignKey("Warehouse.Core.Models.StoragePlace", "PartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

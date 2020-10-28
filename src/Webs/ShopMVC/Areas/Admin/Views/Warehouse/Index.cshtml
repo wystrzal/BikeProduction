@@ -1,19 +1,25 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.PartsViewModel
 
-<div class="row text-center pt-4">
-    <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
-        @if (Model != null)
-        {
-            foreach (var part in Model.Parts)
-            {
-                <div class="custom-shadow border-top p-2 mb-1">
-                    <a class="row text-dark" style="text-decoration: none;">
-                        <div class="col-12 col-sm-4">@part.PartName</div>
-                        <div class="col-12 col-sm-4">Reference: @part.Reference</div>
-                        <div class="col-12 col-sm-4">Qty: @part.Quantity</div>
-                    </a>
-                </div>
-            }
-        }
+    <div class="mt-4 mb-2 text-right">
+        <a class="btn btn-success" asp-controller="Warehouse" asp-action="CreatePart">
+            Add New Part
+        </a>
     </div>
-</div>
+
+    <div class="row text-center pt-4">
+        <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
+            @if (Model != null)
+            {
+                foreach (var part in Model.Parts)
+                {
+                    <div class="custom-shadow border-top p-2 mb-1">
+                        <a class="row text-dark" style="text-decoration: none;">
+                            <div class="col-12 col-sm-4">@part.PartName</div>
+                            <div class="col-12 col-sm-4">Reference: @part.Reference</div>
+                            <div class="col-12 col-sm-4">Qty: @part.Quantity</div>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>

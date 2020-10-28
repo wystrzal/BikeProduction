@@ -10,5 +10,6 @@ namespace ShopMVC.Interfaces
     {
         Task<List<Part>> GetParts();
         Task<Part> GetPart(int partId);
+        Task AddPart(Part part);
     }
 }
