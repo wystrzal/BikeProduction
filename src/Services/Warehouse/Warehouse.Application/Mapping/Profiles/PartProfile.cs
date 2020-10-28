@@ -13,6 +13,8 @@ namespace Warehouse.Application.Mapping
             CreateMap<Part, GetPartDto>();
 
             CreateMap<Part, GetPartsDto>();
+
+            CreateMap<UpdatePartCommand, Part>();
         }
     }
 }

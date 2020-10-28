@@ -52,6 +52,21 @@ namespace Warehouse.API.Controllers
             }
         }
 
+        [HttpPut("part")]
+        public async Task<IActionResult> UpdatePart(UpdatePartCommand command)
+        {
+            try
+            {
+                await mediator.Send(command);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet("part/{id}")]
         public async Task<IActionResult> GetPart(int id)
         {
