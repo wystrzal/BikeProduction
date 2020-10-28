@@ -32,7 +32,7 @@ namespace Warehouse.Test.Controller
             var controller = new WarehouseController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.DeletePart(It.IsAny<DeletePartCommand>()) as OkResult;
+            var action = await controller.DeletePart(It.IsAny<int>()) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<DeletePartCommand>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -49,7 +49,7 @@ namespace Warehouse.Test.Controller
             var controller = new WarehouseController(mediator.Object, logger.Object);
 
             //Act
-            var action = await controller.DeletePart(It.IsAny<DeletePartCommand>()) as BadRequestObjectResult;
+            var action = await controller.DeletePart(It.IsAny<int>()) as BadRequestObjectResult;
 
             //Assert
             Assert.NotNull(action.Value);
