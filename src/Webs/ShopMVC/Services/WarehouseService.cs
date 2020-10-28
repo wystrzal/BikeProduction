@@ -32,5 +32,14 @@ namespace ShopMVC.Services
 
             return JsonConvert.DeserializeObject<List<Part>>(parts);
         }
+
+        public async Task<Part> GetPart(int partId)
+        {
+            var getPartUrl = $"{baseUrl}part/{partId}";
+
+            var part = await customHttpClient.GetStringAsync(getPartUrl, token);
+
+            return JsonConvert.DeserializeObject<Part>(part);
+        }
     }
 }

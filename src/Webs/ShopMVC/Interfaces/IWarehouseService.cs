@@ -9,5 +9,6 @@ namespace ShopMVC.Interfaces
     public interface IWarehouseService
     {
         Task<List<Part>> GetParts();
+        Task<Part> GetPart(int partId);
     }
 }
