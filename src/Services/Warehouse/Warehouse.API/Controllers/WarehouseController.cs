@@ -36,12 +36,12 @@ namespace Warehouse.API.Controllers
             } 
         }
 
-        [HttpDelete("part")]
-        public async Task<IActionResult> DeletePart(DeletePartCommand command)
+        [HttpDelete("part/{partId}")]
+        public async Task<IActionResult> DeletePart(int partId)
         {
             try
             {
-                await mediator.Send(command);
+                await mediator.Send(new DeletePartCommand(partId));
                 return Ok();
             }
             catch (Exception ex)

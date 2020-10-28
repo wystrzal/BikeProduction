@@ -12,12 +12,15 @@
             {
                 foreach (var part in Model.Parts)
                 {
-                    <div class="custom-shadow border-top p-2 mb-1">
-                        <a class="row text-dark" style="text-decoration: none;">
-                            <div class="col-12 col-sm-4">@part.PartName</div>
-                            <div class="col-12 col-sm-4">Reference: @part.Reference</div>
-                            <div class="col-12 col-sm-4">Qty: @part.Quantity</div>
-                        </a>
+                    <div class="custom-shadow border-top p-2 mb-1 row">
+                            <div class="col-12 col-sm-3">@part.PartName</div>
+                            <div class="col-12 col-sm-3">Reference: @part.Reference</div>
+                            <div class="col-12 col-sm-3">Qty: @part.Quantity</div>
+                            <div class="col-12 col-sm-3">
+                                <div class="btn-group">                                   
+                                    @Html.ActionLink("Delete", "DeletePart", "Warehouse", new { partId = part.Id }, new { @class = "btn btn-danger" })
+                                </div>
+                            </div>
                     </div>
                 }
             }

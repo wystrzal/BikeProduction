@@ -31,6 +31,13 @@ namespace ShopMVC.Areas.Admin.Controllers
             return View(vm);
         }
 
+        public async Task<IActionResult> DeletePart(int partId)
+        {
+            await warehouseService.DeletePart(partId);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult CreatePart()
         {
             var vm = new PostPutPartViewModel
