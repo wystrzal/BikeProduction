@@ -33,7 +33,7 @@ namespace Warehouse.API.Controllers
             {
                 logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
-            } 
+            }
         }
 
         [HttpDelete("part/{partId}")]
@@ -91,15 +91,7 @@ namespace Warehouse.API.Controllers
         [HttpGet("product/{reference}/parts")]
         public async Task<IActionResult> GetProductParts(string reference)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetProductPartsQuery(reference)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetProductPartsQuery(reference)));
         }
     }
 }

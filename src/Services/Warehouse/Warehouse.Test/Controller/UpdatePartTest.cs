@@ -14,13 +14,13 @@ using Xunit;
 
 namespace Warehouse.Test.Controller
 {
-    public class DeletePartTest
+    public class UpdatePartTest
     {
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<WarehouseController>> logger;
         private readonly WarehouseController controller;
 
-        public DeletePartTest()
+        public UpdatePartTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<WarehouseController>>();
@@ -28,29 +28,28 @@ namespace Warehouse.Test.Controller
         }
 
         [Fact]
-        public async Task DeletePart_OkResult()
+        public async Task UpdatePart_OkResult()
         {
             //Act
-            var action = await controller.DeletePart(It.IsAny<int>()) as OkResult;
+            var action = await controller.UpdatePart(It.IsAny<UpdatePartCommand>()) as OkResult;
 
             //Assert
-            mediator.Verify(x => x.Send(It.IsAny<DeletePartCommand>(), It.IsAny<CancellationToken>()), Times.Once);
             Assert.Equal(200, action.StatusCode);
+            mediator.Verify(x => x.Send(It.IsAny<UpdatePartCommand>(), It.IsAny<CancellationToken>()), Times.Once);
         }
 
-
         [Fact]
-        public async Task DeletePart_BadRequestObjectResult()
+        public async Task UpdatePart_BadRequestObjectResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<DeletePartCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
+            mediator.Setup(x => x.Send(It.IsAny<UpdatePartCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
             //Act
-            var action = await controller.DeletePart(It.IsAny<int>()) as BadRequestObjectResult;
+            var action = await controller.UpdatePart(It.IsAny<UpdatePartCommand>()) as BadRequestObjectResult;
 
             //Assert
-            Assert.NotNull(action.Value);
             Assert.Equal(400, action.StatusCode);
+            Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
         }
     }

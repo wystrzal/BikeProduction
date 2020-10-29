@@ -17,33 +17,34 @@ namespace Warehouse.Test.Controller
 {
     public class GetPartTest
     {
+        private const int partId = 1;
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<WarehouseController>> logger;
+        private readonly WarehouseController controller;
+        private readonly GetPartDto partDto;
 
         public GetPartTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<WarehouseController>>();
+            controller = new WarehouseController(mediator.Object, logger.Object);
+            partDto = new GetPartDto { Id = partId };
         }
 
         [Fact]
         public async Task GetPart_OkObjectResult()
         {
             //Arrange
-            var id = 1;
-            var partDto = new GetPartDto() { Id = id };
-
             mediator.Setup(x => x.Send(It.IsAny<GetPartQuery>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(partDto));
 
-            var controller = new WarehouseController(mediator.Object, logger.Object);
-
             //Act
-            var action = await controller.GetPart(id) as OkObjectResult;
+            var action = await controller.GetPart(partId) as OkObjectResult;
             var value = action.Value as GetPartDto;
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(id, value.Id);
+            Assert.Equal(partId, value.Id);
         }
 
         [Fact]
@@ -51,8 +52,6 @@ namespace Warehouse.Test.Controller
         {
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<GetPartQuery>(), It.IsAny<CancellationToken>())).Throws(new Exception());
-
-            var controller = new WarehouseController(mediator.Object, logger.Object);
 
             //Act
             var action = await controller.GetPart(It.IsAny<int>()) as BadRequestObjectResult;

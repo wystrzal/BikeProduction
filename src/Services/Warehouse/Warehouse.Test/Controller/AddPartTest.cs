@@ -19,19 +19,18 @@ namespace Warehouse.Test.Controller
     {
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<WarehouseController>> logger;
+        private readonly WarehouseController controller;
 
         public AddPartTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<WarehouseController>>();
+            controller = new WarehouseController(mediator.Object, logger.Object);
         }
 
         [Fact]
         public async Task AddPart_OkResult()
-        {
-            //Arrange
-            var controller = new WarehouseController(mediator.Object, logger.Object);
-
+        {    
             //Act
             var action = await controller.AddPart(It.IsAny<AddPartCommand>()) as OkResult;
 
@@ -44,8 +43,6 @@ namespace Warehouse.Test.Controller
         public async Task AddPart_BadRequestObjectResult()
         {
             //Arrange
-            var controller = new WarehouseController(mediator.Object, logger.Object);
-
             mediator.Setup(x => x.Send(It.IsAny<AddPartCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
             //Act

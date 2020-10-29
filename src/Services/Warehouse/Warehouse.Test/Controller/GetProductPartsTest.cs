@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,34 +14,37 @@ using Xunit;
 
 namespace Warehouse.Test.Controller
 {
-    public class GetPartsTest
+    public class GetProductPartsTest
     {
+        private const string reference = "1";
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<WarehouseController>> logger;
         private readonly WarehouseController controller;
-        private readonly IEnumerable<GetPartsDto> partsDto;
+        private readonly List<GetProductPartsDto> productPartsDto;
 
-        public GetPartsTest()
+        public GetProductPartsTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<WarehouseController>>();
             controller = new WarehouseController(mediator.Object, logger.Object);
-            partsDto = new List<GetPartsDto> { new GetPartsDto(), new GetPartsDto() };
+            productPartsDto = new List<GetProductPartsDto> { new GetProductPartsDto(), new GetProductPartsDto() };
         }
 
         [Fact]
-        public async Task GetParts_OkObjectResult()
+        public async Task GetProductParts_OkObjectResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(It.IsAny<GetPartsQuery>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(partsDto));
+            mediator.Setup(x => x.Send(It.IsAny<GetProductPartsQuery>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(productPartsDto));
 
             //Act
-            var action = await controller.GetParts() as OkObjectResult;
-            var value = action.Value as List<GetPartsDto>;
+            var action = await controller.GetProductParts(reference) as OkObjectResult;
+            var value = action.Value as List<GetProductPartsDto>;
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(partsDto.Count(), value.Count);
+            Assert.Equal(productPartsDto.Count, value.Count);
         }
     }
 }
