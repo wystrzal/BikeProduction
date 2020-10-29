@@ -12,5 +12,6 @@ namespace ShopMVC.Interfaces
         Task<Part> GetPart(int partId);
         Task AddPart(Part part);
         Task DeletePart(int partId);
+        Task UpdatePart(Part part);
     }
 }

@@ -17,7 +17,8 @@
                             <div class="col-12 col-sm-3">Reference: @part.Reference</div>
                             <div class="col-12 col-sm-3">Qty: @part.Quantity</div>
                             <div class="col-12 col-sm-3">
-                                <div class="btn-group">                                   
+                                <div class="btn-group">
+                                    @Html.ActionLink("Edit", "UpdatePart", "Warehouse", new { partId = part.Id }, new { @class = "btn btn-success" })
                                     @Html.ActionLink("Delete", "DeletePart", "Warehouse", new { partId = part.Id }, new { @class = "btn btn-danger" })
                                 </div>
                             </div>

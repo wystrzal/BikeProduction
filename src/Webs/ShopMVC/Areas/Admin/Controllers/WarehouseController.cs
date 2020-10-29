@@ -38,6 +38,29 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> UpdatePart(int partId)
+        {
+            var vm = new PostPutPartViewModel
+            {
+                Part = await warehouseService.GetPart(partId)
+            };
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePart(Part part)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ReturnViewWithPostPutVM();
+            }
+
+            await warehouseService.UpdatePart(part);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult CreatePart()
         {
             var vm = new PostPutPartViewModel
@@ -51,11 +74,9 @@ namespace ShopMVC.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePart(Part part)
         {
-            var vm = await CreatePostPutPartViewModelIfAnyError(part);
-
-            if (vm != null)
+            if (!ModelState.IsValid)
             {
-                return View(vm);
+                return ReturnViewWithPostPutVM();
             }
 
             await warehouseService.AddPart(part);
@@ -63,19 +84,14 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        private async Task<PostPutPartViewModel> CreatePostPutPartViewModelIfAnyError(Part part)
+        private IActionResult ReturnViewWithPostPutVM()
         {
-            if (ModelState.ErrorCount > 0)
+            var vm = new PostPutPartViewModel
             {
-                var vm = new PostPutPartViewModel
-                {
-                    Part = part.Id == 0 ? new Part() : await warehouseService.GetPart(part.Id)
-                };
+                Part = new Part()
+            };
 
-                return vm;
-            }
-
-            return null;
+            return View(vm);
         }
     }
 }
