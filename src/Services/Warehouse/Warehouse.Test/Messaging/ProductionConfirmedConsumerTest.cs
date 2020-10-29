@@ -36,7 +36,7 @@ namespace Warehouse.Test.Messaging
             var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference, Quantity = quantity };
             var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
 
-            productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>())).Returns(Task.FromResult(parts));
+            productPartRepo.Setup(x => x.GetProductParts(It.IsAny<string>())).Returns(Task.FromResult(parts));
 
             var consumer = new ProductionConfirmedConsumer(productPartRepo.Object, logger.Object);
 
@@ -89,7 +89,7 @@ namespace Warehouse.Test.Messaging
             var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference, Quantity = quantity };
             var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
 
-            productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>())).Returns(Task.FromResult(parts));
+            productPartRepo.Setup(x => x.GetProductParts(It.IsAny<string>())).Returns(Task.FromResult(parts));
 
             var consumer = new ProductionConfirmedConsumer(productPartRepo.Object, logger.Object);
 
@@ -108,7 +108,7 @@ namespace Warehouse.Test.Messaging
             var productionConfirmedEvent = new ProductionConfirmedEvent { Reference = reference, Quantity = quantity };
             var context = Mock.Of<ConsumeContext<ProductionConfirmedEvent>>(x => x.Message == productionConfirmedEvent);
 
-            productPartRepo.Setup(x => x.GetPartsForProduction(It.IsAny<string>())).Returns(Task.FromResult(parts));
+            productPartRepo.Setup(x => x.GetProductParts(It.IsAny<string>())).Returns(Task.FromResult(parts));
             productPartRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(ProductsParts)));
 
             var consumer = new ProductionConfirmedConsumer(productPartRepo.Object, logger.Object);

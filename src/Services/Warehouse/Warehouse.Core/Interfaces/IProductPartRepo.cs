@@ -7,6 +7,6 @@ namespace Warehouse.Core.Interfaces
 {
     public interface IProductPartRepo : IBaseRepository<ProductsParts>
     {
-        Task<List<Part>> GetPartsForProduction(string reference);
+        Task<List<Part>> GetProductParts(string reference);
     }
 }

@@ -87,5 +87,19 @@ namespace Warehouse.API.Controllers
         {
             return Ok(await mediator.Send(new GetPartsQuery()));
         }
+
+        [HttpGet("product/{reference}/parts")]
+        public async Task<IActionResult> GetProductParts(string reference)
+        {
+            try
+            {
+                return Ok(await mediator.Send(new GetProductPartsQuery(reference)));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace Warehouse.Application.Messaging.Consumers
 
         private async Task<List<Part>> GetParts(ConsumeContext<ProductionConfirmedEvent> context)
         {
-            var parts = await productPartRepo.GetPartsForProduction(context.Message.Reference);
+            var parts = await productPartRepo.GetProductParts(context.Message.Reference);
 
             if (parts.Count <= 0)
             {

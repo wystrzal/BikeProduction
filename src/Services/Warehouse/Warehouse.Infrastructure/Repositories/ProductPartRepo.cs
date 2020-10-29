@@ -18,7 +18,7 @@ namespace Warehouse.Infrastructure.Repositories
             this.dataContext = dataContext;
         }
 
-        public async Task<List<Part>> GetPartsForProduction(string reference)
+        public async Task<List<Part>> GetProductParts(string reference)
         {
             return await dataContext.ProductsParts.Include(x => x.Product).Include(x => x.Part)
                 .Where(x => x.Product.Reference == reference)
