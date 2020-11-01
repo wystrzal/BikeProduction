@@ -15,10 +15,12 @@ namespace ShopMVC.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly ICatalogService catalogService;
+        private readonly IWarehouseService warehouseService;
 
-        public ProductController(ICatalogService catalogService)
+        public ProductController(ICatalogService catalogService, IWarehouseService warehouseService)
         {
             this.catalogService = catalogService;
+            this.warehouseService = warehouseService;
         }
 
         public async Task<IActionResult> Index()
@@ -36,7 +38,8 @@ namespace ShopMVC.Areas.Admin.Controllers
             var vm = new PostPutProductViewModel
             {
                 Brand = await catalogService.GetBrandListItem(),
-                Product = new CatalogProduct()
+                Product = new CatalogProduct(),
+                Parts = null
             };
 
             return View(vm);
@@ -59,10 +62,13 @@ namespace ShopMVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdateProduct(int productId)
         {
+            var product = await catalogService.GetProduct(productId);
+
             var vm = new PostPutProductViewModel
             {
                 Brand = await catalogService.GetBrandListItem(),
-                Product = await catalogService.GetProduct(productId)
+                Product = product,
+                Parts = await warehouseService.GetProductParts(product.Reference)
             };
 
             return View(vm);
@@ -95,7 +101,8 @@ namespace ShopMVC.Areas.Admin.Controllers
                 var vm = new PostPutProductViewModel
                 {
                     Brand = await catalogService.GetBrandListItem(),
-                    Product = product.Id == 0 ? new CatalogProduct() : await catalogService.GetProduct(product.Id)
+                    Product = product.Id == 0 ? new CatalogProduct() : await catalogService.GetProduct(product.Id),
+                    Parts = product.Id == 0 ? null : await warehouseService.GetProductParts(product.Reference)
                 };
 
                 return vm;

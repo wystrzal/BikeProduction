@@ -11,5 +11,6 @@ namespace ShopMVC.Areas.Admin.Models.ViewModels
     {
         public CatalogProduct Product { get; set; }
         public IEnumerable<SelectListItem> Brand { get; set; }
+        public List<Part> Parts { get; set; }
     }
 }

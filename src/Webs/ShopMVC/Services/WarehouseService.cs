@@ -62,5 +62,14 @@ namespace ShopMVC.Services
 
             await customHttpClient.PutAsync(updatePartUrl, part, token);
         }
+
+        public async Task<List<Part>> GetProductParts(string reference)
+        {
+            var getProductPartsUrl = $"{baseUrl}product/{reference}/parts";
+
+            var parts = await customHttpClient.GetStringAsync(getProductPartsUrl, token);
+
+            return JsonConvert.DeserializeObject<List<Part>>(parts);
+        }
     }
 }
