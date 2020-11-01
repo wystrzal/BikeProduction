@@ -35,24 +35,15 @@ namespace ShopMVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> CreateProduct()
         {
-            var vm = new PostPutProductViewModel
-            {
-                Brand = await catalogService.GetBrandListItem(),
-                Product = new CatalogProduct(),
-                Parts = null
-            };
-
-            return View(vm);
+            return await ReturnViewWithPostPutVM();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CatalogProduct product)
         {
-            var vm = await CreatePostPutProductViewModelIfAnyError(product);
-
-            if (vm != null)
+            if (!ModelState.IsValid)
             {
-                return View(vm);
+                return await ReturnViewWithPostPutVM();
             }
 
             await catalogService.AddProduct(product);
@@ -62,26 +53,15 @@ namespace ShopMVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdateProduct(int productId)
         {
-            var product = await catalogService.GetProduct(productId);
-
-            var vm = new PostPutProductViewModel
-            {
-                Brand = await catalogService.GetBrandListItem(),
-                Product = product,
-                Parts = await warehouseService.GetProductParts(product.Reference)
-            };
-
-            return View(vm);
+            return await ReturnViewWithPostPutVM(productId);
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateProduct(CatalogProduct product)
         {
-            var vm = await CreatePostPutProductViewModelIfAnyError(product);
-
-            if (vm != null)
+            if (!ModelState.IsValid)
             {
-                return View(vm);
+                return await ReturnViewWithPostPutVM(product.Id);
             }
 
             await catalogService.UpdateProduct(product);
@@ -89,26 +69,18 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        private async Task<PostPutProductViewModel> CreatePostPutProductViewModelIfAnyError(CatalogProduct product)
+        private async Task<IActionResult> ReturnViewWithPostPutVM(int productId = 0)
         {
-            if (product.Price == 0)
+            var product = productId == 0 ? new CatalogProduct() : await catalogService.GetProduct(productId);
+
+            var vm = new PostPutProductViewModel
             {
-                ModelState.AddModelError("", "The Price field cannot be zero.");
-            }
+                Brand = await catalogService.GetBrandListItem(),
+                Product = product,
+                Parts = productId == 0 ? null : await warehouseService.GetProductParts(product.Reference)
+            };
 
-            if (ModelState.ErrorCount > 0)
-            {
-                var vm = new PostPutProductViewModel
-                {
-                    Brand = await catalogService.GetBrandListItem(),
-                    Product = product.Id == 0 ? new CatalogProduct() : await catalogService.GetProduct(product.Id),
-                    Parts = product.Id == 0 ? null : await warehouseService.GetProductParts(product.Reference)
-                };
-
-                return vm;
-            }
-
-            return null;
+            return View(vm);
         }
 
         public async Task<IActionResult> DeleteProduct(int productId)

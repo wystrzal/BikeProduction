@@ -14,7 +14,7 @@ namespace ShopMVC.Models
         [Required]
         public string Reference { get; set; }
 
-        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "The field Price must be greater than zero.")]
         public decimal Price { get; set; }
 
         [Required]
