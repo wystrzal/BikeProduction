@@ -7,6 +7,7 @@
 @using (Html.BeginForm("UpdatePart", "Warehouse", FormMethod.Post))
 {
     <div class="row col-12 mt-3 col-md-10 offset-md-2">
+        @Html.TextBoxFor(x => x.Part.Id, new { style = "display: none"})
 
         <div class="col-lg-6 offset-lg-0 offset-md-1 mb-3">
             <label for="partName">Part Name</label>
