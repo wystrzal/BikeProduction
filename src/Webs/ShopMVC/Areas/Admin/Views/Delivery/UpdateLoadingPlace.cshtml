@@ -16,7 +16,7 @@
         </div>
         <div class="col-lg-6 offset-lg-0 offset-md-1 mb-3">
             <label for="amountOfSpace">Amount Of Space</label>
-            @Html.TextBoxFor(x => x.LoadingPlace.AmountOfSpace, new { id = "amountOfSpace", @class = "form-control" })
+            @Html.TextBoxFor(x => x.LoadingPlace.AmountOfSpace, new { id = "amountOfSpace", @type = "number", @class = "form-control" })
         </div>
         <div class="text-center col-12 col-md-11 offset-md-1 offset-lg-0 col-lg-12 mb-3">
             <button type="submit" class="btn btn-success">Edit</button>

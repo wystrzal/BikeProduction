@@ -34,6 +34,10 @@
                     </div>
                     <div class="col-12 col-sm-3">
                         @Html.ActionLink("Edit", "UpdateLoadingPlace", "Delivery", new { loadingPlaceId = loadingPlace.Id }, new { @class = "btn btn-success" })
+                        @if (loadingPlace.LoadedQuantity <= 0)
+                        {
+                            @Html.ActionLink("Delete", "DeleteLoadingPlace", "Delivery", new { loadingPlaceId = loadingPlace.Id }, new { @class = "btn btn-danger" })
+                        }
                     </div>
                 </div>
             </div>

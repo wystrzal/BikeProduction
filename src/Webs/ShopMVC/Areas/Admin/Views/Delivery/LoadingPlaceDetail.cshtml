@@ -7,12 +7,6 @@
             <div class="text-left col-6">
                 <p style="font-size: 22px; font-weight:400;"><i class="fas fa-people-carry"></i> Loading Place ID: @Model.LoadingPlace.Id</p>
             </div>
-            @if (Model.LoadingPlace.PacksToDelivery.Count <= 0)
-            {
-                <div class="text-right col-6">
-                    @Html.ActionLink("Delete", "DeleteLoadingPlace", "Delivery", new { loadingPlaceId = Model.LoadingPlace.Id }, new { @class = "btn btn-danger" })
-                </div>
-            }
             @if (Model.LoadingPlace.LoadingPlaceStatus == LoadingPlaceStatus.Loading)
             {
                 <div class="text-right col-6">

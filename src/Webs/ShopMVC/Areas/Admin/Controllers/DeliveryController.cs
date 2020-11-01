@@ -69,24 +69,17 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("IndexLoadingPlace");
         }
 
-        public IActionResult CreateLoadingPlace()
+        public async Task<IActionResult> CreateLoadingPlace()
         {
-            var vm = new PostPutLoadingPlaceViewModel
-            {
-                LoadingPlace = new LoadingPlace()
-            };
-
-            return View(vm);
+            return await ReturnViewWithPostPutVM();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateLoadingPlace(LoadingPlace loadingPlace)
         {
-            var vm = CreatePostPutLoadingPlaceViewModelIfAnyError(loadingPlace);
-
-            if (vm != null)
+            if (!ModelState.IsValid)
             {
-                return View(vm);
+                return await ReturnViewWithPostPutVM();
             }
 
             await deliveryService.AddLoadingPlace(loadingPlace);
@@ -96,22 +89,20 @@ namespace ShopMVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdateLoadingPlace(int loadingPlaceId)
         {
-            var vm = new PostPutLoadingPlaceViewModel
-            {
-                LoadingPlace = await deliveryService.GetLoadingPlace(loadingPlaceId)
-            };
-
-            return View(vm);
+            return await ReturnViewWithPostPutVM(loadingPlaceId);
         }
 
         [HttpPost]
         public async Task<IActionResult> UpdateLoadingPlace(LoadingPlace loadingPlace)
         {
-            var vm = CreatePostPutLoadingPlaceViewModelIfAnyError(loadingPlace);
-
-            if (vm != null)
+            if (loadingPlace.AmountOfSpace < loadingPlace.LoadedQuantity)
             {
-                return View(vm);
+                ModelState.AddModelError("", "AmountOfSpace must be greater than LoadedQuantity");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return await ReturnViewWithPostPutVM(loadingPlace.Id);
             }
 
             await deliveryService.UpdateLoadingPlace(loadingPlace);
@@ -119,29 +110,14 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("IndexLoadingPlace");
         }
 
-        private PostPutLoadingPlaceViewModel CreatePostPutLoadingPlaceViewModelIfAnyError(LoadingPlace loadingPlace)
+        private async Task<IActionResult> ReturnViewWithPostPutVM(int loadingPlaceId = 0)
         {
-            if (loadingPlace.AmountOfSpace == 0)
+            var vm = new PostPutLoadingPlaceViewModel
             {
-                ModelState.AddModelError("", "The Amount of space field cannot be zero.");
-            }
+                LoadingPlace = loadingPlaceId == 0 ? new LoadingPlace() : await deliveryService.GetLoadingPlace(loadingPlaceId)
+            };
 
-            if (loadingPlace.AmountOfSpace < loadingPlace.LoadedQuantity)
-            {
-                ModelState.AddModelError("", "Amount of space must be greater than loaded quantity.");
-            }
-
-            if (ModelState.ErrorCount > 0)
-            {
-                var vm = new PostPutLoadingPlaceViewModel
-                {
-                    LoadingPlace = new LoadingPlace()
-                };
-
-                return vm;
-            }
-
-            return null;
+            return View(vm);
         }
 
         public async Task<IActionResult> LoadPack(int loadingPlaceId, int packId)
