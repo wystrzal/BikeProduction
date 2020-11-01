@@ -40,12 +40,7 @@ namespace ShopMVC.Areas.Admin.Controllers
 
         public async Task<IActionResult> UpdatePart(int partId)
         {
-            var vm = new PostPutPartViewModel
-            {
-                Part = await warehouseService.GetPart(partId)
-            };
-
-            return View(vm);
+            return await ReturnViewWithPostPutVM(partId);
         }
 
         [HttpPost]
@@ -53,7 +48,7 @@ namespace ShopMVC.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ReturnViewWithPostPutVM();
+                return await ReturnViewWithPostPutVM(part.Id);
             }
 
             await warehouseService.UpdatePart(part);
@@ -61,14 +56,9 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult CreatePart()
+        public async Task<IActionResult> CreatePart()
         {
-            var vm = new PostPutPartViewModel
-            {
-                Part = new Part()
-            };
-
-            return View(vm);
+            return await ReturnViewWithPostPutVM();
         }
 
         [HttpPost]
@@ -76,7 +66,7 @@ namespace ShopMVC.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ReturnViewWithPostPutVM();
+                return await ReturnViewWithPostPutVM();
             }
 
             await warehouseService.AddPart(part);
@@ -84,11 +74,11 @@ namespace ShopMVC.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        private IActionResult ReturnViewWithPostPutVM()
+        private async Task<IActionResult> ReturnViewWithPostPutVM(int partId = 0)
         {
             var vm = new PostPutPartViewModel
             {
-                Part = new Part()
+                Part = partId == 0 ? null : await warehouseService.GetPart(partId)
             };
 
             return View(vm);
