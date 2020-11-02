@@ -24,5 +24,11 @@ namespace Warehouse.Infrastructure.Repositories
                 .Where(x => x.Product.Reference == reference)
                 .Select(x => x.Part).ToListAsync();
         }
+
+        public async Task<ProductsParts> GetProductPart(string reference, int partId)
+        {
+            return await dataContext.ProductsParts.Include(x => x.Product).Include(x => x.Part)
+                .Where(x => x.Product.Reference == reference && x.PartId == partId).FirstOrDefaultAsync();
+        }
     }
 }

@@ -93,5 +93,20 @@ namespace Warehouse.API.Controllers
         {
             return Ok(await mediator.Send(new GetProductPartsQuery(reference)));
         }
+
+        [HttpDelete("product/{reference}/part/{partId}")]
+        public async Task<IActionResult> DeleteProductPart(string reference, int partId)
+        {
+            try
+            {
+                await mediator.Send(new DeleteProductPartCommand(partId, reference));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
