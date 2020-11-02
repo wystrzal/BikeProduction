@@ -12,6 +12,11 @@ namespace Delivery.Application.Queries
 
         public GetPackQuery(int packId)
         {
+            if (packId <= 0)
+            {
+                throw new ArgumentException("PackId must be greater than zero.");
+            }
+
             PackId = packId;
         }
     }

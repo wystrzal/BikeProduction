@@ -11,6 +11,11 @@ namespace Delivery.Application.Commands
 
         public DeleteLoadingPlaceCommand(int loadingPlaceId)
         {
+            if (loadingPlaceId <= 0)
+            {
+                throw new ArgumentException("LoadingPlaceId must be greater than zero.");
+            }
+
             LoadingPlaceId = loadingPlaceId;
         }
     }

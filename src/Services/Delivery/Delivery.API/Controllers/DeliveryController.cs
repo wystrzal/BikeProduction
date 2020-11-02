@@ -142,12 +142,12 @@ namespace Delivery.API.Controllers
             }
         }
 
-        [HttpDelete("loadingPlace/{id}")]
-        public async Task<IActionResult> DeleteLoadingPlace(int id)
+        [HttpDelete("loadingPlace/{loadingPlaceId}")]
+        public async Task<IActionResult> DeleteLoadingPlace(int loadingPlaceId)
         {
             try
             {
-                await mediator.Send(new DeleteLoadingPlaceCommand(id));
+                await mediator.Send(new DeleteLoadingPlaceCommand(loadingPlaceId));
                 return Ok();
             }
             catch (Exception ex)
