@@ -16,6 +16,8 @@ namespace Delivery.Test.Controller
 {
     public class StartDeliveryTest
     {
+        private const int id = 1;
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<DeliveryController>> logger;
 
@@ -32,7 +34,7 @@ namespace Delivery.Test.Controller
         public async Task StartDelivery_OkResult()
         {
             //Act
-            var action = await controller.StartDelivery(It.IsAny<int>()) as OkResult;
+            var action = await controller.StartDelivery(id) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<StartDeliveryCommand>(), It.IsAny<CancellationToken>()), Times.Once);

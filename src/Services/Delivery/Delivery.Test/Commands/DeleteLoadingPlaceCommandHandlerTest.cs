@@ -63,5 +63,12 @@ namespace Delivery.Test.Commands
             //Assert
             await Assert.ThrowsAsync<ArgumentException>(() => commandHandler.Handle(command, It.IsAny<CancellationToken>()));
         }
+
+        [Fact]
+        public void DeleteLoadingPlaceCommandHandler_LoadingPlaceId_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new DeleteLoadingPlaceCommand(It.IsAny<int>()));
+        }
     }
 }

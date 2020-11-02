@@ -18,6 +18,8 @@ namespace Delivery.Test.Commands
 {
     public class StartDeliveryCommandHandlerTest
     {
+        private const int id = 1;
+
         private readonly Mock<ILoadingPlaceRepo> loadingPlaceRepo;
         private readonly Mock<IBus> bus;
 
@@ -30,7 +32,7 @@ namespace Delivery.Test.Commands
         {
             loadingPlaceRepo = new Mock<ILoadingPlaceRepo>();
             bus = new Mock<IBus>();
-            command = new StartDeliveryCommand(It.IsAny<int>());
+            command = new StartDeliveryCommand(id);
             commandHandler = new StartDeliveryCommandHandler(loadingPlaceRepo.Object, bus.Object);
             packsToDelivery = new List<PackToDelivery> { new PackToDelivery(), new PackToDelivery() };
             loadingPlace = new LoadingPlace { PacksToDelivery = packsToDelivery };
@@ -50,6 +52,13 @@ namespace Delivery.Test.Commands
             bus.Verify(x => x.Publish(It.IsAny<ChangeOrderStatusEvent>(), It.IsAny<CancellationToken>()), Times.Exactly(2));
             loadingPlaceRepo.Verify(x => x.SaveAllAsync(), Times.Once);
             Assert.Equal(Unit.Value, action);
+        }
+
+        [Fact]
+        public void StartDeliveryCommandHandler_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new StartDeliveryCommand(It.IsAny<int>()));
         }
     }
 }

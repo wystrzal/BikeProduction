@@ -53,5 +53,12 @@ namespace Delivery.Test.Queries
             //Assert
             Assert.Equal(loadingPlaceId, action.Id);
         }
+
+        [Fact]
+        public void GetLoadingPlaceQueryHandler_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new GetLoadingPlaceQuery(It.IsAny<int>()));
+        }
     }
 }

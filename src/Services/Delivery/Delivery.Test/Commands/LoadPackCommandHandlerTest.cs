@@ -18,6 +18,8 @@ namespace Delivery.Test.Commands
 {
     public class LoadPackCommandHandlerTest
     {
+        private const int id = 1;
+
         private readonly Mock<ILoadingPlaceRepo> loadingPlaceRepo;
         private readonly Mock<IPackToDeliveryRepo> packToDeliveryRepo;
         private readonly Mock<IBus> bus;
@@ -30,7 +32,7 @@ namespace Delivery.Test.Commands
             loadingPlaceRepo = new Mock<ILoadingPlaceRepo>();
             packToDeliveryRepo = new Mock<IPackToDeliveryRepo>();
             bus = new Mock<IBus>();
-            command = new LoadPackCommand(It.IsAny<int>(), It.IsAny<int>());
+            command = new LoadPackCommand(id, id);
             commandHandler = new LoadPackCommandHandler(packToDeliveryRepo.Object, loadingPlaceRepo.Object, bus.Object);
         }
 
@@ -77,6 +79,20 @@ namespace Delivery.Test.Commands
             Assert.Equal(Unit.Value, action);
             loadingPlaceRepo.Verify(x => x.SaveAllAsync(), Times.Once);
             bus.Verify(x => x.Publish(It.IsAny<ChangeOrderStatusEvent>(), It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Fact]
+        public void LoadPackCommandHandler_LoadingPlaceId_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new LoadPackCommand(It.IsAny<int>(), id));
+        }
+
+        [Fact]
+        public void LoadPackCommandHandler_PackId_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new LoadPackCommand(id, It.IsAny<int>()));
         }
     }
 }

@@ -53,5 +53,12 @@ namespace Delivery.Test.Queries
             //Assert
             Assert.Equal(packId, action.Id);
         }
+
+        [Fact]
+        public void GetPackQueryHandler_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new GetPackQuery(It.IsAny<int>()));
+        }
     }
 }
