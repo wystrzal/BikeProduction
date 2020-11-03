@@ -71,5 +71,12 @@ namespace ShopMVC.Services
 
             return JsonConvert.DeserializeObject<List<Part>>(parts);
         }
+
+        public async Task DeleteProductPart(string reference, int partId)
+        {
+            var deleteProductPartUrl = $"{baseUrl}product/{reference}/part/{partId}";
+
+            await customHttpClient.DeleteAsync(deleteProductPartUrl, token);
+        }
     }
 }

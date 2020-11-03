@@ -65,7 +65,9 @@
                     <div class="col-12 col-sm-3">Reference: @part.Reference</div>
                     <div class="col-12 col-sm-3">Qty: @part.Quantity</div>
                     <div class="col-12 col-sm-3">
-                        Delete
+                        @Html.ActionLink("Delete", "DeleteProductPart", "Product",
+                            new { reference = Model.Product.Reference, partId = part.Id, productId = Model.Product.Id},
+                            new { @class = "btn btn-danger"})
                     </div>
                 </div>
             }
