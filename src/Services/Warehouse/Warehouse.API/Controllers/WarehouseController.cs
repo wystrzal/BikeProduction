@@ -108,5 +108,20 @@ namespace Warehouse.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("product/{reference}/part/{partId}")]
+        public async Task<IActionResult> AddProductPart(string reference, int partId)
+        {
+            try
+            {
+                await mediator.Send(new AddProductPartCommand(partId, reference));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
