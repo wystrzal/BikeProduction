@@ -16,34 +16,38 @@ namespace Warehouse.Test.Queries
 {
     public class GetPartQueryHandlerTest
     {
+        private const int id = 1;
+
         private readonly Mock<IPartRepository> partRepository;
         private readonly Mock<IMapper> mapper;
+
+        private readonly GetPartQuery query;
+        private readonly GetPartQueryHandler queryHandler;
+        private readonly Part part;
+        private readonly GetPartDto partDto;
 
         public GetPartQueryHandlerTest()
         {
             partRepository = new Mock<IPartRepository>();
             mapper = new Mock<IMapper>();
+            query = new GetPartQuery(id);
+            queryHandler = new GetPartQueryHandler(partRepository.Object, mapper.Object);
+            part = new Part { Id = id };
+            partDto = new GetPartDto { Id = id };
         }
 
         [Fact]
         public async Task GetPartQueryHandler_Success()
         {
             //Arrange
-            var id = 1;
-            var request = new GetPartQuery(id);
-            var part = new Part { Id = id };
-            var partDto = new GetPartDto { Id = id };
-
             partRepository.Setup(x 
                 => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Part, bool>>(), It.IsAny<Expression<Func<Part, ICollection<ProductsParts>>>>()))
                 .Returns(Task.FromResult(part));
 
-            mapper.Setup(x => x.Map<GetPartDto>(part)).Returns(partDto);
-
-            var queryHandler = new GetPartQueryHandler(partRepository.Object, mapper.Object);
+            mapper.Setup(x => x.Map<GetPartDto>(part)).Returns(partDto);         
 
             //Act
-            var action = await queryHandler.Handle(request, It.IsAny<CancellationToken>());
+            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
             Assert.Equal(id, action.Id);

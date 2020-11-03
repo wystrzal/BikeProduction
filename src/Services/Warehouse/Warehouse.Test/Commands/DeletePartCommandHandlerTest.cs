@@ -14,21 +14,23 @@ namespace Warehouse.Test.Commands
     {
         private readonly Mock<IPartRepository> partRepository;
 
+        private readonly DeletePartCommand command;
+        private readonly DeletePartCommandHandler commandHandler;
+        private readonly Part part;
+
         public DeletePartCommandHandlerTest()
         {
             partRepository = new Mock<IPartRepository>();
+            command = new DeletePartCommand(It.IsAny<int>());
+            commandHandler = new DeletePartCommandHandler(partRepository.Object);
+            part = new Part();
         }
 
         [Fact]
         public async Task DeletePartCommandHandler_Success()
         {
             //Arrange
-            var part = new Part();
-            var command = new DeletePartCommand(It.IsAny<int>());
-
             partRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(part));
-
-            var commandHandler = new DeletePartCommandHandler(partRepository.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

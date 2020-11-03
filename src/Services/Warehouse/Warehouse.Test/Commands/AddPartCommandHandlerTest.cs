@@ -19,22 +19,24 @@ namespace Warehouse.Test.Commands
         private readonly Mock<IPartRepository> partRepository;
         private readonly Mock<IMapper> mapper;
 
+        private readonly AddPartCommand command;
+        private readonly AddPartCommandHandler commandHandler;
+        private readonly Part part;
+
         public AddPartCommandHandlerTest()
         {
             partRepository = new Mock<IPartRepository>();
             mapper = new Mock<IMapper>();
+            command = new AddPartCommand();
+            commandHandler = new AddPartCommandHandler(partRepository.Object, mapper.Object);
+            part = new Part();
         }
 
         [Fact]
         public async Task AddPartCommandHandler_Success()
         {
             //Arrange
-            var part = new Part();
-            var command = new AddPartCommand();
-
             mapper.Setup(x => x.Map<Part>(command)).Returns(part);
-
-            var commandHandler = new AddPartCommandHandler(partRepository.Object, mapper.Object);
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
