@@ -15,21 +15,27 @@ namespace ShopMVC.Services
         private readonly string baseUrl;
         private readonly ICustomHttpClient customHttpClient;
         private readonly string userId;
-        private readonly string token;
 
         public BasketService(ICustomHttpClient customHttpClient, IHttpContextAccessor httpContextAccessor)
         {
             baseUrl = "http://host.docker.internal:5105/api/basket/";
             this.customHttpClient = customHttpClient;
             userId = httpContextAccessor.HttpContext.GetNameIdentifier();
-            token = httpContextAccessor.HttpContext.GetToken();
+            var sessionId = httpContextAccessor.HttpContext.Session.Id;
+
+            if (string.IsNullOrWhiteSpace(httpContextAccessor.HttpContext.Session.GetString("ID")))
+            {
+                httpContextAccessor.HttpContext.Session.SetString("ID", httpContextAccessor.HttpContext.Session.Id);
+            }
+
+            userId ??= sessionId;
         }
 
         public async Task<UserBasketViewModel> GetBasket()
         {
             var getBasketUrl = $"{baseUrl}{userId}";
 
-            var basketProducts = await customHttpClient.GetStringAsync(getBasketUrl, token);
+            var basketProducts = await customHttpClient.GetStringAsync(getBasketUrl);
 
             return JsonConvert.DeserializeObject<UserBasketViewModel>(basketProducts);
         }
@@ -38,7 +44,7 @@ namespace ShopMVC.Services
         {
             var getBasketQuantityUrl = $"{baseUrl}{userId}/quantity";
 
-            var basketQuantity = await customHttpClient.GetStringAsync(getBasketQuantityUrl, token);
+            var basketQuantity = await customHttpClient.GetStringAsync(getBasketQuantityUrl);
 
             return JsonConvert.DeserializeObject<int>(basketQuantity);
         }
@@ -47,14 +53,14 @@ namespace ShopMVC.Services
         {
             var clearBasketUrl = $"{baseUrl}{userId}";
 
-            await customHttpClient.DeleteAsync(clearBasketUrl, token);
+            await customHttpClient.DeleteAsync(clearBasketUrl);
         }
 
         public async Task RemoveProduct(int productId)
         {
             var removeProductUrl = $"{baseUrl}{userId}/product/{productId}";
 
-            await customHttpClient.DeleteAsync(removeProductUrl, token);
+            await customHttpClient.DeleteAsync(removeProductUrl);
         }
 
         public async Task AddProduct(BasketProduct basketProduct)
@@ -67,7 +73,7 @@ namespace ShopMVC.Services
 
             var addProductUrl = $"{baseUrl}add/product";
 
-            await customHttpClient.PostAsync(addProductUrl, addProductDto, token);
+            await customHttpClient.PostAsync(addProductUrl, addProductDto);
         }
 
         public async Task ChangeProductQuantity(ChangeBasketProductQuantityDto changeProductQuantityDto)
@@ -76,7 +82,7 @@ namespace ShopMVC.Services
 
             var changeProductQuantityUrl = $"{baseUrl}change/quantity";
 
-            await customHttpClient.PostAsync(changeProductQuantityUrl, changeProductQuantityDto, token);
+            await customHttpClient.PostAsync(changeProductQuantityUrl, changeProductQuantityDto);
         }
     }
 }

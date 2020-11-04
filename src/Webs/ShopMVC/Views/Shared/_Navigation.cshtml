@@ -31,10 +31,10 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav ml-auto">
+                @await Component.InvokeAsync("BasketNavigation")
+
                 @if (User.Claims.Any())
                 {
-                    @await Component.InvokeAsync("BasketNavigation")
-
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-controller="Identity" asp-action="Logout">Logout</a>
                     </li>

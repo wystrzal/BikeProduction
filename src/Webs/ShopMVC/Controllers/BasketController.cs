@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace ShopMVC.Controllers
 {
-    [UserAuthorization]
     public class BasketController : Controller
     {
         private readonly IBasketService basketService;
