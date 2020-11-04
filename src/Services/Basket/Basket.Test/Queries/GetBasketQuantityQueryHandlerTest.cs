@@ -47,18 +47,5 @@ namespace Basket.Test.Queries
             //Assert
             Assert.Equal(userBasketDto.Products.Count, action);
         }
-
-        [Fact]
-        public async Task GetBasketQuantityQueryHandler_NullBasket()
-        {
-            //Arrange
-            basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult((UserBasketDto)null));
-
-            //Act
-            var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
-
-            //Assert
-            Assert.Equal(nullBasketQuantity, action);
-        }
     }
 }

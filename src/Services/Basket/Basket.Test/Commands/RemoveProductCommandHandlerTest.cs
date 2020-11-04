@@ -23,41 +23,28 @@ namespace Basket.Test.Commands
 
         private readonly RemoveProductCommand command;
         private readonly RemoveProductCommandHandler commandHandler;
+        private readonly UserBasketDto basketDto;
 
         public RemoveProductCommandHandlerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
             command = new RemoveProductCommand(userId, productId);
             commandHandler = new RemoveProductCommandHandler(basketRedisService.Object);
-        }
 
-        [Fact]
-        public async Task RemoveProductCommandHandler_NullBasket_Success()
-        {
-            //Arrange
-            basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult((UserBasketDto)null));
-
-            //Act
-            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
-
-            //Assert
-            Assert.Equal(Unit.Value, action);
+            basketDto = new UserBasketDto
+            {
+                Products = new List<BasketProduct>()
+                {
+                    new BasketProduct {Id = productId}
+                }
+            };
         }
 
         [Fact]
         public async Task RemoveProductCommandHandler_Success()
         {
             //Arrange
-            var userBasketDto = new UserBasketDto
-            {
-                UserId = userId,
-                Products = new List<BasketProduct>()
-                {
-                    new BasketProduct {Id = productId}
-                }
-            };
-
-            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(basketDto));
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

@@ -2,6 +2,7 @@
 using Basket.Application.Queries.Handlers;
 using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -20,27 +21,27 @@ namespace Basket.Test.Queries
 
         private readonly GetBasketQuery query;
         private readonly GetBasketQueryHandler queryHandler;
+        private readonly UserBasketDto basketDto;
 
         public GetBasketQueryHandlerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
             query = new GetBasketQuery(userId);
             queryHandler = new GetBasketQueryHandler(basketRedisService.Object);
+            basketDto = new UserBasketDto { Products = new List<BasketProduct> { new BasketProduct() } };
         }
 
         [Fact]
         public async Task GetBasketQueryHandler_Success()
         {
             //Arrange 
-            var userBasketDto = new UserBasketDto { UserId = userId };
-
-            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(basketDto));
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());
 
             //Assert
-            Assert.Equal(userId, action.UserId);
+            Assert.Equal(basketDto.Products.Count, action.Products.Count);
         }
     }
 }

@@ -21,23 +21,27 @@ namespace Basket.Test.Commands
 
         private readonly AddProductCommand command;
         private readonly AddProductCommandHandler commandHandler;
+        private readonly UserBasketDto basketDto;
 
         public AddProductCommandHandlerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
             command = new AddProductCommand { UserId = It.IsAny<string>(), Product = new BasketProduct() };
             commandHandler = new AddProductCommandHandler(basketRedisService.Object);
+            basketDto = new UserBasketDto();
         }
 
         [Fact]
         public async Task AddProductCommandHandler_Success()
         {
+            //Arrange
+            basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult(basketDto));
+
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
 
             //Assert
             Assert.Equal(Unit.Value, action);
-            basketRedisService.Verify(x => x.GetBasket(It.IsAny<string>()), Times.Once);
             basketRedisService.Verify(x => x.SaveBasket(It.IsAny<string>(), It.IsAny<UserBasketDto>()), Times.Once);
         }
     }

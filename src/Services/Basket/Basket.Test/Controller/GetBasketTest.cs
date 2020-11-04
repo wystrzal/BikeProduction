@@ -1,6 +1,7 @@
 ﻿using Basket.API.Controllers;
 using Basket.Application.Queries;
 using Basket.Core.Dtos;
+using Basket.Core.Models;
 using BikeExtensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,22 +25,22 @@ namespace Basket.Test.Controller
         private readonly Mock<ILogger<BasketController>> logger;
        
         private readonly BasketController controller;
+        private readonly UserBasketDto basketDto;
 
         public GetBasketTest()
         {
             mediator = new Mock<IMediator>();
             logger = new Mock<ILogger<BasketController>>();
             controller = new BasketController(mediator.Object, logger.Object);
+            basketDto = new UserBasketDto { Products = new List<BasketProduct> { new BasketProduct() } };
         }
 
         [Fact]
         public async Task GetBasket_OkObjectResult()
         {
             //Arrange
-            var userBasketDto = new UserBasketDto { UserId = userId };
-
             mediator.Setup(x => x.Send(It.IsAny<GetBasketQuery>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(userBasketDto));
+                .Returns(Task.FromResult(basketDto));
 
             //Act
             var action = await controller.GetBasket(It.IsAny<string>()) as OkObjectResult;
@@ -47,7 +48,7 @@ namespace Basket.Test.Controller
 
             //Assert
             Assert.Equal(200, action.StatusCode);
-            Assert.Equal(userId, value.UserId);
+            Assert.Equal(basketDto.Products.Count, value.Products.Count);
         }
 
         [Fact]

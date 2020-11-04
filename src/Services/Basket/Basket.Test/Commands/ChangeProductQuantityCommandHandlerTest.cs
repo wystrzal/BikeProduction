@@ -25,32 +25,25 @@ namespace Basket.Test.Commands
 
         private readonly ChangeProductQuantityCommand command;
         private readonly ChangeProductQuantityCommandHandler commandHandler;
+        private readonly UserBasketDto basketDto;
 
         public ChangeProductQuantityCommandHandlerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
             command = new ChangeProductQuantityCommand { UserId = userId, ProductId = productId, ChangeQuantityAction = action };
             commandHandler = new ChangeProductQuantityCommandHandler(basketRedisService.Object);
-        }
 
-        [Fact]
-        public async Task ChangeProductQuantityCommandHandler_NullBasket()
-        {
-            //Arrange
-            basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult((UserBasketDto)null));
-
-            //Act
-            var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
-
-            //Assert
-            Assert.Equal(Unit.Value, action);
+            basketDto = new UserBasketDto
+            {
+                Products = new List<BasketProduct> { new BasketProduct { Id = productId } }
+            };
         }
 
         [Fact]
         public async Task ChangeProductQuantityCommandHandler_NullBasketProduct()
         {
             //Arrange
-            basketRedisService.Setup(x => x.GetBasket(It.IsAny<string>())).Returns(Task.FromResult(It.IsAny<UserBasketDto>()));
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(new UserBasketDto()));
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());
@@ -63,13 +56,7 @@ namespace Basket.Test.Commands
         public async Task ChangeProductQuantityCommandHandler_Success()
         {
             //Arrange
-            var userBasketDto = new UserBasketDto
-            {
-                UserId = userId,
-                Products = new List<BasketProduct> { new BasketProduct { Id = productId } }
-            };
-
-            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(userBasketDto));
+            basketRedisService.Setup(x => x.GetBasket(userId)).Returns(Task.FromResult(basketDto));
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

@@ -5,6 +5,7 @@ using Identity.Core.Exceptions;
 using Identity.Core.Interfaces;
 using Identity.Core.Models;
 using Identity.Test.MockHelpers;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Moq;
@@ -22,6 +23,7 @@ namespace Identity.Test.Commands
         private readonly Mock<ITokenService> tokenService;
         private readonly Mock<UserManager<User>> userManager;
         private readonly Mock<SignInManager<User>> signInManager;
+        private readonly Mock<IBus> bus;
 
         private readonly TryLoginCommand command;
         private readonly TryLoginCommandHandler commandHandler;
@@ -33,8 +35,9 @@ namespace Identity.Test.Commands
             userManager = CustomMock.GetMockUserManager();
             signInManager = CustomMock.GetMockSignInManager();
             tokenService = new Mock<ITokenService>();
+            bus = new Mock<IBus>();
             command = new TryLoginCommand();
-            commandHandler = new TryLoginCommandHandler(userManager.Object, signInManager.Object, tokenService.Object);
+            commandHandler = new TryLoginCommandHandler(userManager.Object, signInManager.Object, tokenService.Object, bus.Object);
             user = new User();
             tokenModel = new TokenModel(It.IsAny<string>(), It.IsAny<string>());
         }

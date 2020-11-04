@@ -28,7 +28,7 @@ namespace Identity.Application.Commands.Handlers
 
         public async Task<TokenModel> Handle(TryLoginCommand request, CancellationToken cancellationToken)
         {
-            User dbUser = await GetUser(request);
+            var dbUser = await GetUser(request);
 
             return await GenerateTokenIfLoginSuccessful(request, dbUser);
         }
