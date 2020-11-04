@@ -17,18 +17,23 @@ namespace ShopMVC.Services
     public class IdentityService : IIdentityService
     {
         private readonly string baseUrl;
+        private readonly string sessionId;
         private readonly ICustomHttpClient customHttpClient;
         private readonly ICookieAuthentication cookieAuthentication;
 
-        public IdentityService(ICustomHttpClient customHttpClient, ICookieAuthentication cookieAuthentication)
+        public IdentityService(ICustomHttpClient customHttpClient, ICookieAuthentication cookieAuthentication,
+            IHttpContextAccessor httpContextAccessor)
         {
             baseUrl = "http://host.docker.internal:5000/api/identity/";
+            sessionId = httpContextAccessor.HttpContext.Session.Id;
             this.customHttpClient = customHttpClient;
-            this.cookieAuthentication = cookieAuthentication;
+            this.cookieAuthentication = cookieAuthentication;        
         }
 
         public async Task<HttpResponseMessage> Login(LoginDto loginDto)
         {
+            loginDto.SessionId = sessionId;
+
             string loginUrl = $"{baseUrl}login";
 
             var response = await customHttpClient.PostAsync(loginUrl, loginDto);

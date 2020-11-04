@@ -49,6 +49,8 @@ namespace Identity.API
 
             services.AddMediatR(typeof(TryLoginCommand).Assembly);
 
+            services.AddCustomMassTransit();
+
             services.AddSwaggerDocumentation();
         }
 

@@ -11,5 +11,8 @@ namespace Identity.Application.Commands
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public string SessionId { get; set; }
     }
 }

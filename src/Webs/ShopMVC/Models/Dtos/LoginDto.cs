@@ -9,5 +9,7 @@ namespace ShopMVC.Models.Dtos
 
         [Required]
         public string Password { get; set; }
+
+        public string SessionId { get; set; }
     }
 }

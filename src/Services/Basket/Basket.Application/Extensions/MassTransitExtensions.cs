@@ -13,6 +13,7 @@ namespace CustomerOrder.Application.Extensions
             services.AddMassTransit(options =>
             {
                 options.AddConsumer<OrderCreatedConsumer>();
+                options.AddConsumer<LoggedInConsumer>();
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -30,6 +31,11 @@ namespace CustomerOrder.Application.Extensions
                         ep.ConfigureConsumer<OrderCreatedConsumer>(provider);
                     });
 
+                    cfg.ReceiveEndpoint("logged_in_basket", ep =>
+                    {
+                        ep.Bind<LoggedInEvent>();
+                        ep.ConfigureConsumer<LoggedInConsumer>(provider);
+                    });
                 }));
             });
 

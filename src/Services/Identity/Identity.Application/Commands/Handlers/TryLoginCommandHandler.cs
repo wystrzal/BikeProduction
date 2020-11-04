@@ -1,6 +1,8 @@
-﻿using Identity.Core.Exceptions;
+﻿using Common.Application.Messaging;
+using Identity.Core.Exceptions;
 using Identity.Core.Interfaces;
 using Identity.Core.Models;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Threading;
@@ -13,12 +15,15 @@ namespace Identity.Application.Commands.Handlers
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private readonly ITokenService tokenService;
+        private readonly IBus bus;
 
-        public TryLoginCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService)
+        public TryLoginCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager, 
+            ITokenService tokenService, IBus bus)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.tokenService = tokenService;
+            this.bus = bus;
         }
 
         public async Task<TokenModel> Handle(TryLoginCommand request, CancellationToken cancellationToken)
@@ -46,6 +51,7 @@ namespace Identity.Application.Commands.Handlers
 
             if (result.Succeeded)
             {
+                await bus.Publish(new LoggedInEvent(dbUser.Id, request.SessionId));
                 return await tokenService.GenerateToken(dbUser, userManager);
             }
 
