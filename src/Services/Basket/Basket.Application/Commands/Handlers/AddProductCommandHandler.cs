@@ -23,26 +23,11 @@ namespace Basket.Application.Commands.Handlers
         {
             var basket = await basketRedisService.GetBasket(request.UserId);
 
-            if (basket == null)
-            {
-                basket = CreateNewBasket(request.UserId);
-            }
-
             var basketProduct = basket.Products.Where(x => x.Id == request.Product.Id).FirstOrDefault();
 
             await AddProductToBasketAndIncreaseBasketTotalPrice(basketProduct, basket, request);
 
             return Unit.Value;
-        }
-
-        private UserBasketDto CreateNewBasket(string userId)
-        {
-            return new UserBasketDto()
-            {
-                Products = new List<BasketProduct>(),
-                TotalPrice = 0,
-                UserId = userId
-            };
         }
 
         private async Task AddProductToBasketAndIncreaseBasketTotalPrice(BasketProduct basketProduct,

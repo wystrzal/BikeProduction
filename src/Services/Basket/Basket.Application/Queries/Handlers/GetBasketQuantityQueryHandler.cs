@@ -18,7 +18,7 @@ namespace Basket.Application.Queries.Handlers
         {
             var basket = await basketRedisService.GetBasket(request.UserId);
 
-            return basket == null ? 0 : basket.Products.Count;
+            return basket.Products.Count;
         }
     }
 }

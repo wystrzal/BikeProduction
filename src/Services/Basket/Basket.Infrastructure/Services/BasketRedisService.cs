@@ -1,8 +1,10 @@
 ﻿using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Basket.Infrastructure.Services
@@ -22,7 +24,9 @@ namespace Basket.Infrastructure.Services
 
             var basket = await distributedCache.GetStringAsync(userId);
 
-            return basket == null ? null : JsonConvert.DeserializeObject<UserBasketDto>(basket);
+            return basket == null ?
+                new UserBasketDto { Products = new List<BasketProduct>() }
+                : JsonConvert.DeserializeObject<UserBasketDto>(basket);
         }
 
         public async Task RemoveBasket(string userId)

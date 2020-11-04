@@ -6,7 +6,6 @@ namespace ShopMVC.Models.ViewModels
     {
         public List<BasketProduct> Products { get; set; } = new List<BasketProduct>();
         public decimal TotalPrice { get; set; }
-        public string UserId { get; set; }
     }
 }
 

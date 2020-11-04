@@ -22,11 +22,6 @@ namespace Basket.Application.Commands.Handlers
         {
             var basket = await basketRedisService.GetBasket(request.UserId);
 
-            if (basket == null)
-            {
-                return Unit.Value;
-            }
-
             var basketProduct = basket.Products.Where(x => x.Id == request.ProductId).FirstOrDefault();
 
             if (basketProduct == null)

@@ -21,11 +21,6 @@ namespace Basket.Application.Commands.Handlers
         {
             var basket = await basketRedisService.GetBasket(request.UserId);
 
-            if (basket == null)
-            {
-                return Unit.Value;
-            }
-
             if (basket.Products.Count > 0)
             {
                 await RemoveProductAndDecreaseBasketTotalPrice(basket, request);
