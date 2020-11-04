@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Common.Application.Messaging;
+using MassTransit;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Extensions;
@@ -12,10 +14,12 @@ namespace ShopMVC.Controllers
     public class IdentityController : Controller
     {
         private readonly IIdentityService identityService;
+        private readonly IBus bus;
 
-        public IdentityController(IIdentityService identityService)
+        public IdentityController(IIdentityService identityService, IBus bus)
         {
             this.identityService = identityService;
+            this.bus = bus;
         }
 
         [ModelErrorsResultFilter(ErrorsName = "LoginErrors")]
@@ -41,6 +45,8 @@ namespace ShopMVC.Controllers
 
         public async Task<IActionResult> Logout()
         {
+            await bus.Publish(new LoggedOutEvent(HttpContext.Session.Id));
+
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme);
 

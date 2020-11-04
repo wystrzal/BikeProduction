@@ -32,6 +32,8 @@ namespace ShopMVC
                 options.Cookie.IsEssential = true;
             });
 
+            services.AddCustomMassTransit();
+
             services.AddApplicationServices();
         }
 

@@ -14,6 +14,7 @@ namespace CustomerOrder.Application.Extensions
             {
                 options.AddConsumer<OrderCreatedConsumer>();
                 options.AddConsumer<LoggedInConsumer>();
+                options.AddConsumer<LoggedOutConsumer>();
 
                 options.AddBus(provider => Bus.Factory.CreateUsingRabbitMq(cfg =>
                 {
@@ -35,6 +36,12 @@ namespace CustomerOrder.Application.Extensions
                     {
                         ep.Bind<LoggedInEvent>();
                         ep.ConfigureConsumer<LoggedInConsumer>(provider);
+                    });
+
+                    cfg.ReceiveEndpoint("logged_out_basket", ep =>
+                    {
+                        ep.Bind<LoggedOutEvent>();
+                        ep.ConfigureConsumer<LoggedOutConsumer>(provider);
                     });
                 }));
             });

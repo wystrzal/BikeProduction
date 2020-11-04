@@ -1,9 +1,11 @@
 ﻿using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
+using Basket.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,25 +23,26 @@ namespace Basket.Application.Messaging.Consumers
         public async Task Consume(ConsumeContext<LoggedInEvent> context)
         {
             var sessionBasket = await basketRedisService.GetBasket(context.Message.SessionId);
+            var userBasket = await basketRedisService.GetBasket(context.Message.UserId);
 
-            if (sessionBasket == null)
-            {
-                return;
-            }
-
-            await MergeSessionBasketWithUserBasket(context.Message.UserId, sessionBasket);
+            MergeProducts(sessionBasket, userBasket);
 
             await basketRedisService.SaveBasket(context.Message.UserId, sessionBasket);
         }
 
-        private async Task MergeSessionBasketWithUserBasket(string userId, UserBasketDto sessionBasket)
+        private void MergeProducts(UserBasketDto sessionBasket, UserBasketDto userBasket)
         {
-            var userBasket = await basketRedisService.GetBasket(userId);
-
-            if (userBasket != null)
+            foreach (var sessionProduct in sessionBasket.Products)
             {
-                sessionBasket.Products.AddRange(userBasket.Products);
-                sessionBasket.TotalPrice += userBasket.TotalPrice;
+                var userProduct = userBasket.Products.Where(x => x.Id == sessionProduct.Id).FirstOrDefault();
+
+                if (userProduct == null)
+                {
+                    continue;
+                }
+
+                sessionProduct.Quantity += userProduct.Quantity;
+                sessionProduct.Price += userProduct.Price;
             }
         }
     }
