@@ -18,6 +18,9 @@ namespace Production.Test.Controller
 {
     public class FinishProductionTest
     {
+        private const int id = 1;
+        private const string token = "1";
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<ProductionController>> logger;
 
@@ -37,7 +40,7 @@ namespace Production.Test.Controller
         public async Task FinishProduction_OkResult()
         {
             //Act
-            var action = await controller.FinishProduction(It.IsAny<int>()) as OkResult;
+            var action = await controller.FinishProduction(id) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<FinishProductionCommand>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -51,12 +54,26 @@ namespace Production.Test.Controller
             mediator.Setup(x => x.Send(It.IsAny<FinishProductionCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
             //Act
-            var action = await controller.FinishProduction(It.IsAny<int>()) as BadRequestObjectResult;
+            var action = await controller.FinishProduction(id) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public void FinishProduction_ProductionQueueIdEqualZero_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new FinishProductionCommand(It.IsAny<int>(), token));
+        }
+
+        [Fact]
+        public void FinishProduction_NullToken_ThrowsArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new FinishProductionCommand(id, It.IsAny<string>()));
         }
     }
 }

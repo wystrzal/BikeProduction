@@ -20,6 +20,9 @@ namespace Production.Test.Commands
 {
     public class FinishProductionCommandHandlerTest
     {
+        private const int id = 1;
+        private const string token = "1";
+
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
         private readonly Mock<IBus> bus;
 
@@ -30,7 +33,7 @@ namespace Production.Test.Commands
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
             bus = new Mock<IBus>();
-            command = new FinishProductionCommand(It.IsAny<int>(), It.IsAny<string>());
+            command = new FinishProductionCommand(id, token);
             commandHandler = new FinishProductionCommandHandler(productionQueueRepo.Object, bus.Object);
         }
 

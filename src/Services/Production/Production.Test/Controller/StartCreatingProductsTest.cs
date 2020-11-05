@@ -16,6 +16,8 @@ namespace Production.Test.Controller
 {
     public class StartCreatingProductsTest
     {
+        private const int id = 1;
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<ProductionController>> logger;
 
@@ -32,7 +34,7 @@ namespace Production.Test.Controller
         public async Task StartCreatingProducts_OkResult()
         {
             //Act
-            var action = await controller.StartCreatingProducts(It.IsAny<int>()) as OkResult;
+            var action = await controller.StartCreatingProducts(id) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<StartCreatingProductsCommand>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -46,12 +48,19 @@ namespace Production.Test.Controller
             mediator.Setup(x => x.Send(It.IsAny<StartCreatingProductsCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
             //Act
-            var action = await controller.StartCreatingProducts(It.IsAny<int>()) as BadRequestObjectResult;
+            var action = await controller.StartCreatingProducts(id) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public void StartCreatingProducts_ProductionQueueIdEqualZero_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new StartCreatingProductsCommand(It.IsAny<int>()));
         }
     }
 }

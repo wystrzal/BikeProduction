@@ -16,6 +16,8 @@ namespace Production.Test.Controller
 {
     public class ConfirmProductionTest
     {
+        private const int id = 1;
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<ProductionController>> logger;
 
@@ -32,7 +34,7 @@ namespace Production.Test.Controller
         public async Task ConfirmProduction_OkResult()
         {
             //Act
-            var action = await controller.ConfirmProduction(It.IsAny<int>()) as OkResult;
+            var action = await controller.ConfirmProduction(id) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<ConfirmProductionCommand>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -46,12 +48,19 @@ namespace Production.Test.Controller
             mediator.Setup(x => x.Send(It.IsAny<ConfirmProductionCommand>(), It.IsAny<CancellationToken>())).Throws(new Exception());
 
             //Act
-            var action = await controller.ConfirmProduction(It.IsAny<int>()) as BadRequestObjectResult;
+            var action = await controller.ConfirmProduction(id) as BadRequestObjectResult;
 
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public void ConfirmProduction_ProductionQueueIdEqualZero_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new ConfirmProductionCommand(It.IsAny<int>()));
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Production.Test.Commands
 {
     public class StartCreatingProductsCommandHandlerTest
     {
+        private const int id = 1;
+
         private readonly Mock<IProductionQueueRepo> productionQueueRepo;
 
         private readonly StartCreatingProductsCommand command;
@@ -26,7 +28,7 @@ namespace Production.Test.Commands
         public StartCreatingProductsCommandHandlerTest()
         {
             productionQueueRepo = new Mock<IProductionQueueRepo>();
-            command = new StartCreatingProductsCommand(It.IsAny<int>());
+            command = new StartCreatingProductsCommand(id);
             commandHandler = new StartCreatingProductsCommandHandler(productionQueueRepo.Object);
         }
 

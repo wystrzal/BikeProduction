@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using System;
 
 namespace Production.Application.Commands
 {
@@ -9,6 +10,16 @@ namespace Production.Application.Commands
 
         public FinishProductionCommand(int productionQueueId, string token)
         {
+            if (productionQueueId <= 0)
+            {
+                throw new ArgumentException("ProductionQueueId must be greater than zero.");
+            }
+
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new ArgumentNullException("Token");
+            }
+
             ProductionQueueId = productionQueueId;
             Token = token;
         }
