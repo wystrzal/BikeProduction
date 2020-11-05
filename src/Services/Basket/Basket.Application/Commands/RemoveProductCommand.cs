@@ -11,6 +11,11 @@ namespace Basket.Application.Commands
 
         public RemoveProductCommand(string userId, int productId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException("UserId");
+            }
+
             if (productId <= 0)
             {
                 throw new ArgumentException("ProductId must be greater than zero.");

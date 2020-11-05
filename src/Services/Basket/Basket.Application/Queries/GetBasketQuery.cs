@@ -1,5 +1,6 @@
 ﻿using Basket.Core.Dtos;
 using MediatR;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Application.Queries
@@ -10,6 +11,11 @@ namespace Basket.Application.Queries
 
         public GetBasketQuery(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException("UserId");
+            }
+
             UserId = userId;
         }
     }

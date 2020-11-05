@@ -15,7 +15,9 @@ using Xunit;
 namespace Basket.Test.Controller
 {
     public class ClearBasketTest
-    { 
+    {
+        private const string userId = "1";
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
 
@@ -32,7 +34,7 @@ namespace Basket.Test.Controller
         public async Task ClearBasket_OkResult()
         {
             //Act
-            var action = await controller.ClearBasket(It.IsAny<string>()) as OkResult;
+            var action = await controller.ClearBasket(userId) as OkResult;
 
             //Assert
             mediator.Verify(x => x.Send(It.IsAny<ClearBasketCommand>(), It.IsAny<CancellationToken>()), Times.Once);
@@ -53,6 +55,13 @@ namespace Basket.Test.Controller
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public void ClearBasket_NullUserId_ArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new ClearBasketCommand(It.IsAny<string>()));
         }
     }
 }

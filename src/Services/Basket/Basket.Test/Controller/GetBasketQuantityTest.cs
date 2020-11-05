@@ -18,7 +18,8 @@ namespace Basket.Test.Controller
     public class GetBasketQuantityTest
     {
         private const int quantity = 1;
-      
+        private const string userId = "1";
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
      
@@ -39,7 +40,7 @@ namespace Basket.Test.Controller
                 .Returns(Task.FromResult(quantity));
 
             //Act
-            var action = await controller.GetBasketQuantity(It.IsAny<string>()) as OkObjectResult;
+            var action = await controller.GetBasketQuantity(userId) as OkObjectResult;
 
             //Assert
             Assert.Equal(200, action.StatusCode);
@@ -60,6 +61,13 @@ namespace Basket.Test.Controller
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public void GetBasketQuantity_NullUserId_ArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new GetBasketQuantityQuery(It.IsAny<string>()));
         }
     }
 }

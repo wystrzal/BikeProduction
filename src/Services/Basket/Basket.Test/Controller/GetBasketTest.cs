@@ -43,7 +43,7 @@ namespace Basket.Test.Controller
                 .Returns(Task.FromResult(basketDto));
 
             //Act
-            var action = await controller.GetBasket(It.IsAny<string>()) as OkObjectResult;
+            var action = await controller.GetBasket(userId) as OkObjectResult;
             var value = action.Value as UserBasketDto;
 
             //Assert
@@ -65,6 +65,13 @@ namespace Basket.Test.Controller
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
+        }
+
+        [Fact]
+        public void GetBasket_NullUserId_ArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new GetBasketQuery(It.IsAny<string>()));
         }
     }
 }

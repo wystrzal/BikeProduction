@@ -57,5 +57,19 @@ namespace Basket.Test.Controller
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
         }
+
+        [Fact]
+        public void DeleteProduct_NullUserId_ArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new RemoveProductCommand(It.IsAny<string>(), productId));
+        }
+
+        [Fact]
+        public void DeleteProduct_ProductIdEqualZero_ArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new RemoveProductCommand(userId, It.IsAny<int>()));
+        }
     }
 }

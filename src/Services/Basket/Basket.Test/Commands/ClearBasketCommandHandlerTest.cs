@@ -14,6 +14,8 @@ namespace Basket.Test.Commands
 {
     public class ClearBasketCommandHandlerTest
     {
+        private const string userId = "1";
+
         private readonly Mock<IBasketRedisService> basketRedisService;
 
         private readonly ClearBasketCommand command;
@@ -22,7 +24,7 @@ namespace Basket.Test.Commands
         public ClearBasketCommandHandlerTest()
         {
             basketRedisService = new Mock<IBasketRedisService>();
-            command = new ClearBasketCommand(It.IsAny<string>());
+            command = new ClearBasketCommand(userId);
             commandHandler = new ClearBasketCommandHandler(basketRedisService.Object);
         }
 
