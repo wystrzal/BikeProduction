@@ -55,5 +55,19 @@ namespace Warehouse.Test.Controller
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
         }
+
+        [Fact]
+        public void DeleteProductPart_PartIdEqualZero_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new DeleteProductPartCommand(It.IsAny<int>(), reference));
+        }
+
+        [Fact]
+        public void DeleteProductPart_NullReference_ThrowsArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new DeleteProductPartCommand(id, It.IsAny<string>()));
+        }
     }
 }

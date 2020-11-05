@@ -46,5 +46,12 @@ namespace Warehouse.Test.Controller
             Assert.Equal(200, action.StatusCode);
             Assert.Equal(productPartsDto.Count, value.Count);
         }
+
+        [Fact]
+        public void GetProductParts_NullReference_ThrowsArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new GetProductPartsQuery(It.IsAny<string>()));
+        }
     }
 }

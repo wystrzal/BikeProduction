@@ -55,5 +55,19 @@ namespace Warehouse.Test.Controller
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
         }
+
+        [Fact]
+        public void AddProductPart_PartIdEqualZero_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new AddProductPartCommand(It.IsAny<int>(), reference));
+        }
+
+        [Fact]
+        public void AddProductPart_NullReference_ThrowsArgumentNullException()
+        {
+            //Assert
+            Assert.Throws<ArgumentNullException>(() => new AddProductPartCommand(id, It.IsAny<string>()));
+        }
     }
 }

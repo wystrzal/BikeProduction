@@ -12,6 +12,8 @@ namespace Warehouse.Test.Commands
 {
     public class DeletePartCommandHandlerTest
     {
+        private const int id = 1;
+
         private readonly Mock<IPartRepository> partRepository;
 
         private readonly DeletePartCommand command;
@@ -21,7 +23,7 @@ namespace Warehouse.Test.Commands
         public DeletePartCommandHandlerTest()
         {
             partRepository = new Mock<IPartRepository>();
-            command = new DeletePartCommand(It.IsAny<int>());
+            command = new DeletePartCommand(id);
             commandHandler = new DeletePartCommandHandler(partRepository.Object);
             part = new Part();
         }
@@ -30,7 +32,7 @@ namespace Warehouse.Test.Commands
         public async Task DeletePartCommandHandler_Success()
         {
             //Arrange
-            partRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(part));
+            partRepository.Setup(x => x.GetById(id)).Returns(Task.FromResult(part));
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

@@ -61,5 +61,12 @@ namespace Warehouse.Test.Controller
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
         }
+
+        [Fact]
+        public void GetPart_PartIdEqualZero_ThrowsArgumentException()
+        {
+            //Assert
+            Assert.Throws<ArgumentException>(() => new GetPartQuery(It.IsAny<int>()));
+        }
     }
 }

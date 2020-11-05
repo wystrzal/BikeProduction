@@ -12,6 +12,11 @@ namespace Warehouse.Application.Queries
 
         public GetProductPartsQuery(string reference)
         {
+            if (string.IsNullOrWhiteSpace(reference))
+            {
+                throw new ArgumentNullException("Reference");
+            }
+
             Reference = reference;
         }
     }
