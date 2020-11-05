@@ -28,7 +28,7 @@ namespace CustomerOrder.Application.Extensions
 
                     cfg.ReceiveEndpoint("order_created_basket", ep =>
                     {
-                        ep.Bind<OrderCreatedEvent>();
+                        ep.Bind<LoggedInEvent>();
                         ep.ConfigureConsumer<OrderCreatedConsumer>(provider);
                     });
 
