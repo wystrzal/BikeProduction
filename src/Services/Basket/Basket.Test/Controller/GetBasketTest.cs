@@ -66,12 +66,5 @@ namespace Basket.Test.Controller
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
         }
-
-        [Fact]
-        public void GetBasket_NullUserId_ArgumentNullException()
-        {
-            //Assert
-            Assert.Throws<ArgumentNullException>(() => new GetBasketQuery(It.IsAny<string>()));
-        }
     }
 }

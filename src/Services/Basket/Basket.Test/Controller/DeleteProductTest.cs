@@ -59,13 +59,6 @@ namespace Basket.Test.Controller
         }
 
         [Fact]
-        public void DeleteProduct_NullUserId_ArgumentNullException()
-        {
-            //Assert
-            Assert.Throws<ArgumentNullException>(() => new RemoveProductCommand(It.IsAny<string>(), productId));
-        }
-
-        [Fact]
         public void DeleteProduct_ProductIdEqualZero_ArgumentException()
         {
             //Assert
