@@ -3,18 +3,10 @@ using System;
 
 namespace Delivery.Application.Commands
 {
-    public class StartDeliveryCommand : IRequest
+    public class StartDeliveryCommand : BaseLoadingPlaceCommand
     {
-        public int LoadingPlaceId { get; set; }
-
-        public StartDeliveryCommand(int loadingPlaceId)
+        public StartDeliveryCommand(int loadingPlaceId) : base(loadingPlaceId)
         {
-            if (loadingPlaceId <= 0)
-            {
-                throw new ArgumentException("LoadingPlaceId must be greater than zero.");
-            }
-
-            LoadingPlaceId = loadingPlaceId;
         }
     }
 }

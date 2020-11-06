@@ -5,18 +5,10 @@ using System.Text;
 
 namespace Delivery.Application.Commands
 {
-    public class DeleteLoadingPlaceCommand : IRequest
+    public class DeleteLoadingPlaceCommand : BaseLoadingPlaceCommand
     {
-        public int LoadingPlaceId { get; set; }
-
-        public DeleteLoadingPlaceCommand(int loadingPlaceId)
+        public DeleteLoadingPlaceCommand(int loadingPlaceId) : base(loadingPlaceId)
         {
-            if (loadingPlaceId <= 0)
-            {
-                throw new ArgumentException("LoadingPlaceId must be greater than zero.");
-            }
-
-            LoadingPlaceId = loadingPlaceId;
         }
     }
 }
