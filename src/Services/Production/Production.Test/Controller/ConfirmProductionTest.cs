@@ -55,12 +55,5 @@ namespace Production.Test.Controller
             Assert.NotNull(action.Value);
             logger.VerifyLogging(LogLevel.Error);
         }
-
-        [Fact]
-        public void ConfirmProduction_ProductionQueueIdEqualZero_ThrowsArgumentException()
-        {
-            //Assert
-            Assert.Throws<ArgumentException>(() => new ConfirmProductionCommand(It.IsAny<int>()));
-        }
     }
 }

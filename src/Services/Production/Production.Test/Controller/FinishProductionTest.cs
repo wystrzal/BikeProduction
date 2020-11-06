@@ -63,13 +63,6 @@ namespace Production.Test.Controller
         }
 
         [Fact]
-        public void FinishProduction_ProductionQueueIdEqualZero_ThrowsArgumentException()
-        {
-            //Assert
-            Assert.Throws<ArgumentException>(() => new FinishProductionCommand(It.IsAny<int>(), token));
-        }
-
-        [Fact]
         public void FinishProduction_NullToken_ThrowsArgumentNullException()
         {
             //Assert
