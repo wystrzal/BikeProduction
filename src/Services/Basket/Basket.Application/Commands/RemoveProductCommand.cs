@@ -4,24 +4,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Application.Commands
 {
-    public class RemoveProductCommand : IRequest
+    public class RemoveProductCommand : BaseCommand
     {
-        public string UserId { get; set; }
         public int ProductId { get; set; }
 
-        public RemoveProductCommand(string userId, int productId)
+        public RemoveProductCommand(string userId, int productId) : base(userId)
         {
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                throw new ArgumentNullException("UserId");
-            }
-
             if (productId <= 0)
             {
                 throw new ArgumentException("ProductId must be greater than zero.");
             }
 
-            UserId = userId;
             ProductId = productId;
         }
     }

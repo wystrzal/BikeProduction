@@ -5,18 +5,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Application.Queries
 {
-    public class GetBasketQuery : IRequest<UserBasketDto>
+    public class GetBasketQuery : BaseQuery<UserBasketDto>
     {
-        public string UserId { get; set; }
-
-        public GetBasketQuery(string userId)
+        public GetBasketQuery(string userId) : base(userId)
         {
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                throw new ArgumentNullException("UserId");
-            }
-
-            UserId = userId;
         }
     }
 }

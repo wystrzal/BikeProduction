@@ -4,12 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Application.Commands
 {
-    public class AddProductCommand : IRequest
+    public class AddProductCommand : BaseCommand
     {
         [Required]
         public BasketProduct Product { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
     }
 }

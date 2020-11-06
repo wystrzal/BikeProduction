@@ -4,18 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Application.Commands
 {
-    public class ClearBasketCommand : IRequest
+    public class ClearBasketCommand : BaseCommand
     {
-        public string UserId { get; set; }
-
-        public ClearBasketCommand(string userId)
+        public ClearBasketCommand(string userId) : base(userId)
         {
-            if (string.IsNullOrWhiteSpace(userId))
-            {
-                throw new ArgumentNullException("UserId");
-            }
-
-            UserId = userId;
         }
     }
 }
