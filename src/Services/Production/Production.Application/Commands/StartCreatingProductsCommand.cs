@@ -3,18 +3,10 @@ using System;
 
 namespace Production.Application.Commands
 {
-    public class StartCreatingProductsCommand : IRequest
+    public class StartCreatingProductsCommand : BaseCommand
     {
-        public int ProductionQueueId { get; set; }
-
-        public StartCreatingProductsCommand(int productionQueueId)
+        public StartCreatingProductsCommand(int productionQueueId) : base(productionQueueId)
         {
-            if (productionQueueId <= 0)
-            {
-                throw new ArgumentException("ProductionQueueId must be greater than zero.");
-            }
-
-            ProductionQueueId = productionQueueId;
         }
     }
 }
