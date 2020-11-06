@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace Basket.Application.Commands
+namespace Basket.Application.Queries
 {
-    public abstract class BaseCommand : IRequest
+    public abstract class UserIdQuery<TResponse> : IRequest<TResponse>
     {
         [Required]
         public string UserId { get; set; }
 
-        public BaseCommand()
+        public UserIdQuery()
         {
         }
 
-        public BaseCommand(string userId)
+        public UserIdQuery(string userId)
         {
             if (string.IsNullOrWhiteSpace(userId))
             {

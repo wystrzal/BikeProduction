@@ -3,7 +3,7 @@ using System;
 
 namespace Delivery.Application.Commands
 {
-    public class LoadPackCommand : BaseLoadingPlaceCommand
+    public class LoadPackCommand : LoadingPlaceIdCommand
     {
         public int PackId { get; set; }
 

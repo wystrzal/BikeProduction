@@ -3,7 +3,7 @@ using System;
 
 namespace Production.Application.Commands
 {
-    public class FinishProductionCommand : BaseCommand
+    public class FinishProductionCommand : ProductionQueueIdCommand
     {
         public string Token { get; set; }
 

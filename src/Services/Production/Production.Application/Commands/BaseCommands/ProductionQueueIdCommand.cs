@@ -6,16 +6,16 @@ using System.Text;
 
 namespace Production.Application.Commands
 {
-    public abstract class BaseCommand : IRequest
+    public abstract class ProductionQueueIdCommand : IRequest
     {
         [Required]
         public int ProductionQueueId { get; set; }
 
-        public BaseCommand()
+        public ProductionQueueIdCommand()
         {
         }
 
-        public BaseCommand(int productionQueueId)
+        public ProductionQueueIdCommand(int productionQueueId)
         {
             if (productionQueueId <= 0)
             {

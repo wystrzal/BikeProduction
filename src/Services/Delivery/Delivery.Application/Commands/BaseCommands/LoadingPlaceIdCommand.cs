@@ -6,16 +6,16 @@ using System.Text;
 
 namespace Delivery.Application.Commands
 {
-    public abstract class BaseLoadingPlaceCommand : IRequest
+    public abstract class LoadingPlaceIdCommand : IRequest
     {
         [Required]
         public int LoadingPlaceId { get; set; }
 
-        public BaseLoadingPlaceCommand()
+        public LoadingPlaceIdCommand()
         {
         }
 
-        public BaseLoadingPlaceCommand(int loadingPlaceId)
+        public LoadingPlaceIdCommand(int loadingPlaceId)
         {
             if (loadingPlaceId <= 0)
             {

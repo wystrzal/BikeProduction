@@ -3,7 +3,7 @@ using System;
 
 namespace Delivery.Application.Commands
 {
-    public class StartDeliveryCommand : BaseLoadingPlaceCommand
+    public class StartDeliveryCommand : LoadingPlaceIdCommand
     {
         public StartDeliveryCommand(int loadingPlaceId) : base(loadingPlaceId)
         {

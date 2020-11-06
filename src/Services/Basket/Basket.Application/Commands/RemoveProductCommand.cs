@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Application.Commands
 {
-    public class RemoveProductCommand : BaseCommand
+    public class RemoveProductCommand : UserIdCommand
     {
         public int ProductId { get; set; }
 
