@@ -2,28 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Warehouse.Application.Commands.BaseCommand;
 
 namespace Warehouse.Application.Commands
 {
-    public class AddProductPartCommand : IRequest
+    public class AddProductPartCommand : PartIdWithReferenceCommand
     {
-        public int PartId { get; set; }
-        public string Reference { get; set; }
-
-        public AddProductPartCommand(int partId, string reference)
+        public AddProductPartCommand(int partId, string reference) : base(partId, reference)
         {
-            if (partId <= 0)
-            {
-                throw new ArgumentException("PartId must be greater than zero.");
-            }
-
-            if (string.IsNullOrWhiteSpace(reference))
-            {
-                throw new ArgumentNullException("Reference");
-            }
-
-            PartId = partId;
-            Reference = reference;
         }
     }
 }
