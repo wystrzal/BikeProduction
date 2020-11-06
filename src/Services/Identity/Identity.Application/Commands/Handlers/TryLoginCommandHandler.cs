@@ -35,7 +35,7 @@ namespace Identity.Application.Commands.Handlers
 
         private async Task<User> GetUser(TryLoginCommand request)
         {
-            var dbUser = await userManager.FindByNameAsync(request.Username);
+            var dbUser = await userManager.FindByNameAsync(request.UserName);
 
             if (dbUser == null)
             {
