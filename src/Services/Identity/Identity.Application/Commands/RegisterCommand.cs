@@ -3,12 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Identity.Application.Commands
 {
-    public class RegisterCommand : IRequest
+    public class RegisterCommand : BaseCommand, IRequest
     {
-        [Required]
-        public string UserName { get; set; }
-
-        [Required]
-        public string Password { get; set; }
     }
 }

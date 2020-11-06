@@ -4,14 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Identity.Application.Commands
 {
-    public class TryLoginCommand : IRequest<TokenModel>
+    public class TryLoginCommand : BaseCommand, IRequest<TokenModel>
     {
-        [Required]
-        public string Username { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
         [Required]
         public string SessionId { get; set; }
     }
