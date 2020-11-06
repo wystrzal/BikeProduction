@@ -48,19 +48,5 @@ namespace Warehouse.Test.Commands
             productPartRepo.Verify(x => x.SaveAllAsync(), Times.Once);
             Assert.Equal(Unit.Value, action);
         }
-
-        [Fact]
-        public void AddProductPartCommandHandler_NullReference_ThrowsArgumentNullException()
-        {
-            //Assert
-            Assert.Throws<ArgumentNullException>(() => new AddProductPartCommand(id, null));
-        }
-
-        [Fact]
-        public void AddProductPartCommandHandler_PartIdEqualZero_ThrowsArgumentException()
-        {
-            //Assert
-            Assert.Throws<ArgumentException>(() => new AddProductPartCommand(It.IsAny<int>(), reference));
-        }
     }
 }

@@ -46,19 +46,5 @@ namespace Warehouse.Test.Commands
             productPartRepo.Verify(x => x.Delete(productsParts), Times.Once);
             productPartRepo.Verify(x => x.SaveAllAsync(), Times.Once);
         }
-
-        [Fact]
-        public void DeleteProductPartCommandHandler_NullReference_ThrowsArgumentNullException()
-        {
-            //Assert
-            Assert.Throws<ArgumentNullException>(() => new DeleteProductPartCommand(id, null));
-        }
-
-        [Fact]
-        public void DeleteProductPartCommandHandler_PartIdEqualZero_ThrowsArgumentException()
-        {
-            //Assert
-            Assert.Throws<ArgumentException>(() => new DeleteProductPartCommand(It.IsAny<int>(), reference));
-        }
     }
 }
