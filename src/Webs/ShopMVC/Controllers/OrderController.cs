@@ -55,25 +55,30 @@ namespace ShopMVC.Controllers
 
             if (ModelState.ErrorCount > 0 || !ModelState.IsValid)
             {
-                List<string> errors = new List<string>();
-
-                foreach (var obj in ModelState.Values)
-                {
-                    foreach (var error in obj.Errors)
-                    {
-                        if (!string.IsNullOrEmpty(error.ErrorMessage))
-                        {
-                            errors.Add(error.ErrorMessage);
-                        }
-                    }
-                }
-
-                return Json(new { status = "error", errors });
+                return ReturnJsonWithErrors();
             }
 
             await orderService.CreateOrder(order);
 
             return Json(new { status = "success", url = Url.Action("Index", "Home") });
+        }
+
+        private IActionResult ReturnJsonWithErrors()
+        {
+            List<string> errors = new List<string>();
+
+            foreach (var obj in ModelState.Values)
+            {
+                foreach (var error in obj.Errors)
+                {
+                    if (!string.IsNullOrEmpty(error.ErrorMessage))
+                    {
+                        errors.Add(error.ErrorMessage);
+                    }
+                }
+            }
+
+            return Json(new { status = "error", errors });
         }
 
         public async Task<IActionResult> DeleteOrder(int orderId)
