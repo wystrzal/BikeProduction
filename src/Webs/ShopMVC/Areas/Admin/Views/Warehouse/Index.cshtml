@@ -1,29 +1,42 @@
 ﻿@model ShopMVC.Areas.Admin.Models.ViewModels.PartsViewModel
 
+@if (string.IsNullOrWhiteSpace(Model.Reference))
+{
     <div class="mt-4 mb-2 text-right">
         <a class="btn btn-success" asp-controller="Warehouse" asp-action="CreatePart">
             Add New Part
         </a>
     </div>
+}
 
-    <div class="row text-center pt-4">
-        <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
-            @if (Model != null)
+<div class="row text-center pt-4">
+    <div class="col-md-9 offset-md-3 col-12 col-lg-10 offset-lg-2 text-center">
+        @if (Model != null)
+        {
+            foreach (var part in Model.Parts)
             {
-                foreach (var part in Model.Parts)
-                {
-                    <div class="custom-shadow border-top p-2 mb-1 row">
-                            <div class="col-12 col-sm-3">@part.PartName</div>
-                            <div class="col-12 col-sm-3">Reference: @part.Reference</div>
-                            <div class="col-12 col-sm-3">Qty: @part.Quantity</div>
-                            <div class="col-12 col-sm-3">
-                                <div class="btn-group">
-                                    @Html.ActionLink("Edit", "UpdatePart", "Warehouse", new { partId = part.Id }, new { @class = "btn btn-success" })
-                                    @Html.ActionLink("Delete", "DeletePart", "Warehouse", new { partId = part.Id }, new { @class = "btn btn-danger" })
-                                </div>
+                <div class="custom-shadow border-top p-2 mb-1 row">
+                    <div class="col-12 col-sm-3">@part.PartName</div>
+                    <div class="col-12 col-sm-3">Reference: @part.Reference</div>
+                    <div class="col-12 col-sm-3">Qty: @part.Quantity</div>
+                    <div class="col-12 col-sm-3">
+                        @if (string.IsNullOrWhiteSpace(Model.Reference))
+                        {
+                            <div class="btn-group">
+                                @Html.ActionLink("Edit", "UpdatePart", "Warehouse", new { partId = part.Id }, new { @class = "btn btn-success" })
+                                @Html.ActionLink("Delete", "DeletePart", "Warehouse", new { partId = part.Id }, new { @class = "btn btn-danger" })
                             </div>
+                        }
+                        else
+                        {
+                            <a class="btn btn-success" asp-controller="Warehouse" asp-action="AddProductPart"
+                               asp-route-partId="@part.Id" asp-route-reference="@Model.Reference" asp-route-productId="@Model.ProductId">
+                                Add
+                            </a>
+                        }
                     </div>
-                }
+                </div>
             }
-        </div>
+        }
     </div>
+</div>

@@ -78,5 +78,12 @@ namespace ShopMVC.Services
 
             await customHttpClient.DeleteAsync(deleteProductPartUrl, token);
         }
+
+        public async Task AddProductPart(string reference, int partId)
+        {
+            var addProductPartUrl = $"{baseUrl}product/{reference}/part/{partId}";
+
+            await customHttpClient.PostAsync(addProductPartUrl, (Part)null, token);
+        }
     }
 }

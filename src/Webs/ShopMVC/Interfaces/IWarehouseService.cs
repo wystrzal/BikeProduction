@@ -15,5 +15,6 @@ namespace ShopMVC.Interfaces
         Task UpdatePart(Part part);
         Task<List<Part>> GetProductParts(string reference);
         Task DeleteProductPart(string reference, int partId);
+        Task AddProductPart(string reference, int partId);
     }
 }

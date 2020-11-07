@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ShopMVC.Areas.Admin.Models.ViewModels
+namespace ShopMVC.Areas.Admin.Models.Dto
 {
-    public class PartsViewModel
+    public class AddProductPartDto
     {
-        public List<Part> Parts { get; set; }
         public string Reference { get; set; }
+        public int PartId { get; set; }
         public int ProductId { get; set; }
     }
 }

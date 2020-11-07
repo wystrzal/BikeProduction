@@ -52,7 +52,17 @@
 @if (Model.Parts != null && Model.Parts.Count > 0)
 {
     <div class="col-12 col-md-9 offset-md-3 col-lg-10 offset-lg-2 mt-4">
-        <h4>Parts</h4>
+        <div class="row">
+            <div class="col-6">
+                <h4>Parts</h4>
+            </div>
+            <div class="col-6 text-right">
+                <a class="btn btn-success" asp-controller="Warehouse" asp-action="Index"
+                   asp-route-productId="@Model.Product.Id" asp-route-reference="@Model.Product.Reference">
+                    Add Part
+                </a>
+            </div>
+        </div>
     </div>
 
     <div class="row text-center pt-4">
@@ -66,8 +76,8 @@
                     <div class="col-12 col-sm-3">Qty: @part.Quantity</div>
                     <div class="col-12 col-sm-3">
                         @Html.ActionLink("Delete", "DeleteProductPart", "Product",
-                            new { reference = Model.Product.Reference, partId = part.Id, productId = Model.Product.Id},
-                            new { @class = "btn btn-danger"})
+                            new { reference = Model.Product.Reference, partId = part.Id, productId = Model.Product.Id },
+                            new { @class = "btn btn-danger" })
                     </div>
                 </div>
             }
