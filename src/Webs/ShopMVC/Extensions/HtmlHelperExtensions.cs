@@ -8,12 +8,11 @@ namespace ShopMVC.Extensions
 {
     public static class HtmlHelperExtensions
     {
-        public static string IsActive(this IHtmlHelper htmlHelper, string action, string controller, string cssClass = "active")
+        public static string IsActive(this IHtmlHelper htmlHelper, string controller, string cssClass = "active")
         {
-            string currentAction = htmlHelper.ViewContext.RouteData.Values["action"] as string;
             string currentController = htmlHelper.ViewContext.RouteData.Values["controller"] as string;
 
-            return currentAction.Equals(action) && currentController.Equals(controller) ?
+            return currentController.Equals(controller) ?
                 cssClass : String.Empty;
         }
     }
