@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BikeBaseRepository;
+using BaseRepository.Exceptions;
 using Catalog.Application.Commands;
 using Catalog.Application.Commands.Handlers;
 using Catalog.Core.Interfaces;
@@ -8,9 +8,6 @@ using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;

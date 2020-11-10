@@ -1,4 +1,4 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository.Exceptions;
 using Common.Application.Messaging;
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;

@@ -1,11 +1,9 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository;
 using CustomerOrder.Core.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CustomerOrder.Core.Interfaces
 {
-    public interface IOrderRepository : IBaseRepository<Order>
+    public interface IOrderRepository : IRepository<Order>
     {
     }
 }

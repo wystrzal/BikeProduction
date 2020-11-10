@@ -1,14 +1,11 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using CustomerOrder.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CustomerOrder.Infrastructure.Repositories
 {
-    public class OrderRepository : BaseRepository<Order, DataContext>, IOrderRepository
+    public class OrderRepository : Repository<Order, DataContext>, IOrderRepository
     {
         private readonly DataContext dataContext;
 

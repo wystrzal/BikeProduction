@@ -1,4 +1,4 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Catalog.Infrastructure.Data;
@@ -10,7 +10,7 @@ using static Catalog.Core.Models.Enums.HomeProductEnum;
 
 namespace Catalog.Infrastructure.Repositories
 {
-    public class ProductRepository : BaseRepository<Product, DataContext>, IProductRepository
+    public class ProductRepository : Repository<Product, DataContext>, IProductRepository
     {
         private readonly DataContext dataContext;
 

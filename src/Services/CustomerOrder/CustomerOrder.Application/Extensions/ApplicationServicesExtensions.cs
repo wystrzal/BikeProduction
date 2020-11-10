@@ -1,6 +1,4 @@
-﻿using BikeBaseRepository;
-using BikeSortFilter;
-using BikeSortFilter.Extensions;
+﻿using BikeSortFilter.Extensions;
 using CustomerOrder.Core.Interfaces;
 using CustomerOrder.Core.Models;
 using CustomerOrder.Core.SearchSpecification;

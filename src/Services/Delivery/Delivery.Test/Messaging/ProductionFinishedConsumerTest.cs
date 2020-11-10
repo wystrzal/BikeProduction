@@ -1,4 +1,4 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository.Exceptions;
 using BikeExtensions;
 using Common.Application.Messaging;
 using Delivery.Application.Messaging.Consumers;
@@ -6,12 +6,8 @@ using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

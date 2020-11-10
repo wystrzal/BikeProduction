@@ -6,10 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Wystrzal.BaseRepository" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Shared\BaseRepository\BikeBaseRepository.csproj" />
     <ProjectReference Include="..\..\..\Shared\BikeSortFilter\BikeSortFilter.csproj" />
   </ItemGroup>
 

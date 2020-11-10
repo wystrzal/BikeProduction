@@ -10,7 +10,6 @@ WORKDIR /src
 COPY ["src/Services/CustomerOrder/CustomerOrder.API/CustomerOrder.API.csproj", "src/Services/CustomerOrder/CustomerOrder.API/"]
 COPY ["src/Services/CustomerOrder/CustomerOrder.Infrastructure/CustomerOrder.Infrastructure.csproj", "src/Services/CustomerOrder/CustomerOrder.Infrastructure/"]
 COPY ["src/Services/CustomerOrder/CustomerOrder.Core/CustomerOrder.Core.csproj", "src/Services/CustomerOrder/CustomerOrder.Core/"]
-COPY ["src/Shared/BaseRepository/BikeBaseRepository/BikeBaseRepository.csproj", "src/Shared/BaseRepository/BikeBaseRepository/"]
 COPY ["src/Services/CustomerOrder/CustomerOrder.Application/CustomerOrder.Application.csproj", "src/Services/CustomerOrder/CustomerOrder.Application/"]
 RUN dotnet restore "src/Services/CustomerOrder/CustomerOrder.API/CustomerOrder.API.csproj"
 COPY . .

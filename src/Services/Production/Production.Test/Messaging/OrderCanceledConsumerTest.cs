@@ -1,6 +1,5 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository.Exceptions;
 using BikeExtensions;
-using Castle.Core.Logging;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -10,7 +9,6 @@ using Production.Core.Interfaces;
 using Production.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

@@ -1,4 +1,4 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository.Exceptions;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;

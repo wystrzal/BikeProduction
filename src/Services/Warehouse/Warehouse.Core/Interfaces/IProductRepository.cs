@@ -1,9 +1,9 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository;
 using Warehouse.Core.Models;
 
 namespace Warehouse.Core.Interfaces
 {
-    public interface IProductRepository : IBaseRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     {
     }
 }

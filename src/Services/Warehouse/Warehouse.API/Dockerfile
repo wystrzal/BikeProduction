@@ -11,7 +11,6 @@ COPY ["src/Services/Warehouse/Warehouse.API/Warehouse.API.csproj", "src/Services
 COPY ["src/Services/Warehouse/Warehouse.Application/Warehouse.Application.csproj", "src/Services/Warehouse/Warehouse.Application/"]
 COPY ["src/Services/Warehouse/Warehouse.Infrastructure/Warehouse.Infrastructure.csproj", "src/Services/Warehouse/Warehouse.Infrastructure/"]
 COPY ["src/Services/Warehouse/Warehouse.Core/Warehouse.Core.csproj", "src/Services/Warehouse/Warehouse.Core/"]
-COPY ["src/Shared/BaseRepository/BikeBaseRepository/BikeBaseRepository.csproj", "src/Shared/BaseRepository/BikeBaseRepository/"]
 RUN dotnet restore "src/Services/Warehouse/Warehouse.API/Warehouse.API.csproj"
 COPY . .
 WORKDIR "/src/src/Services/Warehouse/Warehouse.API"

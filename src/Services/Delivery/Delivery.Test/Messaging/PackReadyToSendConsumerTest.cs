@@ -1,4 +1,4 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository.Exceptions;
 using BikeExtensions;
 using Common.Application.Commands;
 using Common.Application.Messaging;
@@ -9,8 +9,6 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;

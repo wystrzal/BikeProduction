@@ -8,7 +8,6 @@ WORKDIR /src
 COPY ["src/Services/Catalog/Catalog.API/Catalog.API.csproj", "src/Services/Catalog/Catalog.API/"]
 COPY ["src/Services/Catalog/Catalog.Application/Catalog.Application.csproj", "src/Services/Catalog/Catalog.Application/"]
 COPY ["src/Services/Catalog/Catalog.Core/Catalog.Core.csproj", "src/Services/Catalog/Catalog.Core/"]
-COPY ["src/Shared/BaseRepository/BikeBaseRepository/BikeBaseRepository.csproj", "src/Shared/BaseRepository/BikeBaseRepository/"]
 COPY ["src/Services/Catalog/Catalog.Infrastructure/Catalog.Infrastructure.csproj", "src/Services/Catalog/Catalog.Infrastructure/"]
 RUN dotnet restore "src/Services/Catalog/Catalog.API/Catalog.API.csproj"
 COPY . .

@@ -11,7 +11,6 @@ COPY ["src/Services/Delivery/Delivery.API/Delivery.API.csproj", "src/Services/De
 COPY ["src/Services/Delivery/Delivery.Infrastructure/Delivery.Infrastructure.csproj", "src/Services/Delivery/Delivery.Infrastructure/"]
 COPY ["src/Shared/HTTP/HttpClient/BikeHttpClient.csproj", "src/Shared/HTTP/HttpClient/"]
 COPY ["src/Services/Delivery/Delivery.Core/Delivery.Core.csproj", "src/Services/Delivery/Delivery.Core/"]
-COPY ["src/Shared/BaseRepository/BikeBaseRepository/BikeBaseRepository.csproj", "src/Shared/BaseRepository/BikeBaseRepository/"]
 COPY ["src/Services/Delivery/Delivery.Application/Delivery.Application.csproj", "src/Services/Delivery/Delivery.Application/"]
 RUN dotnet restore "src/Services/Delivery/Delivery.API/Delivery.API.csproj"
 COPY . .

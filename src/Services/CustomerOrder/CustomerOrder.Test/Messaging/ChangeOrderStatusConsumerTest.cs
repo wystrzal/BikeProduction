@@ -1,4 +1,4 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository.Exceptions;
 using BikeExtensions;
 using Common.Application.Messaging;
 using CustomerOrder.Application.Messaging.Consumers;

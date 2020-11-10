@@ -1,9 +1,9 @@
-﻿using BikeBaseRepository;
+﻿using BaseRepository;
 using Delivery.Core.Models;
 
 namespace Delivery.Core.Interfaces
 {
-    public interface IPackToDeliveryRepo : IBaseRepository<PackToDelivery>
+    public interface IPackToDeliveryRepo : IRepository<PackToDelivery>
     {
     }
 }
