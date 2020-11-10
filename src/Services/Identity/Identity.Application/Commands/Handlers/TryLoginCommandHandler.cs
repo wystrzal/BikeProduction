@@ -17,7 +17,7 @@ namespace Identity.Application.Commands.Handlers
         private readonly ITokenService tokenService;
         private readonly IBus bus;
 
-        public TryLoginCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager, 
+        public TryLoginCommandHandler(UserManager<User> userManager, SignInManager<User> signInManager,
             ITokenService tokenService, IBus bus)
         {
             this.userManager = userManager;

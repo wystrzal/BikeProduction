@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using Warehouse.Core.Models;
-
-namespace Warehouse.Application.Mapping
+﻿namespace Warehouse.Application.Mapping
 {
     public class GetPartDto
     {

@@ -1,5 +1,4 @@
 ﻿using BikeHttpClient;
-using BikeSortFilter;
 using BikeSortFilter.Extensions;
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;

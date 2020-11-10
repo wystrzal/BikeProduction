@@ -1,5 +1,4 @@
-﻿using MediatR;
-using System;
+﻿using System;
 
 namespace Production.Application.Commands
 {

@@ -1,8 +1,4 @@
-﻿using MediatR;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Basket.Application.Commands
+﻿namespace Basket.Application.Commands
 {
     public class ClearBasketCommand : UserIdCommand
     {

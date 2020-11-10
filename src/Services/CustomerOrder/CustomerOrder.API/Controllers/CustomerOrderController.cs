@@ -54,7 +54,7 @@ namespace CustomerOrder.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetOrders([FromQuery]FilteringData filteringData)
+        public async Task<IActionResult> GetOrders([FromQuery] FilteringData filteringData)
         {
             return Ok(await mediator.Send(new GetOrdersQuery(filteringData)));
         }

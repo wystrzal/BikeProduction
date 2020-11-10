@@ -1,5 +1,4 @@
-﻿using BikeSortFilter;
-using BikeSortFilter.Extensions;
+﻿using BikeSortFilter.Extensions;
 using Catalog.Core.Interfaces;
 using Catalog.Core.Models;
 using Catalog.Core.SearchSpecification;

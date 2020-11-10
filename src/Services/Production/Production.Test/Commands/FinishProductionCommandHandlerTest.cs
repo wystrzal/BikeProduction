@@ -10,7 +10,6 @@ using Production.Core.Interfaces;
 using Production.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;

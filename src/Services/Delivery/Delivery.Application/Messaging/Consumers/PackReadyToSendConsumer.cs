@@ -35,7 +35,7 @@ namespace Delivery.Application.Messaging.Consumers
             {
                 logger.LogError(ex.Message);
                 throw;
-            }      
+            }
 
             logger.LogInformation($"Successfully handled event: {context.MessageId} at {this} - {context}");
         }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static ShopMVC.Areas.Admin.Models.Enums.ProductionStatusEnum;
+﻿using static ShopMVC.Areas.Admin.Models.Enums.ProductionStatusEnum;
 
 namespace Production.Core.Models
 {

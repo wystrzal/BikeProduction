@@ -1,7 +1,4 @@
-﻿using MediatR;
-using System;
-
-namespace Delivery.Application.Commands
+﻿namespace Delivery.Application.Commands
 {
     public class StartDeliveryCommand : LoadingPlaceIdCommand
     {

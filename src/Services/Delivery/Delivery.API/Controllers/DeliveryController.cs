@@ -111,7 +111,7 @@ namespace Delivery.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
         [HttpPost("loadingPlace")]
         public async Task<IActionResult> AddLoadingPlace(AddLoadingPlaceCommand command)
         {

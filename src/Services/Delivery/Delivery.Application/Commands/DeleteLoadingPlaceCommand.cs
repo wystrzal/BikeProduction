@@ -1,9 +1,4 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Delivery.Application.Commands
+﻿namespace Delivery.Application.Commands
 {
     public class DeleteLoadingPlaceCommand : LoadingPlaceIdCommand
     {

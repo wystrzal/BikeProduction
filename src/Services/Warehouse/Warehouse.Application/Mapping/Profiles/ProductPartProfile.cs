@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Warehouse.Core.Models;
 
 namespace Warehouse.Application.Mapping.Profiles

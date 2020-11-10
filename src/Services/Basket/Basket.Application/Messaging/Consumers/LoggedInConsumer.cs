@@ -1,13 +1,10 @@
 ﻿using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
-using Basket.Core.Models;
 using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Basket.Application.Messaging.Consumers
@@ -65,7 +62,7 @@ namespace Basket.Application.Messaging.Consumers
                     userProduct.Quantity += sessionProduct.Quantity;
                     userProduct.Price += sessionProduct.Price;
                 }
- 
+
                 userBasket.TotalPrice += sessionProduct.Price;
             }
         }

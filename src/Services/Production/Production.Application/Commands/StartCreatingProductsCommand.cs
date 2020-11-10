@@ -1,7 +1,4 @@
-﻿using MediatR;
-using System;
-
-namespace Production.Application.Commands
+﻿namespace Production.Application.Commands
 {
     public class StartCreatingProductsCommand : ProductionQueueIdCommand
     {

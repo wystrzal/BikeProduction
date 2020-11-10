@@ -1,5 +1,4 @@
 ﻿using BikeExtensions;
-using Castle.Core.Logging;
 using Identity.API.Controllers;
 using Identity.Application.Commands;
 using Identity.Core.Models;
@@ -8,9 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -42,7 +38,7 @@ namespace Identity.Test.Controller
         public async Task Login_OkObjectResult()
         {
             //Arrange
-            mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Returns(Task.FromResult(tokenModel));        
+            mediator.Setup(x => x.Send(command, It.IsAny<CancellationToken>())).Returns(Task.FromResult(tokenModel));
 
             //Act
             var action = await controller.Login(command) as OkObjectResult;

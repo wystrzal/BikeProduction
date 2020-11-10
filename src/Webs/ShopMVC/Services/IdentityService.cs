@@ -1,15 +1,10 @@
 ﻿using BikeHttpClient;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ShopMVC.Services
@@ -27,7 +22,7 @@ namespace ShopMVC.Services
             baseUrl = "http://host.docker.internal:5000/api/identity/";
             sessionId = httpContextAccessor.HttpContext.Session.Id;
             this.customHttpClient = customHttpClient;
-            this.cookieAuthentication = cookieAuthentication;        
+            this.cookieAuthentication = cookieAuthentication;
         }
 
         public async Task<HttpResponseMessage> Login(LoginDto loginDto)
@@ -43,7 +38,7 @@ namespace ShopMVC.Services
                 var tokenModel = JsonConvert.DeserializeObject<TokenModel>(await response.Content.ReadAsStringAsync());
                 await cookieAuthentication.SignIn(tokenModel);
             }
-                
+
             return response;
         }
 

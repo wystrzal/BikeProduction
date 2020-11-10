@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using ShopMVC.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.Dtos;
@@ -31,7 +29,7 @@ namespace ShopMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProduct([FromBody]BasketProduct basketProduct)
+        public async Task<IActionResult> AddProduct([FromBody] BasketProduct basketProduct)
         {
             await basketService.AddProduct(basketProduct);
 

@@ -42,7 +42,7 @@ namespace Warehouse.Test.Messaging
             var context = GetContext();
 
             mapper.Setup(x => x.Map<Product>(context.Message)).Returns(product);
-            
+
             //Act
             await consumer.Consume(context);
 

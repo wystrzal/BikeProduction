@@ -3,8 +3,6 @@ using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Basket.Application.Messaging.Consumers

@@ -1,7 +1,5 @@
 ﻿using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Warehouse.Application.Commands;
 using Xunit;
 

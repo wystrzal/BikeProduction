@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Areas.Admin.Models;
 using ShopMVC.Areas.Admin.Models.Dto;
 using ShopMVC.Areas.Admin.Models.ViewModels;
 using ShopMVC.Filters;
 using ShopMVC.Interfaces;
+using System.Threading.Tasks;
 
 namespace ShopMVC.Areas.Admin.Controllers
 {
@@ -38,7 +35,7 @@ namespace ShopMVC.Areas.Admin.Controllers
         {
             await warehouseService.AddProductPart(dto.Reference, dto.PartId);
 
-            return RedirectToAction("UpdateProduct", "Product", new { productId = dto.ProductId});
+            return RedirectToAction("UpdateProduct", "Product", new { productId = dto.ProductId });
         }
 
         public async Task<IActionResult> DeletePart(int partId)

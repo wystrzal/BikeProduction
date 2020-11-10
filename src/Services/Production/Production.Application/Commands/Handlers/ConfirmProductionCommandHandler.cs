@@ -1,7 +1,6 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using MediatR;
-using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
 using System;
@@ -48,7 +47,7 @@ namespace Production.Application.Commands.Handlers
             var client = bus.CreateRequestClient<ProductionConfirmedEvent>(serviceAddress);
 
             return await client.GetResponse<ProductionConfirmedResult>(
-                new { productionQueue.Reference, productionQueue.Quantity });          
+                new { productionQueue.Reference, productionQueue.Quantity });
         }
 
         private async Task ChangeProductionStatusDependingOnResponse(ProductionQueue productionQueue,

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Catalog.Application.Commands
 {

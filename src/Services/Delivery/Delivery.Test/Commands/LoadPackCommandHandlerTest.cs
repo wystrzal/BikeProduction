@@ -8,8 +8,6 @@ using MassTransit;
 using MediatR;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -42,7 +40,7 @@ namespace Delivery.Test.Commands
             //Arrange
             int productsQuantity = 100;
             int loadedQuantity = 50;
-           
+
             var packToDelivery = new PackToDelivery { ProductsQuantity = productsQuantity };
             var loadingPlace = new LoadingPlace { LoadedQuantity = loadedQuantity, AmountOfSpace = productsQuantity };
 

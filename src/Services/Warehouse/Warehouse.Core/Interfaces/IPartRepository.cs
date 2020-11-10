@@ -1,5 +1,4 @@
 ﻿using BaseRepository;
-using System.Threading.Tasks;
 using Warehouse.Core.Models;
 
 namespace Warehouse.Core.Interfaces

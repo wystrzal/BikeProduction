@@ -5,22 +5,19 @@ using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Serilog;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Basket.Test.Messaging
 {
     public class OrderCreatedConsumerTest
-    {     
+    {
         private const string userId = "1";
-      
+
         private readonly Mock<IBasketRedisService> basketRedisService;
         private readonly Mock<ILogger<OrderCreatedConsumer>> logger;
-        
+
         private readonly OrderCreatedConsumer consumer;
         private readonly ConsumeContext<OrderCreatedEvent> context;
 
@@ -51,7 +48,7 @@ namespace Basket.Test.Messaging
 
             //Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() => consumer.Consume(context));
-            
+
             logger.VerifyLogging(LogLevel.Error);
         }
 

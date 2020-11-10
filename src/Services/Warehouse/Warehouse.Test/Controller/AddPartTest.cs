@@ -1,12 +1,9 @@
 ﻿using BikeExtensions;
-using Castle.Core.Logging;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Warehouse.API.Controllers;
@@ -30,7 +27,7 @@ namespace Warehouse.Test.Controller
 
         [Fact]
         public async Task AddPart_OkResult()
-        {    
+        {
             //Act
             var action = await controller.AddPart(It.IsAny<AddPartCommand>()) as OkResult;
 

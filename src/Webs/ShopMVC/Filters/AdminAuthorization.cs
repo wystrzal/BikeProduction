@@ -12,7 +12,7 @@ namespace ShopMVC.Filters
 
             if (!controller.User.Claims.Any(x => x.Value == "admin"))
             {
-                context.Result = controller.RedirectToAction("Index", "Home", new { area = ""});
+                context.Result = controller.RedirectToAction("Index", "Home", new { area = "" });
             }
         }
     }

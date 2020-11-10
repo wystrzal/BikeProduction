@@ -1,8 +1,4 @@
-﻿using MediatR;
-using System;
-using System.ComponentModel.DataAnnotations;
-
-namespace Basket.Application.Queries
+﻿namespace Basket.Application.Queries
 {
     public class GetBasketQuantityQuery : UserIdQuery<int>
     {

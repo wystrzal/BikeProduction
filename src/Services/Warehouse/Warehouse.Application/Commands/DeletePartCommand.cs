@@ -1,7 +1,4 @@
-﻿using MediatR;
-using System;
-
-namespace Warehouse.Application.Commands
+﻿namespace Warehouse.Application.Commands
 {
     public class DeletePartCommand : PartIdCommand
     {

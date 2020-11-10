@@ -1,6 +1,4 @@
-﻿using MediatR;
-using System.ComponentModel.DataAnnotations;
-using Warehouse.Application.Commands.BaseCommand;
+﻿using Warehouse.Application.Commands.BaseCommand;
 
 namespace Warehouse.Application.Commands
 {

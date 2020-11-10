@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static ShopMVC.Models.Enums.OrderStatusEnum;
 
 namespace ShopMVC.Models.ViewModels
 {

@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -20,7 +18,7 @@ namespace Basket.Test.Controller
         private readonly Mock<ILogger<BasketController>> logger;
 
         private readonly BasketController controller;
-  
+
         public ChangeProductQuantityTest()
         {
             mediator = new Mock<IMediator>();

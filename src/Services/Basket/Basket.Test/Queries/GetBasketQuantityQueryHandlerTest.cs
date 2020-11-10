@@ -4,9 +4,7 @@ using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
 using Basket.Core.Models;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -14,14 +12,14 @@ using Xunit;
 namespace Basket.Test.Queries
 {
     public class GetBasketQuantityQueryHandlerTest
-    {      
+    {
         private const string userId = "1";
         private const int nullBasketQuantity = 0;
-        
+
         private readonly Mock<IBasketRedisService> basketRedisService;
-        
+
         private readonly GetBasketQuantityQuery query;
-        private readonly GetBasketQuantityQueryHandler queryHandler;    
+        private readonly GetBasketQuantityQueryHandler queryHandler;
 
         public GetBasketQuantityQueryHandlerTest()
         {

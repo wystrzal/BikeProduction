@@ -1,8 +1,6 @@
-﻿using Moq;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BikeExtensions
 {
@@ -10,7 +8,7 @@ namespace BikeExtensions
     {
         public static void VerifyLogging<T>(this Mock<ILogger<T>> logger, LogLevel logLevel)
         {
-            logger.Verify(x => 
+            logger.Verify(x =>
                 x.Log(It.Is<LogLevel>(x => x == logLevel),
                 It.IsAny<EventId>(),
                 It.Is<It.IsAnyType>((x, y) => true),

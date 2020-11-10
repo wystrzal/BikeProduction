@@ -1,5 +1,4 @@
 ﻿using BikeExtensions;
-using Castle.Core.Logging;
 using Identity.API.Controllers;
 using Identity.Application.Commands;
 using MediatR;
@@ -7,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;

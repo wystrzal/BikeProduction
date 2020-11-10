@@ -1,8 +1,5 @@
-﻿using MediatR;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using Warehouse.Application.Commands.BaseCommand;
 
 namespace Warehouse.Application.Commands

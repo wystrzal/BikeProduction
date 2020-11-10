@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ShopMVC.Filters;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
 using ShopMVC.Models.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShopMVC.Controllers
@@ -46,9 +44,9 @@ namespace ShopMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody]Order order)
+        public async Task<IActionResult> CreateOrder([FromBody] Order order)
         {
-            if (order.OrderItems == null || order.OrderItems.Count == 0 )
+            if (order.OrderItems == null || order.OrderItems.Count == 0)
             {
                 ModelState.AddModelError("", "You don't have any products in basket.");
             }

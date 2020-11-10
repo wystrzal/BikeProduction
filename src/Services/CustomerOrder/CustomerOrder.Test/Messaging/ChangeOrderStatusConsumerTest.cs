@@ -40,7 +40,7 @@ namespace CustomerOrder.Test.Messaging
         {
             //Arrange
             orderRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(order));
-            
+
             //Act
             await consumer.Consume(context);
 

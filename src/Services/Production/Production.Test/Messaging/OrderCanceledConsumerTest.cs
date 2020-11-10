@@ -81,7 +81,7 @@ namespace Production.Test.Messaging
         {
             //Arrange
             var context = GetContext();
-            
+
             productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
                 .Returns(Task.FromResult(productionQueues));
 

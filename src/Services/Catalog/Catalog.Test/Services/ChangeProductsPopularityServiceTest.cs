@@ -5,7 +5,6 @@ using Catalog.Infrastructure.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -44,7 +43,7 @@ namespace Catalog.Test.Services
         {
             //Assert
             await Assert.ThrowsAsync<ArgumentNullException>(() =>
-                service.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()));   
+                service.ChangeProductsPopularity(It.IsAny<List<OrderItem>>(), It.IsAny<bool>()));
         }
     }
 }

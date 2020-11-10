@@ -1,8 +1,6 @@
 ﻿using BikeHttpClient;
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 

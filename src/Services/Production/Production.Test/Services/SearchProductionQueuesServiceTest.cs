@@ -4,7 +4,6 @@ using Production.Core.Models;
 using Production.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using static Production.Core.Models.Enums.ProductionStatusEnum;

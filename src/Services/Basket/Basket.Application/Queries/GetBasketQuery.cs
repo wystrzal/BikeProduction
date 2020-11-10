@@ -1,7 +1,4 @@
 ﻿using Basket.Core.Dtos;
-using MediatR;
-using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Application.Queries
 {

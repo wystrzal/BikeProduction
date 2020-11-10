@@ -6,7 +6,6 @@ using Production.Application.Commands;
 using Production.Application.Queries;
 using Production.Core.Models;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Production.API.Controllers

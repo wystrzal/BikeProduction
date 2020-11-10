@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
+﻿using static CustomerOrder.Core.Models.Enums.OrderStatusEnum;
 
 namespace CustomerOrder.Core.SearchSpecification
 {

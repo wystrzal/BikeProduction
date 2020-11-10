@@ -53,7 +53,7 @@ namespace Warehouse.Application.Messaging.Consumers
         }
 
         private async Task AddProduct(Product product)
-        {          
+        {
             productRepository.Add(product);
             await productRepository.SaveAllAsync();
         }

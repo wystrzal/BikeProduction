@@ -4,9 +4,7 @@ using Newtonsoft.Json;
 using ShopMVC.Areas.Admin.Models;
 using ShopMVC.Extensions;
 using ShopMVC.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ShopMVC.Services

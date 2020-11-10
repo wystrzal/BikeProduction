@@ -1,14 +1,10 @@
-﻿using MassTransit;
-using MediatR;
+﻿using MediatR;
 using Moq;
 using Production.Application.Commands;
 using Production.Application.Commands.Handlers;
 using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;

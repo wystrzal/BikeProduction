@@ -38,7 +38,7 @@ namespace Catalog.API.Controllers
 
                 return BadRequest(ex.Message);
             }
-       
+
         }
 
         [HttpDelete("{id}")]
@@ -59,7 +59,7 @@ namespace Catalog.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> GetProducts([FromQuery]FilteringData filteringData)
+        public async Task<IActionResult> GetProducts([FromQuery] FilteringData filteringData)
         {
             return Ok(await mediator.Send(new GetProductsQuery(filteringData)));
         }

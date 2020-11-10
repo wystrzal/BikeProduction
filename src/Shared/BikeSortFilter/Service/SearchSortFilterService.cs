@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -41,12 +40,12 @@ namespace BikeSortFilter
             if (sortToUse == null)
             {
                 data = await repository.GetFilteredData(compiledFilters, skip, take);
-            } 
+            }
             else
             {
                 data = await repository.GetSortedFilteredData(compiledFilters, sortToUse, orderDesc, skip, take);
             }
-            
+
             sortToUse = null;
             filtersToUse.Clear();
 

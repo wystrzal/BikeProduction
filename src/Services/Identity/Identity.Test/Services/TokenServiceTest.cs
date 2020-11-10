@@ -4,9 +4,6 @@ using Identity.Test.MockHelpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Identity.Test.Services
@@ -37,7 +34,7 @@ namespace Identity.Test.Services
         {
             //Arrange
             configurationSection.Setup(a => a.Value).Returns(key);
-            configuration.Setup(a => a.GetSection(section)).Returns(configurationSection.Object);           
+            configuration.Setup(a => a.GetSection(section)).Returns(configurationSection.Object);
 
             //Act
             var action = service.GenerateToken(user, userManager.Object);

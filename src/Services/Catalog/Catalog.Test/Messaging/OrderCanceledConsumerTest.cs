@@ -1,7 +1,6 @@
 ﻿using BikeExtensions;
 using Catalog.Application.Messaging.Consumers;
 using Catalog.Core.Interfaces;
-using Catalog.Core.Models;
 using Catalog.Core.Models.MessagingModels;
 using Common.Application.Messaging;
 using MassTransit;
@@ -9,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

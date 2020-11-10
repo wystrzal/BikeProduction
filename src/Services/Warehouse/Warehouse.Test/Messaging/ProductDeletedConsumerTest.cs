@@ -37,7 +37,7 @@ namespace Warehouse.Test.Messaging
             //Arrange     
             var context = GetContext();
 
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));          
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
 
             //Act
             await consumer.Consume(context);

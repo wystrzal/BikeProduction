@@ -1,8 +1,6 @@
 ﻿using Basket.Application.Commands;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Basket.Test.Commands

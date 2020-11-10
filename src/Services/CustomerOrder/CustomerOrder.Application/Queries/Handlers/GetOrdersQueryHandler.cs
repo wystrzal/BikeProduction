@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using CustomerOrder.Application.Mapping;
 using CustomerOrder.Core.Interfaces;
-using CustomerOrder.Core.Models;
 using MediatR;
 using System.Collections.Generic;
 using System.Threading;

@@ -1,5 +1,4 @@
 ﻿using Common.Application.Messaging;
-using Delivery.Core.Exceptions;
 using Delivery.Core.Interfaces;
 using Delivery.Core.Models;
 using MassTransit;

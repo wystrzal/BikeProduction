@@ -1,6 +1,4 @@
-﻿using MediatR;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace Basket.Application.Commands
 {

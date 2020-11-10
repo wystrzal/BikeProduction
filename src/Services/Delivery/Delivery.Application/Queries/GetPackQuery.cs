@@ -1,8 +1,6 @@
 ﻿using Delivery.Application.Mapping;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Delivery.Application.Queries
 {

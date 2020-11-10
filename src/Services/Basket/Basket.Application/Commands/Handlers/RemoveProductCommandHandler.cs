@@ -1,7 +1,6 @@
 ﻿using Basket.Core.Dtos;
 using Basket.Core.Interfaces;
 using MediatR;
-using Newtonsoft.Json;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

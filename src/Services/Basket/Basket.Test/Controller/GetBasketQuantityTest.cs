@@ -6,9 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -22,9 +19,9 @@ namespace Basket.Test.Controller
 
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
-     
+
         private readonly BasketController controller;
-      
+
         public GetBasketQuantityTest()
         {
             mediator = new Mock<IMediator>();

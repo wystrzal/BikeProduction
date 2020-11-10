@@ -1,7 +1,6 @@
 using AutoMapper;
 using Catalog.Application.Commands;
 using Catalog.Application.Extensions;
-using Catalog.Application.Mapping;
 using Catalog.Application.Mapping.Profiles;
 using Catalog.Infrastructure.Data;
 using MediatR;

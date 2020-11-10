@@ -5,10 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -36,7 +33,7 @@ namespace Catalog.Test.Controller
         {
             //Arrange
             mediator.Setup(x => x.Send(It.IsAny<GetBrandsQuery>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(brandsDto));       
+                .Returns(Task.FromResult(brandsDto));
 
             //Act
             var action = await controller.GetBrands() as OkObjectResult;

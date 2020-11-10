@@ -46,7 +46,7 @@ namespace BikeSortFilter
 
             return await Task.FromResult(
                 dataContext.Set<TEntity>().AsNoTracking().Where(filterBy)
-                .OrderByDescending(sortBy).Skip(skip).Take(take).ToList());   
+                .OrderByDescending(sortBy).Skip(skip).Take(take).ToList());
         }
 
         public async Task<List<TEntity>> GetFilteredData(Func<TEntity, bool> filterBy, int skip, int take)

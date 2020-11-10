@@ -2,7 +2,6 @@
 using Basket.Core.Interfaces;
 using Basket.Core.Models;
 using MediatR;
-using Newtonsoft.Json;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;

@@ -1,7 +1,6 @@
 ﻿using Catalog.Application.Mapping;
 using MediatR;
 using System;
-using System.ComponentModel.DataAnnotations;
 
 namespace Catalog.Application.Queries
 {

@@ -1,7 +1,6 @@
 ﻿using Common.Application.Messaging;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Production.Core.Exceptions;
 using Production.Core.Interfaces;
 using Production.Core.Models;
 using Production.Core.Models.MessagingModels;
@@ -46,7 +45,7 @@ namespace Production.Application.Messaging.Consumers
             {
                 throw new ArgumentNullException("The list of order items cannot be empty and must contain any elements.");
             }
-            
+
             if (context.Message.OrderId <= 0)
             {
                 throw new ArgumentException("OrderID must be greater than zero.");

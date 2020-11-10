@@ -1,7 +1,6 @@
 ﻿using BikeExtensions;
 using Catalog.Application.Messaging.Consumers;
 using Catalog.Core.Interfaces;
-using Catalog.Core.Models;
 using Catalog.Core.Models.MessagingModels;
 using Common.Application.Messaging;
 using MassTransit;

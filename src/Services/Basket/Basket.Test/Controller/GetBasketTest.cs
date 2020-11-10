@@ -7,10 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -18,12 +16,12 @@ using Xunit;
 namespace Basket.Test.Controller
 {
     public class GetBasketTest
-    {    
+    {
         private const string userId = "1";
-       
+
         private readonly Mock<IMediator> mediator;
         private readonly Mock<ILogger<BasketController>> logger;
-       
+
         private readonly BasketController controller;
         private readonly UserBasketDto basketDto;
 

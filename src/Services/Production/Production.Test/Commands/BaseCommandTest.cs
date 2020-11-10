@@ -1,8 +1,6 @@
 ﻿using Moq;
 using Production.Application.Commands;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Production.Test.Commands

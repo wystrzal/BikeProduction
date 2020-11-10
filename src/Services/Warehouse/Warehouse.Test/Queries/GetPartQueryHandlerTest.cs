@@ -40,11 +40,11 @@ namespace Warehouse.Test.Queries
         public async Task GetPartQueryHandler_Success()
         {
             //Arrange
-            partRepository.Setup(x 
+            partRepository.Setup(x
                 => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Part, bool>>(), It.IsAny<Expression<Func<Part, ICollection<ProductsParts>>>>()))
                 .Returns(Task.FromResult(part));
 
-            mapper.Setup(x => x.Map<GetPartDto>(part)).Returns(partDto);         
+            mapper.Setup(x => x.Map<GetPartDto>(part)).Returns(partDto);
 
             //Act
             var action = await queryHandler.Handle(query, It.IsAny<CancellationToken>());

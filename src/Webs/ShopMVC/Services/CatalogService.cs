@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 using ShopMVC.Extensions;
 using ShopMVC.Interfaces;
 using ShopMVC.Models;
-using ShopMVC.Models.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
