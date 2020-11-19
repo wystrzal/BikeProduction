@@ -24,6 +24,7 @@ namespace Catalog.API.Controllers
             this.logger = logger;
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductCommand command)
         {
@@ -41,6 +42,7 @@ namespace Catalog.API.Controllers
 
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -94,6 +96,7 @@ namespace Catalog.API.Controllers
             return Ok(await mediator.Send(new GetHomeProductsQuery(homeProduct)));
         }
 
+        [Authorize(Policy = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(UpdateProductCommand command)
         {

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace Warehouse.Application.Extensions
@@ -25,6 +26,7 @@ namespace Warehouse.Application.Extensions
 
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("Admin", policy => policy.RequireClaim(ClaimTypes.Role, "admin"));
             });
         }
     }
