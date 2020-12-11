@@ -74,14 +74,18 @@ namespace ShopMVC.Controllers
                     ModelState.AddModelError("", "The Password field must have digits.");
                 }
 
-                var response = await identityService.Register(registerDto);
 
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                if (ModelState.ErrorCount <= 0)
                 {
-                    return RedirectToAction("Index", "Home");
-                }
+                    var response = await identityService.Register(registerDto);
 
-                ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    ModelState.AddModelError("", await response.Content.ReadAsStringAsync());
+                }
             }
 
             TempData["ModalState"] = "showRegister";
