@@ -28,9 +28,9 @@ namespace ShopMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tryLogin = await identityService.Login(loginDto);
+                var response = await identityService.Login(loginDto);
 
-                if (tryLogin.StatusCode == System.Net.HttpStatusCode.OK)
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     return RedirectToAction("Index", "Home");
                 }
@@ -59,21 +59,7 @@ namespace ShopMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(registerDto.UserName))
-                {
-                    ModelState.AddModelError("", "The Password field is required.");
-                }
-
-                if (!registerDto.Password.ContainsUpper())
-                {
-                    ModelState.AddModelError("", "The Password field must have uppercase letters.");
-                }
-
-                if (!registerDto.Password.ContainsDigit())
-                {
-                    ModelState.AddModelError("", "The Password field must have digits.");
-                }
-
+                ValidateModel(registerDto);
 
                 if (ModelState.ErrorCount <= 0)
                 {
@@ -89,8 +75,25 @@ namespace ShopMVC.Controllers
             }
 
             TempData["ModalState"] = "showRegister";
-
             return RedirectToAction("Index", "Home");
+        }
+
+        private void ValidateModel(RegisterDto registerDto)
+        {
+            if (string.IsNullOrEmpty(registerDto.UserName))
+            {
+                ModelState.AddModelError("", "The Password field is required.");
+            }
+
+            if (!registerDto.Password.ContainsUpper())
+            {
+                ModelState.AddModelError("", "The Password field must have uppercase letters.");
+            }
+
+            if (!registerDto.Password.ContainsDigit())
+            {
+                ModelState.AddModelError("", "The Password field must have digits.");
+            }
         }
     }
 }
