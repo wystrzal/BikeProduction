@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\Catalog\Catalog.Core\Catalog.Core.csproj" />
     <ProjectReference Include="..\ShopMVC\ShopMVC.csproj" />
   </ItemGroup>
 
