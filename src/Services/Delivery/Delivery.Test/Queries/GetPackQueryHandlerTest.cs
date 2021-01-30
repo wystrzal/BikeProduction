@@ -40,7 +40,7 @@ namespace Delivery.Test.Queries
         {
             //Arrange
             packToDeliveryRepo.Setup(x => x.GetByConditionWithIncludeFirst(
-                It.IsAny<Func<PackToDelivery, bool>>(), It.IsAny<Expression<Func<PackToDelivery, LoadingPlace>>>()))
+                It.IsAny<Expression<Func<PackToDelivery, bool>>>(), It.IsAny<Expression<Func<PackToDelivery, LoadingPlace>>>()))
                 .Returns(Task.FromResult(packToDelivery));
 
             mapper.Setup(x => x.Map<GetPackDto>(packToDelivery)).Returns(packDto);

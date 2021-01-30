@@ -8,6 +8,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -37,7 +38,7 @@ namespace Delivery.Test.Messaging
         public async Task ProductionFinishedConsumer_CatchNullDataException_Success()
         {
             //Arrange
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Throws<NullDataException>();
 
             customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>(), It.IsAny<string>())).Returns(Task.FromResult(new Order()));
@@ -55,7 +56,7 @@ namespace Delivery.Test.Messaging
         public async Task ProductionFinishedConsumer_CatchNullDataException_ThrowsException()
         {
             //Arrange
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Throws<NullDataException>();
 
             customerOrderService.Setup(x => x.GetOrder(It.IsAny<int>(), It.IsAny<string>())).ThrowsAsync(new Exception());
@@ -69,7 +70,7 @@ namespace Delivery.Test.Messaging
         public async Task ProductionFinishedConsumer_Success()
         {
             //Arrange
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Returns(Task.FromResult(packToDelivery));
 
             //Act
@@ -84,7 +85,7 @@ namespace Delivery.Test.Messaging
         public async Task ProductionFinishedConsumer_ThrowsChangesNotSavedCorrectlyException()
         {
             //Arrange
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Returns(Task.FromResult(packToDelivery));
 
             packToDeliveryRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(PackToDelivery)));

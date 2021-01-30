@@ -41,7 +41,7 @@ namespace Catalog.Test.Queries
         {
             //Arrange
             productRepository.Setup(x =>
-                x.GetByConditionWithIncludeFirst(It.IsAny<Func<Product, bool>>(), It.IsAny<Expression<Func<Product, Brand>>>()))
+                x.GetByConditionWithIncludeFirst(It.IsAny<Expression<Func<Product, bool>>>(), It.IsAny<Expression<Func<Product, Brand>>>()))
                 .Returns(Task.FromResult(product));
 
             mapper.Setup(x => x.Map<GetProductDto>(product)).Returns(productDto);

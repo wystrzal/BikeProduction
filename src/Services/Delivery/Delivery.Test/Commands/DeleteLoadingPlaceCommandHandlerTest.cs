@@ -36,7 +36,7 @@ namespace Delivery.Test.Commands
             var loadingPlace = new LoadingPlace { PacksToDelivery = new List<PackToDelivery>() };
 
             loadingPlaceRepo.Setup(x => x.GetByConditionWithIncludeFirst(
-                It.IsAny<Func<LoadingPlace, bool>>(), It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>()))
+                It.IsAny<Expression<Func<LoadingPlace, bool>>>(), It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>()))
                 .Returns(Task.FromResult(loadingPlace));
 
             //Act
@@ -56,7 +56,7 @@ namespace Delivery.Test.Commands
             var loadingPlace = new LoadingPlace { PacksToDelivery = packToDeliveries };
 
             loadingPlaceRepo.Setup(x => x.GetByConditionWithIncludeFirst(
-                It.IsAny<Func<LoadingPlace, bool>>(), It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>()))
+                It.IsAny<Expression<Func<LoadingPlace, bool>>>(), It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>()))
                 .Returns(Task.FromResult(loadingPlace));
 
             //Assert

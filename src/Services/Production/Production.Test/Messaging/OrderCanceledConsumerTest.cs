@@ -9,6 +9,7 @@ using Production.Core.Interfaces;
 using Production.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -38,7 +39,7 @@ namespace Production.Test.Messaging
             //Arrange
             var context = GetContext();
 
-            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
+            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Expression<Func<ProductionQueue, bool>>>()))
                 .Returns(Task.FromResult(productionQueues));
 
             //Act
@@ -57,7 +58,7 @@ namespace Production.Test.Messaging
             var productionQueues = new List<ProductionQueue>();
             var context = GetContext();
 
-            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
+            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Expression<Func<ProductionQueue, bool>>>()))
                 .Returns(Task.FromResult(productionQueues));
 
             //Assert
@@ -82,7 +83,7 @@ namespace Production.Test.Messaging
             //Arrange
             var context = GetContext();
 
-            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
+            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Expression<Func<ProductionQueue, bool>>>()))
                 .Returns(Task.FromResult(productionQueues));
 
             productionQueueRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(ProductionQueue)));

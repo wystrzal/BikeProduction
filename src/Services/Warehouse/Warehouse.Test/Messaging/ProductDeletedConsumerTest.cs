@@ -5,6 +5,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Warehouse.Application.Messaging.Consumers;
 using Warehouse.Core.Interfaces;
@@ -37,7 +38,7 @@ namespace Warehouse.Test.Messaging
             //Arrange     
             var context = GetContext();
 
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<Product, bool>>>())).Returns(Task.FromResult(product));
 
             //Act
             await consumer.Consume(context);
@@ -67,7 +68,7 @@ namespace Warehouse.Test.Messaging
             //Arrange
             var context = GetContext();
 
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).ThrowsAsync(new NullDataException());
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<Product, bool>>>())).ThrowsAsync(new NullDataException());
 
             //Assert
             await Assert.ThrowsAsync<NullDataException>(() => consumer.Consume(context));
@@ -80,7 +81,7 @@ namespace Warehouse.Test.Messaging
             //Arrange
             var context = GetContext();
 
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<Product, bool>>>())).Returns(Task.FromResult(product));
             productRepository.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(Product)));
 
             //Act

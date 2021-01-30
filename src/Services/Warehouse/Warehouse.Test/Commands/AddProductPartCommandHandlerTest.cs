@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Moq;
 using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Warehouse.Application.Commands;
@@ -36,7 +37,7 @@ namespace Warehouse.Test.Commands
         public async Task AddProductPartCommandHandler_Success()
         {
             //Arrange
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>())).Returns(Task.FromResult(product));
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<Product, bool>>>())).Returns(Task.FromResult(product));
 
             //Act
             var action = await commandHandler.Handle(command, It.IsAny<CancellationToken>());

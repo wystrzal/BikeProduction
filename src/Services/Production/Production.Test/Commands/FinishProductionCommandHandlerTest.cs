@@ -10,6 +10,7 @@ using Production.Core.Interfaces;
 using Production.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -58,7 +59,7 @@ namespace Production.Test.Commands
 
             productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
 
-            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
+            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Expression<Func<ProductionQueue, bool>>>()))
                 .Returns(Task.FromResult(productionQueueList));
 
             //Act
@@ -79,7 +80,7 @@ namespace Production.Test.Commands
 
             productionQueueRepo.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(productionQueue));
 
-            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Func<ProductionQueue, bool>>()))
+            productionQueueRepo.Setup(x => x.GetByConditionToList(It.IsAny<Expression<Func<ProductionQueue, bool>>>()))
                 .Returns(Task.FromResult(productionQueueList));
 
             //Act

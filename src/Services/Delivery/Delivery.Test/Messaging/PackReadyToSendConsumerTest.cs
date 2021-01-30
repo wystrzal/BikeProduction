@@ -9,6 +9,7 @@ using MassTransit;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -39,7 +40,7 @@ namespace Delivery.Test.Messaging
         public async Task PackReadyToSendConsumer_Success()
         {
             //Arrange
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Returns(Task.FromResult(pack));
 
             //Act
@@ -55,7 +56,7 @@ namespace Delivery.Test.Messaging
         public async Task PackReadyToSendConsumer_ThrowsNullDataException()
         {
             //Arrange
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .ThrowsAsync(new NullDataException());
 
             //Assert
@@ -67,7 +68,7 @@ namespace Delivery.Test.Messaging
         public async Task PackReadyToSendConsumer_ThrowsChangesNotSavedCorrectlyException()
         {
             //Arrange          
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Returns(Task.FromResult(pack));
 
             packToDeliveryRepo.Setup(x => x.SaveAllAsync()).ThrowsAsync(new ChangesNotSavedCorrectlyException(typeof(PackToDelivery)));

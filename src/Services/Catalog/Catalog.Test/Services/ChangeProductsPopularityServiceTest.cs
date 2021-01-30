@@ -5,6 +5,7 @@ using Catalog.Infrastructure.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -28,7 +29,7 @@ namespace Catalog.Test.Services
         public async Task ChangeProductsPopularity_Success()
         {
             //Arrange
-            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Func<Product, bool>>()))
+            productRepository.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<Product, bool>>>()))
                 .Returns(Task.FromResult(new Product()));
 
             //Act

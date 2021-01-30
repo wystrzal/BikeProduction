@@ -40,7 +40,7 @@ namespace CustomerOrder.Test.Queries
         public async Task GetOrderQueryHandler_Success()
         {
             //Arrange
-            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
+            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Expression<Func<Order, bool>>>(),
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>())).Returns(Task.FromResult(order));
 
             mapper.Setup(x => x.Map<GetOrderDto>(order)).Returns(orderDto);

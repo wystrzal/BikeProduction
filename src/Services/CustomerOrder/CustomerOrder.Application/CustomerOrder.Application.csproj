@@ -15,7 +15,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
-    <PackageReference Include="Wystrzal.BaseRepository" Version="1.0.0" />
+    <PackageReference Include="Wystrzal.BaseRepository" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

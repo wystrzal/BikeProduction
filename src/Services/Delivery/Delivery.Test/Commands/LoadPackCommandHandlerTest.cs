@@ -8,6 +8,7 @@ using MassTransit;
 using MediatR;
 using Moq;
 using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -44,10 +45,10 @@ namespace Delivery.Test.Commands
             var packToDelivery = new PackToDelivery { ProductsQuantity = productsQuantity };
             var loadingPlace = new LoadingPlace { LoadedQuantity = loadedQuantity, AmountOfSpace = productsQuantity };
 
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Returns(Task.FromResult(packToDelivery));
 
-            loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<LoadingPlace, bool>>()))
+            loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<LoadingPlace, bool>>>()))
                 .Returns(Task.FromResult(loadingPlace));
 
             //Assert
@@ -64,10 +65,10 @@ namespace Delivery.Test.Commands
             var packToDelivery = new PackToDelivery { ProductsQuantity = productsQuantity };
             var loadingPlace = new LoadingPlace { LoadedQuantity = loadedQuantity, AmountOfSpace = productsQuantity };
 
-            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<PackToDelivery, bool>>()))
+            packToDeliveryRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<PackToDelivery, bool>>>()))
                 .Returns(Task.FromResult(packToDelivery));
 
-            loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Func<LoadingPlace, bool>>()))
+            loadingPlaceRepo.Setup(x => x.GetByConditionFirst(It.IsAny<Expression<Func<LoadingPlace, bool>>>()))
                 .Returns(Task.FromResult(loadingPlace));
 
             //Act

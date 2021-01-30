@@ -42,7 +42,7 @@ namespace CustomerOrder.Test.Commands
             //Arrange
             var order = new Order { OrderStatus = OrderStatus.Waiting_For_Confirm, OrderItems = orderItems };
 
-            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
+            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Expression<Func<Order, bool>>>(),
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
                 .Returns(Task.FromResult(order));
 
@@ -62,7 +62,7 @@ namespace CustomerOrder.Test.Commands
             //Arrange
             var order = new Order { OrderStatus = OrderStatus.Delivered };
 
-            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Order, bool>>(),
+            orderRepository.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Expression<Func<Order, bool>>>(),
                 It.IsAny<Expression<Func<Order, ICollection<OrderItem>>>>()))
                 .Returns(Task.FromResult(order));
 

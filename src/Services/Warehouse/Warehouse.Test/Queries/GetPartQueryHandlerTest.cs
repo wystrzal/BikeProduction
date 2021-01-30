@@ -41,7 +41,7 @@ namespace Warehouse.Test.Queries
         {
             //Arrange
             partRepository.Setup(x
-                => x.GetByConditionWithIncludeFirst(It.IsAny<Func<Part, bool>>(), It.IsAny<Expression<Func<Part, ICollection<ProductsParts>>>>()))
+                => x.GetByConditionWithIncludeFirst(It.IsAny<Expression<Func<Part, bool>>>(), It.IsAny<Expression<Func<Part, ICollection<ProductsParts>>>>()))
                 .Returns(Task.FromResult(part));
 
             mapper.Setup(x => x.Map<GetPartDto>(part)).Returns(partDto);

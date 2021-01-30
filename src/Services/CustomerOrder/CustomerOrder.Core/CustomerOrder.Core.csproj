@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
-    <PackageReference Include="Wystrzal.BaseRepository" Version="1.0.0" />
+    <PackageReference Include="Wystrzal.BaseRepository" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

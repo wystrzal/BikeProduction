@@ -8,6 +8,7 @@ using MassTransit;
 using MediatR;
 using Moq;
 using System;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -48,7 +49,7 @@ namespace Catalog.Test.Commands
 
             //Assert
             Assert.Equal(Unit.Value, action);
-            productRepository.Verify(x => x.CheckIfExistByCondition(It.IsAny<Func<Product, bool>>()), Times.Once);
+            productRepository.Verify(x => x.CheckIfExistByCondition(It.IsAny<Expression<Func<Product, bool>>>()), Times.Once);
             bus.Verify(x => x.Publish(It.IsAny<ProductAddedEvent>(), It.IsAny<CancellationToken>()), Times.Once);
         }
     }

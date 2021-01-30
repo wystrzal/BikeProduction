@@ -41,7 +41,7 @@ namespace Delivery.Test.Commands
         public async Task CompleteDeliveryCommandHandler_Success()
         {
             //Arrange            
-            loadingPlaceRepo.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Func<LoadingPlace, bool>>(),
+            loadingPlaceRepo.Setup(x => x.GetByConditionWithIncludeFirst(It.IsAny<Expression<Func<LoadingPlace, bool>>>(),
                 It.IsAny<Expression<Func<LoadingPlace, ICollection<PackToDelivery>>>>())).Returns(Task.FromResult(loadingPlace));
 
             //Act
