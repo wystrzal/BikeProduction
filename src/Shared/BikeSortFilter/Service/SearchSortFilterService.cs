@@ -11,40 +11,28 @@ namespace BikeSortFilter
         where TFilteringData : class
     {
         private readonly ISortFilterRepository<TEntity> repository;
-        private readonly List<Predicate<TEntity>> filtersToUse;
+        private readonly List<Expression<Func<TEntity, bool>>> filtersToUse;
         private dynamic sortToUse;
 
         public SearchSortFilterService(ISortFilterRepository<TEntity> repository)
         {
-            filtersToUse = new List<Predicate<TEntity>>();
+            filtersToUse = new List<Expression<Func<TEntity, bool>>>();
             this.repository = repository;
         }
 
-        public void SetConcreteFilter(Predicate<TEntity> predicate)
+        public void SetConcreteFilter(Expression<Func<TEntity, bool>> predicate)
         {
             filtersToUse.Add(predicate);
         }
 
-        public void SetConcreteSort<TKey>(Func<TEntity, TKey> func)
+        public void SetConcreteSort<TKey>(Expression<Func<TEntity, TKey>> func)
         {
             sortToUse = func;
         }
 
         public async Task<List<TEntity>> Search(bool orderDesc = false, int skip = 0, int take = 0)
         {
-            dynamic data;
-
-            Expression<Func<TEntity, bool>> expression = x => filtersToUse.All(all => all(x));
-            var compiledFilters = expression.Compile();
-
-            if (sortToUse == null)
-            {
-                data = await repository.GetFilteredData(compiledFilters, skip, take);
-            }
-            else
-            {
-                data = await repository.GetSortedFilteredData(compiledFilters, sortToUse, orderDesc, skip, take);
-            }
+            var data = await repository.GetSortedFilteredData(filtersToUse, sortToUse, orderDesc, skip, take);
 
             sortToUse = null;
             filtersToUse.Clear();

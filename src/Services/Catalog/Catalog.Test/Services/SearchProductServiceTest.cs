@@ -5,6 +5,7 @@ using Catalog.Infrastructure.Services;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 using static Catalog.Core.Models.Enums.ColorsEnum;
@@ -40,8 +41,8 @@ namespace Catalog.Test.Services
             var action = await service.GetProducts(filteringData);
 
             //Assert
-            sortFilterService.Verify(x => x.SetConcreteSort(It.IsAny<Func<Product, string>>()), Times.Once);
-            sortFilterService.Verify(x => x.SetConcreteFilter(It.IsAny<Predicate<Product>>()), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteSort(It.IsAny<Expression<Func<Product, string>>>()), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteFilter(It.IsAny<Expression<Func<Product, bool>>>()), Times.Once);
 
             Assert.Equal(products.Count, action.Count);
         }

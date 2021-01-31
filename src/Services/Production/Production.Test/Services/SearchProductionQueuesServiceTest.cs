@@ -4,6 +4,7 @@ using Production.Core.Models;
 using Production.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Xunit;
 using static Production.Core.Models.Enums.ProductionStatusEnum;
@@ -38,8 +39,8 @@ namespace Production.Test.Services
 
             //Assert
             Assert.Equal(productionQueues.Count, action.Count);
-            sortFilterService.Verify(x => x.SetConcreteSort(It.IsAny<Func<ProductionQueue, ProductionStatus>>()), Times.Once);
-            sortFilterService.Verify(x => x.SetConcreteFilter(It.IsAny<Predicate<ProductionQueue>>()), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteSort(It.IsAny<Expression<Func<ProductionQueue, ProductionStatus>>>()), Times.Once);
+            sortFilterService.Verify(x => x.SetConcreteFilter(It.IsAny<Expression<Func<ProductionQueue, bool>>>()), Times.Once);
         }
     }
 }

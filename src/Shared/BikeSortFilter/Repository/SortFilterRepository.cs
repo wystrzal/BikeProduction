@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace BikeSortFilter
@@ -16,49 +17,41 @@ namespace BikeSortFilter
             this.dataContext = dataContext;
         }
 
-        private async Task<List<TEntity>> GetAllSortedFilteredData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
-            bool orderDesc)
+        public async Task<List<TEntity>> GetSortedFilteredData<TKey>(List<Expression<Func<TEntity, bool>>> filterBy,
+            Expression<Func<TEntity, TKey>> sortBy, bool orderDesc, int skip, int take)
+        {
+            var query = dataContext.Set<TEntity>().AsNoTracking();
+
+            foreach (var filter in filterBy)
+            {
+                query = query.Where(filter);
+            }
+
+            if (sortBy != null)
+            {
+                query = SetSorting(sortBy, orderDesc, query);
+            }
+
+            if (take == 0)
+            {
+                return await query.ToListAsync();
+            }
+
+            return await query.Skip(skip).Take(take).ToListAsync();
+        }
+
+        private IQueryable<TEntity> SetSorting<TKey>(Expression<Func<TEntity, TKey>> sortBy, bool orderDesc, IQueryable<TEntity> query)
         {
             if (!orderDesc)
             {
-                return await Task.FromResult(
-                    dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderBy(sortBy).ToList());
+                query = query.OrderBy(sortBy);
             }
-
-            return await Task.FromResult(
-                dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).OrderByDescending(sortBy).ToList());
-        }
-
-        public async Task<List<TEntity>> GetSortedFilteredData<TKey>(Func<TEntity, bool> filterBy, Func<TEntity, TKey> sortBy,
-            bool orderDesc, int skip, int take)
-        {
-            if (take == 0)
+            else
             {
-                return await GetAllSortedFilteredData(filterBy, sortBy, orderDesc);
+                query = query.OrderByDescending(sortBy);
             }
 
-            if (!orderDesc)
-            {
-                return await Task.FromResult(
-                    dataContext.Set<TEntity>().AsNoTracking().Where(filterBy)
-                    .OrderBy(sortBy).Skip(skip).Take(take).ToList());
-            }
-
-            return await Task.FromResult(
-                dataContext.Set<TEntity>().AsNoTracking().Where(filterBy)
-                .OrderByDescending(sortBy).Skip(skip).Take(take).ToList());
-        }
-
-        public async Task<List<TEntity>> GetFilteredData(Func<TEntity, bool> filterBy, int skip, int take)
-        {
-            if (take == 0)
-            {
-                return await Task.FromResult(
-                    dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).ToList());
-            }
-
-            return await Task.FromResult(
-                dataContext.Set<TEntity>().AsNoTracking().Where(filterBy).Skip(skip).Take(take).ToList());
+            return query;
         }
     }
 }
