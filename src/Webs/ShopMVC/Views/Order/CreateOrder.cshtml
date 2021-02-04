@@ -73,6 +73,8 @@
                                 $.each(response.responseJSON.errors, (index, value) => {
                                     $("#alertDiv").append('<span class="mb-2 d-block">' + value + '</span>');
                                 });
+
+                                $("#createOrder").attr("disabled", false);
                             } else {
                                 window.location = response.responseJSON.url;
 
