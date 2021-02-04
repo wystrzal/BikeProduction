@@ -32,8 +32,9 @@ namespace BikeSortFilter
 
         public async Task<List<TEntity>> Search(bool orderDesc = false, int skip = 0, int take = 0)
         {
-            var data = await repository.GetSortedFilteredData(filtersToUse, sortToUse, orderDesc, skip, take);
-
+            var data = sortToUse != null ? await repository.GetSortedFilteredData(filtersToUse, orderDesc, skip, take, sortToUse)
+                : await repository.GetSortedFilteredData<dynamic>(filtersToUse, orderDesc, skip, take);
+   
             sortToUse = null;
             filtersToUse.Clear();
 

@@ -17,8 +17,8 @@ namespace BikeSortFilter
             this.dataContext = dataContext;
         }
 
-        public async Task<List<TEntity>> GetSortedFilteredData<TKey>(List<Expression<Func<TEntity, bool>>> filterBy,
-            Expression<Func<TEntity, TKey>> sortBy, bool orderDesc, int skip, int take)
+        public async Task<List<TEntity>> GetSortedFilteredData<TReturned>(List<Expression<Func<TEntity, bool>>> filterBy,
+            bool orderDesc, int skip, int take, Expression<Func<TEntity, TReturned>> sortBy = null)
         {
             var query = dataContext.Set<TEntity>().AsNoTracking();
 
