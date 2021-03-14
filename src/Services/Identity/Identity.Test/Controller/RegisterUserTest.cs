@@ -18,7 +18,6 @@ namespace Identity.Test.Controller
         private const string password = "User123";
 
         private readonly Mock<IMediator> mediator;
-        private readonly Mock<ILogger<IdentityController>> logger;
 
         private readonly RegisterCommand command;
         private readonly IdentityController controller;
@@ -26,9 +25,8 @@ namespace Identity.Test.Controller
         public RegisterUserTest()
         {
             mediator = new Mock<IMediator>();
-            logger = new Mock<ILogger<IdentityController>>();
-            command = new RegisterCommand();
-            controller = new IdentityController(mediator.Object, logger.Object);
+            command = new RegisterCommand { Password = "", UserName = "" };
+            controller = new IdentityController(mediator.Object);
         }
 
         [Fact]
@@ -54,7 +52,6 @@ namespace Identity.Test.Controller
             //Assert
             Assert.Equal(400, action.StatusCode);
             Assert.NotNull(action.Value);
-            logger.VerifyLogging(LogLevel.Error);
         }
 
         [Fact]
