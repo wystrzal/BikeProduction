@@ -16,26 +16,16 @@ namespace Delivery.API.Controllers
     public class DeliveryController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<DeliveryController> logger;
 
-        public DeliveryController(IMediator mediator, ILogger<DeliveryController> logger)
+        public DeliveryController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [HttpGet("pack/{packId}")]
         public async Task<IActionResult> GetPack(int packId)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetPackQuery(packId)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetPackQuery(packId)));
         }
 
         [HttpGet("packs")]
@@ -53,108 +43,49 @@ namespace Delivery.API.Controllers
         [HttpGet("loadingPlace/{loadingPlaceId}")]
         public async Task<IActionResult> GetLoadingPlace(int loadingPlaceId)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetLoadingPlaceQuery(loadingPlaceId)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetLoadingPlaceQuery(loadingPlaceId)));
         }
 
         [HttpPost("loading/{loadingPlaceId}/pack/{packId}")]
         public async Task<IActionResult> LoadPack(int loadingPlaceId, int packId)
         {
-            try
-            {
-                await mediator.Send(new LoadPackCommand(loadingPlaceId, packId));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new LoadPackCommand(loadingPlaceId, packId));
+            return Ok();
         }
 
         [HttpPost("start/{loadingPlaceId}")]
         public async Task<IActionResult> StartDelivery(int loadingPlaceId)
         {
-            try
-            {
-                await mediator.Send(new StartDeliveryCommand(loadingPlaceId));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new StartDeliveryCommand(loadingPlaceId));
+            return Ok();
         }
 
         [HttpPost("complete/{loadingPlaceId}")]
         public async Task<IActionResult> CompleteDelivery(int loadingPlaceId)
         {
-            try
-            {
-                await mediator.Send(new CompleteDeliveryCommand(loadingPlaceId));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new CompleteDeliveryCommand(loadingPlaceId));
+            return Ok();
         }
 
         [HttpPost("loadingPlace")]
         public async Task<IActionResult> AddLoadingPlace(AddLoadingPlaceCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
 
         [HttpPut("loadingPlace")]
         public async Task<IActionResult> UpdateLoadingPlace(UpdateLoadingPlaceCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
 
         [HttpDelete("loadingPlace/{loadingPlaceId}")]
         public async Task<IActionResult> DeleteLoadingPlace(int loadingPlaceId)
         {
-            try
-            {
-                await mediator.Send(new DeleteLoadingPlaceCommand(loadingPlaceId));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new DeleteLoadingPlaceCommand(loadingPlaceId));
+            return Ok();
         }
     }
 }

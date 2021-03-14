@@ -14,47 +14,29 @@ namespace Identity.API.Controllers
     public class IdentityController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<IdentityController> logger;
 
-        public IdentityController(IMediator mediator, ILogger<IdentityController> logger)
+        public IdentityController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(TryLoginCommand command)
         {
-            try
-            {
-                return Ok(await mediator.Send(command));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(command));
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> RegisterUser(RegisterCommand command)
         {
-            try
+            if (ModelState.IsValid && command.Password.ContainsDigit() && command.Password.ContainsUpper())
             {
-                if (ModelState.IsValid && command.Password.ContainsDigit() && command.Password.ContainsUpper())
-                    return Ok(await mediator.Send(command));
-
-                return BadRequest("Password must have minimum 6 signs (1 digit, 1 uppercase letter).");
+                return Ok(await mediator.Send(command));
             }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
 
-                return BadRequest(ex.Message);
-            }
+            return BadRequest("Password must have minimum 6 signs (1 digit, 1 uppercase letter).");
         }
     }
 }

@@ -15,110 +15,50 @@ namespace Basket.API.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<BasketController> logger;
 
-        public BasketController(IMediator mediator, ILogger<BasketController> logger)
+        public BasketController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [HttpPost("change/quantity")]
         public async Task<IActionResult> ChangeProductQuantity(ChangeProductQuantityCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
 
         [HttpPost("add/product")]
         public async Task<IActionResult> AddProduct(AddProductCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
 
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetBasket(string userId)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetBasketQuery(userId)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetBasketQuery(userId)));
         }
 
         [HttpGet("{userId}/quantity")]
         public async Task<IActionResult> GetBasketQuantity(string userId)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetBasketQuantityQuery(userId)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetBasketQuantityQuery(userId)));
         }
 
         [HttpDelete("{userId}")]
         public async Task<IActionResult> ClearBasket(string userId)
         {
-            try
-            {
-                await mediator.Send(new ClearBasketCommand(userId));
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new ClearBasketCommand(userId));
+            return Ok();
         }
 
         [HttpDelete("{userId}/product/{productId}")]
         public async Task<IActionResult> DeleteProduct(string userId, int productId)
         {
-            try
-            {
-                await mediator.Send(new RemoveProductCommand(userId, productId));
-
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new RemoveProductCommand(userId, productId));
+            return Ok();
         }
     }
 }

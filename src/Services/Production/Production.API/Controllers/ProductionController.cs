@@ -17,61 +17,32 @@ namespace Production.API.Controllers
     public class ProductionController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<ProductionController> logger;
 
-        public ProductionController(IMediator mediator, ILogger<ProductionController> logger)
+        public ProductionController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [HttpPost("confirm/{id}")]
         public async Task<IActionResult> ConfirmProduction(int id)
         {
-            try
-            {
-                await mediator.Send(new ConfirmProductionCommand(id));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new ConfirmProductionCommand(id));
+            return Ok();
         }
 
         [HttpPost("start/{id}")]
         public async Task<IActionResult> StartCreatingProducts(int id)
         {
-            try
-            {
-                await mediator.Send(new StartCreatingProductsCommand(id));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new StartCreatingProductsCommand(id));
+            return Ok();
         }
 
         [HttpPost("finish/{id}")]
         public async Task<IActionResult> FinishProduction(int id)
         {
-            try
-            {
-                var token = Request.Headers[HeaderNames.Authorization].ToString().Substring(7);
-                await mediator.Send(new FinishProductionCommand(id, token));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            var token = Request.Headers[HeaderNames.Authorization].ToString().Substring(7);
+            await mediator.Send(new FinishProductionCommand(id, token));
+            return Ok();
         }
 
         [HttpGet]

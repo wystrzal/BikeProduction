@@ -14,43 +14,23 @@ namespace CustomerOrder.API.Controllers
     public class CustomerOrderController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<CustomerOrderController> logger;
 
-        public CustomerOrderController(IMediator mediator, ILogger<CustomerOrderController> logger)
+        public CustomerOrderController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrder(int id)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetOrderQuery(id)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetOrderQuery(id)));
         }
 
         [HttpGet]
@@ -62,17 +42,8 @@ namespace CustomerOrder.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            try
-            {
-                await mediator.Send(new DeleteOrderCommand(id));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new DeleteOrderCommand(id));
+            return Ok();
         }
     }
 }

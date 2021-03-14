@@ -16,29 +16,18 @@ namespace Catalog.API.Controllers
     public class CatalogController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<CatalogController> logger;
 
-        public CatalogController(IMediator mediator, ILogger<CatalogController> logger)
+        public CatalogController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddProduct(AddProductCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
 
         }
 
@@ -46,17 +35,8 @@ namespace Catalog.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            try
-            {
-                await mediator.Send(new DeleteProductCommand(id));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new DeleteProductCommand(id));
+            return Ok();
         }
 
         [AllowAnonymous]
@@ -70,16 +50,7 @@ namespace Catalog.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProduct(int id)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetProductQuery(id)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetProductQuery(id)));
         }
 
         [AllowAnonymous]
@@ -100,17 +71,8 @@ namespace Catalog.API.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateProduct(UpdateProductCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
     }
 }

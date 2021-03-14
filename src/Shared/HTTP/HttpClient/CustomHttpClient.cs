@@ -74,11 +74,6 @@ namespace BikeHttpClient
 
             var response = await client.SendAsync(requestMessage);
 
-            if (response.StatusCode == HttpStatusCode.InternalServerError)
-            {
-                throw new HttpRequestException();
-            }
-
             return response;
         }
 

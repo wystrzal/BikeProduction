@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 using System.Net;
 
@@ -64,7 +66,7 @@ namespace Basket.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
         {
             if (env.IsDevelopment())
             {
@@ -79,10 +81,13 @@ namespace Basket.API
                     context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
 
                     var error = context.Features.Get<IExceptionHandlerFeature>();
+
                     if (error != null)
                     {
-                        context.Response.AddApplicationError(error.Error.Message);
-                        await context.Response.WriteAsync(error.Error.Message).ConfigureAwait(false);
+                        var result = JsonConvert.SerializeObject(error.Error.Message);
+                        context.Response.ContentType = "application/json";
+                        await context.Response.WriteAsync(result);
+                        logger.LogError($"Action path: {context.Request.Path} - Message: {error.Error.Message}");
                     }
                 });
             });

@@ -15,73 +15,37 @@ namespace Warehouse.API.Controllers
     public class WarehouseController : ControllerBase
     {
         private readonly IMediator mediator;
-        private readonly ILogger<WarehouseController> logger;
 
-        public WarehouseController(IMediator mediator, ILogger<WarehouseController> logger)
+        public WarehouseController(IMediator mediator)
         {
             this.mediator = mediator;
-            this.logger = logger;
         }
 
         [HttpPost("part")]
         public async Task<IActionResult> AddPart(AddPartCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
 
         [HttpDelete("part/{partId}")]
         public async Task<IActionResult> DeletePart(int partId)
         {
-            try
-            {
-                await mediator.Send(new DeletePartCommand(partId));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new DeletePartCommand(partId));
+            return Ok();
         }
 
         [HttpPut("part")]
         public async Task<IActionResult> UpdatePart(UpdatePartCommand command)
         {
-            try
-            {
-                await mediator.Send(command);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(command);
+            return Ok();
         }
 
         [HttpGet("part/{id}")]
         public async Task<IActionResult> GetPart(int id)
         {
-            try
-            {
-                return Ok(await mediator.Send(new GetPartQuery(id)));
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-
-                return BadRequest(ex.Message);
-            }
+            return Ok(await mediator.Send(new GetPartQuery(id)));
         }
 
         [HttpGet("parts")]
@@ -99,31 +63,15 @@ namespace Warehouse.API.Controllers
         [HttpDelete("product/{reference}/part/{partId}")]
         public async Task<IActionResult> DeleteProductPart(string reference, int partId)
         {
-            try
-            {
-                await mediator.Send(new DeleteProductPartCommand(partId, reference));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new DeleteProductPartCommand(partId, reference));
+            return Ok();
         }
 
         [HttpPost("product/{reference}/part/{partId}")]
         public async Task<IActionResult> AddProductPart(string reference, int partId)
         {
-            try
-            {
-                await mediator.Send(new AddProductPartCommand(partId, reference));
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new AddProductPartCommand(partId, reference));
+            return Ok();
         }
     }
 }
